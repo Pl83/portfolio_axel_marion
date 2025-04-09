@@ -435,3 +435,37 @@ button {
     border-top-right-radius: 10px;
     border-bottom-left-radius: 10px;
 }
+
+@media only screen and (max-width: 425px) {
+    #projet1 img {
+        width: 100%;
+        height: auto;        
+    }
+
+    #projet2 div,#projet3 div,#projet4 div,#projet5 div, #projet8 div, #projet9 div, #projet21 div, #projet22 div {
+        display: flex;
+        flex-direction: column;
+        height: auto;
+    }
+
+    #projet2 img,#projet3 img,#projet4 img,#projet5 img, #projet6 img, #projet7 img, #projet8 img, #projet9 img, #projet10 img, #projet11 img, #projet12 iframe, #projet13 iframe, #projet14 iframe, #projet19 video, #projet23 img{
+        width: 100%;
+        height: auto; 
+    }
+
+    #projet21 p {
+        width: 50%;
+    }
+
+    #projet22VideoOne {
+        height: auto;
+        width: 140%;
+        padding-bottom: 10px;
+    }
+
+    #projet22VideoTwo {
+        width: 100%;
+        height: auto; 
+        padding-bottom: 10px;
+    }
+  }
