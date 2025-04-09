@@ -357,7 +357,7 @@ footer {
     display: flex;
     flex-wrap: wrap;
     width: 100%;
-    min-height: 1120px;
+    /*min-height: 1120px;*/
     padding: 10px;
     justify-content: center;
     flex-grow: 1; /* Permet à la div de grandir */
