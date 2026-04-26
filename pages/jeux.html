@@ -1,0 +1,897 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Axel Marion — Jeux</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg: #0f0f0f;
+      --bg2: #161616;
+      --bg3: #1e1e1e;
+      --border: rgba(255,255,255,0.08);
+      --text: #f0f0f0;
+      --muted: #888;
+      --accent: #9b6dff;
+      --accent2: #c084fc;
+      --header-h: 64px;
+      --font-d: 'Bebas Neue', sans-serif;
+      --font-b: 'Outfit', sans-serif;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: var(--font-b);
+      background: var(--bg);
+      color: var(--text);
+      font-size: 15px;
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    img { display: block; max-width: 100%; }
+    a { color: inherit; text-decoration: none; }
+
+    #header {
+      position: fixed;
+      inset: 0 0 auto 0;
+      height: var(--header-h);
+      background: rgba(15,15,15,0.85);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 clamp(20px, 4vw, 56px);
+      z-index: 500;
+    }
+
+    .logo {
+      font-family: var(--font-d);
+      font-size: 1.7rem;
+      letter-spacing: 0.04em;
+      color: #fff;
+    }
+
+    .logo span { color: var(--accent2); }
+
+    .nav-links { display: flex; gap: 36px; }
+
+    .nav-links a {
+      font-size: 0.82rem;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--muted);
+      transition: color .2s;
+    }
+
+    .nav-links a:hover,
+    .nav-links a.active { color: #fff; }
+
+    .burger {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 6px;
+    }
+
+    .burger span {
+      width: 22px;
+      height: 2px;
+      background: var(--text);
+      border-radius: 2px;
+      transition: transform .25s, opacity .25s;
+    }
+
+    .burger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .burger.open span:nth-child(2) { opacity: 0; }
+    .burger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+    .drawer {
+      position: fixed;
+      inset: var(--header-h) 0 0 0;
+      background: rgba(10,10,10,0.97);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 32px;
+      transform: translateY(-100%);
+      opacity: 0;
+      transition: .3s;
+      z-index: 490;
+      pointer-events: none;
+    }
+
+    .drawer.open {
+      transform: translateY(0);
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .drawer a {
+      font-family: var(--font-d);
+      font-size: 2.4rem;
+      letter-spacing: 0.06em;
+    }
+
+    .hero {
+      position: sticky;
+      top: 0;
+      height: 60vh;
+      min-height: 420px;
+      padding: calc(var(--header-h) + 40px) clamp(20px, 6vw, 96px) 70px;
+      display: flex;
+      align-items: center;
+      overflow: hidden;
+      z-index: 1;
+      background: var(--bg);
+      transform-origin: top center;
+      will-change: transform, filter;
+      backface-visibility: hidden;
+    }
+
+    .hero::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(90deg, rgba(15,15,15,1) 0%, rgba(15,15,15,.88) 42%, rgba(15,15,15,.35) 100%),
+        radial-gradient(ellipse 60% 50% at 70% 50%, rgba(155,109,255,.24), transparent 70%),
+        url('https://images.unsplash.com/photo-1518709268805-4e9042af2176?auto=format&fit=crop&w=1800&q=80') center/cover;
+      transform: scale(1.08);
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.05'/%3E%3C/svg%3E");
+      background-size: 200px;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      max-width: 720px;
+      will-change: transform, opacity;
+    }
+
+    .hero-sub {
+      font-size: .88rem;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 16px;
+    }
+
+    .hero-title {
+      font-family: var(--font-d);
+      font-size: clamp(4rem, 9vw, 8rem);
+      line-height: .95;
+      color: #fff;
+      margin-bottom: 20px;
+    }
+
+    .hero-accent {
+      color: var(--accent2);
+      font-size: clamp(2.4rem, 5vw, 5.4rem);
+    }
+
+    .hero-desc {
+      color: var(--muted);
+      max-width: 560px;
+      line-height: 1.75;
+      margin-bottom: 34px;
+    }
+
+    .btn-row { display: flex; gap: 12px; flex-wrap: wrap; }
+
+    .btn-primary,
+    .btn-ghost {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      border-radius: 4px;
+      padding: 14px 24px;
+      font-size: .82rem;
+      font-weight: 600;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      transition: .2s;
+    }
+
+    .btn-primary {
+      border: 1px solid rgba(255,255,255,.5);
+      color: #fff;
+      background: transparent;
+    }
+
+    .btn-primary:hover { border-color: #fff; background: rgba(255,255,255,.06); }
+
+    .btn-ghost {
+      border: 1px solid var(--border);
+      color: var(--muted);
+    }
+
+    .btn-ghost:hover { color: #fff; border-color: rgba(255,255,255,.3); }
+
+    .section {
+      position: relative;
+      z-index: 2;
+      background: var(--bg);
+      padding: 80px clamp(20px, 5vw, 80px);
+      border-top: 1px solid var(--border);
+      scroll-margin-top: var(--header-h);
+    }
+
+    .section-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      flex-wrap: wrap;
+      margin-bottom: 34px;
+    }
+
+    .section-label {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: .72rem;
+      font-weight: 600;
+      letter-spacing: .16em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    .dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--accent);
+      flex-shrink: 0;
+    }
+
+    .filters { display: flex; gap: 10px; flex-wrap: wrap; }
+
+    .tools-filter {
+      margin-top: 14px;
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .filters button,
+    .tools-filter button {
+      background: transparent;
+      border: 1px solid var(--border);
+      color: var(--muted);
+      font-family: var(--font-b);
+      font-size: .76rem;
+      font-weight: 500;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      padding: 10px 14px;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: .2s;
+    }
+
+    .filters button:hover,
+    .filters button.active,
+    .tools-filter button:hover,
+    .tools-filter button.active {
+      color: #fff;
+      border-color: var(--accent);
+      background: rgba(155,109,255,.10);
+    }
+
+    .tools-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin: 8px 0 28px;
+    }
+
+    .tool {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 14px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      background: rgba(255,255,255,0.03);
+      transition: .25s;
+    }
+
+    .tool:hover {
+      background: rgba(155,109,255,.15);
+      border-color: var(--accent);
+      transform: translateY(-2px);
+    }
+
+    .tool-icon {
+      width: 16px;
+      height: 16px;
+      opacity: .9;
+    }
+
+    .tool-name {
+      font-size: .75rem;
+      letter-spacing: .06em;
+      color: var(--text);
+    }
+
+    .games-layout {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(360px, .78fr);
+      gap: 2px;
+      align-items: start;
+    }
+
+    .games-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+      gap: 2px;
+    }
+
+    .game-card {
+      background: var(--bg2);
+      cursor: pointer;
+      transition: background .22s, outline .22s;
+      outline: 1px solid transparent;
+      overflow: hidden;
+    }
+
+    .game-card:hover,
+    .game-card.active {
+      background: var(--bg3);
+      outline-color: rgba(192,132,252,.45);
+      z-index: 1;
+    }
+
+    .game-img {
+      aspect-ratio: 4/3;
+      overflow: hidden;
+      background: #0a0a0a;
+    }
+
+    .game-img img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform .4s cubic-bezier(.25,.46,.45,.94);
+    }
+
+    .game-card:hover img { transform: scale(1.04); }
+
+    .game-info {
+      padding: 20px 22px 24px;
+      position: relative;
+      min-height: 142px;
+    }
+
+    .game-cat {
+      font-size: .68rem;
+      font-weight: 600;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      color: var(--accent2);
+      display: block;
+      margin-bottom: 8px;
+    }
+
+    .game-info h3 {
+      font-size: 1rem;
+      font-weight: 600;
+      color: #fff;
+      line-height: 1.3;
+      margin-bottom: 6px;
+    }
+
+    .game-info p {
+      font-size: .84rem;
+      color: var(--muted);
+    }
+
+    .game-arrow {
+      position: absolute;
+      right: 20px;
+      bottom: 20px;
+      color: var(--muted);
+    }
+
+    .detail-panel {
+      position: sticky;
+      top: calc(var(--header-h) + 24px);
+      background: var(--bg2);
+      border-left: 1px solid var(--border);
+      min-height: 620px;
+      padding: 34px;
+    }
+
+    .back-link {
+      display: inline-flex;
+      color: var(--accent2);
+      font-size: .8rem;
+      font-weight: 600;
+      margin-bottom: 30px;
+    }
+
+    .detail-title {
+      font-size: clamp(2rem, 3vw, 3rem);
+      line-height: 1;
+      margin-bottom: 10px;
+      font-weight: 600;
+    }
+
+    .detail-meta {
+      color: var(--accent2);
+      font-size: .84rem;
+      margin-bottom: 24px;
+    }
+
+    .detail-cover {
+      width: 100%;
+      aspect-ratio: 16/9;
+      object-fit: cover;
+      background: #000;
+      margin-bottom: 22px;
+      border: 1px solid var(--border);
+    }
+
+    .detail-desc {
+      color: var(--muted);
+      line-height: 1.75;
+      margin-bottom: 30px;
+    }
+
+    .detail-infos {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1px;
+      background: var(--border);
+      margin-bottom: 30px;
+    }
+
+    .detail-info {
+      background: var(--bg2);
+      padding: 18px;
+    }
+
+    .detail-info strong {
+      display: block;
+      color: var(--accent2);
+      font-size: .72rem;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      margin-bottom: 6px;
+    }
+
+    .detail-info span {
+      color: var(--text);
+      font-size: .88rem;
+    }
+
+    .contrib-title {
+      color: var(--accent2);
+      font-size: .85rem;
+      margin-bottom: 10px;
+    }
+
+    .contrib-list {
+      padding-left: 18px;
+      color: var(--muted);
+      line-height: 1.9;
+      font-size: .9rem;
+    }
+
+    .about-section,
+    .contact-section { max-width: 760px; }
+
+    .about-section h2,
+    .contact-title {
+      font-family: var(--font-d);
+      font-size: clamp(2.6rem, 5vw, 5rem);
+      line-height: 1.05;
+      margin: 28px 0 20px;
+    }
+
+    .accent { color: var(--accent2); }
+
+    .about-section p,
+    .contact-section p {
+      color: var(--muted);
+      line-height: 1.75;
+      margin-bottom: 28px;
+    }
+
+    footer {
+      text-align: center;
+      padding: 28px;
+      border-top: 1px solid var(--border);
+      font-size: .76rem;
+      color: var(--muted);
+      letter-spacing: .08em;
+    }
+
+    @media (max-width: 1000px) {
+      .games-layout { grid-template-columns: 1fr; }
+      .detail-panel { position: static; border-left: none; }
+    }
+
+    @media (max-width: 768px) {
+      .nav-links { display: none; }
+      .burger { display: flex; }
+      .hero {
+        height: 56vh;
+        min-height: 380px;
+      }
+      .section { padding: 56px clamp(16px, 4vw, 32px); }
+      .detail-infos { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+
+<body>
+  <header id="header">
+    <a href="#hero" class="logo">A<span>M</span></a>
+
+    <nav class="nav-links">
+      <a href="#hero">Accueil</a>
+      <a href="#jeux" class="active">Jeux</a>
+      <a href="#a-propos">À propos</a>
+      <a href="#contact">Contact</a>
+    </nav>
+
+    <button class="burger" id="burgerBtn" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </header>
+
+  <div class="drawer" id="drawer">
+    <a href="#hero">Accueil</a>
+    <a href="#jeux">Jeux</a>
+    <a href="#a-propos">À propos</a>
+    <a href="#contact">Contact</a>
+  </div>
+
+  <section id="hero" class="hero">
+    <div class="hero-content">
+      <p class="hero-sub">Portfolio jeu vidéo</p>
+      <h1 class="hero-title">
+        Jeux<br>
+        <span class="hero-accent">Game design<br>univers interactifs</span>
+      </h1>
+      <p class="hero-desc">
+        Découvrez les jeux que j’ai imaginés, conçus et produits. Game design, level design,
+        direction artistique, prototypage et développement Unity.
+      </p>
+      </div>
+  </section>
+
+  <section id="jeux" class="section">
+    <div class="section-header">
+      <div class="section-label"><span class="dot"></span>Tous les jeux</div>
+      <div>
+        <div class="filters">
+          <button class="active" data-filter="all">Tous</button>
+          <button data-filter="Jeu vidéo">Jeu vidéo</button>
+          <button data-filter="Jeu VR">Jeu VR</button>
+          <button data-filter="Jeu de cartes">Jeu de cartes</button>
+          <button data-filter="Prototype">Prototype</button>
+        </div>
+        <div class="tools-filter" id="toolsFilter"></div>
+      </div>
+    </div>
+
+    <div class="games-layout">
+      <div class="games-grid" id="gamesGrid"></div>
+      <aside class="detail-panel" id="detailPanel"></aside>
+    </div>
+  </section>
+
+  <footer>© 2025 Axel Marion</footer>
+
+  <script>
+    const games = [
+      {
+        title: "Floatland",
+        type: "Jeu VR",
+        year: "2024",
+        platform: "VR / PC",
+        engine: "Unity",
+        duration: "Projet fin d’année",
+        team: "3 personnes",
+        role: "Level Design, Game Design, Développement Unity",
+        tools: ["Unity", "Blender", "C#", "VR"],
+        image: "https://images.unsplash.com/photo-1614728263952-84ea256f9679?auto=format&fit=crop&w=1200&q=80",
+        description: "Jeu VR composé d’îles thématiques, chacune avec son identité visuelle et ses mini-jeux. Le joueur explore un monde lowpoly pensé pour l’immersion et l’interaction.",
+        contributions: [
+          "Conception du level design des îles",
+          "Création des mécaniques de mini-jeux",
+          "Intégration et développement dans Unity",
+          "Réflexion sur l’expérience utilisateur en VR"
+        ]
+      },
+      {
+        title: "Révolte",
+        type: "Jeu de cartes",
+        year: "2023",
+        platform: "Physique / Web",
+        engine: "Prototype papier + JS",
+        duration: "Projet de cours",
+        team: "Solo / groupe",
+        role: "Game Design, règles, cartes, prototype interactif",
+        tools: ["Photoshop", "Illustrator", "JavaScript"],
+        image: "https://images.unsplash.com/photo-1606167668584-78701c57f13d?auto=format&fit=crop&w=1200&q=80",
+        description: "Jeu de société interactif pensé pour 4 joueurs, basé sur des cartes, des effets et une logique d’affrontement entre factions.",
+        contributions: [
+          "Création des règles de jeu",
+          "Conception des cartes et de leurs effets",
+          "Direction graphique du jeu",
+          "Prototype interactif sur le portfolio"
+        ]
+      },
+      {
+        title: "After the Révolte",
+        type: "Prototype",
+        year: "2023",
+        platform: "PandaSuite",
+        engine: "PandaSuite",
+        duration: "Projet court",
+        team: "Solo",
+        role: "Narration interactive, UX, prototypage",
+        tools: ["PandaSuite", "Photoshop"],
+        image: "https://images.unsplash.com/photo-1511512578047-dfb367046420?auto=format&fit=crop&w=1200&q=80",
+        description: "Prototype narratif inspiré de Reigns, où le joueur avance par décisions successives et conséquences immédiates.",
+        contributions: [
+          "Structure de l’expérience interactive",
+          "Création du système de décisions",
+          "Écriture des situations",
+          "Intégration sur PandaSuite"
+        ]
+      },
+      {
+        title: "Infinity Dot",
+        type: "Prototype",
+        year: "2022",
+        platform: "Web",
+        engine: "Three.js",
+        duration: "Projet court",
+        team: "Solo",
+        role: "Développement créatif, expérimentation visuelle",
+        tools: ["Three.js", "JavaScript"],
+        image: "https://images.unsplash.com/photo-1633356122544-f134324a6cee?auto=format&fit=crop&w=1200&q=80",
+        description: "Expérimentation visuelle autour de particules et de formes génératives en Three.js.",
+        contributions: [
+          "Création d’une scène interactive",
+          "Manipulation de formes et particules",
+          "Recherche esthétique autour du mouvement",
+          "Développement web créatif"
+        ]
+      },
+      {
+        title: "Dot Musique",
+        type: "Prototype",
+        year: "2022",
+        platform: "Web",
+        engine: "Vue.js",
+        duration: "Projet court",
+        team: "Solo",
+        role: "Développement web, interaction audio",
+        tools: ["Vue.js", "JavaScript"],
+        image: "https://images.unsplash.com/photo-1511379938547-c1f69419868d?auto=format&fit=crop&w=1200&q=80",
+        description: "Visualisation audio réactive qui explore l’effet du son sur des particules et éléments graphiques.",
+        contributions: [
+          "Création d’une interface interactive",
+          "Lien entre son et animation",
+          "Expérimentation avec Vue.js",
+          "Travail sur le rythme visuel"
+        ]
+      },
+      {
+        title: "Projet FPS — Mémoire",
+        type: "Jeu vidéo",
+        year: "2024",
+        platform: "Recherche / Design",
+        engine: "Analyse Level Design",
+        duration: "Mémoire",
+        team: "Solo",
+        role: "Recherche, analyse, level design",
+        tools: ["Unity", "Photoshop"],
+        image: "https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=1200&q=80",
+        description: "Recherche sur la manière dont le level design peut guider le joueur dans les FPS sans casser l’immersion.",
+        contributions: [
+          "Analyse de références FPS",
+          "Étude des signes visuels et spatiaux",
+          "Réflexion sur le guidage joueur",
+          "Rédaction d’un mémoire complet"
+        ]
+      }
+    ];
+
+    const gamesGrid = document.getElementById('gamesGrid');
+    const detailPanel = document.getElementById('detailPanel');
+    const filterButtons = document.querySelectorAll('.filters button');
+    const toolsFilter = document.getElementById('toolsFilter');
+    let activeCategory = 'all';
+    let activeTool = 'all';
+    const burgerBtn = document.getElementById('burgerBtn');
+    const drawer = document.getElementById('drawer');
+    const hero = document.getElementById('hero');
+    const heroContent = document.querySelector('.hero-content');
+
+    function displayGames() {
+      gamesGrid.innerHTML = '';
+
+      const filteredGames = games.filter(game => {
+        const matchCategory = activeCategory === 'all' || game.type === activeCategory;
+        const matchTool = activeTool === 'all' || game.tools.includes(activeTool);
+        return matchCategory && matchTool;
+      });
+
+      filteredGames.forEach((game, index) => {
+        const card = document.createElement('article');
+        card.className = 'game-card';
+        card.innerHTML = `
+          <div class="game-img"><img src="${game.image}" alt="${game.title}"></div>
+          <div class="game-info">
+            <span class="game-cat">${game.type}</span>
+            <h3>${game.title}</h3>
+            <p>${game.year} · ${game.platform}</p>
+            <span class="game-arrow">↗</span>
+          </div>
+        `;
+
+        card.addEventListener('click', () => {
+          document.querySelectorAll('.game-card').forEach(c => c.classList.remove('active'));
+          card.classList.add('active');
+          displayDetails(game);
+        });
+
+        gamesGrid.appendChild(card);
+
+        if (index === 0) {
+          card.classList.add('active');
+          displayDetails(game);
+        }
+      });
+
+      if (filteredGames.length === 0) {
+        detailPanel.innerHTML = '<p>Aucun projet ne correspond à ce filtre.</p>';
+      }
+    }
+
+    function displayDetails(game) {
+      detailPanel.innerHTML = `
+        <a href="#jeux" class="back-link">← Retour aux jeux</a>
+        <h2 class="detail-title">${game.title}</h2>
+        <div class="detail-meta">${game.type} · ${game.platform} · ${game.year}</div>
+        <img class="detail-cover" src="${game.image}" alt="${game.title}">
+        <p class="detail-desc">${game.description}</p>
+
+        <div class="detail-infos">
+          <div class="detail-info"><strong>Mon rôle</strong><span>${game.role}</span></div>
+          <div class="detail-info"><strong>Équipe</strong><span>${game.team}</span></div>
+          <div class="detail-info"><strong>Moteur</strong><span>${game.engine}</span></div>
+          <div class="detail-info"><strong>Durée</strong><span>${game.duration}</span></div>
+        </div>
+
+        <h3 class="contrib-title">Outils</h3>
+        <div class="tools-list">
+          ${game.tools.map(tool => `
+            <div class="tool">
+              ${getToolIcon(tool) ? `<img src="${getToolIcon(tool)}" class="tool-icon" alt="${tool}">` : ''}
+              <span class="tool-name">${tool}</span>
+            </div>
+          `).join('')}
+        </div>
+
+        <h3 class="contrib-title">Mes contributions</h3>
+        <ul class="contrib-list">
+          ${game.contributions.map(item => `<li>${item}</li>`).join('')}
+        </ul>
+      `;
+    }
+
+    function getToolIcon(tool) {
+      const icons = {
+        "Unity": "https://cdn.simpleicons.org/unity/ffffff",
+        "Blender": "https://cdn.simpleicons.org/blender/ffffff",
+        "C#": "https://cdn.simpleicons.org/csharp/ffffff",
+        "Three.js": "https://cdn.simpleicons.org/threedotjs/ffffff",
+        "Vue.js": "https://cdn.simpleicons.org/vuedotjs/ffffff",
+        "Photoshop": "https://cdn.simpleicons.org/adobephotoshop/ffffff",
+        "Illustrator": "https://cdn.simpleicons.org/adobeillustrator/ffffff",
+        "PandaSuite": null,
+        "JavaScript": "https://cdn.simpleicons.org/javascript/ffffff",
+        "VR": null
+      };
+
+      return icons[tool] || null;
+    }
+
+    function buildToolFilters() {
+      const tools = ['all', ...new Set(games.flatMap(game => game.tools))];
+
+      toolsFilter.innerHTML = tools.map(tool => `
+        <button class="${tool === 'all' ? 'active' : ''}" data-tool="${tool}">
+          ${tool === 'all' ? 'Tous les outils' : tool}
+        </button>
+      `).join('');
+
+      toolsFilter.querySelectorAll('button').forEach(button => {
+        button.addEventListener('click', () => {
+          toolsFilter.querySelectorAll('button').forEach(btn => btn.classList.remove('active'));
+          button.classList.add('active');
+          activeTool = button.dataset.tool;
+          buildToolFilters();
+    displayGames();
+        });
+      });
+    }
+
+    function updateHeroOnScroll() {
+      const scroll = window.scrollY;
+      const progress = Math.min(scroll / 420, 1);
+
+      const move = progress * 70;
+      const blur = progress * 5;
+      const heroOpacity = Math.max(0.35, 1 - progress * 0.55);
+      const contentOpacity = Math.max(0, 1 - progress * 1.4);
+      const contentMove = progress * 90;
+
+      hero.style.transform = `translate3d(0, -${move}px, 0)`;
+      hero.style.filter = `blur(${blur}px)`;
+      hero.style.opacity = heroOpacity;
+      hero.style.pointerEvents = progress >= 0.9 ? 'none' : 'auto';
+
+      heroContent.style.opacity = contentOpacity;
+      heroContent.style.transform = `translate3d(0, -${contentMove}px, 0)`;
+    }
+
+    filterButtons.forEach(button => {
+      button.addEventListener('click', () => {
+        filterButtons.forEach(btn => btn.classList.remove('active'));
+        button.classList.add('active');
+        activeCategory = button.dataset.filter;
+        displayGames();
+      });
+    });
+
+    burgerBtn.addEventListener('click', () => {
+      burgerBtn.classList.toggle('open');
+      drawer.classList.toggle('open');
+    });
+
+    drawer.querySelectorAll('a').forEach(link => {
+      link.addEventListener('click', () => {
+        burgerBtn.classList.remove('open');
+        drawer.classList.remove('open');
+      });
+    });
+
+    window.addEventListener('scroll', updateHeroOnScroll);
+
+    displayGames();
+    updateHeroOnScroll();
+  </script>
+</body>
+</html>
