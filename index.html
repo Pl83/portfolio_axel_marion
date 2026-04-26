@@ -1,590 +1,372 @@
 <!doctype html>
 <html lang="fr">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/logo.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Portfolio Axel MARION</title>
-    <link rel="stylesheet" href="src/style.css">
-  </head>
-  <body>
+<head>
+  <meta charset="UTF-8"/>
+  <link rel="icon" type="image/svg+xml" href="/logo.svg"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Axel Marion — Portfolio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="src/style.css">
+</head>
+<body>
 
-    <!-- HEADER FIXE AVEC BURGER -->
-    <header>
-        <h1>Mon Portfolio</h1>
-        <button class="burger" onclick="toggleMenu()">☰</button>
-    </header>
-    
-    <!-- CONTAINER GLOBAL -->
-    <div class="container" id="container">
-    
-        <!-- MENU LATERAL -->
-        <nav id="sidebar">
-            <h2>Menu</h2>
-            <ul>
-                <li><a href="#a-propos" onclick="closeMenu()">À propos</a></li>
-    
-                <li class="group">
-                    <a href="#fixe" onclick="closeMenu()">Creation Fixe</a>
-                    <div class="submenu fixe">
-                        <a href="#projet1" onclick="closeMenu()">Auto-port'art</a>
-                        <a href="#projet2" onclick="closeMenu()">Montre</a>
-                        <a href="#projet3" onclick="closeMenu()">Pochette de vinyle</a>
-                        <a href="#projet4" onclick="closeMenu()">Macarron de vinyle</a>
-                        <a href="#projet5" onclick="closeMenu()">Carte de visite</a>
-                        <a href="#projet6" onclick="closeMenu()">Decoration</a>
-                    </div>
-                </li>
-    
-                <li class="group">
-                    <a href="#AroudTheRock" onclick="closeMenu()">Aroud the Rock</a>
-                    <div class="submenu Aroud">
-                        <a href="#projet7" onclick="closeMenu()">Mind map</a>
-                        <a href="#projet8" onclick="closeMenu()">Flyers</a>
-                        <a href="#projet9" onclick="closeMenu()">Affiche</a>
-                        <a href="#projet10" onclick="closeMenu()">Billet du festival</a>
-                        <a href="#projet11" onclick="closeMenu()">Plan</a>
-                    </div>
-                </li>
-    
-                <li class="group">
-                    <a href="#Video" onclick="closeMenu()">Projets Video</a>
-                    <div class="submenu Video">
-                        <a href="#projet12" onclick="closeMenu()">3D Pokémon</a>
-                        <a href="#projet13" onclick="closeMenu()">Whellcome to hell</a>
-                        <a href="#projet14" onclick="closeMenu()">Mac's Story</a>
-                    </div>
-                </li>
-    
-                <li class="group">
-                    <a href="#Interactif" onclick="closeMenu()">Projet Interactif</a>
-                    <div class="submenu Interactif">
-                        <a href="#projet15" onclick="closeMenu()">Revolte</a>
-                        <a href="#projet16" onclick="closeMenu()">Infinity Dot</a>
-                        <a href="#projet17" onclick="closeMenu()">Dot Music</a>
-                        <a href="#projet18" onclick="closeMenu()">After the revolte</a>
-                    </div>
-                </li>
-    
-                <li class="group">
-                    <a href="#Video" onclick="closeMenu()">Floatland</a>
-                    <div class="submenu Floatland">
-                        <a href="#projet19" onclick="closeMenu()">Teaser</a>
-                        <a href="#projet20" onclick="closeMenu()">Pitch</a>
-                        <a href="#projet21" onclick="closeMenu()">Le Groupe</a>
-                        <a href="#projet22" onclick="closeMenu()">Le rendue</a>
-                    </div>
-                </li>
-    
-                <li class="group">
-                    <a href="#Video" onclick="closeMenu()">Memoir</a>
-                    <div class="submenu Memoir">
-                        <a href="#projet23" onclick="closeMenu()">Le Level design pour guidé le joueur dans les fps</a>
-                    </div>
-                </li>
-    
-                <li><a href="#contact" onclick="closeMenu()">Contact</a></li>
-            </ul>
-        </nav>
-    
-        <!-- CONTENU PRINCIPAL -->
-        <main>
-        <section id="a-propos" class="cache">
-            <h2>À propos</h2>
-            <p>Bonjour, je suis Axel MARION, étudiant DNMADE Mention numerique - coder sa creativité</p>
-        </section>
-    
-        <section id="fixe">
-            <h2>Creation Fixe</h2>
-            <div class="project deco" id="projet1">
-                <h3>Auto-port'art</h3>
-                <div class="image-text-not">
-                    <div>
-                        <img src="/realisation/Autoportart.jpg" alt="Auto-port'art" loading="lazy">
-                    </div>
-                    <div>
-                        <h4>Dessin</h4>
-                        <p>Nous devions nous représenter sans nous représenter physiquement</p>
-                    </div>
-                </div>
-            </div>
-            <div class="project deco" id="projet2">
-                <h3>Montre</h3>
-                <div class="image-text">
-                    <div>
-                        <img src="/realisation/montre/montre-realisé.png" alt="Montre realisé" loading="lazy">
-                        <p>Montre realisé</p>
-                    </div>
-                    <div>
-                        <h4>Ilustrator</h4>
-                        <p>Nous devions vectorisé une montre que nous avions choisie</p>
-                    </div>
-                    <div>
-                        <img src="/realisation/montre/Montre-de-base.png" alt="Montre de base">
-                        <p>Montre Model</p>
-                    </div>
-                </div>
-            </div>
-            <div class="project deco" id="projet3">
-                <h3>Pochet de Vinyle</h3>
-                <div class="image-text">
-                    <div>
-                        <img src="/realisation/vinyle/Recto.png" alt="Recto" loading="lazy">
-                        <p>Recto</p>
-                    </div>
-                    <div class="textcentrer">
-                        <h4>Photoshop</h4>
-                        <p>Nous devions realisée une pochette de vinyle pour aprés l'imprimer</p>
-                    </div>
-                    <div>
-                        <img src="/realisation/vinyle/Verso.png" alt="Verso" loading="lazy">
-                        <p>Verso</p>
-                    </div>
-                </div>
-            </div>
-            <div class="project deco" id="projet4">
-                <h3>Macarron de Vinyle</h3>
-                <div class="image-text">
-                    <div>
-                        <img src="/realisation/vinyle/macarron.png" alt="Recto" loading="lazy">
-                        <p>Recto</p>
-                    </div>
-                    <div class="textcentrer">
-                        <h4>Photoshop</h4>
-                        <p>Nous devions realisée un macarron de vinyle pour identifier quel cote du vinyle nous écoutons</p>
-                    </div>
-                    <div>
-                        <img src="/realisation/vinyle/macarron-2.png" alt="Verso" loading="lazy">
-                        <p>Verso</p>
-                    </div>
-                </div>
-            </div>
-            <div class="project deco" id="projet5">
-                <h3>Carte de visite</h3>
-                <div class="image-text">
-                    <div>
-                        <img src="/realisation/cartedevisite/logo.png" alt="Recto" loading="lazy">
-                        <p>Recto</p>
-                    </div>
-                    <div class="textcentrer">
-                        <h4>Ilustrator et Photoshop</h4>
-                        <p>Nous devions faire une carte de visite pour travaillé une identité visuel</p>
-                    </div>
-                    <div>
-                        <img src="/realisation/cartedevisite/texte.png" alt="Verso" loading="lazy">
-                        <p>Verso</p>
-                    </div>
-                </div>
-            </div>
-            <div class="project deco" id="projet6">
-                <h3>Decoration</h3>
-                <div class="image-text-not">
-                    <div>
-                        <img src="/realisation/decoration.png" alt="Decoration" loading="lazy">
-                    </div>
-                    <div>
-                        <h4>Ilustrator</h4>
-                        <p>J'ai realisé ce fichier pour le decouper à la decoupeuse laser</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-        
-        <section id="AroudTheRock">
-            <h2>Aroud The Rock</h2>
-            <h3>Projet de fin d'année 1</h3>
-            <div class="project deco" id="projet7">
-                <h3>Festival de musique</h3>
-                <div class="image-text-not">
-                    <div>
-                        <img src="/realisation/festival/mindmapping.png" alt="mindmapping" loading="lazy">
-                    </div>
-                    <div>
-                        <h4>Mind map</h4>
-                        <p>Nous avons realisé cette image pour avoir une vue d'ensemble de notre projet de Creation de festival de musique</p>
-                    </div>
-                </div>
-            </div>
-            <div class="project deco" id="projet8">
-                <h3>Festival de musique</h3>
-                <div class="image-text">
-                    <div>
-                        <img src="/realisation/festival/lisseappli.png" alt="application" loading="lazy">
-                        <p>application</p>
-                    </div>
-                    <div class="textcentrer">
-                        <h4>Flyers</h4>
-                        <p>Nous avions realisé deux flyers un pour l'application et un pour le site internet</p>
-                    </div>
-                    <div>
-                        <img src="/realisation/festival/lissesite.png" alt="site internet" loading="lazy">
-                        <p>site internet</p>
-                    </div>
-                </div>
-            </div>
-            <div class="project deco" id="projet9">
-                <h3>Festival de musique</h3>
-                <div class="image-text">
-                    <div>
-                        <img src="/realisation/festival/Plandetravail.png" alt="Simple" loading="lazy">
-                        <p>Simple</p>
-                    </div>
-                    <div class="textcentrer">
-                        <h4>Affiche</h4>
-                        <p>Nous avions realisé deux affiches une simple avec peu de details et l'une avec les groupes que nous avons prevue</p>
-                    </div>
-                    <div>
-                        <img src="/realisation/festival/Plan-de-travail1.png" alt="groupes" loading="lazy">
-                        <p>Avec les groupes</p>
-                    </div>
-                </div>
-            </div>
-            <div class="project deco" id="projet10">
-                <h3>Festival de musique</h3>
-                <div class="image-text-not">
-                    <div>
-                        <img src="/realisation/festival/billetfestival.png" alt="Billet du festival" loading="lazy">
-                    </div>
-                    <div>
-                        <h4>Billet du festival</h4>
-                        <p>Nous avons realisé un billet qui correspont a notre direction artistique</p>
-                    </div>
-                </div>
-            </div>
-            <div class="project deco" id="projet11">
-                <h3>Festival de musique</h3>
-                <div class="image-text-not">
-                    <div>
-                        <img src="/realisation/festival/Plan.png" alt="plan" loading="lazy">
-                    </div>
-                    <div>
-                        <h4>Plan</h4>
-                        <p>Nous realisé une carte pour que les scenes et les trajets des festivaliers</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-        
-        <section id="Video">
-            <h2>Projets Video</h2>
-            <div class="project deco" id="projet12">
-                <h3>3D Pokémon</h3>
-                <div class="video-text">
-                    <div>
-                        <iframe alt="Pokemon" loading="lazy" width="560" height="315" src="https://www.youtube.com/embed/sAeUvNG19OA?si=KS0gEqwmWWne0eha" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-                    </div>
-                    <div>
-                        <h4>Blender</h4>
-                        <p>Nous devions faire une vidéo avec les realisation 3D que nous avons fait</p>
-                    </div>
-                </div>
-            </div>
-            <div class="project deco" id="projet13">
-                <h3>Whellcome to hell</h3>
-                <div class="video-text">
-                    <div>
-                        <iframe alt="Video fait avec IA" loading="lazy" width="560" height="315" src="https://www.youtube.com/embed/mYO2WOaA8CU?si=jT7o28wQXJ149gHN" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-                    </div>
-                    <div>
-                        <h4>IA</h4>
-                        <p>Nous devions créer une vidéo ou tout les elements visuel et auditif son créer par des IA</p>
-                    </div>
-                </div>
-            </div>
-            <div class="project deco" id="projet14">
-                <h3>Mac's Story</h3>
-                <div class="video-text">
-                    <div>
-                        <iframe alt="Video Drôle" loading="lazy" width="1120" height="315" src="https://www.youtube.com/embed/jl-DCLoXv2w?si=Si-nQJpyGj4MTeXj" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-                    </div>
-                    <div>
-                        <h4>After Effect</h4>
-                        <p>Nous devions inventer une comunication entre deux Mac sans intervention humaine.</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-    
-        <section id="Interactif">
-            <h2>Projet Interactif</h2>
-            <div class="project deco" id="projet15">
-                <div class="carte">
-                    <h3>Revolte</h3>
-                    <h4>Jeu de Cartes</h4>
-                    <p>Nous devions realisé un jeu de societe pour 4 persone</p>
-                    <div class="deck-container">
-                        <img src="realisation/carte/Dos.png" class="deck" onclick="drawCard()">
-                    </div>
-                    <div>
-                        <button onclick="resetDeck()">Réinitialiser le paquet</button>
-                        <button onclick="drawAllCards()">Tirer toutes les cartes</button>
-                    </div>
-                    <div class="game-container">
-                        <div>
-                            <p>Noir</p>
-                            <div id="noir" class="suit-container"></div>
-                        </div>
-                        <div>
-                            <p>Blanc</p>
-                            <div id="blanc" class="suit-container"></div>
-                        </div>
-                    </div>
-                    <div id="popup-overlay" class="popup-overlay"></div>
-                    <div id="popup" class="popup">
-                        <h2 id="popup-title"></h2>
-                        <img id="popup-image" src="" alt="Carte">
-                        <p id="popup-description"></p>
-                        <button onclick="closePopup()">Fermer</button>
-                    </div>
-                </div>
-            </div>
-            <div class="project deco" id="projet16">
-                <h3>Infinity Dot</h3>
-                <div class="image-text">
-                    <div>
-                        <h4>three.JS</h4>
-                        <p>Lors de notre aprentissage de Three JS nous etions libre sur notre rendue.</p>
-                        <p>J'ai decidé de montré que toute choses a une fin.</p>
-                        <button onclick=infinitydot()>Cliquez ici</button>
-                    </div>
-                </div>
-            </div>
-            <div class="project deco" id="projet17">
-                <h3>Dot Musique</h3>
-                <div class="image-text">
-                    <div>
-                        <h4>Vue.JS</h4>
-                        <p>Lors de notre aprentissage de Vue JS nous devions faire un site avec de l'audio.</p>
-                        <p>J'ai decidé de montré l'effet du son sur les particules.</p>
-                        <button onclick=musicdot()>Cliquez ici</button>
-                    </div>
-                </div>
-            </div>
-            <div class="project deco" id="projet18">
-                <h3>After the Revolte</h3>
-                <div class="image-text">
-                    <div>
-                        <h4>Pandasuit</h4>
-                        <p>Lors de notre aprentissage de Panda suit nous devions faire une aplication qui utilise les fonctionnalitées disponible.</p>
-                        <p>J'ai decidé de faire un jeu comme le jeu Reigns</p>
-                        <button onclick=pandasuit()>Cliquez ici</button>
-                    </div>
-                </div>
-            </div>
-        </section>
-     
-        <section id="Floatland">
-            <h2>Floatland</h2>
-            <h3>Projet de fin d'année 2</h3>
-            <div class="project deco" id="projet19">
-                <h3>Teaser</h3>
-                <div class="video-text">
-                    <video width="520" height="315" controls src="/realisation/video/Floatlandtease.mp4" alt="Teaser" loading="lazy"></video>
-                    <div>
-                        <h4>After Effect</h4>
-                        <p>Nous avions réalisé un teaser pour présenter notre jeu.</p>
-                    </div>
-                </div>
-            </div>
-            <div class="project deco" id="projet20">
-                <h3>pitch</h3>
-                <div class="image-text">
-                    <div>
-                        <h4>Jeux Vr</h4>
-                        <p>Le concept de notre jeu etait de faire des iles avec des mini-jeu et une identité visuel propre a chaque iles.</p>
-                    </div>
-                </div>
-            </div>
-            <div class="project deco" id="projet21">
-                <h3>Group</h3>
-                <div class="">
-                    <div id="equipe">
-                        <h4>L'equipe</h4>
-                        <div>
-                            <div>
-                                <h4>Anna THOMAS</h4>
-                                <p>Ma camarade c'est occupé de faire la majorité des asset 3D.</p>
-                            </div>
-                            <div>
-                                <h4>Maéva HEBERT</h4>
-                                <p>Ma camarade c'est occupé de faire L'identité visuel de notre projet.</p>
-                            </div>
-                            <div>
-                                <h4>Axel MARION</h4>
-                                <p>Je me suis occupé de faire le Level Design, le Game Design et le Developpement.</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="project deco" id="projet22">
-                <h3>Le rendue</h3>
-                <div class="image-text">
-                    <div>
-                        <video id="projet22VideoOne" width="520" height="315" controls src="/realisation/video/ile.mkv" alt="video de l'ensemble de l'ile" loading="lazy"></video>
-                        <p>video de l'ensemble de l'ile</p>
-                    </div>
-                    <div>
-                        <h4>La demo</h4>
-                        <p>Nous avons fait une ile qui avait une identité visuel Lowpoly et comme mini-jeux du tire a l'arc où les cible été caché sur l'iles.</p>
-                    </div>
-                    <div>
-                        <video id="projet22VideoTwo" width="315" height="520" controls src="/realisation/video/Teste.mp4" alt="Teste quelque jour avant l'oral" loading="lazy" muted="true"></video>
-                        <p>Teste quelque jour avant l'oral</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-    
-        <section id="Memoir">
-            <h2>Memoir</h2>
-            <h3>Redue decembre 2024</h3>
-            <div class="project deco" id="projet23">
-                <div class="image-text-not">
-                    <div>
-                        <img  src="/realisation/Memoir/abstract.png" alt="abstract" loading="lazy">
-                    </div>
-                    <div>
-                        <a href="/realisation/Memoir/Memoire-AxelMARION.pdf" target="_blank" title="Memoir Axel MARION"><h4>Le Level design pour guider le joueur</h4></a>
-                    </div>
-                </div>
-            </div>
-        </section>
-    
-        <section id="contact">
-            <h2>Contact</h2>
-            <p>Écrivé-moi à <a href="mailto:Axelmarion6@gmail.com">Axelmarion6@gmail.com</a>.<a href="/realisation/Cv Axel MARION.pdf" target="_blank" title="Memoir Axel MARION">Mon CV</a></p>
-        </section>
-    
-        <footer>
-            <p>&copy; 2025 - Mon Portfolio</p>
-        </footer>
-        </main>
+<!-- HEADER -->
+<header id="header">
+  <a href="#hero" class="logo">AM</a>
+  <nav class="nav-links">
+    <a href="#projets">Projets</a>
+    <a href="#Interactif">Jeux</a>
+    <a href="#a-propos">À propos</a>
+    <a href="#contact">Contact</a>
+  </nav>
+  <button class="burger" id="burgerBtn" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+</header>
+
+<div class="drawer" id="drawer">
+  <a href="#projets"    onclick="closeDrawer()">Projets</a>
+  <a href="#Interactif" onclick="closeDrawer()">Jeux</a>
+  <a href="#a-propos"   onclick="closeDrawer()">À propos</a>
+  <a href="#contact"    onclick="closeDrawer()">Contact</a>
+</div>
+<div class="drawer-overlay" id="drawerOverlay" onclick="closeDrawer()"></div>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-content">
+    <p class="hero-sub">Bonjour, je suis Axel Marion</p>
+    <h1 class="hero-title">
+      Designer visuel &amp;<br>
+      <span class="hero-accent">créateur d'expériences.</span>
+    </h1>
+    <p class="hero-desc">
+      Je transforme des idées en images, en histoires et en univers.<br>
+      Design graphique, direction artistique, vidéo et développement de jeux.
+    </p>
+    <a href="#projets" class="btn-primary">Voir mes projets &nbsp;→</a>
+  </div>
+  <div class="hero-noise"></div>
+</section>
+
+<!-- PROJETS SÉLECTIONNÉS -->
+<section id="projets" class="section">
+  <div class="section-header">
+    <div class="section-label"><span class="dot"></span>Projets sélectionnés</div>
+    <a href="#fixe" class="see-all">Voir tous les projets &nbsp;→</a>
+  </div>
+  <div class="cards-grid featured">
+    <a href="#projet1" class="card-project">
+      <div class="card-img-wrap">
+        <img src="/realisation/Autoportart.jpg" alt="Auto-port'art" loading="lazy">
+      </div>
+      <div class="card-info">
+        <span class="card-cat">Dessin</span>
+        <h3>Auto-port'art</h3>
+        <p>Se représenter sans représentation physique.</p>
+        <span class="card-arrow">↗</span>
+      </div>
+    </a>
+    <a href="#projet5" class="card-project">
+      <div class="card-img-wrap">
+        <img src="/realisation/cartedevisite/logo.png" alt="Carte de visite" loading="lazy">
+      </div>
+      <div class="card-info">
+        <span class="card-cat">Branding</span>
+        <h3>Carte de visite</h3>
+        <p>Identité visuelle et supports de communication.</p>
+        <span class="card-arrow">↗</span>
+      </div>
+    </a>
+    <a href="#projet9" class="card-project">
+      <div class="card-img-wrap">
+        <img src="/realisation/festival/Plandetravail.png" alt="Affiche festival" loading="lazy">
+      </div>
+      <div class="card-info">
+        <span class="card-cat">Affiche</span>
+        <h3>Aroud The Rock</h3>
+        <p>Direction artistique d'un festival de musique.</p>
+        <span class="card-arrow">↗</span>
+      </div>
+    </a>
+    <a href="#projet15" class="card-project">
+      <div class="card-img-wrap card-img-dark">
+        <img src="realisation/carte/Dos.png" alt="Revolte" loading="lazy" style="object-fit:contain;padding:20px">
+      </div>
+      <div class="card-info">
+        <span class="card-cat">Jeu de cartes</span>
+        <h3>Révolte</h3>
+        <p>Jeu de société interactif pour 4 joueurs.</p>
+        <span class="card-arrow">↗</span>
+      </div>
+    </a>
+    <a href="#projet22" class="card-project">
+      <div class="card-img-wrap card-img-dark">
+        <div class="card-placeholder">▶ Floatland</div>
+      </div>
+      <div class="card-info">
+        <span class="card-cat">Jeu VR</span>
+        <h3>Floatland</h3>
+        <p>Level design, game design et développement Unity.</p>
+        <span class="card-arrow">↗</span>
+      </div>
+    </a>
+    <a href="#projet23" class="card-project">
+      <div class="card-img-wrap">
+        <img src="/realisation/Memoir/abstract.png" alt="Mémoire" loading="lazy">
+      </div>
+      <div class="card-info">
+        <span class="card-cat">Mémoire</span>
+        <h3>Level Design &amp; FPS</h3>
+        <p>Guider le joueur par la conception de niveaux.</p>
+        <span class="card-arrow">↗</span>
+      </div>
+    </a>
+  </div>
+</section>
+
+<!-- COMPÉTENCES -->
+<section id="competences" class="section skills-section">
+  <div class="skills-grid">
+    <div class="skill-item">
+      <div class="skill-icon">✦</div>
+      <h4>Design</h4>
+      <p>Identité visuelle, direction artistique et design graphique.</p>
     </div>
-    <script defer>
-        function toggleMenu() {
-    const sidebar = document.getElementById('sidebar');
-    sidebar.style.left = (sidebar.style.left === "0px") ? "-250px" : "0px";
-}
+    <div class="skill-item">
+      <div class="skill-icon">▶</div>
+      <h4>Vidéo</h4>
+      <p>Réalisation, montage et motion design pour des contenus impactants.</p>
+    </div>
+    <div class="skill-item">
+      <div class="skill-icon">◈</div>
+      <h4>Jeux</h4>
+      <p>Game design, développement et direction artistique d'expériences interactives.</p>
+    </div>
+    <div class="skill-item">
+      <div class="skill-icon">◉</div>
+      <h4>3D</h4>
+      <p>Modélisation, texturing et rendu pour donner vie aux idées.</p>
+    </div>
+  </div>
+</section>
 
-function closeMenu() {
-    document.getElementById('sidebar').style.left = "-250px";
-}
+<!-- À PROPOS -->
+<section id="a-propos" class="section about-section">
+  <div class="section-label"><span class="dot"></span>À propos</div>
+  <div class="about-body">
+    <div class="about-text">
+      <h2>Étudiant DNMADE<br><span class="accent">mention numérique</span></h2>
+      <p>Je suis Axel Marion, étudiant en DNMADE mention numérique — « coder sa créativité ». Je travaille à l'intersection du design graphique, de la narration visuelle et du développement interactif.</p>
+      <div class="about-actions">
+        <a href="mailto:Axelmarion6@gmail.com" class="btn-primary">Me contacter</a>
+        <a href="/realisation/Cv Axel MARION.pdf" target="_blank" class="btn-ghost">Voir mon CV</a>
+      </div>
+    </div>
+  </div>
+</section>
 
-const suits = ['noir', 'blanc'];
-    const values = {
-        'Pion': "Pour etre joué dois etre avec un autre pion. Vous fait prendre une carte aleatoir d'un adversaire choisie.",
-        'Tour': "Melange la pioche.",
-        'Cavalier': "Prendre les deux premiere cartes de la pioche et en replacer une aleatoirement dans la pioche.",
-        'Fou': "Prend les deux premiere carte de la pioche.",
-        'Dame': "Fait joué 3 tour d'affilée a l'adversaire suivant.",
-        'Roi': "Regarde les 3 premiere carte de la pioche.",
-        "Oh non je ne l'avais pas vu": "Permet de ne pas appliquer l'effet de toute les cartes sauf la revolte ou le roque.",
-        'Espion': "Force un adversaire choisi a vous donné une carte de son chois. Pour etre joué dois etre avec un pion.",
-        'Berge': "Fait jouer 2 tours d'affilée à l'adversaire suivant.",
-        'Sacrifice': "Déplacer une carte aléatoire de la pioche.",
-        'Roque': "Protège contre une carte révolution.",
-        "Regle":"",
-        'Revolution': "Vous fait quitté la partie ou vous fait perdre une carte roque",
-    };
+<!-- CRÉATION FIXE -->
+<section id="fixe" class="section">
+  <div class="section-label"><span class="dot dot-fixe"></span>Création Fixe</div>
+  <div class="cards-grid">
+    <div class="card-project" id="projet1">
+      <div class="card-img-wrap"><img src="/realisation/Autoportart.jpg" alt="Auto-port'art" loading="lazy"></div>
+      <div class="card-info"><span class="card-cat">Dessin</span><h3>Auto-port'art</h3><p>Se représenter sans représentation physique.</p></div>
+    </div>
+    <div class="card-project" id="projet2">
+      <div class="card-img-wrap"><img src="/realisation/montre/montre-realisé.png" alt="Montre" loading="lazy"></div>
+      <div class="card-info"><span class="card-cat">Illustrator</span><h3>Montre vectorisée</h3><p>Vectorisation d'une montre choisie.</p></div>
+    </div>
+    <div class="card-project" id="projet3">
+      <div class="card-img-wrap"><img src="/realisation/vinyle/Recto.png" alt="Pochette vinyle" loading="lazy"></div>
+      <div class="card-info"><span class="card-cat">Photoshop</span><h3>Pochette de vinyle</h3><p>Conception recto/verso pour impression.</p></div>
+    </div>
+    <div class="card-project" id="projet4">
+      <div class="card-img-wrap"><img src="/realisation/vinyle/macarron.png" alt="Macarron" loading="lazy"></div>
+      <div class="card-info"><span class="card-cat">Photoshop</span><h3>Macarron de vinyle</h3><p>Identifier le côté A ou B du vinyle.</p></div>
+    </div>
+    <div class="card-project" id="projet5">
+      <div class="card-img-wrap"><img src="/realisation/cartedevisite/logo.png" alt="Carte de visite" loading="lazy"></div>
+      <div class="card-info"><span class="card-cat">Illustrator · Photoshop</span><h3>Carte de visite</h3><p>Construction d'une identité visuelle complète.</p></div>
+    </div>
+    <div class="card-project" id="projet6">
+      <div class="card-img-wrap"><img src="/realisation/decoration.png" alt="Décoration" loading="lazy"></div>
+      <div class="card-info"><span class="card-cat">Illustrator</span><h3>Décoration laser</h3><p>Fichier vectoriel pour découpeuse laser.</p></div>
+    </div>
+  </div>
+</section>
 
-    let deck = [];
-    let drawnCards = { noir: [], blanc: []};
+<!-- AROUD THE ROCK -->
+<section id="AroudTheRock" class="section">
+  <div class="section-label"><span class="dot dot-aroud"></span>Aroud The Rock — Projet fin d'année 1</div>
+  <div class="cards-grid">
+    <div class="card-project" id="projet7">
+      <div class="card-img-wrap"><img src="/realisation/festival/mindmapping.png" alt="Mind map" loading="lazy"></div>
+      <div class="card-info"><span class="card-cat">Mind map</span><h3>Festival de musique</h3><p>Vue d'ensemble du projet festival.</p></div>
+    </div>
+    <div class="card-project" id="projet8">
+      <div class="card-img-wrap"><img src="/realisation/festival/lisseappli.png" alt="Flyers" loading="lazy"></div>
+      <div class="card-info"><span class="card-cat">Flyers</span><h3>Flyers application &amp; site</h3><p>Deux flyers pour les supports numériques du festival.</p></div>
+    </div>
+    <div class="card-project" id="projet9">
+      <div class="card-img-wrap"><img src="/realisation/festival/Plandetravail.png" alt="Affiche" loading="lazy"></div>
+      <div class="card-info"><span class="card-cat">Affiche</span><h3>Affiches du festival</h3><p>Version simple et avec programme complet.</p></div>
+    </div>
+    <div class="card-project" id="projet10">
+      <div class="card-img-wrap"><img src="/realisation/festival/billetfestival.png" alt="Billet" loading="lazy"></div>
+      <div class="card-info"><span class="card-cat">Print</span><h3>Billet du festival</h3><p>Billet cohérent avec la direction artistique.</p></div>
+    </div>
+    <div class="card-project" id="projet11">
+      <div class="card-img-wrap"><img src="/realisation/festival/Plan.png" alt="Plan" loading="lazy"></div>
+      <div class="card-info"><span class="card-cat">Cartographie</span><h3>Plan du festival</h3><p>Carte des scènes et trajets festivaliers.</p></div>
+    </div>
+  </div>
+</section>
 
-    function createDeck() {
-        deck = [];
-        for (let suit of suits) {
-            for (let value in values) {
-                deck.push({
-                    value: value,
-                    suit: suit,
-                    img: `realisation/carte/${suit}/${value}.png`,
-                    description: values[value]
-                });
-            }
-        }
-        shuffleDeck();
-    }
+<!-- PROJETS VIDÉO -->
+<section id="Video" class="section">
+  <div class="section-label"><span class="dot dot-video"></span>Projets Vidéo</div>
+  <div class="cards-grid">
+    <div class="card-project card-video" id="projet12">
+      <div class="card-video-wrap">
+        <iframe loading="lazy" src="https://www.youtube.com/embed/sAeUvNG19OA?si=KS0gEqwmWWne0eha" title="3D Pokémon" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+      </div>
+      <div class="card-info"><span class="card-cat">Blender</span><h3>3D Pokémon</h3><p>Vidéo réalisée à partir de modèles 3D créés en cours.</p></div>
+    </div>
+    <div class="card-project card-video" id="projet13">
+      <div class="card-video-wrap">
+        <iframe loading="lazy" src="https://www.youtube.com/embed/mYO2WOaA8CU?si=jT7o28wQXJ149gHN" title="Whellcome to hell" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+      </div>
+      <div class="card-info"><span class="card-cat">IA générative</span><h3>Whellcome to Hell</h3><p>Vidéo dont tous les éléments visuels et audio sont générés par IA.</p></div>
+    </div>
+    <div class="card-project card-video card-wide" id="projet14">
+      <div class="card-video-wrap">
+        <iframe loading="lazy" src="https://www.youtube.com/embed/jl-DCLoXv2w?si=Si-nQJpyGj4MTeXj" title="Mac's Story" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+      </div>
+      <div class="card-info"><span class="card-cat">After Effects</span><h3>Mac's Story</h3><p>Communication imaginaire entre deux Mac, sans intervention humaine.</p></div>
+    </div>
+  </div>
+</section>
 
-    function shuffleDeck() {
-        deck.sort(() => Math.random() - 0.5);
-    }
-  
-    function drawAllCards() {
-        while (deck.length > 0) {
-            drawCard();
-        }
-    }
+<!-- INTERACTIF -->
+<section id="Interactif" class="section">
+  <div class="section-label"><span class="dot dot-interactif"></span>Projets Interactifs</div>
+  <div class="cards-grid">
+    <div class="card-project card-wide" id="projet15">
+      <div class="card-info card-info-top">
+        <span class="card-cat">Jeu de cartes</span>
+        <h3>Révolte</h3>
+        <p>Jeu de société pour 4 joueurs. Tirez les cartes pour découvrir leurs effets.</p>
+      </div>
+      <div class="revolte-game">
+        <div class="revolte-controls">
+          <img src="realisation/carte/Dos.png" class="deck-img" onclick="drawCard()" title="Tirer une carte" loading="lazy">
+          <div class="revolte-btns">
+            <button onclick="drawAllCards()">Tout tirer</button>
+            <button onclick="resetDeck()">Réinitialiser</button>
+          </div>
+        </div>
+        <div class="game-container">
+          <div class="suit-col"><p class="suit-label">Noir</p><div id="noir" class="suit-container"></div></div>
+          <div class="suit-col"><p class="suit-label">Blanc</p><div id="blanc" class="suit-container"></div></div>
+        </div>
+      </div>
+    </div>
+    <div class="card-project" id="projet16">
+      <div class="card-img-wrap card-img-dark">
+        <div class="card-placeholder card-placeholder-code">three.js</div>
+      </div>
+      <div class="card-info"><span class="card-cat">Three.JS</span><h3>Infinity Dot</h3><p>Toute chose a une fin — exploration visuelle en Three.JS.</p><button onclick="infinitydot()" class="btn-card">Ouvrir →</button></div>
+    </div>
+    <div class="card-project" id="projet17">
+      <div class="card-img-wrap card-img-dark">
+        <div class="card-placeholder card-placeholder-code">vue.js</div>
+      </div>
+      <div class="card-info"><span class="card-cat">Vue.JS</span><h3>Dot Musique</h3><p>L'effet du son sur les particules — visualisation audio réactive.</p><button onclick="musicdot()" class="btn-card">Ouvrir →</button></div>
+    </div>
+    <div class="card-project" id="projet18">
+      <div class="card-img-wrap card-img-dark">
+        <div class="card-placeholder card-placeholder-code">pandasuite</div>
+      </div>
+      <div class="card-info"><span class="card-cat">PandaSuite</span><h3>After the Révolte</h3><p>Jeu de décisions inspiré de Reigns.</p><button onclick="pandasuit()" class="btn-card">Ouvrir →</button></div>
+    </div>
+  </div>
+</section>
 
-    function drawCard() {
-        if (deck.length > 0) {
-            let card = deck.pop();
-            drawnCards[card.suit].push(card);
-            renderCards(card.suit, card);
-        } else {
-            alert("Le paquet est vide ! Réinitialisez-le.");
-        }
-    }
+<!-- FLOATLAND -->
+<section id="Floatland" class="section">
+  <div class="section-label"><span class="dot dot-floatland"></span>Floatland — Projet fin d'année 2</div>
+  <div class="cards-grid">
+    <div class="card-project card-video" id="projet19">
+      <div class="card-video-wrap">
+        <video controls src="/realisation/video/Floatlandtease.mp4" loading="lazy"></video>
+      </div>
+      <div class="card-info"><span class="card-cat">After Effects</span><h3>Teaser</h3><p>Teaser de présentation du jeu VR Floatland.</p></div>
+    </div>
+    <div class="card-project" id="projet20">
+      <div class="card-img-wrap card-img-dark">
+        <div class="card-placeholder">Jeu VR</div>
+      </div>
+      <div class="card-info"><span class="card-cat">Game Design</span><h3>Pitch</h3><p>Îles thématiques avec mini-jeux et identités visuelles propres.</p></div>
+    </div>
+    <div class="card-project" id="projet21">
+      <div class="card-img-wrap card-img-dark team-card">
+        <div class="team-grid">
+          <div class="team-member"><strong>Anna Thomas</strong><span>Assets 3D</span></div>
+          <div class="team-member"><strong>Maéva Hebert</strong><span>Identité visuelle</span></div>
+          <div class="team-member team-me"><strong>Axel Marion</strong><span>Level · Game · Dev</span></div>
+        </div>
+      </div>
+      <div class="card-info"><span class="card-cat">Équipe</span><h3>Le groupe</h3><p>Trois étudiants, trois expertises complémentaires.</p></div>
+    </div>
+    <div class="card-project card-video" id="projet22">
+      <div class="card-video-wrap">
+        <video controls src="/realisation/video/ile.mkv" loading="lazy"></video>
+      </div>
+      <div class="card-info"><span class="card-cat">Unity · Lowpoly</span><h3>Le rendu</h3><p>Île Lowpoly avec mini-jeu de tir à l'arc caché dans le décor.</p></div>
+    </div>
+  </div>
+</section>
 
-    function renderCards(suit, newCard) {
-        const container = document.getElementById(suit);
-        const renderCards = drawnCards[suit].sort((a, b) => {
-            const keys = Object.keys(values);
-            return keys.indexOf(a.value) - keys.indexOf(b.value);
-        });
-        
-        container.innerHTML = "";
-        
-        renderCards.forEach(card => {
-            const cardDiv = document.createElement("div");
-            cardDiv.classList.add("card");
-            
-            let img = document.createElement("img");
-            img.src = card.img;
-            img.alt = `${card.value} de ${card.suit}`;
-            cardDiv.appendChild(img);
-            cardDiv.onclick = () => openPopup(card);
-            
-            container.appendChild(cardDiv);
-        });
-    }
-    function openPopup(card) {
-        // Met à jour le contenu de la pop-up
-        document.getElementById("popup-title").textContent = card.value;
-        document.getElementById("popup-image").src = card.img;
-        document.getElementById("popup-description").textContent = card.description;
+<!-- MÉMOIRE -->
+<section id="Memoir" class="section">
+  <div class="section-label"><span class="dot dot-memoir"></span>Mémoire — Rendu décembre 2024</div>
+  <div class="cards-grid">
+    <a href="/realisation/Memoir/Memoire-AxelMARION.pdf" target="_blank" class="card-project" id="projet23">
+      <div class="card-img-wrap"><img src="/realisation/Memoir/abstract.png" alt="Mémoire" loading="lazy"></div>
+      <div class="card-info"><span class="card-cat">Mémoire</span><h3>Le Level Design pour guider le joueur dans les FPS</h3><p>Cliquer pour lire le mémoire complet en PDF.</p><span class="card-arrow">↗</span></div>
+    </a>
+  </div>
+</section>
 
-        // Affiche la pop-up et l'overlay
-        document.getElementById("popup").style.display = "block";
-        document.getElementById("popup-overlay").style.display = "block";
-    }
+<!-- CONTACT -->
+<section id="contact" class="section contact-section">
+  <div class="contact-inner">
+    <p class="contact-pre">Travaillons ensemble</p>
+    <h2 class="contact-title">Envie de créer<br><span class="accent">quelque chose ?</span></h2>
+    <div class="contact-actions">
+      <a href="mailto:Axelmarion6@gmail.com" class="btn-primary">Axelmarion6@gmail.com</a>
+      <a href="/realisation/Cv Axel MARION.pdf" target="_blank" class="btn-ghost">Télécharger mon CV</a>
+    </div>
+  </div>
+</section>
 
-    function closePopup() {
-        document.getElementById("popup").style.display = "none";
-        document.getElementById("popup-overlay").style.display = "none";
-    }
+<footer>
+  <p>© 2025 Axel Marion</p>
+</footer>
 
-    function resetDeck() {
-        createDeck();
-        drawnCards = { noir: [], blanc: [] };
-        suits.forEach(suit => {
-            document.getElementById(suit).innerHTML = ""; // Laisse l'élément vide
-        });
-    }
-    
-    createDeck();
+<!-- POPUP CARTE -->
+<div id="popup-overlay" class="popup-overlay" onclick="closePopup()"></div>
+<div id="popup" class="popup">
+  <button class="popup-close" onclick="closePopup()">✕</button>
+  <h2 id="popup-title"></h2>
+  <img id="popup-image" src="" alt="Carte">
+  <p id="popup-description"></p>
+</div>
 
-    function infinitydot() {
-        windowObjectReference = window.open("pages/infinitydot.html");
-    }
-
-    function musicdot() {
-        windowObjectReference = window.open("pages/dotmusic.html");
-    }
-
-    function pandasuit() {
-        windowObjectReference = window.open("https://viewer.pandasuite.com/tUPSxsOH");
-    }
-    </script>
+<script src="src/main.js"></script>
 </body>
 </html>
