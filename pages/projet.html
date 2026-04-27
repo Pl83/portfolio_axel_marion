@@ -4,996 +4,1196 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Axel Marion — Parcours</title>
+
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
   <style>
     :root {
-      --bg: #05070d;
-      --panel: rgba(15, 20, 32, .78);
-      --panel-2: rgba(20, 26, 42, .92);
-      --border: rgba(255,255,255,.10);
-      --text: #f6f3ff;
-      --muted: #a7a2b8;
-      --purple: #9b5cff;
-      --purple-2: #6f35ff;
-      --green: #79d65c;
-      --blue: #45c7ff;
-      --orange: #f7a13d;
-      --radius: 18px;
-      --shadow: 0 24px 80px rgba(0,0,0,.45);
+      --bg: #050912;
+      --panel: rgba(13, 19, 32, 0.82);
+      --panel2: rgba(17, 24, 39, 0.72);
+      --border: rgba(255, 255, 255, 0.10);
+      --text: #f5f7fb;
+      --muted: #9ca3af;
+      --soft: #cbd5e1;
+      --accent: #9b5cff;
+      --accent2: #c084fc;
+      --green: #74d674;
+      --blue: #67d4ff;
+      --orange: #ffb45c;
+      --shadow: 0 24px 80px rgba(0, 0, 0, 0.42);
     }
 
-    * { box-sizing: border-box; }
-    html { scroll-behavior: smooth; }
+    * {
+      box-sizing: border-box;
+    }
+
     body {
       margin: 0;
-      font-family: "Outfit", sans-serif;
+      font-family: Inter, system-ui, sans-serif;
       color: var(--text);
       background:
-        radial-gradient(circle at 65% 10%, rgba(136, 68, 255, .18), transparent 28%),
-        radial-gradient(circle at 5% 60%, rgba(94, 42, 190, .16), transparent 26%),
-        linear-gradient(180deg, #060812 0%, #04060b 100%);
-      height: 100vh;
-      overflow: hidden;
+        radial-gradient(circle at 20% 0%, rgba(155, 92, 255, 0.18), transparent 30%),
+        radial-gradient(circle at 80% 20%, rgba(86, 64, 255, 0.12), transparent 28%),
+        var(--bg);
+      overflow-x: hidden;
     }
 
-
-    a { color: inherit; text-decoration: none; }
-
-    header {
-      height: 76px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 0 48px;
-      border-bottom: 1px solid rgba(255,255,255,.06);
-      background: rgba(5,7,13,.72);
-      backdrop-filter: blur(18px);
-      position: sticky;
-      top: 0;
-      z-index: 20;
-    }
-
-    .logo {
-      font-weight: 800;
-      font-size: 1.2rem;
-      letter-spacing: .02em;
-    }
-
-    .logo span { color: var(--purple); }
-
-    .nav-links {
-      display: flex;
-      align-items: center;
-      gap: 34px;
-      font-size: .82rem;
-      font-weight: 600;
-      text-transform: uppercase;
-    }
-
-    .nav-links a { color: #ddd9e8; opacity: .88; }
-    .nav-links a.active { color: var(--purple); }
-
-    .btn-contact {
-      padding: 12px 22px;
-      border: 1px solid var(--purple);
-      border-radius: 999px;
-      color: #eadfff;
-      box-shadow: inset 0 0 18px rgba(155,92,255,.08);
+    a {
+      color: inherit;
+      text-decoration: none;
     }
 
     .page {
-      max-width: 1720px;
-      margin: 0 auto;
-      padding: 62px 42px 20px;
-      height: 100vh;
+      min-height: 100vh;
+      padding: 26px 42px 54px;
+    }
+
+    header {
       display: flex;
-      flex-direction: column;
-      justify-content: flex-start;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 70px;
     }
 
-    .layout {
-      display: block;
+    .logo {
+      font-size: 22px;
+      font-weight: 800;
+      letter-spacing: -0.04em;
     }
 
-    .timeline-area {
-      width: 100%;
+    .logo span {
+      color: var(--accent);
     }
 
-    .kicker {
-      color: var(--purple);
-      text-transform: uppercase;
+    nav {
+      display: flex;
+      align-items: center;
+      gap: 42px;
+      font-size: 13px;
       font-weight: 700;
-      font-size: .9rem;
-      letter-spacing: .04em;
-      margin-bottom: 18px;
+      text-transform: uppercase;
+      color: #d7dce6;
+    }
+
+    nav a {
+      opacity: 0.9;
+      position: relative;
+    }
+
+    nav a.active {
+      color: #ffffff;
+    }
+
+    nav a.active::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: -14px;
+      height: 2px;
+      background: var(--accent);
+      box-shadow: 0 0 18px var(--accent);
+    }
+
+    .contact {
+      border: 1px solid var(--accent);
+      color: #ffffff;
+      padding: 10px 22px;
+      border-radius: 999px;
+      box-shadow: inset 0 0 20px rgba(155, 92, 255, 0.12);
+    }
+
+    .hero {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 24px;
+      align-items: start;
+      margin-bottom: 60px;
+    }
+
+    .eyebrow {
+      color: var(--accent2);
+      font-weight: 800;
+      text-transform: uppercase;
+      font-size: 13px;
+      margin-bottom: 14px;
     }
 
     h1 {
-      margin: 0;
-      font-size: clamp(2.5rem, 4.8vw, 5.7rem);
-      line-height: .93;
-      letter-spacing: -0.05em;
+      margin: 0 0 16px;
+      font-size: clamp(36px, 4vw, 62px);
+      line-height: 1;
+      letter-spacing: -0.06em;
     }
 
-    .intro {
-      color: #c9c3d8;
-      max-width: 520px;
+    h1 span {
+      color: var(--accent);
+    }
+
+    .hero p {
+      max-width: 490px;
+      color: var(--soft);
       line-height: 1.65;
-      margin: 24px 0 36px;
-      font-size: 1.05rem;
+      margin: 0;
     }
 
-    .timeline-shell {
-      position: relative;
-      margin-top: 28px;
-      margin-left: -42px;
-      margin-right: -42px;
-      border-radius: 0;
-      padding: 24px 42px 30px;
-      width: calc(100% + 84px);
-    }
-
-    .timeline-top {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 0 8px 18px;
-    }
-
-    .year-picker {
+    .scroll-help {
       display: flex;
       align-items: center;
       gap: 14px;
+      margin-top: 12px;
+      padding: 18px 22px;
+      border-radius: 14px;
+      background: var(--panel2);
+      border: 1px solid var(--border);
+      color: var(--soft);
+      box-shadow: var(--shadow);
+    }
+
+    .mouse {
+      width: 22px;
+      height: 34px;
+      border: 2px solid rgba(255, 255, 255, 0.65);
+      border-radius: 18px;
+      position: relative;
+      flex: 0 0 auto;
+    }
+
+    .mouse::after {
+      content: "";
+      position: absolute;
+      top: 6px;
+      left: 50%;
+      width: 4px;
+      height: 7px;
+      border-radius: 4px;
+      background: #ffffff;
+      transform: translateX(-50%);
+    }
+
+    .help-line {
+      width: 94px;
+      height: 1px;
+      margin-top: 6px;
+      background: linear-gradient(90deg, transparent, var(--accent), transparent);
+      position: relative;
+    }
+
+    .help-line::after {
+      content: "→";
+      position: absolute;
+      right: -8px;
+      top: -10px;
+      color: var(--accent2);
+    }
+
+    .timeline-section {
+      position: relative;
+      margin-left: -42px;
+      margin-right: -42px;
+      overflow: visible;
+    }
+
+    .current-year {
+      position: absolute;
+      left: 132px;
+      top: -8px;
+      z-index: 25;
+      color: var(--accent);
+      font-size: 30px;
+      font-weight: 800;
+      letter-spacing: -0.04em;
+      background: transparent;
+      padding: 0;
+      border-radius: 0;
+      box-shadow: none;
+      pointer-events: none;
+    }
+
+    .current-year::before {
+      content: "";
+      position: absolute;
+      left: -32px;
+      top: 18px;
+      width: 28px;
+      height: 28px;
+      border-left: 2px solid var(--accent2);
+      border-top: 2px solid var(--accent2);
+      transform: skewX(-28deg);
+      opacity: 0.9;
+    }
+
+    .current-year::after {
+      content: "";
+      position: absolute;
+      left: 100%;
+      top: 17px;
+      width: 70px;
+      height: 2px;
+      background: linear-gradient(90deg, var(--accent2), transparent);
+    }
+
+    .timeline-controls {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0 42px;
+      pointer-events: none;
+      position: absolute;
+      width: 100%;
+      top: 148px;
+      z-index: 20;
     }
 
     .arrow-btn {
-      width: 44px;
-      height: 44px;
+      pointer-events: auto;
+      width: 54px;
+      height: 54px;
       border-radius: 50%;
       border: 1px solid var(--border);
-      background: rgba(18, 23, 38, .82);
-      color: #efe9ff;
+      background: rgba(20, 26, 43, 0.78);
+      color: var(--accent2);
+      font-size: 30px;
       cursor: pointer;
-      font-size: 1.3rem;
-      transition: .2s ease;
+      box-shadow: var(--shadow);
     }
 
-    .arrow-btn:hover { border-color: var(--purple); transform: translateY(-1px); }
-
-    .year-title {
-      font-size: 2.15rem;
-      font-weight: 800;
-      color: #efe8ff;
-      letter-spacing: -.03em;
+    .timeline-scroll {
+      overflow-x: auto;
+      overflow-y: visible;
+      scroll-behavior: smooth;
+      padding: 0 0 26px;
+      scrollbar-width: none;
     }
 
-    .year-title span { color: var(--purple); }
-
-    .timeline-window {
-      overflow-x: scroll;
-      overflow-y: hidden;
-      scroll-snap-type: none;
-      padding: 6px 0 18px;
-      scrollbar-width: thin;
-      scrollbar-color: var(--purple) rgba(255,255,255,.08);
-      cursor: grab;
-      width: 100vw;
-      max-width: 100vw;
-      margin-left: calc(50% - 50vw);
-      margin-right: calc(50% - 50vw);
-      user-select: none;
+    .timeline-scroll::-webkit-scrollbar {
+      display: none;
     }
 
-    .timeline-window:active {
-      cursor: grabbing;
-    }
-
-    .timeline-window::-webkit-scrollbar { height: 8px; }
-    .timeline-window::-webkit-scrollbar-thumb { background: var(--purple); border-radius: 999px; }
-    .timeline-window::-webkit-scrollbar-track { background: rgba(255,255,255,.06); border-radius: 999px; }
-
-    .month-line {
-      min-width: 1600px;
-      display: grid;
-      grid-template-columns: repeat(12, 1fr);
+    .timeline-track {
+      min-width: 2360px;
+      padding: 0 76px;
       position: relative;
-      margin: 0 0 26px;
-      padding-top: 32px;
     }
 
-    .month-line::before {
-      content: "";
+    .line {
+      display: none;
+    }
+
+    .timeline-fixed-line {
       position: absolute;
-      top: 55px;
       left: 0;
       right: 0;
+      top: 86px;
+      height: 3px;
+      z-index: 1;
+      pointer-events: none;
+      background: linear-gradient(90deg, rgba(155, 92, 255, 0.1), rgba(155, 92, 255, 0.95), rgba(155, 92, 255, 0.1));
+      box-shadow: 0 0 22px rgba(155, 92, 255, 0.6);
+    }
+
+    .years {
+      position: relative;
+      height: 118px;
+    }
+
+    .year-label {
+      display: none;
+    }
+
+    .year-label::before {
+      content: "";
+      position: absolute;
+      left: -32px;
+      top: 18px;
+      width: 28px;
+      height: 28px;
+      border-left: 2px solid var(--accent2);
+      border-top: 2px solid var(--accent2);
+      transform: skewX(-28deg);
+      opacity: 0.9;
+    }
+
+    .year-label::after {
+      content: "";
+      position: absolute;
+      left: 100%;
+      top: 17px;
+      width: 150px;
       height: 2px;
-      background: linear-gradient(90deg, rgba(155,92,255,.85), rgba(155,92,255,.25));
+      background: linear-gradient(90deg, var(--accent2), transparent);
     }
 
     .month {
-      position: relative;
-      text-align: center;
-      color: #b7afc8;
-      font-size: .84rem;
-      text-transform: uppercase;
+      position: absolute;
+      top: 66px;
+      transform: translateX(-50%);
+      color: #c7cbd5;
+      font-size: 13px;
       font-weight: 700;
-      min-height: 32px;
+      text-transform: uppercase;
+      white-space: nowrap;
     }
 
-    .year-marker {
+    .dot {
       position: absolute;
-      top: -50px;
-      left: 0;
-      font-size: 1.7rem;
-      font-weight: 800;
-      color: #efe8ff;
-      text-transform: none;
-    }
-
-    /* vertical line for year marker */
-    .year-marker::after {
-      content: "";
-      position: absolute;
-      top: 32px;
-      left: 10px;
-      width: 2px;
-      height: 40px;
-      background: linear-gradient(to bottom, var(--purple), transparent);
-    }
-
-    .year-marker span {
-      color: var(--purple);
-    }
-
-    .month::after {
-      content: "";
-      position: absolute;
-      top: 47px;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 10px;
-      height: 10px;
+      top: 80px;
+      width: 12px;
+      height: 12px;
       border-radius: 50%;
-      background: #776d91;
-      z-index: 2;
-    }
-
-    /* vertical line from month label to main timeline */
-    .month::before {
-      content: "";
-      position: absolute;
-      top: 20px;
-      left: 50%;
+      background: #d8c7ff;
       transform: translateX(-50%);
-      width: 2px;
-      height: 30px;
-      background: rgba(155,92,255,.4);
-      z-index: 1;
+      box-shadow: 0 0 14px rgba(155, 92, 255, 0.8);
+      z-index: 3;
     }
 
-    .month.active { color: #fff; }
-    .month.active::after {
-      width: 18px;
-      height: 18px;
-      top: 43px;
-      background: var(--purple);
-      box-shadow: 0 0 26px rgba(155,92,255,.8);
+    .dot.big {
+      width: 24px;
+      height: 24px;
+      top: 74px;
+      background: var(--accent);
+      box-shadow: 0 0 28px rgba(155, 92, 255, 0.95);
     }
 
     .cards-row {
-      min-width: 1600px;
-      display: grid;
-      grid-template-columns: repeat(12, 1fr);
-      gap: 18px;
-      align-items: stretch;
+      position: relative;
+      height: 292px;
     }
 
     .project-card {
-      min-height: 280px;
+      position: absolute;
+      top: 0;
+      width: 178px;
+      height: 245px;
       border: 1px solid var(--border);
-      background: linear-gradient(180deg, rgba(24, 30, 48, .9), rgba(10, 14, 24, .96));
-      border-radius: 14px;
-      overflow: hidden;
-      box-shadow: 0 16px 50px rgba(0,0,0,.28);
+      border-radius: 12px;
+      background: var(--panel);
       cursor: pointer;
-      transition: .22s ease;
-      scroll-snap-align: start;
-      grid-column: span 2;
+      transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+      transform: translateX(-50%);
+      box-shadow: 0 18px 48px rgba(0, 0, 0, 0.28);
+    }
+
+    .project-card::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      border-radius: 12px;
+      overflow: hidden;
+      pointer-events: none;
+    }
+
+    .project-card {
+      background: var(--panel);
+      cursor: pointer;
+      transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+      transform: translateX(-50%);
+      box-shadow: 0 18px 48px rgba(0, 0, 0, 0.28);
+    }
+
+    .project-card::before {
+      content: "";
+      position: absolute;
+      top: -42px;
+      left: 50%;
+      width: 1px;
+      height: 42px;
+      background: linear-gradient(180deg, rgba(155, 92, 255, 0.9), rgba(155, 92, 255, 0.1));
+      transform: translateX(-50%);
+      z-index: 2;
+      pointer-events: none;
     }
 
     .project-card:hover,
-    .project-card.selected {
-      border-color: var(--purple);
-      transform: translateY(-4px);
-      box-shadow: 0 0 0 1px rgba(155,92,255,.25), 0 24px 70px rgba(94,42,190,.28);
+    .project-card.active {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 1px rgba(155, 92, 255, 0.35), 0 0 32px rgba(155, 92, 255, 0.3);
+      transform: translateX(-50%) translateY(-8px);
     }
 
-    .project-card.diploma {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      padding: 24px;
-      background: linear-gradient(180deg, rgba(37, 25, 65, .8), rgba(10, 14, 24, .96));
+    .project-card img {
+      border-radius: 12px 12px 0 0;
+      width: 100%;
+      height: 132px;
+      object-fit: cover;
+      display: block;
     }
 
-    .project-img {
-      height: 150px;
-      background-size: cover;
-      background-position: center;
+    .project-card .body {
+      padding: 14px;
     }
 
-    .project-info { padding: 16px 16px 18px; }
-    .project-info h3 { margin: 0 0 8px; font-size: 1.04rem; }
-    .project-info p { margin: 0 0 12px; color: var(--muted); font-size: .84rem; }
+    .project-card h3 {
+      margin: 0 0 7px;
+      font-size: 15px;
+      line-height: 1.2;
+    }
+
+    .project-card p {
+      margin: 0 0 12px;
+      color: var(--muted);
+      font-size: 12px;
+    }
 
     .tag {
       display: inline-flex;
       align-items: center;
-      gap: 6px;
-      padding: 6px 9px;
-      border-radius: 8px;
-      background: rgba(155,92,255,.13);
-      color: #cfaeff;
+      border-radius: 7px;
+      padding: 5px 8px;
+      font-size: 10px;
+      font-weight: 800;
       text-transform: uppercase;
-      font-size: .68rem;
-      font-weight: 700;
+      background: rgba(155, 92, 255, 0.17);
+      color: #d8bcff;
     }
 
-    .tag.green { background: rgba(121,214,92,.12); color: #a6ee8f; }
-    .tag.blue { background: rgba(69,199,255,.12); color: #8addff; }
-    .tag.orange { background: rgba(247,161,61,.12); color: #ffc26d; }
+    .tag.green {
+      background: rgba(76, 175, 80, 0.18);
+      color: #9ef0a0;
+    }
+
+    .tag.blue {
+      background: rgba(103, 212, 255, 0.15);
+      color: #8ee7ff;
+    }
+
+    .tag.orange {
+      background: rgba(255, 180, 92, 0.18);
+      color: #ffd09a;
+    }
+
+    .diploma {
+      position: absolute;
+      top: -300px;
+      transform: translateX(-50%);
+      color: #d7c4ff;
+      font-size: 13px;
+      font-weight: 700;
+      text-align: center;
+      width: 170px;
+      line-height: 1.35;
+      z-index: 5;
+    }
+
+    .diploma::after {
+      content: "";
+      position: absolute;
+      left: 50%;
+      top: 54px;
+      width: 1px;
+      height: 200px;
+      border-left: 1px dashed var(--accent2);
+      opacity: 0.85;
+    }
 
     .diploma-icon {
-      width: 70px;
-      height: 70px;
-      border-radius: 20px;
-      display: grid;
-      place-items: center;
-      background: rgba(155,92,255,.16);
-      margin: 0 auto 16px;
-      font-size: 2rem;
-      color: var(--purple);
-    }
-
-    .cta-card {
-      margin-top: 34px;
-      border: 1px solid var(--border);
-      border-radius: 22px;
-      background: linear-gradient(135deg, rgba(20,26,42,.9), rgba(9,12,22,.92));
-      padding: 38px 42px;
-      display: flex;
-      align-items: center;
-      gap: 28px;
-      box-shadow: var(--shadow);
-    }
-
-    .cta-icon {
-      width: 86px;
-      height: 86px;
+      width: 52px;
+      height: 52px;
       border-radius: 50%;
       display: grid;
       place-items: center;
-      background: radial-gradient(circle, rgba(155,92,255,.35), rgba(155,92,255,.08));
-      font-size: 2.2rem;
-      color: var(--purple);
+      border: 1px solid var(--accent);
+      color: var(--accent2);
+      background: rgba(155, 92, 255, 0.13);
+      box-shadow: 0 0 26px rgba(155, 92, 255, 0.35);
+      margin-bottom: 8px;
+      font-size: 25px;
     }
 
-    .cta-card h2 { margin: 0 0 8px; font-size: 1.45rem; }
-    .cta-card p { margin: 0 0 18px; color: var(--muted); }
-
-    .btn-primary {
-      display: inline-flex;
-      align-items: center;
-      gap: 10px;
-      padding: 14px 22px;
-      border-radius: 9px;
-      background: linear-gradient(135deg, var(--purple), var(--purple-2));
-      color: white;
-      font-size: .83rem;
-      text-transform: uppercase;
-      font-weight: 700;
-      border: 0;
-      cursor: pointer;
-      box-shadow: 0 16px 35px rgba(112,55,255,.32);
-    }
-
-    .detail-panel {
-      display: none;
-      margin-top: 36px;
+    .detail {
+      margin: 6px 38px 0;
       border: 1px solid var(--border);
-      border-radius: 22px;
-      background: linear-gradient(180deg, rgba(21,27,42,.95), rgba(8,12,22,.98));
+      background: rgba(13, 19, 32, 0.78);
+      border-radius: 18px;
       box-shadow: var(--shadow);
-      overflow: hidden;
-      min-height: 760px;
-    }
-
-    .detail-panel.is-visible {
-      display: block;
-    }
-
-    .detail-hero {
-      min-height: 360px;
-      padding: 32px;
-      background-size: cover;
-      background-position: center;
+      display: grid;
+      grid-template-columns: 1.1fr 1.25fr 0.9fr;
+      gap: 28px;
+      padding: 18px;
       position: relative;
-      display: flex;
-      flex-direction: column;
-      justify-content: flex-end;
     }
 
-    .detail-hero::before {
+    .detail::before {
       content: "";
       position: absolute;
-      inset: 0;
-      background: linear-gradient(90deg, rgba(8,12,22,.92), rgba(8,12,22,.2)), linear-gradient(0deg, rgba(8,12,22,.96), transparent 65%);
+      top: -1px;
+      left: var(--arrow-left, 36%);
+      width: 30px;
+      height: 18px;
+      background: rgba(13, 19, 32, 0.95);
+      border-left: 1px solid var(--accent);
+      border-top: 1px solid var(--accent);
+      transform: translateX(-50%) rotate(45deg) translateY(-13px);
+      transition: left 0.65s cubic-bezier(0.22, 1, 0.36, 1);
     }
 
-    .detail-hero > * { position: relative; z-index: 1; }
-
-    .detail-nav {
-      position: absolute;
-      top: 22px;
-      left: 28px;
-      right: 28px;
-      z-index: 2;
-      display: flex;
-      justify-content: space-between;
-      color: #ede8f8;
-      font-size: .82rem;
+    .detail.no-arrow-transition::before {
+      transition: none;
     }
 
-    .detail-title {
-      margin: 0 0 14px;
-      font-size: clamp(2rem, 3.6vw, 4rem);
-      letter-spacing: -.04em;
+    .media-main img {
+      width: 100%;
+      height: 270px;
+      object-fit: cover;
+      border-radius: 12px;
     }
-
-    .detail-tags { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 18px; }
-    .detail-desc { color: #e0dce8; max-width: 640px; line-height: 1.55; margin-bottom: 20px; }
 
     .thumbs {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
-      gap: 10px;
-      padding: 14px 28px 22px;
-      border-bottom: 1px solid var(--border);
+      gap: 8px;
+      margin-top: 10px;
     }
 
-    .thumb {
-      height: 78px;
-      border-radius: 10px;
-      background-size: cover;
-      background-position: center;
-      border: 1px solid rgba(255,255,255,.09);
+    .thumbs img {
+      height: 70px;
+      width: 100%;
+      object-fit: cover;
+      border-radius: 8px;
+      border: 1px solid var(--border);
     }
 
-    .detail-content {
-      padding: 28px 32px 34px;
+    .detail h2 {
+      font-size: 30px;
+      margin: 8px 0 14px;
+      letter-spacing: -0.04em;
     }
 
-    .detail-grid {
+    .chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 18px;
+    }
+
+    .chip {
+      font-size: 11px;
+      font-weight: 800;
+      padding: 8px 10px;
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.06);
+      color: #d7dce6;
+    }
+
+    .detail p {
+      color: var(--soft);
+      line-height: 1.6;
+      font-size: 14px;
+    }
+
+    .info-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 28px;
-      border-bottom: 1px solid var(--border);
-      padding-bottom: 26px;
+      gap: 20px;
+      border-top: 1px solid var(--border);
+      padding-top: 18px;
+      margin-top: 18px;
     }
 
-    .detail-content h3 { margin: 0 0 14px; font-size: 1.05rem; }
-    .detail-content p, .detail-content li { color: #c8c2d3; line-height: 1.55; font-size: .95rem; }
-    .detail-content ul { margin: 0; padding-left: 18px; }
-
-    .meta-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 18px;
-      padding: 22px 0;
-      border-bottom: 1px solid var(--border);
+    .info-block h4,
+    .side h4 {
+      margin: 0 0 12px;
+      font-size: 15px;
     }
 
-    .meta-box {
-      border-right: 1px solid var(--border);
-      min-height: 80px;
+    ul {
+      margin: 0;
+      padding-left: 18px;
+      color: var(--soft);
+      font-size: 13px;
+      line-height: 1.8;
     }
 
-    .meta-box:last-child { border-right: 0; }
-    .meta-box strong { display: block; margin-bottom: 8px; }
-    .meta-box span { color: var(--muted); font-size: .9rem; }
-
-    .learned {
+    .avatars {
       display: flex;
-      align-items: flex-end;
-      justify-content: space-between;
-      gap: 22px;
-      padding-top: 22px;
+      align-items: center;
     }
 
-    .learned ul { list-style: none; padding: 0; }
-    .learned li::before { content: "✓"; color: var(--purple); margin-right: 9px; }
+    .avatar {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      border: 2px solid #111827;
+      background: linear-gradient(135deg, #f59e0b, #7c3aed);
+      margin-right: -8px;
+    }
 
-    .download-box {
-      min-width: 270px;
-      padding: 22px;
+    .tools {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .tool {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      background: rgba(255, 255, 255, 0.06);
       border: 1px solid var(--border);
-      background: rgba(255,255,255,.04);
+      font-weight: 800;
+      color: #ffffff;
+    }
+
+    .side {
+      border-left: 1px solid var(--border);
+      padding-left: 28px;
+    }
+
+    .side-card {
+      padding: 18px;
+      background: rgba(255, 255, 255, 0.045);
+      border: 1px solid var(--border);
       border-radius: 14px;
-      color: #d8c4ff;
-      font-weight: 700;
+      margin-top: 22px;
+    }
+
+    .download {
+      display: flex;
+      gap: 14px;
+      align-items: center;
+      color: #d7b7ff;
+      font-weight: 800;
+      font-size: 13px;
       text-transform: uppercase;
-      font-size: .8rem;
     }
 
-    @media (max-width: 1180px) {
-      header { padding: 0 24px; }
-      .layout { grid-template-columns: 1fr; }
-      .detail-panel { position: relative; top: 0; }
+    .download-icon {
+      width: 44px;
+      height: 44px;
+      display: grid;
+      place-items: center;
+      border-radius: 10px;
+      background: rgba(155, 92, 255, 0.14);
+      font-size: 24px;
     }
 
-    @media (max-width: 720px) {
-      .nav-links { display: none; }
-      .page { padding: 42px 18px; }
-      .timeline-shell {
-        margin-left: -18px;
-        margin-right: -18px;
-        padding-left: 18px;
-        padding-right: 18px;
-        width: calc(100% + 36px);
+    .bottom-scroll {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 14px;
+      color: var(--muted);
+      margin-top: 18px;
+    }
+
+    .bar {
+      width: 260px;
+      height: 3px;
+      background: rgba(255, 255, 255, 0.12);
+      border-radius: 999px;
+      overflow: hidden;
+    }
+
+    .bar span {
+      display: block;
+      width: 45%;
+      height: 100%;
+      background: var(--accent);
+      box-shadow: 0 0 18px var(--accent);
+    }
+
+    @media (max-width: 980px) {
+      .page {
+        padding: 22px;
       }
-      .cards-row, .month-line { min-width: 920px; }
-      .project-card { grid-column: span 3; }
-      .cta-card, .learned { flex-direction: column; align-items: flex-start; }
-      .detail-grid, .meta-grid { grid-template-columns: 1fr; }
-      .meta-box { border-right: 0; border-bottom: 1px solid var(--border); padding-bottom: 16px; }
+
+      header {
+        align-items: flex-start;
+        gap: 22px;
+      }
+
+      nav {
+        gap: 18px;
+        font-size: 11px;
+        flex-wrap: wrap;
+        justify-content: flex-end;
+      }
+
+      .hero {
+        grid-template-columns: 1fr;
+      }
+
+      .timeline-section {
+        margin-left: -22px;
+        margin-right: -22px;
+      }
+
+      .current-year {
+        left: 22px;
+      }
+
+      .timeline-track {
+        min-width: 1800px;
+        padding: 0 54px;
+      }
+
+      .detail {
+        grid-template-columns: 1fr;
+        margin: 8px 22px 0;
+      }
+
+      .side {
+        border-left: 0;
+        padding-left: 0;
+        border-top: 1px solid var(--border);
+        padding-top: 20px;
+      }
     }
   </style>
 </head>
 <body>
+  <main class="page">
+    <header>
+      <a href="#" class="logo"><span>AXEL</span> MARION</a>
+      <nav>
+        <a href="#">Accueil</a>
+        <a href="#">Projets</a>
+        <a href="#">Jeux</a>
+        <a href="#" class="active">Parcours</a>
+        <a href="#">À propos</a>
+        <a href="#" class="contact">Contact</a>
+      </nav>
+    </header>
 
-<header>
-  <a href="../index.html" class="logo"><span>AXEL</span> MARION</a>
-  <nav class="nav-links">
-    <a href="../index.html">Accueil</a>
-    <a href="../index.html#projets">Projets</a>
-    <a href="Jeux.html">Jeux</a>
-    <a class="active" href="Parcours.html">Parcours</a>
-    <a href="../index.html#a-propos">À propos</a>
-    <a href="../index.html#contact" class="btn-contact">Contact</a>
-  </nav>
-</header>
-
-<main class="page">
-  <div class="layout">
-    <section class="timeline-area">
-      <div class="kicker">Parcours</div>
-      <h1>Mon parcours<br>en projets</h1>
-      <p class="intro">Une frise chronologique regroupant mes projets mois par mois, avec les moments importants de mon parcours et mes diplômes.</p>
-
-      <div class="timeline-shell">
-        <div class="timeline-top">
-          <div class="year-picker">
-            <button class="arrow-btn" id="prevYear">‹</button>
-            <div class="year-title"><span id="currentYear">2024</span></div>
-          </div>
-          <button class="arrow-btn" id="nextYear">›</button>
-        </div>
-
-        <div class="timeline-window" id="timelineWindow">
-          <div class="month-line" id="monthLine"></div>
-          <div class="cards-row" id="cardsRow"></div>
-        </div>
+    <section class="hero">
+      <div>
+        <div class="eyebrow">Parcours</div>
+        <h1>Mon <span>parcours</span> en projets</h1>
+        <p>Une frise chronologique mois par mois retraçant les projets marquants de mon parcours.</p>
       </div>
 
-      <div class="cta-card">
-        <div class="cta-icon">🎮</div>
+      <div class="scroll-help">
+        <div class="mouse"></div>
         <div>
-          <h2>Envie d’en voir plus ?</h2>
-          <p>Découvrez tous les jeux que j’ai réalisés.</p>
-          <a href="Jeux.html" class="btn-primary">Voir la page jeux →</a>
+          <div>Faites défiler la frise</div>
+          <div>de droite à gauche</div>
+          <div class="help-line"></div>
         </div>
       </div>
     </section>
 
-    <aside class="detail-panel" id="detailPanel">
-      <div class="detail-hero" id="detailHero">
-        <div class="detail-nav">
-          <span>← Retour aux projets</span>
-          <span>Projet suivant →</span>
-        </div>
-        <h2 class="detail-title" id="detailTitle">Forgotten Realms</h2>
-        <div class="detail-tags" id="detailTags"></div>
-        <p class="detail-desc" id="detailDesc"></p>
-        <button class="btn-primary">▶ Voir la vidéo</button>
+    <section class="timeline-section">
+      <div class="timeline-fixed-line"></div>
+      <div class="current-year" id="currentYear">2022</div>
+
+      <div class="timeline-controls">
+        <button class="arrow-btn" id="prev" type="button">‹</button>
+        <button class="arrow-btn" id="next" type="button">›</button>
       </div>
 
-      <div class="thumbs" id="thumbs"></div>
-
-      <div class="detail-content">
-        <div class="detail-grid">
-          <div>
-            <h3>À propos du projet</h3>
-            <p id="detailAbout"></p>
-          </div>
-          <div>
-            <h3>Mon rôle</h3>
-            <ul id="detailRole"></ul>
-          </div>
-        </div>
-
-        <div class="meta-grid">
-          <div class="meta-box"><strong>Équipe</strong><span id="detailTeam"></span></div>
-          <div class="meta-box"><strong>Outils utilisés</strong><span id="detailTools"></span></div>
-          <div class="meta-box"><strong>Durée</strong><span id="detailDuration"></span></div>
-        </div>
-
-        <div class="learned">
-          <div>
-            <h3>Ce que j’ai appris</h3>
-            <ul id="detailLearned"></ul>
-          </div>
-          <a href="#" class="download-box">⬇ Télécharger le document de design<br><span>PDF — 3.2 Mo</span></a>
+      <div class="timeline-scroll" id="timelineScroll">
+        <div class="timeline-track" id="track">
+          <div class="line"></div>
+          <div class="years" id="years"></div>
+          <div class="cards-row" id="cardsRow"></div>
         </div>
       </div>
-    </aside>
-  </div>
-</main>
+    </section>
 
-<script>
-  const months = ["JAN", "FÉV", "MAR", "AVR", "MAI", "JUIN", "JUIL", "AOÛT", "SEPT", "OCT", "NOV", "DÉC"];
-
-  const projects = [
-    {
-      id: "forgotten-realms",
-      year: 2024,
-      startMonth: 0,
-      title: "Forgotten Realms",
-      date: "Janv. – Fév. 2024",
-      type: "Action / Aventure",
-      platform: "PC / UE5",
-      tagClass: "",
-      image: "https://images.unsplash.com/photo-1518709268805-4e9042af2176?auto=format&fit=crop&w=1400&q=80",
-      desc: "Un jeu d’action-aventure médiéval fantastique où le joueur explore un monde ouvert rempli de secrets, de créatures et de quêtes.",
-      about: "Projet de fin d’études réalisé en équipe. Le joueur incarne un mercenaire à la recherche de son passé dans un royaume oublié.",
-      role: ["Game Design", "Level Design", "Équilibrage du jeu", "Intégration et tests", "Documentation de design"],
-      team: "6 personnes",
-      tools: "Unreal Engine 5 · Photoshop · Blender",
-      duration: "2 mois — Janvier 2024 à Février 2024",
-      learned: ["Concevoir des niveaux immersifs", "Travailler en équipe", "Itérer grâce aux tests joueurs"]
-    },
-    {
-      id: "sky-legacy",
-      year: 2024,
-      startMonth: 2,
-      title: "Sky Legacy",
-      date: "Mars – Avr. 2024",
-      type: "Game Design",
-      platform: "PC / Unity",
-      tagClass: "blue",
-      image: "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1400&q=80",
-      desc: "Prototype d’aventure dans un univers flottant basé sur l’exploration et la verticalité.",
-      about: "Travail autour de la lisibilité d’un monde ouvert et de la circulation du joueur entre plusieurs îles.",
-      role: ["Conception des mécaniques", "Level design", "Prototypage Unity"],
-      team: "3 personnes",
-      tools: "Unity · Blender · Photoshop",
-      duration: "2 mois — Mars 2024 à Avril 2024",
-      learned: ["Construire une boucle de gameplay", "Rendre un niveau lisible", "Prototyper vite"]
-    },
-    {
-      id: "neon-district",
-      year: 2024,
-      startMonth: 4,
-      title: "Neon District",
-      date: "Mai – Juin 2024",
-      type: "Level Design",
-      platform: "PC / Unity",
-      tagClass: "",
-      image: "https://images.unsplash.com/photo-1519608487953-e999c86e7455?auto=format&fit=crop&w=1400&q=80",
-      desc: "Niveau cyberpunk pensé pour guider le joueur avec la lumière, la couleur et la composition.",
-      about: "Projet centré sur la direction artistique et l’orientation du joueur dans un environnement dense.",
-      role: ["Blocking", "Direction artistique", "Guidage visuel"],
-      team: "Solo",
-      tools: "Unity · Photoshop",
-      duration: "2 mois — Mai 2024 à Juin 2024",
-      learned: ["Utiliser la lumière comme guide", "Créer une ambiance forte", "Simplifier un parcours joueur"]
-    },
-    {
-      id: "diplome-2024",
-      year: 2024,
-      startMonth: 6,
-      title: "Diplôme obtenu",
-      date: "12 Juil. 2024",
-      type: "Bachelor Game Design",
-      platform: "Checkpoint",
-      diploma: true,
-      tagClass: "",
-      image: "",
-      desc: "Moment clé du parcours : obtention du diplôme après plusieurs années de projets créatifs et interactifs.",
-      about: "Ce checkpoint marque la fin d’un cycle d’apprentissage et le début d’une approche plus professionnelle des projets.",
-      role: ["Présentation des projets", "Soutenance", "Portfolio"],
-      team: "Individuel",
-      tools: "Portfolio · Présentation orale",
-      duration: "Diplôme — Juillet 2024",
-      learned: ["Présenter clairement son travail", "Structurer un portfolio", "Valoriser son rôle dans un projet"]
-    },
-    {
-      id: "project-arena",
-      year: 2024,
-      startMonth: 7,
-      title: "Project Arena",
-      date: "Août – Sept. 2024",
-      type: "Multijoueur",
-      platform: "PC / UE5",
-      tagClass: "orange",
-      image: "https://images.unsplash.com/photo-1493246507139-91e8fad9978e?auto=format&fit=crop&w=1400&q=80",
-      desc: "Prototype d’arène multijoueur avec mécaniques de combat rapide.",
-      about: "Expérimentation autour de la confrontation, de la lisibilité et du rythme d’une partie courte.",
-      role: ["Game rules", "Level design", "Tests joueurs"],
-      team: "4 personnes",
-      tools: "Unreal Engine 5 · Blender",
-      duration: "2 mois — Août 2024 à Septembre 2024",
-      learned: ["Rythmer une expérience courte", "Tester rapidement", "Équilibrer une arène"]
-    },
-    {
-      id: "lost-memories",
-      year: 2024,
-      startMonth: 9,
-      title: "Lost Memories",
-      date: "Oct. 2024",
-      type: "Narratif",
-      platform: "PC / Unity",
-      tagClass: "",
-      image: "https://images.unsplash.com/photo-1448375240586-882707db888b?auto=format&fit=crop&w=1400&q=80",
-      desc: "Prototype narratif basé sur l’exploration et la découverte progressive d’un passé oublié.",
-      about: "Projet court visant à créer une ambiance et une progression émotionnelle avec peu de mécaniques.",
-      role: ["Narration", "Level design", "Ambiance"],
-      team: "Solo",
-      tools: "Unity · Photoshop",
-      duration: "1 mois — Octobre 2024",
-      learned: ["Créer du rythme sans combat", "Travailler l’ambiance", "Écrire par l’environnement"]
-    },
-    {
-      id: "cyber-garden",
-      year: 2024,
-      startMonth: 10,
-      title: "Cyber Garden",
-      date: "Nov. – Déc. 2024",
-      type: "Puzzle",
-      platform: "PC / Unity",
-      tagClass: "green",
-      image: "https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?auto=format&fit=crop&w=1400&q=80",
-      desc: "Jeu de puzzle où le joueur restaure un jardin futuriste à travers des systèmes connectés.",
-      about: "Projet orienté mécaniques simples, progression claire et feedback visuel immédiat.",
-      role: ["Game design", "UX", "Feedback visuel"],
-      team: "2 personnes",
-      tools: "Unity · Illustrator",
-      duration: "2 mois — Novembre 2024 à Décembre 2024",
-      learned: ["Clarifier les règles", "Créer des feedbacks utiles", "Améliorer l’UX"]
-    },
-    {
-      id: "echoes-forest",
-      year: 2023,
-      startMonth: 0,
-      title: "Echoes of the Forest",
-      date: "Janv. 2023",
-      type: "Jeu d’aventure",
-      platform: "PC",
-      tagClass: "green",
-      image: "https://images.unsplash.com/photo-1426604966848-d7adac402bff?auto=format&fit=crop&w=1400&q=80",
-      desc: "Exploration d’une forêt mystérieuse avec une progression environnementale.",
-      about: "Projet d’apprentissage sur la construction d’une ambiance cohérente.",
-      role: ["Level design", "Ambiance", "Intégration"],
-      team: "Solo",
-      tools: "Unity · Photoshop",
-      duration: "1 mois — Janvier 2023",
-      learned: ["Créer une ambiance", "Composer un décor", "Guider le regard"]
-    }
-  ];
-
-  let selectedYear = 2024;
-  let selectedProject = null;
-
-  const currentYear = document.getElementById("currentYear");
-  const monthLine = document.getElementById("monthLine");
-  const cardsRow = document.getElementById("cardsRow");
-  const timelineWindow = document.getElementById("timelineWindow");
-
-  function renderTimeline() {
-    const years = [...new Set(projects.map(p => p.year))].sort((a, b) => a - b);
-    const totalColumns = years.length * 12;
-    const trackWidth = years.length * 1600;
-
-    monthLine.style.gridTemplateColumns = `repeat(${totalColumns}, 1fr)`;
-    monthLine.style.minWidth = `${trackWidth}px`;
-    cardsRow.style.gridTemplateColumns = `repeat(${totalColumns}, 1fr)`;
-    cardsRow.style.minWidth = `${trackWidth}px`;
-
-    const activeKeys = new Set(projects.map(p => `${p.year}-${p.startMonth}`));
-
-    monthLine.innerHTML = years.map(year => {
-      return months.map((m, i) => `
-        <div class="month ${activeKeys.has(`${year}-${i}`) ? "active" : ""}">
-          ${i === 0 ? `<div class="year-marker"><span>${year}</span></div>` : ""}
-          ${m}
+    <section class="detail" id="detail">
+      <div class="media-main">
+        <img id="detailImage" src="https://images.unsplash.com/photo-1518709268805-4e9042af2176?auto=format&fit=crop&w=1200&q=80" alt="Projet sélectionné">
+        <div class="thumbs">
+          <img src="https://images.unsplash.com/photo-1518709268805-4e9042af2176?auto=format&fit=crop&w=500&q=80" alt="Miniature 1">
+          <img src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=500&q=80" alt="Miniature 2">
+          <img src="https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?auto=format&fit=crop&w=500&q=80" alt="Miniature 3">
+          <img src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=500&q=80" alt="Miniature 4">
         </div>
-      `).join("");
-    }).join("");
+      </div>
 
-    cardsRow.innerHTML = projects.map(project => {
-      const yearIndex = years.indexOf(project.year);
-      const colStart = yearIndex * 12 + project.startMonth + 1;
-      const style = `grid-column: ${colStart} / span 2`;
+      <div>
+        <h2 id="detailTitle">Forgotten Realms</h2>
+        <div class="chips" id="detailChips"></div>
+        <p id="detailText">Un jeu d’action-aventure médiéval fantastique où le joueur explore un monde ouvert rempli de secrets, de créatures et de quêtes.</p>
 
-      if (project.diploma) {
-        return `
-          <article class="project-card ${selectedProject && project.id === selectedProject.id ? "selected" : ""}" style="${style}" data-id="${project.id}">
-            <div>
-              <div class="diploma-icon">🎓</div>
-              <div class="project-info">
-                <h3>${project.title}</h3>
-                <p>${project.type}</p>
-                <span class="tag">${project.date}</span>
-              </div>
+        <div class="info-grid">
+          <div class="info-block">
+            <h4>Mon rôle</h4>
+            <ul id="roleList">
+              <li>Game Designer & Level Designer</li>
+              <li>Conception des mécaniques de gameplay</li>
+              <li>Équilibrage et itérations</li>
+            </ul>
+          </div>
+
+          <div class="info-block">
+            <h4>Équipe</h4>
+            <div class="avatars">
+              <span class="avatar"></span>
+              <span class="avatar"></span>
+              <span class="avatar"></span>
+              <span class="avatar"></span>
             </div>
-          </article>
-        `;
+            <h4 style="margin-top: 22px;">Outils utilisés</h4>
+            <div class="tools">
+              <span class="tool">U</span>
+              <span class="tool">VS</span>
+              <span class="tool">Bl</span>
+              <span class="tool">Ps</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <aside class="side">
+        <h4>Durée</h4>
+        <p id="detailDuration">3 mois<br>(Avril 2023 – Juin 2023)</p>
+
+        <h4>Ce que j’ai appris</h4>
+        <ul>
+          <li>Concevoir des niveaux immersifs et cohérents</li>
+          <li>Travailler en équipe avec une bonne organisation</li>
+          <li>Itérer grâce aux tests joueurs</li>
+        </ul>
+
+        <div class="side-card">
+          <div class="download">
+            <div class="download-icon">↓</div>
+            <div>
+              Télécharger le document de design<br>
+              <span style="color: var(--muted); font-weight: 500; text-transform: none;">PDF — 3.2 Mo</span>
+            </div>
+          </div>
+        </div>
+      </aside>
+    </section>
+
+    <div class="bottom-scroll">
+      <span>←</span>
+      <div class="bar"><span></span></div>
+      <span>→</span>
+    </div>
+  </main>
+
+  <script>
+    const timeline = document.getElementById("timelineScroll");
+    const yearsEl = document.getElementById("years");
+    const cardsEl = document.getElementById("cardsRow");
+    const currentYearEl = document.getElementById("currentYear");
+    const nextBtn = document.getElementById("next");
+    const prevBtn = document.getElementById("prev");
+    const detail = document.getElementById("detail");
+
+    const startYear = 2022;
+    const endYear = 2025;
+    const monthWidth = 130;
+    const startX = 90;
+
+    const months = ["JANV.", "FÉV.", "MARS", "AVR.", "MAI", "JUIN", "JUIL.", "AOÛT", "SEPT.", "OCT.", "NOV.", "DÉC."];
+
+    const images = [
+      "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=700&q=80",
+      "https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?auto=format&fit=crop&w=700&q=80",
+      "https://images.unsplash.com/photo-1518709268805-4e9042af2176?auto=format&fit=crop&w=700&q=80",
+      "https://images.unsplash.com/photo-1519608487953-e999c86e7455?auto=format&fit=crop&w=700&q=80",
+      "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=700&q=80"
+    ];
+
+    const projects = [
+      {
+        title: "Echoes of the Forest",
+        type: "Jeu vidéo — Unity",
+        tag: "Aventure",
+        color: "green",
+        date: "OCT. 2022",
+        year: 2022,
+        month: 9,
+        img: images[0],
+        desc: "Un jeu d’exploration en forêt centré sur l’ambiance, la progression et la découverte."
+      },
+      {
+        title: "Neon District",
+        type: "Jeu vidéo — Unity",
+        tag: "Level Design",
+        color: "blue",
+        date: "DÉC. 2022",
+        year: 2022,
+        month: 11,
+        img: images[3],
+        desc: "Prototype cyberpunk basé sur la circulation dans un environnement urbain dense."
+      },
+      {
+        title: "Sky Legacy",
+        type: "Jeu vidéo — Unity",
+        tag: "Game Design",
+        color: "blue",
+        date: "FÉV. 2023",
+        year: 2023,
+        month: 1,
+        img: images[1],
+        desc: "Projet de game design autour d’un monde flottant et de mécaniques de déplacement."
+      },
+      {
+        title: "Project Arena",
+        type: "Prototype — Unreal Engine",
+        tag: "Prototype",
+        color: "orange",
+        date: "AVR. 2023",
+        year: 2023,
+        month: 3,
+        img: images[4],
+        desc: "Prototype d’arène avec boucle de combat simple, test d’équilibrage et itérations."
+      },
+      {
+        title: "Forgotten Realms",
+        type: "Jeu vidéo — Unity",
+        tag: "Action / Aventure",
+        color: "",
+        date: "JUIN 2023",
+        year: 2023,
+        month: 5,
+        img: images[2],
+        desc: "Un jeu d’action-aventure médiéval fantastique où le joueur explore un monde ouvert rempli de secrets, de créatures et de quêtes."
+      },
+      {
+        title: "Lost Signal",
+        type: "Jeu vidéo — Unity",
+        tag: "Narratif",
+        color: "",
+        date: "AOÛT 2023",
+        year: 2023,
+        month: 7,
+        img: images[0],
+        desc: "Projet narratif sur l’exploration, les indices visuels et la tension progressive."
+      },
+      {
+        title: "Dungeon Crawler",
+        type: "Prototype — Unreal Engine",
+        tag: "Prototype",
+        color: "orange",
+        date: "NOV. 2023",
+        year: 2023,
+        month: 10,
+        img: images[4],
+        desc: "Prototype dungeon crawler avec structure de salle, rythme et ennemis."
+      },
+      {
+        title: "Sky Legacy 2",
+        type: "Jeu vidéo — Unity",
+        tag: "Puzzle",
+        color: "green",
+        date: "FÉV. 2024",
+        year: 2024,
+        month: 1,
+        img: images[1],
+        desc: "Suite d’un projet scolaire avec amélioration des mécaniques et de la direction visuelle."
+      },
+      {
+        title: "Ashes of War",
+        type: "Prototype — Unreal Engine",
+        tag: "Combat",
+        color: "orange",
+        date: "MAI 2024",
+        year: 2024,
+        month: 4,
+        img: images[4],
+        desc: "Prototype orienté combat, feedback visuel et sensations de jeu."
+      },
+      {
+        title: "Neon District 2",
+        type: "Jeu vidéo — Unity",
+        tag: "Level Design",
+        color: "blue",
+        date: "SEPT. 2024",
+        year: 2024,
+        month: 8,
+        img: images[3],
+        desc: "Nouvelle version du projet cyberpunk avec meilleure lisibilité des parcours."
+      },
+      {
+        title: "Winter’s End",
+        type: "Prototype — Unreal Engine",
+        tag: "Ambiance",
+        color: "",
+        date: "JANV. 2025",
+        year: 2025,
+        month: 0,
+        img: images[0],
+        desc: "Prototype atmosphérique basé sur le froid, le silence et la progression lente."
+      }
+    ];
+
+    const diplomas = [
+      {
+        title: "DIPLÔME OBTENU",
+        subtitle: "Bachelor Game Design",
+        date: "Juillet 2024",
+        year: 2024,
+        month: 6
+      }
+    ];
+
+    function getX(year, month) {
+      return startX + ((year - startYear) * 12 + month) * monthWidth;
+    }
+
+    function buildTimeline() {
+      for (let year = startYear; year <= endYear; year += 1) {
+        const yearX = getX(year, 0) - 38;
+
+        const label = document.createElement("div");
+        label.className = "year-label";
+        label.style.left = yearX + "px";
+        label.textContent = year;
+        yearsEl.appendChild(label);
+
+        months.forEach((month, index) => {
+          const x = getX(year, index);
+
+          const monthEl = document.createElement("div");
+          monthEl.className = "month";
+          monthEl.style.left = x + "px";
+          monthEl.textContent = month;
+          yearsEl.appendChild(monthEl);
+
+          const dot = document.createElement("div");
+          dot.className = index === 5 ? "dot big" : "dot";
+          dot.style.left = x + "px";
+          yearsEl.appendChild(dot);
+        });
       }
 
-      return `
-        <article class="project-card ${selectedProject && project.id === selectedProject.id ? "selected" : ""}" style="${style}" data-id="${project.id}">
-          <div class="project-img" style="background-image:url('${project.image}')"></div>
-          <div class="project-info">
-            <h3>${project.title}</h3>
-            <p>${project.date}</p>
-            <span class="tag ${project.tagClass}">${project.type}</span>
-          </div>
-        </article>
-      `;
-    }).join("");
+      diplomas.forEach((diploma) => {
+        const x = getX(diploma.year, diploma.month);
 
-    document.querySelectorAll(".project-card").forEach(card => {
-      card.addEventListener("click", () => {
-        selectedProject = projects.find(p => p.id === card.dataset.id);
-        renderTimeline();
-        renderDetail();
+        const diplomaEl = document.createElement("div");
+        diplomaEl.className = "diploma";
+        diplomaEl.style.left = x + "px";
+        diplomaEl.innerHTML = `
+          <div class="diploma-icon">🎓</div>
+          <strong>${diploma.title}</strong><br>
+          ${diploma.date}<br>
+          ${diploma.subtitle}
+        `;
+        cardsEl.appendChild(diplomaEl);
       });
-    });
 
-    updateCurrentYearOnScroll();
-  }
+      projects.forEach((project) => {
+        const x = getX(project.year, project.month);
 
-  function updateCurrentYearOnScroll() {
-    const years = [...new Set(projects.map(p => p.year))].sort((a, b) => a - b);
-    const yearWidth = 1600;
-    const index = Math.min(years.length - 1, Math.max(0, Math.round(timelineWindow.scrollLeft / yearWidth)));
-    currentYear.textContent = years[index];
-  }
+        const card = document.createElement("article");
+        card.className = "project-card";
+        card.style.left = x + "px";
+        card.innerHTML = `
+          <img src="${project.img}" alt="${project.title}">
+          <div class="body">
+            <h3>${project.title}</h3>
+            <p>${project.type}</p>
+            <span class="tag ${project.color}">${project.date}</span>
+          </div>
+        `;
 
-  function scrollTimeline(amount) {
-    timelineWindow.scrollBy({ left: amount, behavior: "smooth" });
-    setTimeout(updateCurrentYearOnScroll, 250);
-  }
+        card.addEventListener("click", () => selectProject(project, card));
+        cardsEl.appendChild(card);
 
-  function renderDetail() {
-    const panel = document.getElementById("detailPanel");
-
-    if (!selectedProject) {
-      panel.classList.remove("is-visible");
-      return;
+        if (project.title === "Forgotten Realms") {
+          selectProject(project, card);
+        }
+      });
     }
 
-    panel.classList.add("is-visible");
+    function selectProject(project, card) {
+      document.querySelectorAll(".project-card").forEach((projectCard) => {
+        projectCard.classList.remove("active");
+      });
 
-    const p = selectedProject;
-    document.getElementById("detailHero").style.backgroundImage = p.diploma
-      ? "linear-gradient(135deg, rgba(155,92,255,.25), rgba(5,7,13,.8))"
-      : `url('${p.image}')`;
-    document.getElementById("detailTitle").textContent = p.title;
-    document.getElementById("detailDesc").textContent = p.desc;
-    document.getElementById("detailAbout").textContent = p.about;
-    document.getElementById("detailTeam").textContent = p.team;
-    document.getElementById("detailTools").textContent = p.tools;
-    document.getElementById("detailDuration").textContent = p.duration;
+      card.classList.add("active");
+      moveDetailArrow(card);
 
-    document.getElementById("detailTags").innerHTML = `
-      <span class="tag ${p.tagClass}">${p.type}</span>
-      <span class="tag">${p.platform}</span>
-      <span class="tag">${p.date}</span>
-    `;
+      document.getElementById("detailImage").src = project.img;
+      document.getElementById("detailTitle").textContent = project.title;
+      document.getElementById("detailText").textContent = project.desc;
+      document.getElementById("detailDuration").innerHTML = project.title === "Forgotten Realms"
+        ? "3 mois<br>(Avril 2023 – Juin 2023)"
+        : "Projet court<br>(" + project.date + ")";
 
-    document.getElementById("detailRole").innerHTML = p.role.map(item => `<li>${item}</li>`).join("");
-    document.getElementById("detailLearned").innerHTML = p.learned.map(item => `<li>${item}</li>`).join("");
+      document.getElementById("detailChips").innerHTML = `
+        <span class="chip">${project.tag}</span>
+        <span class="chip">PC</span>
+        <span class="chip">${project.year}</span>
+      `;
+    }
 
-    const thumbs = p.diploma
-      ? ["", "", "", ""]
-      : [p.image, p.image, p.image, p.image];
+    function moveDetailArrow(card) {
+      const cardRect = card.getBoundingClientRect();
+      const detailRect = detail.getBoundingClientRect();
+      const cardCenter = cardRect.left + cardRect.width / 2;
+      const arrowX = cardCenter - detailRect.left;
+      const safeX = Math.max(28, Math.min(arrowX, detailRect.width - 28));
 
-    document.getElementById("thumbs").innerHTML = thumbs.map(img => `
-      <div class="thumb" style="background-image:${img ? `url('${img}')` : "linear-gradient(135deg, rgba(155,92,255,.28), rgba(255,255,255,.04))"}"></div>
-    `).join("");
-  }
+      detail.style.setProperty("--arrow-left", safeX + "px");
+    }
 
-  document.getElementById("prevYear").addEventListener("click", () => {
-    scrollTimeline(-600);
-  });
+    function updateCurrentYear() {
+      const januaryOffset = monthWidth * 1;
+      const currentIndex = Math.floor((timeline.scrollLeft + januaryOffset) / (monthWidth * 12));
+      const visibleYear = Math.min(startYear + Math.max(0, currentIndex), endYear);
+      currentYearEl.textContent = visibleYear;
+    }
 
-  document.getElementById("nextYear").addEventListener("click", () => {
-    scrollTimeline(600);
-  });
+    nextBtn.addEventListener("click", () => {
+      timeline.scrollLeft += 520;
+    });
 
-  document.getElementById("nextYear").addEventListener("click", () => {
-    selectedYear++;
-    const first = projects.find(p => p.year === selectedYear);
-    if (first) selectedProject = first;
-    renderTimeline();
-    renderDetail();
-  });
+    prevBtn.addEventListener("click", () => {
+      timeline.scrollLeft -= 520;
+    });
 
-  let isDown = false;
-  let startX;
-  let scrollLeft;
+    timeline.addEventListener("wheel", (event) => {
+      if (Math.abs(event.deltaY) > Math.abs(event.deltaX)) {
+        event.preventDefault();
+        timeline.scrollLeft += event.deltaY;
+      }
+    }, { passive: false });
 
-  timelineWindow.addEventListener("wheel", (e) => {
-    e.preventDefault();
-    const delta = Math.abs(e.deltaX) > Math.abs(e.deltaY) ? e.deltaX : e.deltaY;
-    timelineWindow.scrollLeft += delta;
-    updateCurrentYearOnScroll();
-  }, { passive: false });
+    let scrollTimer;
 
-  timelineWindow.addEventListener("scroll", updateCurrentYearOnScroll);
+    timeline.addEventListener("scroll", () => {
+      const activeCard = document.querySelector(".project-card.active");
 
-  timelineWindow.addEventListener("pointerdown", (e) => {
-    isDown = true;
-    timelineWindow.setPointerCapture(e.pointerId);
-    startX = e.clientX;
-    scrollLeft = timelineWindow.scrollLeft;
-  });
+      updateCurrentYear();
+      detail.classList.add("no-arrow-transition");
 
-  timelineWindow.addEventListener("pointerup", () => {
-    isDown = false;
-  });
+      if (activeCard) {
+        moveDetailArrow(activeCard);
+      }
 
-  timelineWindow.addEventListener("pointercancel", () => {
-    isDown = false;
-  });
+      clearTimeout(scrollTimer);
+      scrollTimer = setTimeout(() => {
+        detail.classList.remove("no-arrow-transition");
 
-  timelineWindow.addEventListener("pointermove", (e) => {
-    if (!isDown) return;
-    e.preventDefault();
-    const walk = (e.clientX - startX) * 1.6;
-    timelineWindow.scrollLeft = scrollLeft - walk;
-    updateCurrentYearOnScroll();
-  });
+        if (activeCard) {
+          moveDetailArrow(activeCard);
+        }
+      }, 120);
+    });
 
-  timelineWindow.addEventListener("mousedown", (e) => {
-    isDown = true;
-    startX = e.pageX - timelineWindow.offsetLeft;
-    scrollLeft = timelineWindow.scrollLeft;
-  });
+    window.addEventListener("resize", () => {
+      const activeCard = document.querySelector(".project-card.active");
 
-  timelineWindow.addEventListener("mouseleave", () => {
-    isDown = false;
-  });
+      updateCurrentYear();
 
-  timelineWindow.addEventListener("mouseup", () => {
-    isDown = false;
-  });
+      if (activeCard) {
+        moveDetailArrow(activeCard);
+      }
+    });
 
-  timelineWindow.addEventListener("mousemove", (e) => {
-    if (!isDown) return;
-    e.preventDefault();
-    const x = e.pageX - timelineWindow.offsetLeft;
-    const walk = (x - startX) * 1.4;
-    timelineWindow.scrollLeft = scrollLeft - walk;
-  });
+    buildTimeline();
+    timeline.scrollLeft = 360;
+    updateCurrentYear();
 
-  renderTimeline();
-  renderDetail();
-</script>
+    setTimeout(() => {
+      const activeCard = document.querySelector(".project-card.active");
+
+      if (activeCard) {
+        moveDetailArrow(activeCard);
+      }
+    }, 80);
+  </script>
 </body>
 </html>
