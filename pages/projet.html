@@ -140,19 +140,6 @@
       margin: 0;
     }
 
-    .scroll-help {
-      display: flex;
-      align-items: center;
-      gap: 14px;
-      margin-top: 12px;
-      padding: 18px 22px;
-      border-radius: 14px;
-      background: var(--panel2);
-      border: 1px solid var(--border);
-      color: var(--soft);
-      box-shadow: var(--shadow);
-    }
-
     .mouse {
       width: 22px;
       height: 34px;
@@ -199,8 +186,8 @@
 
     .current-year {
       position: absolute;
-      left: 132px;
-      top: -8px;
+      left: 230px;
+      top: 50px;
       z-index: 25;
       color: var(--accent);
       font-size: 30px;
@@ -216,10 +203,10 @@
     .current-year::before {
       content: "";
       position: absolute;
-      left: -32px;
+      left: -45px;
       top: 18px;
       width: 28px;
-      height: 28px;
+      height: 48px;
       border-left: 2px solid var(--accent2);
       border-top: 2px solid var(--accent2);
       transform: skewX(-28deg);
@@ -229,41 +216,20 @@
     .current-year::after {
       content: "";
       position: absolute;
-      left: 100%;
+      left: 105%;
       top: 17px;
       width: 70px;
       height: 2px;
       background: linear-gradient(90deg, var(--accent2), transparent);
     }
 
-    .timeline-controls {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 0 42px;
-      pointer-events: none;
-      position: absolute;
-      width: 100%;
-      top: 148px;
-      z-index: 20;
-    }
+    
 
-    .arrow-btn {
-      pointer-events: auto;
-      width: 54px;
-      height: 54px;
-      border-radius: 50%;
-      border: 1px solid var(--border);
-      background: rgba(20, 26, 43, 0.78);
-      color: var(--accent2);
-      font-size: 30px;
-      cursor: pointer;
-      box-shadow: var(--shadow);
-    }
+    
 
     .timeline-scroll {
       overflow-x: auto;
-      overflow-y: visible;
+      overflow-y: hidden;
       scroll-behavior: smooth;
       padding: 0 0 26px;
       scrollbar-width: none;
@@ -274,7 +240,7 @@
     }
 
     .timeline-track {
-      min-width: 2360px;
+      min-width: 1800px;
       padding: 0 76px;
       position: relative;
     }
@@ -287,7 +253,7 @@
       position: absolute;
       left: 0;
       right: 0;
-      top: 86px;
+      top: 150px;
       height: 3px;
       z-index: 1;
       pointer-events: none;
@@ -297,7 +263,7 @@
 
     .years {
       position: relative;
-      height: 118px;
+      height: 190px;
     }
 
     .year-label {
@@ -329,7 +295,7 @@
 
     .month {
       position: absolute;
-      top: 66px;
+      top: 120px;
       transform: translateX(-50%);
       color: #c7cbd5;
       font-size: 13px;
@@ -340,7 +306,7 @@
 
     .dot {
       position: absolute;
-      top: 80px;
+      top: 145px;
       width: 12px;
       height: 12px;
       border-radius: 50%;
@@ -353,19 +319,19 @@
     .dot.big {
       width: 24px;
       height: 24px;
-      top: 74px;
+      top: 139px;
       background: var(--accent);
       box-shadow: 0 0 28px rgba(155, 92, 255, 0.95);
     }
 
     .cards-row {
       position: relative;
-      height: 292px;
+      height: 300px;
     }
 
     .project-card {
       position: absolute;
-      top: 0;
+      top: 20px;
       width: 178px;
       height: 245px;
       border: 1px solid var(--border);
@@ -467,66 +433,124 @@
 
     .diploma {
       position: absolute;
-      top: -300px;
+      top: -95px;
       transform: translateX(-50%);
-      color: #d7c4ff;
-      font-size: 13px;
-      font-weight: 700;
+      width: 210px;
+      min-height: 150px;
+
+      display: flex;
+      flex-direction: column;
+      align-items: center;
       text-align: center;
-      width: 170px;
+
+      color: #f5f7fb;
       line-height: 1.35;
-      z-index: 5;
+      z-index: 20;
+      pointer-events: none;
     }
 
     .diploma::after {
       content: "";
       position: absolute;
       left: 50%;
-      top: 54px;
+      transform: translateX(-50%);
+      top: 168px;
       width: 1px;
-      height: 200px;
-      border-left: 1px dashed var(--accent2);
-      opacity: 0.85;
+      height: 28px;
+      border-left: 1px dashed rgba(155, 92, 255, 0.75);
+      opacity: 0.9;
     }
 
     .diploma-icon {
-      width: 52px;
-      height: 52px;
+      width: 60px;
+      height: 60px;
       border-radius: 50%;
-      display: grid;
-      place-items: center;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      margin-bottom: 16px;
+      font-size: 26px;
+
       border: 1px solid var(--accent);
       color: var(--accent2);
-      background: rgba(155, 92, 255, 0.13);
-      box-shadow: 0 0 26px rgba(155, 92, 255, 0.35);
-      margin-bottom: 8px;
-      font-size: 25px;
+      background: rgba(155, 92, 255, 0.14);
+      box-shadow: 0 0 25px rgba(155, 92, 255, 0.35), inset 0 0 18px rgba(155, 92, 255, 0.08);
+    }
+
+    .diploma-title {
+      font-size: 14px;
+      font-weight: 800;
+      letter-spacing: 0.02em;
+      text-transform: uppercase;
+      margin-bottom: 3px;
+      color: #ffffff;
+    }
+
+    .diploma-date {
+      font-size: 14px;
+      font-weight: 700;
+      margin-bottom: 2px;
+      color: #ffffff;
+    }
+
+    .diploma-subtitle {
+      font-size: 13px;
+      font-weight: 700;
+      color: #cbb7ff;
+      max-width: 180px;
     }
 
     .detail {
-      margin: 6px 38px 0;
-      border: 1px solid var(--border);
+      margin: 0 38px;
+      border: 1px solid rgba(155, 92, 255, 0.45);
+      box-shadow:
+        0 0 0 1px rgba(155,92,255,.18),
+        0 18px 60px rgba(0,0,0,.45),
+        0 0 35px rgba(155,92,255,.12);
       background: rgba(13, 19, 32, 0.78);
-      border-radius: 18px;
+      border-radius: 26px;
       box-shadow: var(--shadow);
       display: grid;
-      grid-template-columns: 1.1fr 1.25fr 0.9fr;
+      grid-template-columns: 1.3fr 1.5fr 1fr;
       gap: 28px;
-      padding: 18px;
+      padding: 28px;
       position: relative;
+
+      max-height: 980;
+      opacity: 0;
+      overflow: hidden;
+      transform: translateY(80px) scale(0.98);
+      pointer-events: none;
+      transition:
+        max-height 0.65s cubic-bezier(0.22, 1, 0.36, 1),
+        opacity 0.4s ease,
+        transform 0.65s cubic-bezier(0.16, 1, 0.3, 1),
+        margin-top 0.45s ease;
+    }
+
+    .detail.visible {
+      max-height: 980px;
+      opacity: 1;
+      margin-top: 18px;
+      transform: translateY(0) scale(1);
+      pointer-events: auto;
+      overflow: visible;
     }
 
     .detail::before {
       content: "";
       position: absolute;
-      top: -1px;
+      top: -9px;
       left: var(--arrow-left, 36%);
-      width: 30px;
+      width: 18px;
       height: 18px;
-      background: rgba(13, 19, 32, 0.95);
-      border-left: 1px solid var(--accent);
-      border-top: 1px solid var(--accent);
-      transform: translateX(-50%) rotate(45deg) translateY(-13px);
+      background: rgba(13, 19, 32, 0.98);
+      border-left: 1px solid rgba(155, 92, 255, 0.7);
+      border-top: 1px solid rgba(155, 92, 255, 0.7);
+      transform: translateX(-50%) rotate(45deg);
+      box-shadow: -6px -6px 18px rgba(155, 92, 255, 0.08);
       transition: left 0.65s cubic-bezier(0.22, 1, 0.36, 1);
     }
 
@@ -534,11 +558,43 @@
       transition: none;
     }
 
-    .media-main img {
+    .media-stage {
+      position: relative;
       width: 100%;
-      height: 270px;
-      object-fit: cover;
+      height: 430px;
       border-radius: 12px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+      background: #000;
+    }
+
+    .video-wrap,
+    .main-image {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.25s ease;
+    }
+
+    .video-wrap.active,
+    .main-image.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .video-wrap iframe {
+      width: 100%;
+      height: 100%;
+      border: 0;
+      display: block;
+    }
+
+    .main-image {
+      object-fit: cover;
+      display: block;
     }
 
     .thumbs {
@@ -548,12 +604,75 @@
       margin-top: 10px;
     }
 
-    .thumbs img {
+    .media-thumb {
       height: 70px;
       width: 100%;
       object-fit: cover;
       border-radius: 8px;
       border: 1px solid var(--border);
+      cursor: pointer;
+      overflow: hidden;
+      background: rgba(255, 255, 255, 0.04);
+      color: var(--text);
+      transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .media-thumb:hover {
+      transform: translateY(-2px);
+      border-color: var(--accent);
+    }
+
+    .media-thumb.active {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 1px rgba(155, 92, 255, 0.35), 0 0 18px rgba(155, 92, 255, 0.25);
+    }
+
+    .video-thumb {
+      position: relative;
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      font-weight: 800;
+      text-transform: uppercase;
+      font-size: 11px;
+    }
+
+    .video-thumb::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, rgba(0,0,0,.15), rgba(0,0,0,.65));
+      z-index: 0;
+    }
+
+    .video-thumb span,
+    .video-thumb .play-icon {
+      position: relative;
+      z-index: 1;
+    }
+
+    .video-thumb span:last-child {
+      color: #fff;
+      text-shadow: 0 2px 8px rgba(0,0,0,.55);
+    }
+
+    .play-icon {
+    }
+
+    .play-icon {
+      width: 30px;
+      height: 30px;
+      display: grid;
+      place-items: center;
+      border-radius: 50%;
+      background: var(--accent);
+      box-shadow: 0 0 18px rgba(155, 92, 255, 0.45);
+      font-size: 12px;
     }
 
     .detail h2 {
@@ -645,11 +764,20 @@
     }
 
     .side-card {
+      display:block;
+      cursor:pointer;
+      transition:transform .2s ease,border-color .2s ease,box-shadow .2s ease;
       padding: 18px;
       background: rgba(255, 255, 255, 0.045);
       border: 1px solid var(--border);
       border-radius: 14px;
       margin-top: 22px;
+    }
+
+    .side-card:hover{
+      transform:translateY(-3px);
+      border-color:rgba(155,92,255,.45);
+      box-shadow:0 10px 30px rgba(0,0,0,.25),0 0 18px rgba(155,92,255,.12);
     }
 
     .download {
@@ -766,25 +894,13 @@
         <h1>Mon <span>parcours</span> en projets</h1>
         <p>Une frise chronologique mois par mois retraçant les projets marquants de mon parcours.</p>
       </div>
-
-      <div class="scroll-help">
-        <div class="mouse"></div>
-        <div>
-          <div>Faites défiler la frise</div>
-          <div>de droite à gauche</div>
-          <div class="help-line"></div>
-        </div>
-      </div>
     </section>
 
     <section class="timeline-section">
       <div class="timeline-fixed-line"></div>
       <div class="current-year" id="currentYear">2022</div>
 
-      <div class="timeline-controls">
-        <button class="arrow-btn" id="prev" type="button">‹</button>
-        <button class="arrow-btn" id="next" type="button">›</button>
-      </div>
+      
 
       <div class="timeline-scroll" id="timelineScroll">
         <div class="timeline-track" id="track">
@@ -797,12 +913,21 @@
 
     <section class="detail" id="detail">
       <div class="media-main">
-        <img id="detailImage" src="https://images.unsplash.com/photo-1518709268805-4e9042af2176?auto=format&fit=crop&w=1200&q=80" alt="Projet sélectionné">
+        <div class="media-stage" id="mediaStage">
+          <div class="video-wrap" id="videoWrap">
+            <iframe id="detailVideo" src="https://www.youtube.com/embed/dQw4w9WgXcQ?rel=0" title="Vidéo projet" allowfullscreen></iframe>
+          </div>
+          <img id="detailImage" class="main-image" src="https://images.unsplash.com/photo-1518709268805-4e9042af2176?auto=format&fit=crop&w=1200&q=80" alt="Projet sélectionné">
+        </div>
+
         <div class="thumbs">
-          <img src="https://images.unsplash.com/photo-1518709268805-4e9042af2176?auto=format&fit=crop&w=500&q=80" alt="Miniature 1">
-          <img src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=500&q=80" alt="Miniature 2">
-          <img src="https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?auto=format&fit=crop&w=500&q=80" alt="Miniature 3">
-          <img src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=500&q=80" alt="Miniature 4">
+          <button class="media-thumb video-thumb active" type="button" data-type="video" aria-label="Afficher la vidéo" style="background-image:url('https://img.youtube.com/vi/dQw4w9WgXcQ/hqdefault.jpg')">
+            <span class="play-icon">▶</span>
+            <span>Vidéo</span>
+          </button>
+          <img class="media-thumb" src="https://images.unsplash.com/photo-1518709268805-4e9042af2176?auto=format&fit=crop&w=500&q=80" alt="Miniature 1" data-type="image">
+          <img class="media-thumb" src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=500&q=80" alt="Miniature 2" data-type="image">
+          <img class="media-thumb" src="https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?auto=format&fit=crop&w=500&q=80" alt="Miniature 3" data-type="image">
         </div>
       </div>
 
@@ -830,12 +955,7 @@
               <span class="avatar"></span>
             </div>
             <h4 style="margin-top: 22px;">Outils utilisés</h4>
-            <div class="tools">
-              <span class="tool">U</span>
-              <span class="tool">VS</span>
-              <span class="tool">Bl</span>
-              <span class="tool">Ps</span>
-            </div>
+            <div class="tools" id="toolsList"></div>
           </div>
         </div>
       </div>
@@ -845,13 +965,9 @@
         <p id="detailDuration">3 mois<br>(Avril 2023 – Juin 2023)</p>
 
         <h4>Ce que j’ai appris</h4>
-        <ul>
-          <li>Concevoir des niveaux immersifs et cohérents</li>
-          <li>Travailler en équipe avec une bonne organisation</li>
-          <li>Itérer grâce aux tests joueurs</li>
-        </ul>
+        <ul id="learnedList"></ul>
 
-        <div class="side-card">
+        <a class="side-card download-link" id="downloadLink" href="#" target="_blank" rel="noopener noreferrer">
           <div class="download">
             <div class="download-icon">↓</div>
             <div>
@@ -859,15 +975,9 @@
               <span style="color: var(--muted); font-weight: 500; text-transform: none;">PDF — 3.2 Mo</span>
             </div>
           </div>
-        </div>
+        </a>
       </aside>
     </section>
-
-    <div class="bottom-scroll">
-      <span>←</span>
-      <div class="bar"><span></span></div>
-      <span>→</span>
-    </div>
   </main>
 
   <script>
@@ -875,13 +985,12 @@
     const yearsEl = document.getElementById("years");
     const cardsEl = document.getElementById("cardsRow");
     const currentYearEl = document.getElementById("currentYear");
-    const nextBtn = document.getElementById("next");
-    const prevBtn = document.getElementById("prev");
+    
     const detail = document.getElementById("detail");
 
     const startYear = 2022;
     const endYear = 2025;
-    const monthWidth = 130;
+    const monthWidth = 190;
     const startX = 90;
 
     const months = ["JANV.", "FÉV.", "MARS", "AVR.", "MAI", "JUIN", "JUIL.", "AOÛT", "SEPT.", "OCT.", "NOV.", "DÉC."];
@@ -904,7 +1013,14 @@
         year: 2022,
         month: 9,
         img: images[0],
-        desc: "Un jeu d’exploration en forêt centré sur l’ambiance, la progression et la découverte."
+        video: "https://www.youtube.com/embed/dQw4w9WgXcQ?rel=0",
+        gallery: [images[0], images[1], images[2]],
+        desc: "Un jeu d’exploration en forêt centré sur l’ambiance, la progression et la découverte.",
+        duration: "2 mois<br>(Septembre 2022 – Octobre 2022)",
+        role: ["Game Design", "Création de l’ambiance", "Level design d’exploration"],
+        learned: ["Construire une progression simple", "Créer une ambiance cohérente", "Guider le joueur sans trop d’interface"],
+        tools: ["U", "Ps", "Bl"],
+        link: "#"
       },
       {
         title: "Neon District",
@@ -913,9 +1029,16 @@
         color: "blue",
         date: "DÉC. 2022",
         year: 2022,
-        month: 11,
+        month: 10,
         img: images[3],
-        desc: "Prototype cyberpunk basé sur la circulation dans un environnement urbain dense."
+        video: "https://www.youtube.com/embed/dQw4w9WgXcQ?rel=0",
+        gallery: [images[3], images[4], images[0]],
+        desc: "Prototype cyberpunk basé sur la circulation dans un environnement urbain dense.",
+        duration: "Projet court<br>(Décembre 2022)",
+        role: ["Level Designer", "Conception des chemins", "Tests de lisibilité joueur"],
+        learned: ["Travailler la circulation dans un niveau", "Créer des repères visuels", "Améliorer le rythme d’exploration"],
+        tools: ["U", "VS", "Ps"],
+        link: "#"
       },
       {
         title: "Sky Legacy",
@@ -926,7 +1049,14 @@
         year: 2023,
         month: 1,
         img: images[1],
-        desc: "Projet de game design autour d’un monde flottant et de mécaniques de déplacement."
+        video: "https://www.youtube.com/embed/dQw4w9WgXcQ?rel=0",
+        gallery: [images[1], images[2], images[4]],
+        desc: "Projet de game design autour d’un monde flottant et de mécaniques de déplacement.",
+        duration: "1 mois<br>(Février 2023)",
+        role: ["Game Designer", "Prototype de mécaniques", "Direction visuelle"],
+        learned: ["Prototyper rapidement une idée", "Rendre une mécanique compréhensible", "Créer une intention visuelle forte"],
+        tools: ["U", "Bl", "Ps"],
+        link: "#"
       },
       {
         title: "Project Arena",
@@ -937,7 +1067,14 @@
         year: 2023,
         month: 3,
         img: images[4],
-        desc: "Prototype d’arène avec boucle de combat simple, test d’équilibrage et itérations."
+        video: "https://www.youtube.com/embed/dQw4w9WgXcQ?rel=0",
+        gallery: [images[4], images[0], images[2]],
+        desc: "Prototype d’arène avec boucle de combat simple, test d’équilibrage et itérations.",
+        duration: "Projet court<br>(Avril 2023)",
+        role: ["Game Designer", "Équilibrage du combat", "Tests et itérations"],
+        learned: ["Créer une boucle de gameplay claire", "Équilibrer une difficulté", "Itérer à partir de tests"],
+        tools: ["UE", "Bl", "Ps"],
+        link: "#"
       },
       {
         title: "Forgotten Realms",
@@ -948,7 +1085,14 @@
         year: 2023,
         month: 5,
         img: images[2],
-        desc: "Un jeu d’action-aventure médiéval fantastique où le joueur explore un monde ouvert rempli de secrets, de créatures et de quêtes."
+        video: "https://www.youtube.com/embed/dQw4w9WgXcQ?rel=0",
+        gallery: [images[2], images[0], images[1]],
+        desc: "Un jeu d’action-aventure médiéval fantastique où le joueur explore un monde ouvert rempli de secrets, de créatures et de quêtes.",
+        duration: "3 mois<br>(Avril 2023 – Juin 2023)",
+        role: ["Game Designer & Level Designer", "Conception des mécaniques de gameplay", "Équilibrage et itérations"],
+        learned: ["Concevoir des niveaux immersifs et cohérents", "Travailler en équipe avec une bonne organisation", "Itérer grâce aux tests joueurs"],
+        tools: ["U", "VS", "Bl", "Ps"],
+        link: "#"
       },
       {
         title: "Lost Signal",
@@ -959,7 +1103,12 @@
         year: 2023,
         month: 7,
         img: images[0],
-        desc: "Projet narratif sur l’exploration, les indices visuels et la tension progressive."
+        desc: "Projet narratif sur l’exploration, les indices visuels et la tension progressive.",
+        duration: "1 mois<br>(Août 2023)",
+        role: ["Narrative Design", "Mise en scène", "Création d’indices visuels"],
+        learned: ["Créer une tension progressive", "Raconter sans dialogue", "Utiliser l’environnement comme narration"],
+        tools: ["U", "Ps"],
+        link: "#"
       },
       {
         title: "Dungeon Crawler",
@@ -970,7 +1119,12 @@
         year: 2023,
         month: 10,
         img: images[4],
-        desc: "Prototype dungeon crawler avec structure de salle, rythme et ennemis."
+        desc: "Prototype dungeon crawler avec structure de salle, rythme et ennemis.",
+        duration: "Projet court<br>(Novembre 2023)",
+        role: ["Level Design", "Structure de salles", "Rythme d’affrontement"],
+        learned: ["Organiser une progression par salles", "Varier les situations de jeu", "Travailler le rythme joueur"],
+        tools: ["UE", "Bl"],
+        link: "#"
       },
       {
         title: "Sky Legacy 2",
@@ -981,7 +1135,12 @@
         year: 2024,
         month: 1,
         img: images[1],
-        desc: "Suite d’un projet scolaire avec amélioration des mécaniques et de la direction visuelle."
+        desc: "Suite d’un projet scolaire avec amélioration des mécaniques et de la direction visuelle.",
+        duration: "1 mois<br>(Février 2024)",
+        role: ["Game Design", "Amélioration des mécaniques", "Direction artistique"],
+        learned: ["Améliorer un ancien concept", "Rendre une DA plus cohérente", "Clarifier l’expérience joueur"],
+        tools: ["U", "Bl", "Ps"],
+        link: "#"
       },
       {
         title: "Ashes of War",
@@ -992,7 +1151,12 @@
         year: 2024,
         month: 4,
         img: images[4],
-        desc: "Prototype orienté combat, feedback visuel et sensations de jeu."
+        desc: "Prototype orienté combat, feedback visuel et sensations de jeu.",
+        duration: "Projet court<br>(Mai 2024)",
+        role: ["Combat Design", "Feedback visuel", "Tests de sensations"],
+        learned: ["Améliorer le ressenti des actions", "Créer des feedbacks lisibles", "Tester rapidement une mécanique"],
+        tools: ["UE", "Bl", "Ps"],
+        link: "#"
       },
       {
         title: "Neon District 2",
@@ -1003,7 +1167,12 @@
         year: 2024,
         month: 8,
         img: images[3],
-        desc: "Nouvelle version du projet cyberpunk avec meilleure lisibilité des parcours."
+        desc: "Nouvelle version du projet cyberpunk avec meilleure lisibilité des parcours.",
+        duration: "2 mois<br>(Août 2024 – Septembre 2024)",
+        role: ["Level Designer", "Refonte des parcours", "Optimisation de la lisibilité"],
+        learned: ["Améliorer un niveau existant", "Hiérarchiser les repères visuels", "Rendre un parcours plus fluide"],
+        tools: ["U", "VS", "Ps"],
+        link: "#"
       },
       {
         title: "Winter’s End",
@@ -1014,7 +1183,12 @@
         year: 2025,
         month: 0,
         img: images[0],
-        desc: "Prototype atmosphérique basé sur le froid, le silence et la progression lente."
+        desc: "Prototype atmosphérique basé sur le froid, le silence et la progression lente.",
+        duration: "Projet court<br>(Janvier 2025)",
+        role: ["Direction d’ambiance", "Level Design", "Prototype d’exploration"],
+        learned: ["Créer une ambiance forte avec peu d’éléments", "Travailler le silence et le rythme", "Construire une progression lente"],
+        tools: ["UE", "Bl", "Ps"],
+        link: "#"
       }
     ];
 
@@ -1052,7 +1226,7 @@
           yearsEl.appendChild(monthEl);
 
           const dot = document.createElement("div");
-          dot.className = index === 5 ? "dot big" : "dot";
+          dot.className = "dot";
           dot.style.left = x + "px";
           yearsEl.appendChild(dot);
         });
@@ -1066,11 +1240,11 @@
         diplomaEl.style.left = x + "px";
         diplomaEl.innerHTML = `
           <div class="diploma-icon">🎓</div>
-          <strong>${diploma.title}</strong><br>
-          ${diploma.date}<br>
-          ${diploma.subtitle}
+          <div class="diploma-title">${diploma.title}</div>
+          <div class="diploma-date">${diploma.date}</div>
+          <div class="diploma-subtitle">${diploma.subtitle}</div>
         `;
-        cardsEl.appendChild(diplomaEl);
+        yearsEl.appendChild(diplomaEl);
       });
 
       projects.forEach((project) => {
@@ -1090,10 +1264,6 @@
 
         card.addEventListener("click", () => selectProject(project, card));
         cardsEl.appendChild(card);
-
-        if (project.title === "Forgotten Realms") {
-          selectProject(project, card);
-        }
       });
     }
 
@@ -1103,20 +1273,38 @@
       });
 
       card.classList.add("active");
-      moveDetailArrow(card);
+      detail.classList.add("visible");
 
-      document.getElementById("detailImage").src = project.img;
+      const timelineSection = document.querySelector('.timeline-section');
+      if (timelineSection) {
+        timelineSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+
+      requestAnimationFrame(() => {
+        moveDetailArrow(card);
+      });
+
+      document.getElementById("detailVideo").src = project.video || "https://www.youtube.com/embed/dQw4w9WgXcQ?rel=0";
       document.getElementById("detailTitle").textContent = project.title;
       document.getElementById("detailText").textContent = project.desc;
-      document.getElementById("detailDuration").innerHTML = project.title === "Forgotten Realms"
-        ? "3 mois<br>(Avril 2023 – Juin 2023)"
-        : "Projet court<br>(" + project.date + ")";
+      document.getElementById("detailDuration").innerHTML = project.duration || "Projet court<br>(" + project.date + ")";
 
       document.getElementById("detailChips").innerHTML = `
         <span class="chip">${project.tag}</span>
         <span class="chip">PC</span>
         <span class="chip">${project.year}</span>
       `;
+
+      document.getElementById("roleList").innerHTML = (project.role || []).map((item) => `<li>${item}</li>`).join("");
+
+      document.getElementById("learnedList").innerHTML = (project.learned || []).map((item) => `<li>${item}</li>`).join("");
+
+      document.getElementById("toolsList").innerHTML = (project.tools || []).map((tool) => `<span class="tool">${tool}</span>`).join("");
+
+      const downloadLink = document.getElementById("downloadLink");
+      downloadLink.href = project.link || '#';
+
+      updateProjectMedia(project);
     }
 
     function moveDetailArrow(card) {
@@ -1136,13 +1324,7 @@
       currentYearEl.textContent = visibleYear;
     }
 
-    nextBtn.addEventListener("click", () => {
-      timeline.scrollLeft += 520;
-    });
-
-    prevBtn.addEventListener("click", () => {
-      timeline.scrollLeft -= 520;
-    });
+    
 
     timeline.addEventListener("wheel", (event) => {
       if (Math.abs(event.deltaY) > Math.abs(event.deltaX)) {
@@ -1183,8 +1365,62 @@
       }
     });
 
+    function getYoutubeThumb(url) {
+      if (!url) return "https://img.youtube.com/vi/dQw4w9WgXcQ/hqdefault.jpg";
+      const match = url.match(/embed\/([^?&]+)/);
+      const id = match ? match[1] : "dQw4w9WgXcQ";
+      return `https://img.youtube.com/vi/${id}/hqdefault.jpg`;
+    }
+
+    function updateProjectMedia(project) {
+      const videoWrap = document.getElementById("videoWrap");
+      const detailImage = document.getElementById("detailImage");
+      const thumbsContainer = document.querySelector(".thumbs");
+      const gallery = project.gallery || [project.img];
+
+      detailImage.src = gallery[0];
+      detailImage.classList.remove("active");
+      videoWrap.classList.add("active");
+
+      thumbsContainer.innerHTML = `
+        <button class="media-thumb video-thumb active" type="button" data-type="video" aria-label="Afficher la vidéo" style="background-image:url('${getYoutubeThumb(project.video)}')">
+          <span class="play-icon">▶</span>
+          <span>Vidéo</span>
+        </button>
+        ${gallery.map((src, index) => `
+          <img class="media-thumb" src="${src}" alt="${project.title} image ${index + 1}" data-type="image">
+        `).join("")}
+      `;
+
+      enableThumbSelection();
+    }
+
+    function enableThumbSelection() {
+      const videoWrap = document.getElementById("videoWrap");
+      const detailImage = document.getElementById("detailImage");
+      const thumbs = document.querySelectorAll(".media-thumb");
+
+      thumbs.forEach((thumb) => {
+        thumb.addEventListener("click", () => {
+          thumbs.forEach((item) => item.classList.remove("active"));
+          thumb.classList.add("active");
+
+          if (thumb.dataset.type === "video") {
+            detailImage.classList.remove("active");
+            videoWrap.classList.add("active");
+            return;
+          }
+
+          videoWrap.classList.remove("active");
+          detailImage.src = thumb.src;
+          detailImage.classList.add("active");
+        });
+      });
+    }
+
     buildTimeline();
-    timeline.scrollLeft = 360;
+    enableThumbSelection();
+    timeline.scrollLeft = 0;
     updateCurrentYear();
 
     setTimeout(() => {
