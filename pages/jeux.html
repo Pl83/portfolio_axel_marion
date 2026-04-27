@@ -339,10 +339,8 @@
     }
 
     .games-layout {
-      display: grid;
-      grid-template-columns: minmax(0, 1fr) minmax(360px, .78fr);
-      gap: 2px;
-      align-items: start;
+      display: block;
+      position: relative;
     }
 
     .games-grid {
@@ -418,12 +416,62 @@
     }
 
     .detail-panel {
-      position: sticky;
-      top: calc(var(--header-h) + 24px);
+      position: fixed;
+      top: var(--header-h);
+      right: 0;
+      width: min(520px, 92vw);
+      height: calc(100vh - var(--header-h));
       background: var(--bg2);
       border-left: 1px solid var(--border);
-      min-height: 620px;
       padding: 34px;
+      z-index: 600;
+      overflow-y: auto;
+      transform: translateX(100%);
+      opacity: 0;
+      pointer-events: none;
+      transition: transform .35s cubic-bezier(.22,.61,.36,1), opacity .25s;
+      box-shadow: -30px 0 80px rgba(0,0,0,.45);
+    }
+
+    .detail-panel.open {
+      transform: translateX(0);
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .detail-close {
+      position: absolute;
+      top: 18px;
+      right: 18px;
+      width: 36px;
+      height: 36px;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,.03);
+      color: var(--text);
+      border-radius: 999px;
+      cursor: pointer;
+      transition: .2s;
+    }
+
+    .detail-close:hover {
+      background: rgba(155,109,255,.15);
+      border-color: var(--accent);
+    }
+
+    .detail-overlay {
+      position: fixed;
+      inset: var(--header-h) 0 0 0;
+      background: rgba(0,0,0,.45);
+      backdrop-filter: blur(2px);
+      z-index: 590;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity .25s;
+    }
+
+    .detail-overlay.open {
+      opacity: 1;
+      pointer-events: auto;
     }
 
     .back-link {
@@ -532,8 +580,7 @@
     }
 
     @media (max-width: 1000px) {
-      .games-layout { grid-template-columns: 1fr; }
-      .detail-panel { position: static; border-left: none; }
+      .games-layout { display: block; }
     }
 
     @media (max-width: 768px) {
@@ -583,7 +630,11 @@
         Découvrez les jeux que j’ai imaginés, conçus et produits. Game design, level design,
         direction artistique, prototypage et développement Unity.
       </p>
+      <div class="btn-row">
+        <a href="#jeux" class="btn-primary">Voir les jeux →</a>
+        <a href="#contact" class="btn-ghost">Me contacter</a>
       </div>
+    </div>
   </section>
 
   <section id="jeux" class="section">
@@ -603,6 +654,7 @@
 
     <div class="games-layout">
       <div class="games-grid" id="gamesGrid"></div>
+      <div class="detail-overlay" id="detailOverlay"></div>
       <aside class="detail-panel" id="detailPanel"></aside>
     </div>
   </section>
@@ -729,6 +781,7 @@
 
     const gamesGrid = document.getElementById('gamesGrid');
     const detailPanel = document.getElementById('detailPanel');
+    const detailOverlay = document.getElementById('detailOverlay');
     const filterButtons = document.querySelectorAll('.filters button');
     const toolsFilter = document.getElementById('toolsFilter');
     let activeCategory = 'all';
@@ -764,6 +817,7 @@
           document.querySelectorAll('.game-card').forEach(c => c.classList.remove('active'));
           card.classList.add('active');
           displayDetails(game);
+          openDetailPanel();
         });
 
         gamesGrid.appendChild(card);
@@ -781,7 +835,7 @@
 
     function displayDetails(game) {
       detailPanel.innerHTML = `
-        <a href="#jeux" class="back-link">← Retour aux jeux</a>
+        <button class="detail-close" onclick="closeDetailPanel()">✕</button>
         <h2 class="detail-title">${game.title}</h2>
         <div class="detail-meta">${game.type} · ${game.platform} · ${game.year}</div>
         <img class="detail-cover" src="${game.image}" alt="${game.title}">
@@ -810,6 +864,20 @@
         </ul>
       `;
     }
+
+    function openDetailPanel() {
+      detailPanel.classList.add('open');
+      detailOverlay.classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeDetailPanel() {
+      detailPanel.classList.remove('open');
+      detailOverlay.classList.remove('open');
+      document.body.style.overflow = '';
+    }
+
+    detailOverlay.addEventListener('click', closeDetailPanel);
 
     function getToolIcon(tool) {
       const icons = {
@@ -842,8 +910,7 @@
           toolsFilter.querySelectorAll('button').forEach(btn => btn.classList.remove('active'));
           button.classList.add('active');
           activeTool = button.dataset.tool;
-          buildToolFilters();
-    displayGames();
+          displayGames();
         });
       });
     }
