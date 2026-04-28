@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Portfolio d'Axel Marion, game designer et level designer — parcours en projets.">
   <title>Axel Marion — Parcours</title>
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -140,43 +141,6 @@
       margin: 0;
     }
 
-    .mouse {
-      width: 22px;
-      height: 34px;
-      border: 2px solid rgba(255, 255, 255, 0.65);
-      border-radius: 18px;
-      position: relative;
-      flex: 0 0 auto;
-    }
-
-    .mouse::after {
-      content: "";
-      position: absolute;
-      top: 6px;
-      left: 50%;
-      width: 4px;
-      height: 7px;
-      border-radius: 4px;
-      background: #ffffff;
-      transform: translateX(-50%);
-    }
-
-    .help-line {
-      width: 94px;
-      height: 1px;
-      margin-top: 6px;
-      background: linear-gradient(90deg, transparent, var(--accent), transparent);
-      position: relative;
-    }
-
-    .help-line::after {
-      content: "→";
-      position: absolute;
-      right: -8px;
-      top: -10px;
-      color: var(--accent2);
-    }
-
     .timeline-section {
       position: relative;
       margin-left: -42px;
@@ -193,10 +157,6 @@
       font-size: 30px;
       font-weight: 800;
       letter-spacing: -0.04em;
-      background: transparent;
-      padding: 0;
-      border-radius: 0;
-      box-shadow: none;
       pointer-events: none;
     }
 
@@ -222,10 +182,6 @@
       height: 2px;
       background: linear-gradient(90deg, var(--accent2), transparent);
     }
-
-    
-
-    
 
     .timeline-scroll {
       overflow-x: auto;
@@ -264,33 +220,6 @@
     .years {
       position: relative;
       height: 190px;
-    }
-
-    .year-label {
-      display: none;
-    }
-
-    .year-label::before {
-      content: "";
-      position: absolute;
-      left: -32px;
-      top: 18px;
-      width: 28px;
-      height: 28px;
-      border-left: 2px solid var(--accent2);
-      border-top: 2px solid var(--accent2);
-      transform: skewX(-28deg);
-      opacity: 0.9;
-    }
-
-    .year-label::after {
-      content: "";
-      position: absolute;
-      left: 100%;
-      top: 17px;
-      width: 150px;
-      height: 2px;
-      background: linear-gradient(90deg, var(--accent2), transparent);
     }
 
     .month {
@@ -336,23 +265,6 @@
       height: 245px;
       border: 1px solid var(--border);
       border-radius: 12px;
-      background: var(--panel);
-      cursor: pointer;
-      transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
-      transform: translateX(-50%);
-      box-shadow: 0 18px 48px rgba(0, 0, 0, 0.28);
-    }
-
-    .project-card::after {
-      content: "";
-      position: absolute;
-      inset: 0;
-      border-radius: 12px;
-      overflow: hidden;
-      pointer-events: none;
-    }
-
-    .project-card {
       background: var(--panel);
       cursor: pointer;
       transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
@@ -437,12 +349,10 @@
       transform: translateX(-50%);
       width: 210px;
       min-height: 150px;
-
       display: flex;
       flex-direction: column;
       align-items: center;
       text-align: center;
-
       color: #f5f7fb;
       line-height: 1.35;
       z-index: 20;
@@ -465,14 +375,11 @@
       width: 60px;
       height: 60px;
       border-radius: 50%;
-
       display: flex;
       align-items: center;
       justify-content: center;
-
       margin-bottom: 16px;
       font-size: 26px;
-
       border: 1px solid var(--accent);
       color: var(--accent2);
       background: rgba(155, 92, 255, 0.14);
@@ -511,14 +418,12 @@
         0 0 35px rgba(155,92,255,.12);
       background: rgba(13, 19, 32, 0.78);
       border-radius: 26px;
-      box-shadow: var(--shadow);
       display: grid;
       grid-template-columns: 1.3fr 1.5fr 1fr;
       gap: 28px;
       padding: 28px;
       position: relative;
-
-      max-height: 980;
+      max-height: 0;
       opacity: 0;
       overflow: hidden;
       transform: translateY(80px) scale(0.98);
@@ -531,7 +436,7 @@
     }
 
     .detail.visible {
-      max-height: 980px;
+      max-height: 1200px;
       opacity: 1;
       margin-top: 18px;
       transform: translateY(0) scale(1);
@@ -558,31 +463,26 @@
       transition: none;
     }
 
+    /* ─── Media stage : proportions naturelles ─── */
     .media-stage {
       position: relative;
       width: 100%;
-      height: 430px;
       border-radius: 12px;
       overflow: hidden;
       border: 1px solid var(--border);
       background: #000;
+      /* hauteur auto → l'image dicte sa propre hauteur */
     }
 
-    .video-wrap,
-    .main-image {
-      position: absolute;
-      inset: 0;
+    /* Conteneur vidéo gardé en 16:9 fixe */
+    .video-wrap {
+      display: none;
       width: 100%;
-      height: 100%;
-      opacity: 0;
-      pointer-events: none;
-      transition: opacity 0.25s ease;
+      aspect-ratio: 16 / 9;
     }
 
-    .video-wrap.active,
-    .main-image.active {
-      opacity: 1;
-      pointer-events: auto;
+    .video-wrap.active {
+      display: block;
     }
 
     .video-wrap iframe {
@@ -592,8 +492,16 @@
       display: block;
     }
 
+    /* Image principale : proportions naturelles */
     .main-image {
-      object-fit: cover;
+      display: none;
+      width: 100%;
+      height: auto;        /* ← clé : hauteur automatique */
+      object-fit: unset;   /* ← plus de crop */
+      border-radius: 0;
+    }
+
+    .main-image.active {
       display: block;
     }
 
@@ -659,9 +567,6 @@
     .video-thumb span:last-child {
       color: #fff;
       text-shadow: 0 2px 8px rgba(0,0,0,.55);
-    }
-
-    .play-icon {
     }
 
     .play-icon {
@@ -764,9 +669,9 @@
     }
 
     .side-card {
-      display:block;
-      cursor:pointer;
-      transition:transform .2s ease,border-color .2s ease,box-shadow .2s ease;
+      display: block;
+      cursor: pointer;
+      transition: transform .2s ease, border-color .2s ease, box-shadow .2s ease;
       padding: 18px;
       background: rgba(255, 255, 255, 0.045);
       border: 1px solid var(--border);
@@ -774,10 +679,10 @@
       margin-top: 22px;
     }
 
-    .side-card:hover{
-      transform:translateY(-3px);
-      border-color:rgba(155,92,255,.45);
-      box-shadow:0 10px 30px rgba(0,0,0,.25),0 0 18px rgba(155,92,255,.12);
+    .side-card:hover {
+      transform: translateY(-3px);
+      border-color: rgba(155,92,255,.45);
+      box-shadow: 0 10px 30px rgba(0,0,0,.25), 0 0 18px rgba(155,92,255,.12);
     }
 
     .download {
@@ -823,6 +728,30 @@
       height: 100%;
       background: var(--accent);
       box-shadow: 0 0 18px var(--accent);
+    }
+
+    /* Bouton fermeture panneau */
+    .detail-close {
+      position: absolute;
+      top: 16px;
+      right: 16px;
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,0.06);
+      color: var(--soft);
+      font-size: 16px;
+      cursor: pointer;
+      display: grid;
+      place-items: center;
+      transition: background 0.2s, border-color 0.2s;
+      z-index: 10;
+    }
+
+    .detail-close:hover {
+      background: rgba(155,92,255,0.18);
+      border-color: var(--accent);
     }
 
     @media (max-width: 980px) {
@@ -890,8 +819,8 @@
 
     <section class="hero">
       <div>
-        <div class="eyebrow">Parcours</div>
-        <h1>Mon <span>parcours</span> en projets</h1>
+        <div class="eyebrow">Parcourt</div>
+        <h1>Mon <span>parcourt</span> en projets</h1>
         <p>Une frise chronologique mois par mois retraçant les projets marquants de mon parcours.</p>
       </div>
     </section>
@@ -899,8 +828,6 @@
     <section class="timeline-section">
       <div class="timeline-fixed-line"></div>
       <div class="current-year" id="currentYear">2022</div>
-
-      
 
       <div class="timeline-scroll" id="timelineScroll">
         <div class="timeline-track" id="track">
@@ -912,15 +839,17 @@
     </section>
 
     <section class="detail" id="detail">
+      <button class="detail-close" id="detailClose" aria-label="Fermer">✕</button>
+
       <div class="media-main">
         <div class="media-stage" id="mediaStage">
           <div class="video-wrap" id="videoWrap">
-            <iframe id="detailVideo" src="https://www.youtube.com/embed/dQw4w9WgXcQ?rel=0" title="Vidéo projet" allowfullscreen></iframe>
+            <iframe id="detailVideo" src="about:blank" title="Vidéo projet" allowfullscreen></iframe>
           </div>
-          <img id="detailImage" class="main-image" src="https://images.unsplash.com/photo-1518709268805-4e9042af2176?auto=format&fit=crop&w=1200&q=80" alt="Projet sélectionné">
+          <img id="detailImage" class="main-image" src="" alt="Projet sélectionné">
         </div>
 
-        <div class="thumbs">
+        <div class="thumbs" id="thumbsContainer">
           <button class="media-thumb video-thumb active" type="button" data-type="video" aria-label="Afficher la vidéo" style="background-image:url('https://img.youtube.com/vi/dQw4w9WgXcQ/hqdefault.jpg')">
             <span class="play-icon">▶</span>
             <span>Vidéo</span>
@@ -934,7 +863,7 @@
       <div>
         <h2 id="detailTitle">Forgotten Realms</h2>
         <div class="chips" id="detailChips"></div>
-        <p id="detailText">Un jeu d’action-aventure médiéval fantastique où le joueur explore un monde ouvert rempli de secrets, de créatures et de quêtes.</p>
+        <p id="detailText">Un jeu d'action-aventure médiéval fantastique où le joueur explore un monde ouvert rempli de secrets, de créatures et de quêtes.</p>
 
         <div class="info-grid">
           <div class="info-block">
@@ -964,15 +893,15 @@
         <h4>Durée</h4>
         <p id="detailDuration">3 mois<br>(Avril 2023 – Juin 2023)</p>
 
-        <h4>Ce que j’ai appris</h4>
+        <h4>Ce que j'ai appris</h4>
         <ul id="learnedList"></ul>
 
         <a class="side-card download-link" id="downloadLink" href="#" target="_blank" rel="noopener noreferrer">
           <div class="download">
             <div class="download-icon">↓</div>
             <div>
-              Télécharger le document de design<br>
-              <span style="color: var(--muted); font-weight: 500; text-transform: none;">PDF — 3.2 Mo</span>
+              Voir Plus<br>
+              <span style="color: var(--muted); font-weight: 500; text-transform: none;"></span>
             </div>
           </div>
         </a>
@@ -985,129 +914,152 @@
     const yearsEl = document.getElementById("years");
     const cardsEl = document.getElementById("cardsRow");
     const currentYearEl = document.getElementById("currentYear");
-    
     const detail = document.getElementById("detail");
 
     const startYear = 2022;
-    const endYear = 2025;
+    const endYear = 2026;
     const monthWidth = 190;
     const startX = 90;
 
     const months = ["JANV.", "FÉV.", "MARS", "AVR.", "MAI", "JUIN", "JUIL.", "AOÛT", "SEPT.", "OCT.", "NOV.", "DÉC."];
 
     const images = [
-      "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=700&q=80",
-      "https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?auto=format&fit=crop&w=700&q=80",
-      "https://images.unsplash.com/photo-1518709268805-4e9042af2176?auto=format&fit=crop&w=700&q=80",
-      "https://images.unsplash.com/photo-1519608487953-e999c86e7455?auto=format&fit=crop&w=700&q=80",
-      "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=700&q=80"
+      "/realisation/Autoportart.jpg",
+      
+      "/realisation/montre/montre-de-base.png",
+      "/realisation/montre/montre-realise.png",
+      
+      "/realisation/vinyle/macarron-2.png",
+      "/realisation/vinyle/macarron.png",
+      "/realisation/vinyle/Recto.png",
+      "/realisation/vinyle/Verso.png",
+
+      "/realisation/cartedevisite/logo.png",
+      "/realisation/cartedevisite/texte.png",
+
+      "/realisation/carte/dos.png",
+      "/realisation/carte/blanc/onjn.png",
+      "/realisation/carte/blanc/revolution.png",
+      "/realisation/carte/jeuechec.png",
+
+      "/realisation/festival/mindmapping.png",
+      "/realisation/festival/billetfestival.png",
+      "/realisation/festival/lisseappli.png",
+      "/realisation/festival/lissesite.png",
+      "/realisation/festival/Plan-de-travail1.png",
+      "/realisation/festival/Plan.png",
+      "/realisation/festival/Plandetravail.png",
+
+      "/realisation/decoration.png",
+      
+      "/realisation/Pokeball.png",
+
+      "/realisation/Memoir/abstract.png",
+      
+      
     ];
 
     const projects = [
       {
-        title: "Echoes of the Forest",
-        type: "Jeu vidéo — Unity",
-        tag: "Aventure",
-        color: "green",
+        title: "Autoportart",
+        type: "Papier & Crayon",
+        tag: "Gobelins",
+        color: "blue",
+        date: "SEPT. 2022",
+        year: 2022,
+        month: 8,
+        img: images[0],
+        gallery: [images[0]],
+        desc: "Réalisation d'un autoportrait ou je devais me représenter par ce que j'aime",
+        duration: "1 semaine",
+        role: ["Dessinateur", "Concepteur de l'image", "Choix des éléments visuels"],
+        learned: ["Croquis", "dessin", "composition visuelle"],
+        tools: [],
+        link: "#"
+      },
+      {
+        title: "Montre vectorisée",
+        type: "Illustrator",
+        tag: "Gobelins",
+        color: "blue",
         date: "OCT. 2022",
         year: 2022,
         month: 9,
-        img: images[0],
-        video: "https://www.youtube.com/embed/dQw4w9WgXcQ?rel=0",
-        gallery: [images[0], images[1], images[2]],
-        desc: "Un jeu d’exploration en forêt centré sur l’ambiance, la progression et la découverte.",
-        duration: "2 mois<br>(Septembre 2022 – Octobre 2022)",
-        role: ["Game Design", "Création de l’ambiance", "Level design d’exploration"],
-        learned: ["Construire une progression simple", "Créer une ambiance cohérente", "Guider le joueur sans trop d’interface"],
-        tools: ["U", "Ps", "Bl"],
+        img: images[2],
+        gallery: [images[2], images[1]],
+        desc: "Vectorisation d'une montre à partir d'une image de référence",
+        duration: "3 semaines",
+        role: ["Vectoriseur"],
+        learned: ["Illustrator"],
+        tools: ["Il"],
         link: "#"
       },
       {
-        title: "Neon District",
-        type: "Jeu vidéo — Unity",
-        tag: "Level Design",
+        title: "Vinyle",
+        type: "Illustrator & Photoshop",
+        tag: "Gobelins",
         color: "blue",
-        date: "DÉC. 2022",
+        date: "NOV. 2022",
         year: 2022,
         month: 10,
-        img: images[3],
-        video: "https://www.youtube.com/embed/dQw4w9WgXcQ?rel=0",
-        gallery: [images[3], images[4], images[0]],
-        desc: "Prototype cyberpunk basé sur la circulation dans un environnement urbain dense.",
-        duration: "Projet court<br>(Décembre 2022)",
-        role: ["Level Designer", "Conception des chemins", "Tests de lisibilité joueur"],
-        learned: ["Travailler la circulation dans un niveau", "Créer des repères visuels", "Améliorer le rythme d’exploration"],
-        tools: ["U", "VS", "Ps"],
+        img: images[5],
+        gallery: [images[5], images[4],images[6], images[3]],
+        desc: "Création d'un visuel de pochette de vinyle, avec recto et verso, avec les macarons",
+        duration: "2 semaines",
+        role: ["Illustrateur", "Imprimeur"],
+        learned: ["mise en page pour impression","Photoshop", "Illustrator", "InDesign"],
+        tools: ["Il", "Ps", "Id"],
         link: "#"
       },
       {
-        title: "Sky Legacy",
-        type: "Jeu vidéo — Unity",
-        tag: "Game Design",
+        title: "Carte de visite",
+        type: "InDesign",
+        tag: "Gobelins",
         color: "blue",
-        date: "FÉV. 2023",
+        date: "JAV. 2023",
+        year: 2023,
+        month: 0,
+        img: images[7],
+        gallery: [images[7], images[8]],
+        desc: "Création d'une carte de visite professionnelle.",
+        duration: "1Mois",
+        role: ["Designer", "Mise en page", "Creation de logo"],
+        learned: ["InDesign", "typographie", "composition visuelle"],
+        tools: ["Id"],
+        link: "#"
+      },
+      {
+        title: "Revolte",
+        type: "Jeu De Carte",
+        tag: "Gobelins",
+        color: "blue",
+        date: "FEV 2023",
         year: 2023,
         month: 1,
-        img: images[1],
-        video: "https://www.youtube.com/embed/dQw4w9WgXcQ?rel=0",
-        gallery: [images[1], images[2], images[4]],
-        desc: "Projet de game design autour d’un monde flottant et de mécaniques de déplacement.",
-        duration: "1 mois<br>(Février 2023)",
-        role: ["Game Designer", "Prototype de mécaniques", "Direction visuelle"],
-        learned: ["Prototyper rapidement une idée", "Rendre une mécanique compréhensible", "Créer une intention visuelle forte"],
-        tools: ["U", "Bl", "Ps"],
+        img: images[9],
+        gallery: [images[9], images[10], images[11], images[12]],
+        desc: "Un jeu de carte sur les visuel des echeque et sur les regle du jeux explosing kittens",
+        duration: "2 Mois",
+        role: ["Game Designer & Level Designer", "Illustrateur", "Équilibrage", "Imprimeur", "Testeur"],
+        learned: ["Concevoir des niveaux immersifs et cohérents", "Travailler en équipe avec une bonne organisation", "Itérer grâce aux tests joueurs"],
+        tools: ["Id", "Il",],
         link: "#"
       },
       {
-        title: "Project Arena",
-        type: "Prototype — Unreal Engine",
-        tag: "Prototype",
-        color: "orange",
-        date: "AVR. 2023",
+        title: "Around The Rock",
+        type: "création d'identité visuelle ",
+        tag: "Gobelins",
+        color: "blue",
+        date: "AVR 2023",
         year: 2023,
         month: 3,
-        img: images[4],
-        video: "https://www.youtube.com/embed/dQw4w9WgXcQ?rel=0",
-        gallery: [images[4], images[0], images[2]],
-        desc: "Prototype d’arène avec boucle de combat simple, test d’équilibrage et itérations.",
-        duration: "Projet court<br>(Avril 2023)",
-        role: ["Game Designer", "Équilibrage du combat", "Tests et itérations"],
-        learned: ["Créer une boucle de gameplay claire", "Équilibrer une difficulté", "Itérer à partir de tests"],
-        tools: ["UE", "Bl", "Ps"],
-        link: "#"
-      },
-      {
-        title: "Forgotten Realms",
-        type: "Jeu vidéo — Unity",
-        tag: "Action / Aventure",
-        color: "",
-        date: "JUIN 2023",
-        year: 2023,
-        month: 5,
-        img: images[2],
-        video: "https://www.youtube.com/embed/dQw4w9WgXcQ?rel=0",
-        gallery: [images[2], images[0], images[1]],
-        desc: "Un jeu d’action-aventure médiéval fantastique où le joueur explore un monde ouvert rempli de secrets, de créatures et de quêtes.",
-        duration: "3 mois<br>(Avril 2023 – Juin 2023)",
-        role: ["Game Designer & Level Designer", "Conception des mécaniques de gameplay", "Équilibrage et itérations"],
-        learned: ["Concevoir des niveaux immersifs et cohérents", "Travailler en équipe avec une bonne organisation", "Itérer grâce aux tests joueurs"],
-        tools: ["U", "VS", "Bl", "Ps"],
-        link: "#"
-      },
-      {
-        title: "Lost Signal",
-        type: "Jeu vidéo — Unity",
-        tag: "Narratif",
-        color: "",
-        date: "AOÛT 2023",
-        year: 2023,
-        month: 7,
-        img: images[0],
-        desc: "Projet narratif sur l’exploration, les indices visuels et la tension progressive.",
-        duration: "1 mois<br>(Août 2023)",
-        role: ["Narrative Design", "Mise en scène", "Création d’indices visuels"],
-        learned: ["Créer une tension progressive", "Raconter sans dialogue", "Utiliser l’environnement comme narration"],
-        tools: ["U", "Ps"],
+        img: images[13],
+        gallery: [images[13], images[14], images[15], images[16], images[17], images[18], images[19]],
+        desc: "création d'un festival de musique avec une identité visuelle cohérente",
+        duration: "2 mois",
+        role: ["Designer", "Créateur d'identité visuelle", "Concepteur de l'expérience globale"],
+        learned: ["travaille d'equipe", "gestion de projet", "création d'une identité visuelle"],
+        tools: ["Id", "Ps", "Il"],
         link: "#"
       },
       {
@@ -1121,7 +1073,7 @@
         img: images[4],
         desc: "Prototype dungeon crawler avec structure de salle, rythme et ennemis.",
         duration: "Projet court<br>(Novembre 2023)",
-        role: ["Level Design", "Structure de salles", "Rythme d’affrontement"],
+        role: ["Level Design", "Structure de salles", "Rythme d'affrontement"],
         learned: ["Organiser une progression par salles", "Varier les situations de jeu", "Travailler le rythme joueur"],
         tools: ["UE", "Bl"],
         link: "#"
@@ -1135,10 +1087,10 @@
         year: 2024,
         month: 1,
         img: images[1],
-        desc: "Suite d’un projet scolaire avec amélioration des mécaniques et de la direction visuelle.",
+        desc: "Suite d'un projet scolaire avec amélioration des mécaniques et de la direction visuelle.",
         duration: "1 mois<br>(Février 2024)",
         role: ["Game Design", "Amélioration des mécaniques", "Direction artistique"],
-        learned: ["Améliorer un ancien concept", "Rendre une DA plus cohérente", "Clarifier l’expérience joueur"],
+        learned: ["Améliorer un ancien concept", "Rendre une DA plus cohérente", "Clarifier l'expérience joueur"],
         tools: ["U", "Bl", "Ps"],
         link: "#"
       },
@@ -1175,7 +1127,7 @@
         link: "#"
       },
       {
-        title: "Winter’s End",
+        title: "Winter's End",
         type: "Prototype — Unreal Engine",
         tag: "Ambiance",
         color: "",
@@ -1185,8 +1137,8 @@
         img: images[0],
         desc: "Prototype atmosphérique basé sur le froid, le silence et la progression lente.",
         duration: "Projet court<br>(Janvier 2025)",
-        role: ["Direction d’ambiance", "Level Design", "Prototype d’exploration"],
-        learned: ["Créer une ambiance forte avec peu d’éléments", "Travailler le silence et le rythme", "Construire une progression lente"],
+        role: ["Direction d'ambiance", "Level Design", "Prototype d'exploration"],
+        learned: ["Créer une ambiance forte avec peu d'éléments", "Travailler le silence et le rythme", "Construire une progression lente"],
         tools: ["UE", "Bl", "Ps"],
         link: "#"
       }
@@ -1194,11 +1146,26 @@
 
     const diplomas = [
       {
+        title: "Debut de formation",
+        subtitle: "Coder sa créativité <br> DNMADe Mention Numerique",
+        date: "Debut de formation",
+        year: 2022,
+        month: 8
+      },
+      {
+        title: "Alternance",
+        subtitle: "Alternance chez Scale",
+        date: "Technicien du spectacle",
+        year: 2023,
+        month: 11
+      },
+      
+      {
         title: "DIPLÔME OBTENU",
-        subtitle: "Bachelor Game Design",
-        date: "Juillet 2024",
-        year: 2024,
-        month: 6
+        subtitle: "Coder sa créativité",
+        date: "DNMADe Mention Numerique",
+        year: 2025,
+        month: 5
       }
     ];
 
@@ -1208,14 +1175,6 @@
 
     function buildTimeline() {
       for (let year = startYear; year <= endYear; year += 1) {
-        const yearX = getX(year, 0) - 38;
-
-        const label = document.createElement("div");
-        label.className = "year-label";
-        label.style.left = yearX + "px";
-        label.textContent = year;
-        yearsEl.appendChild(label);
-
         months.forEach((month, index) => {
           const x = getX(year, index);
 
@@ -1234,7 +1193,6 @@
 
       diplomas.forEach((diploma) => {
         const x = getX(diploma.year, diploma.month);
-
         const diplomaEl = document.createElement("div");
         diplomaEl.className = "diploma";
         diplomaEl.style.left = x + "px";
@@ -1249,10 +1207,10 @@
 
       projects.forEach((project) => {
         const x = getX(project.year, project.month);
-
         const card = document.createElement("article");
         card.className = "project-card";
         card.style.left = x + "px";
+        card.setAttribute("tabindex", "0");
         card.innerHTML = `
           <img src="${project.img}" alt="${project.title}">
           <div class="body">
@@ -1261,30 +1219,26 @@
             <span class="tag ${project.color}">${project.date}</span>
           </div>
         `;
-
         card.addEventListener("click", () => selectProject(project, card));
+        card.addEventListener("keydown", e => {
+          if (e.key === "Enter" || e.key === " ") selectProject(project, card);
+        });
         cardsEl.appendChild(card);
       });
     }
 
     function selectProject(project, card) {
-      document.querySelectorAll(".project-card").forEach((projectCard) => {
-        projectCard.classList.remove("active");
-      });
-
+      document.querySelectorAll(".project-card").forEach(c => c.classList.remove("active"));
       card.classList.add("active");
       detail.classList.add("visible");
 
-      const timelineSection = document.querySelector('.timeline-section');
+      const timelineSection = document.querySelector(".timeline-section");
       if (timelineSection) {
-        timelineSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        timelineSection.scrollIntoView({ behavior: "smooth", block: "start" });
       }
 
-      requestAnimationFrame(() => {
-        moveDetailArrow(card);
-      });
+      requestAnimationFrame(() => moveDetailArrow(card));
 
-      document.getElementById("detailVideo").src = project.video || "https://www.youtube.com/embed/dQw4w9WgXcQ?rel=0";
       document.getElementById("detailTitle").textContent = project.title;
       document.getElementById("detailText").textContent = project.desc;
       document.getElementById("detailDuration").innerHTML = project.duration || "Projet court<br>(" + project.date + ")";
@@ -1295,17 +1249,27 @@
         <span class="chip">${project.year}</span>
       `;
 
-      document.getElementById("roleList").innerHTML = (project.role || []).map((item) => `<li>${item}</li>`).join("");
+      document.getElementById("roleList").innerHTML = (project.role || []).map(item => `<li>${item}</li>`).join("");
+      document.getElementById("learnedList").innerHTML = (project.learned || []).map(item => `<li>${item}</li>`).join("");
+      document.getElementById("toolsList").innerHTML = (project.tools || []).map(tool => `<span class="tool">${tool}</span>`).join("");
 
-      document.getElementById("learnedList").innerHTML = (project.learned || []).map((item) => `<li>${item}</li>`).join("");
-
-      document.getElementById("toolsList").innerHTML = (project.tools || []).map((tool) => `<span class="tool">${tool}</span>`).join("");
-
-      const downloadLink = document.getElementById("downloadLink");
-      downloadLink.href = project.link || '#';
+      document.getElementById("downloadLink").href = project.link || "#";
 
       updateProjectMedia(project);
     }
+
+    function closeDetail() {
+      detail.classList.remove("visible");
+      document.querySelectorAll(".project-card").forEach(c => c.classList.remove("active"));
+      // Stopper la vidéo proprement
+      document.getElementById("detailVideo").src = "about:blank";
+    }
+
+    document.getElementById("detailClose").addEventListener("click", closeDetail);
+
+    document.addEventListener("keydown", e => {
+      if (e.key === "Escape" && detail.classList.contains("visible")) closeDetail();
+    });
 
     function moveDetailArrow(card) {
       const cardRect = card.getBoundingClientRect();
@@ -1313,7 +1277,6 @@
       const cardCenter = cardRect.left + cardRect.width / 2;
       const arrowX = cardCenter - detailRect.left;
       const safeX = Math.max(28, Math.min(arrowX, detailRect.width - 28));
-
       detail.style.setProperty("--arrow-left", safeX + "px");
     }
 
@@ -1324,8 +1287,6 @@
       currentYearEl.textContent = visibleYear;
     }
 
-    
-
     timeline.addEventListener("wheel", (event) => {
       if (Math.abs(event.deltaY) > Math.abs(event.deltaX)) {
         event.preventDefault();
@@ -1334,61 +1295,61 @@
     }, { passive: false });
 
     let scrollTimer;
-
     timeline.addEventListener("scroll", () => {
       const activeCard = document.querySelector(".project-card.active");
-
       updateCurrentYear();
       detail.classList.add("no-arrow-transition");
-
-      if (activeCard) {
-        moveDetailArrow(activeCard);
-      }
-
+      if (activeCard) moveDetailArrow(activeCard);
       clearTimeout(scrollTimer);
       scrollTimer = setTimeout(() => {
         detail.classList.remove("no-arrow-transition");
-
-        if (activeCard) {
-          moveDetailArrow(activeCard);
-        }
+        if (activeCard) moveDetailArrow(activeCard);
       }, 120);
     });
 
     window.addEventListener("resize", () => {
       const activeCard = document.querySelector(".project-card.active");
-
       updateCurrentYear();
-
-      if (activeCard) {
-        moveDetailArrow(activeCard);
-      }
+      if (activeCard) moveDetailArrow(activeCard);
     });
 
     function getYoutubeThumb(url) {
-      if (!url) return "https://img.youtube.com/vi/dQw4w9WgXcQ/hqdefault.jpg";
+      if (!url) return "";
       const match = url.match(/embed\/([^?&]+)/);
-      const id = match ? match[1] : "dQw4w9WgXcQ";
-      return `https://img.youtube.com/vi/${id}/hqdefault.jpg`;
+      const id = match ? match[1] : "";
+      return id ? `https://img.youtube.com/vi/${id}/hqdefault.jpg` : "";
     }
 
     function updateProjectMedia(project) {
       const videoWrap = document.getElementById("videoWrap");
+      const detailVideo = document.getElementById("detailVideo");
       const detailImage = document.getElementById("detailImage");
-      const thumbsContainer = document.querySelector(".thumbs");
-      const gallery = project.gallery || [project.img];
+      const thumbsContainer = document.getElementById("thumbsContainer");
 
+      // Stopper la vidéo précédente
+      detailVideo.src = "about:blank";
+      videoWrap.classList.remove("active");
+
+      const gallery = project.gallery && project.gallery.length ? project.gallery : [project.img];
+
+      // Afficher la première image par défaut
       detailImage.src = gallery[0];
-      detailImage.classList.remove("active");
-      videoWrap.classList.add("active");
+      detailImage.alt = project.title;
+      detailImage.classList.add("active");
 
       thumbsContainer.innerHTML = `
-        <button class="media-thumb video-thumb active" type="button" data-type="video" aria-label="Afficher la vidéo" style="background-image:url('${getYoutubeThumb(project.video)}')">
-          <span class="play-icon">▶</span>
-          <span>Vidéo</span>
-        </button>
+        ${project.video ? `
+          <button class="media-thumb video-thumb" type="button" data-type="video" data-src="${project.video}"
+            style="background-image:url('${getYoutubeThumb(project.video)}')">
+            <span class="play-icon">▶</span>
+            <span>Vidéo</span>
+          </button>
+        ` : ""}
         ${gallery.map((src, index) => `
-          <img class="media-thumb" src="${src}" alt="${project.title} image ${index + 1}" data-type="image">
+          <img class="media-thumb ${index === 0 ? "active" : ""}"
+              src="${src}"
+              alt="${project.title} — image ${index + 1}"
+              data-type="image">
         `).join("")}
       `;
 
@@ -1397,20 +1358,25 @@
 
     function enableThumbSelection() {
       const videoWrap = document.getElementById("videoWrap");
+      const detailVideo = document.getElementById("detailVideo");
       const detailImage = document.getElementById("detailImage");
       const thumbs = document.querySelectorAll(".media-thumb");
 
       thumbs.forEach((thumb) => {
         thumb.addEventListener("click", () => {
-          thumbs.forEach((item) => item.classList.remove("active"));
+          thumbs.forEach(t => t.classList.remove("active"));
           thumb.classList.add("active");
 
           if (thumb.dataset.type === "video") {
             detailImage.classList.remove("active");
+            // Charger la vidéo seulement au clic
+            detailVideo.src = thumb.dataset.src;
             videoWrap.classList.add("active");
             return;
           }
 
+          // Stopper la vidéo si on revient sur une image
+          detailVideo.src = "about:blank";
           videoWrap.classList.remove("active");
           detailImage.src = thumb.src;
           detailImage.classList.add("active");
@@ -1419,17 +1385,8 @@
     }
 
     buildTimeline();
-    enableThumbSelection();
     timeline.scrollLeft = 0;
     updateCurrentYear();
-
-    setTimeout(() => {
-      const activeCard = document.querySelector(".project-card.active");
-
-      if (activeCard) {
-        moveDetailArrow(activeCard);
-      }
-    }, 80);
   </script>
 </body>
 </html>
