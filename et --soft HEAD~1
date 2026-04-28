@@ -1,0 +1,127 @@
+[33mcommit ceff1e8ff4511c6ee69b581affe0b91754f924af[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mAxel-MODIF[m[33m)[m
+Author: arcdragons <axelmarion6@gmail.com>
+Date:   Tue Apr 28 21:44:15 2026 +0200
+
+    Revert "farcry"
+    
+    This reverts commit f4c8830632bcced19259b654a744fc5ea9eda239.
+
+[33mcommit 5e49b2da2784561e85352682ed53093c9908ec11[m
+Author: arcdragons <axelmarion6@gmail.com>
+Date:   Tue Apr 28 16:32:58 2026 +0200
+
+    portal
+
+[33mcommit f4c8830632bcced19259b654a744fc5ea9eda239[m
+Author: arcdragons <axelmarion6@gmail.com>
+Date:   Tue Apr 28 16:21:42 2026 +0200
+
+    farcry
+
+[33mcommit f94bd8bafff196713190a8109f8a45f1e317d804[m[33m ([m[1;31morigin/Axel-MODIF[m[33m)[m
+Author: arcdragons <axelmarion6@gmail.com>
+Date:   Tue Apr 28 16:18:06 2026 +0200
+
+    save
+
+[33mcommit 438501c4839d9a858692f4135b082f8c8926c790[m
+Author: arcdragons <axelmarion6@gmail.com>
+Date:   Tue Apr 28 01:25:13 2026 +0200
+
+    projet
+
+[33mcommit 671c3aa95dce5f9698868f647f6c0ffb15382676[m
+Author: arcdragons <axelmarion6@gmail.com>
+Date:   Mon Apr 27 12:52:49 2026 +0200
+
+    frise projet
+
+[33mcommit 9bb015af8824e87c53798793bc7016c19a83a956[m
+Author: arcdragons <axelmarion6@gmail.com>
+Date:   Mon Apr 27 10:22:20 2026 +0200
+
+    add jeux cool
+
+[33mcommit 950296c3dff76104dc43aaa58c62c6b9c7e27cd1[m
+Author: arcdragons <axelmarion6@gmail.com>
+Date:   Mon Apr 27 01:17:59 2026 +0200
+
+    lol mieux
+
+[33mcommit 9f3baac878c01eb35ea6462609328c956d87bb48[m[33m ([m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m)[m
+Author: Zorgos <pierre-louis.sans@edu.devinci.fr>
+Date:   Sun Apr 26 20:48:38 2026 +0200
+
+    ftg mon bebou
+
+[33mcommit 7ff51f16cbc8030641cafd44e7a3c5a0aa4ea5bf[m[33m ([m[1;31morigin/dev[m[33m, [m[1;32mmain[m[33m, [m[1;32mdev[m[33m)[m
+Author: Pierre-Louis <113120336+Pl83@users.noreply.github.com>
+Date:   Wed Apr 9 13:04:23 2025 +0200
+
+    :speech_balloon: oupsi
+
+[33mcommit 02cd8ef1583b8da8d56992d77347c5fa0db0663e[m
+Author: Pierre-Louis <113120336+Pl83@users.noreply.github.com>
+Date:   Wed Apr 9 12:54:01 2025 +0200
+
+    :lipstick: fix card
+
+[33mcommit 36f4f6c965c749884de3cbeae9ec07096aa40d57[m
+Author: Pierre-Louis <113120336+Pl83@users.noreply.github.com>
+Date:   Wed Apr 9 12:53:08 2025 +0200
+
+    :speech_balloon: change text in index
+
+[33mcommit 30e6bfffb37b3b6244306130f7a1004f2f0d44d2[m
+Author: Zorgos <pierre-louis.sans@edu.devinci.fr>
+Date:   Wed Apr 9 12:40:22 2025 +0200
+
+    :iphone: mobile first responsive
+
+[33mcommit d6e52333c91e11ac8593016ffe6b29e4b405961f[m
+Author: Zorgos <pierre-louis.sans@edu.devinci.fr>
+Date:   Tue Mar 11 23:06:14 2025 +0100
+
+    rezgthf
+
+[33mcommit a59e032ac6567d819bd11e399d3d09295e2b769a[m
+Author: Zorgos <pierre-louis.sans@edu.devinci.fr>
+Date:   Tue Mar 11 23:03:23 2025 +0100
+
+    zadefregt
+
+[33mcommit e3e248c638e01be8443eaaee929f0f9c2b6376af[m
+Author: Zorgos <pierre-louis.sans@edu.devinci.fr>
+Date:   Tue Mar 11 22:58:03 2025 +0100
+
+    dqefrgdthy
+
+[33mcommit bb9f52b1e76e1756e68661cd865e0a5d1fdc30b0[m
+Author: Zorgos <pierre-louis.sans@edu.devinci.fr>
+Date:   Tue Mar 11 22:52:55 2025 +0100
+
+    zdezfrgt
+
+[33mcommit 9d094e020cf3a6a456315a07673a6bcc47253404[m
+Author: Zorgos <pierre-louis.sans@edu.devinci.fr>
+Date:   Tue Mar 11 22:43:31 2025 +0100
+
+    :bug: fix import js
+
+[33mcommit 3e62b0f2cbc55d431c009f921aca2262de6aa2bd[m
+Author: Zorgos <pierre-louis.sans@edu.devinci.fr>
+Date:   Tue Mar 11 22:36:04 2025 +0100
+
+    :tada:
+
+[33mcommit fb3bc9d155e522b5cf3b09cae1b212aae7b4882d[m
+Author: Zorgos <pierre-louis.sans@edu.devinci.fr>
+Date:   Tue Mar 11 20:45:26 2025 +0100
+
+    tre
+
+[33mcommit 996896cb6e3c83ee2e00967d9c7951e2e2baa6a6[m
+Author: Zorgos <pierre-louis.sans@edu.devinci.fr>
+Date:   Tue Mar 11 20:45:15 2025 +0100
+
+    first commit
