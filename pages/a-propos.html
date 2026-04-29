@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Axel Marion — Jeux</title>
+  <title>Axel Marion — À propos</title>
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -598,13 +598,13 @@
 
 <body>
   <header id="header">
-    <a href="/index.html" class="logo">AM</a>
+    <a href="/index.html" class="logo">A<span>M</span></a>
 
     <nav class="nav-links">
       <a href="/index.html">Accueil</a>
       <a href="/pages/projet.html">Projets</a>
-      <a href="/pages/jeux.html" class="active">Jeux</a>
-      <a href="/pages/a-propos.html">À propos</a>
+      <a href="/pages/jeux.html">Jeux</a>
+      <a href="/pages/a-propos.html" class="active">À propos</a>
     </nav>
 
     <button class="burger" id="burgerBtn" aria-label="Menu">
@@ -615,257 +615,41 @@
   <div class="drawer" id="drawer">
     <a href="/index.html">Accueil</a>
     <a href="/pages/projet.html">Projets</a>
-    <a href="/pages/jeux.html" class="active">Jeux</a>
-    <a href="/pages/a-propos.html">À propos</a>
+    <a href="/pages/jeux.html">Jeux</a>
+    <a href="/pages/a-propos.html" class="active">À propos</a>
   </div>
 
   <section id="hero" class="hero">
     <div class="hero-content">
       <p class="hero-sub">Portfolio jeu vidéo</p>
       <h1 class="hero-title">
-        Jeux<br>
-        <span class="hero-accent">Game design<br>univers interactifs</span>
+        À propos<br>
+        <span class="hero-accent">Axel MARION</span>
       </h1>
       <p class="hero-desc">
-        Découvrez les jeux que j’ai imaginés, conçus et produits. Game design, level design,
-        direction artistique, prototypage et développement Unity.
+        Fait des truc pas serieux, mais serieusement
       </p>
     </div>
   </section>
 
   <section id="jeux" class="section">
     <div class="section-header">
-      <div class="section-label"><span class="dot"></span>Tous les jeux</div>
-      <div>
-        <div class="filters">
-          <button data-type="all" class="active">Tous</button>
-          <button data-type="Jeu vidéo">Jeu vidéo</button>
-          <button data-type="Prototype">Prototype</button>
-        </div>
-
-        <div class="filters" id="modeFilter">
-          <button data-mode="all" class="active">Tous modes</button>
-          <button data-mode="Solo">Solo</button>
-          <button data-mode="Équipe">Équipe</button>
-        </div>
-
-        <div class="tools-filter" id="toolsFilter"></div>
-      </div>
+        <h2 class="section-title">À propos de moi</h2>
     </div>
-
-    <div class="games-layout">
-      <div class="games-grid" id="gamesGrid"></div>
-      <div class="detail-overlay" id="detailOverlay"></div>
-      <aside class="detail-panel" id="detailPanel"></aside>
+    <div class="about-section">
+      <p>
+        Je suis un développeur de jeux vidéo passionné, spécialisé dans la création d'expériences interactives uniques. Avec une solide expérience en programmation et en design de jeux, je m'efforce de repousser les limites de la créativité pour offrir des aventures captivantes aux joueurs du monde entier.
+      </p>
+      <p>
+        Mon parcours dans l'industrie du jeu vidéo a débuté il y a plusieurs années, lorsque j'ai découvert ma passion pour la programmation et le design de jeux. Depuis lors, j'ai travaillé sur une variété de projets, allant de petits jeux indépendants à des titres plus ambitieux. Mon objectif est de créer des expériences de jeu mémorables qui captivent les joueurs et les transportent dans des mondes imaginaires fascinants.
+      </p>
     </div>
+    <a href="/documents/CV_Axel_Marion.pdf" target="_blank" class="btn-secondary">Télécharger mon CV</a>
   </section>
 
   <footer>© 2025 Axel Marion</footer>
 
   <script>
-    const games = [
-      {
-        title: "Floatland",
-        type: "Jeu Vidéo",
-        mode: "Équipe",
-        year: "2024",
-        platform: "VR / PC",
-        engine: "Unity",
-        duration: "Projet fin d’année",
-        team: "3 personnes",
-        role: "Level Design, Game Design, Développement Unity, Implémentation",
-        tools: ["Unity", "Blender", "C#", "VR"],
-        image: "/realisation/floatland/floatland.png",
-        description: "Jeu VR composé d’îles thématiques, chacune avec son identité visuelle et ses mini-jeux. Le joueur explore un monde lowpoly pensé pour l’immersion et l’interaction.",
-        contributions: [
-          "Conception du level design des îles",
-          "Création des mécaniques de mini-jeux",
-          "Intégration et développement dans Unity",
-          "Réflexion sur l’expérience utilisateur en VR"
-        ]
-      },
-      {
-        title: "Révolte",
-        type: "Jeu de cartes",
-        mode: "Solo",
-        year: "2023",
-        platform: "Physique",
-        engine: "Prototype papier",
-        duration: "Projet de cours",
-        team: "Solo",
-        role: "Game Design, règles, cartes, prototype interactif",
-        tools: ["Photoshop", "Illustrator", "JavaScript"],
-        image: "/realisation/carte/dos.png",
-        description: "Jeu de société interactif pensé pour 4 joueurs, basé sur des cartes, des effets et une logique d’affrontement entre factions.",
-        contributions: [
-          "Création des règles de jeu",
-          "Conception des cartes et de leurs effets",
-          "Direction graphique du jeu",
-          "Prototype interactif sur le portfolio"
-        ]
-      },
-      {
-        title: "After the Révolte",
-        type: "Prototype",
-        mode: "Solo",
-        year: "2023",
-        platform: "PandaSuite",
-        engine: "PandaSuite",
-        duration: "Projet court",
-        team: "Solo",
-        role: "Narration interactive, UX, prototypage",
-        tools: ["PandaSuite", "Photoshop"],
-        image: "/realisation/afterrevolt/moyen.png",
-        description: "Prototype narratif inspiré de Reigns, où le joueur avance par décisions successives et conséquences immédiates.",
-        contributions: [
-          "Structure de l’expérience interactive",
-          "Création du système de décisions",
-          "Écriture des situations",
-          "Intégration sur PandaSuite"
-        ]
-      },
-      {
-        title: "Infinity Dot",
-        type: "Prototype",
-        mode: "Équipe",
-        year: "2025",
-        platform: "Web",
-        engine: "Three.js",
-        duration: "Projet court",
-        team: "Solo",
-        role: "Développement créatif, expérimentation visuelle",
-        tools: ["Three.js", "JavaScript"],
-        image: "/realisation/infinitydot.png",
-        description: "Expérimentation visuelle autour de particules et de formes génératives en Three.js.",
-        contributions: [
-          "Création d’une scène interactive",
-          "Manipulation de formes et particules",
-          "Recherche esthétique autour du mouvement",
-          "Développement web créatif"
-        ]
-      },
-      {
-        title: "Dot Musique",
-        type: "Prototype",
-        mode: "Solo",
-        year: "2025",
-        platform: "Web",
-        engine: "Vue.js",
-        duration: "Projet court",
-        team: "Solo",
-        role: "Développement web, interaction audio",
-        tools: ["Vue.js", "JavaScript"],
-        image: "/realisation/dotmusic.png",
-        description: "Visualisation audio réactive qui explore l’effet du son sur des particules et éléments graphiques.",
-        contributions: [
-          "Création d’une interface interactive",
-          "Lien entre son et animation",
-          "Expérimentation avec Vue.js",
-          "Travail sur le rythme visuel"
-        ]
-      },
-      {
-        title: "Fragment",
-        type: "Jeu vidéo",
-        mode: "Solo",
-        year: "2025",
-        platform: "Recherche / Design",
-        engine: "Analyse Level Design",
-        duration: "Mémoire",
-        team: "Solo",
-        role: "Recherche, analyse, level design",
-        tools: ["Unity", "Photoshop"],
-        image: "/realisation/fragment/fragment.png",
-        description: "Recherche sur la manière dont le level design peut guider le joueur dans les FPS sans casser l’immersion.",
-        contributions: [
-          "Analyse de références FPS",
-          "Étude des signes visuels et spatiaux",
-          "Réflexion sur le guidage joueur",
-          "Rédaction d’un mémoire complet"
-        ]
-      },
-            {
-        title: "Lead Game Designer",
-        type: "Jeu vidéo",
-        mode: "Solo",
-        year: "2026",
-        platform: "Recherche / Design",
-        engine: "Analyse Level Design",
-        duration: "Mémoire",
-        team: "Solo",
-        role: "Recherche, analyse, level design",
-        tools: ["Unity",],
-        image: "https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=1200&q=80",
-        description: "Recherche sur la manière dont le level design peut guider le joueur dans les FPS sans casser l’immersion.",
-        contributions: [
-          "Analyse de références FPS",
-          "Étude des signes visuels et spatiaux",
-          "Réflexion sur le guidage joueur",
-          "Rédaction d’un mémoire complet"
-        ]
-      },
-      {
-        title: "Level Designer Portal 2",
-        type: "Blocking",
-        mode: "Solo",
-        year: "2025",
-        platform: "Recherche / Design",
-        engine: "Analyse Level Design",
-        duration: "Mémoire",
-        team: "Solo",
-        role: "Recherche, analyse, level design",
-        tools: ["Unity", "Photoshop"],
-        image: "https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=1200&q=80",
-        description: "Recherche sur la manière dont le level design peut guider le joueur dans les FPS sans casser l’immersion.",
-        contributions: [
-          "Analyse de références FPS",
-          "Étude des signes visuels et spatiaux",
-          "Réflexion sur le guidage joueur",
-          "Rédaction d’un mémoire complet"
-        ]
-      },
-      {
-        title: "Blocking Level Designer Far Cry 5",
-        type: "Blocking",
-        mode: "Solo",
-        year: "2025",
-        platform: "Recherche / Design",
-        engine: "Analyse Level Design",
-        duration: "Mémoire",
-        team: "Solo",
-        role: "Recherche, analyse, level design",
-        tools: ["Unity", "Photoshop"],
-        image: "https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=1200&q=80",
-        description: "Recherche sur la manière dont le level design peut guider le joueur dans les FPS sans casser l’immersion.",
-        contributions: [
-          "Analyse de références FPS",
-          "Étude des signes visuels et spatiaux",
-          "Réflexion sur le guidage joueur",
-          "Rédaction d’un mémoire complet"
-        ]
-      },
-      {
-        title: "Blocking Level Designer Plague Tale Requiem",
-        type: "Blocking",
-        mode: "Solo",
-        year: "2026",
-        platform: "Recherche / Design",
-        engine: "Analyse Level Design",
-        duration: "Mémoire",
-        team: "Solo",
-        role: "Recherche, analyse, level design",
-        tools: ["Unity", "Photoshop"],
-        image: "https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=1200&q=80",
-        description: "Recherche sur la manière dont le level design peut guider le joueur dans les FPS sans casser l’immersion.",
-        contributions: [
-          "Analyse de références FPS",
-          "Étude des signes visuels et spatiaux",
-          "Réflexion sur le guidage joueur",
-          "Rédaction d’un mémoire complet"
-        ]
-      },
-    ];
-
     const gamesGrid = document.getElementById('gamesGrid');
     const detailPanel = document.getElementById('detailPanel');
     const detailOverlay = document.getElementById('detailOverlay');
@@ -875,157 +659,7 @@
     const drawer = document.getElementById('drawer');
     const hero = document.getElementById('hero');
     const heroContent = document.querySelector('.hero-content');
-    let activeType = 'all';
-    let activeMode = 'all';
-    let activeTool = 'all';
     
-
-    function displayGames() {
-      gamesGrid.innerHTML = '';
-
-      const filteredGames = games.filter(game => {
-      const matchType = activeType === 'all' || game.type === activeType;
-      const matchMode = activeMode === 'all' || game.mode === activeMode;
-      const matchTool = activeTool === 'all' || game.tools.includes(activeTool);
-
-      return matchType && matchMode && matchTool;
-    });
-
-      filteredGames.forEach((game, index) => {
-        const card = document.createElement('article');
-        card.className = 'game-card';
-        card.innerHTML = `
-          <div class="game-img"><img src="${game.image}" alt="${game.title}"></div>
-          <div class="game-info">
-            <span class="game-cat">${game.type}</span>
-            <h3>${game.title}</h3>
-            <p>${game.year} · ${game.platform}</p>
-            <span class="game-arrow">↗</span>
-          </div>
-        `;
-
-        card.addEventListener('click', () => {
-          document.querySelectorAll('.game-card').forEach(c => c.classList.remove('active'));
-          card.classList.add('active');
-          displayDetails(game);
-          openDetailPanel();
-        });
-
-        gamesGrid.appendChild(card);
-
-        if (index === 0) {
-          card.classList.add('active');
-          displayDetails(game);
-        }
-      });
-
-      if (filteredGames.length === 0) {
-        detailPanel.innerHTML = '<p>Aucun projet ne correspond à ce filtre.</p>';
-      }
-    }
-
-    // ---------- TYPE ----------
-    document.querySelectorAll('[data-type]').forEach(btn => {
-      btn.addEventListener('click', () => {
-        document.querySelectorAll('[data-type]').forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
-        activeType = btn.dataset.type;
-        displayGames();
-      });
-    });
-
-    // ---------- MODE ----------
-    document.querySelectorAll('[data-mode]').forEach(btn => {
-      btn.addEventListener('click', () => {
-        document.querySelectorAll('[data-mode]').forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
-        activeMode = btn.dataset.mode;
-        displayGames();
-      });
-    });
-
-    function displayDetails(game) {
-      detailPanel.innerHTML = `
-        <button class="detail-close" onclick="closeDetailPanel()">✕</button>
-        <h2 class="detail-title">${game.title}</h2>
-        <div class="detail-meta">${game.type} · ${game.platform} · ${game.year}</div>
-        <img class="detail-cover" src="${game.image}" alt="${game.title}">
-        <p class="detail-desc">${game.description}</p>
-
-        <div class="detail-infos">
-          <div class="detail-info"><strong>Mon rôle</strong><span>${game.role}</span></div>
-          <div class="detail-info"><strong>Équipe</strong><span>${game.team}</span></div>
-          <div class="detail-info"><strong>Moteur</strong><span>${game.engine}</span></div>
-          <div class="detail-info"><strong>Durée</strong><span>${game.duration}</span></div>
-        </div>
-
-        <h3 class="contrib-title">Outils</h3>
-        <div class="tools-list">
-          ${game.tools.map(tool => `
-            <div class="tool">
-              ${getToolIcon(tool) ? `<img src="${getToolIcon(tool)}" class="tool-icon" alt="${tool}">` : ''}
-              <span class="tool-name">${tool}</span>
-            </div>
-          `).join('')}
-        </div>
-
-        <h3 class="contrib-title">Mes contributions</h3>
-        <ul class="contrib-list">
-          ${game.contributions.map(item => `<li>${item}</li>`).join('')}
-        </ul>
-      `;
-    }
-
-    function openDetailPanel() {
-      detailPanel.classList.add('open');
-      detailOverlay.classList.add('open');
-      document.body.style.overflow = 'hidden';
-    }
-
-    function closeDetailPanel() {
-      detailPanel.classList.remove('open');
-      detailOverlay.classList.remove('open');
-      document.body.style.overflow = '';
-    }
-
-    detailOverlay.addEventListener('click', closeDetailPanel);
-
-    function getToolIcon(tool) {
-      const icons = {
-        "Unity": "https://cdn.simpleicons.org/unity/ffffff",
-        "Blender": "https://cdn.simpleicons.org/blender/ffffff",
-        "C#": "https://cdn.simpleicons.org/csharp/ffffff",
-        "Three.js": "https://cdn.simpleicons.org/threedotjs/ffffff",
-        "Vue.js": "https://cdn.simpleicons.org/vuedotjs/ffffff",
-        "Photoshop": "https://cdn.simpleicons.org/adobephotoshop/ffffff",
-        "Illustrator": "https://cdn.simpleicons.org/adobeillustrator/ffffff",
-        "PandaSuite": null,
-        "JavaScript": "https://cdn.simpleicons.org/javascript/ffffff",
-        "VR": null
-      };
-
-      return icons[tool] || null;
-    }
-
-    function buildToolFilters() {
-      const tools = ['all', ...new Set(games.flatMap(game => game.tools))];
-
-      toolsFilter.innerHTML = tools.map(tool => `
-        <button class="${tool === 'all' ? 'active' : ''}" data-tool="${tool}">
-          ${tool === 'all' ? 'Tous les outils' : tool}
-        </button>
-      `).join('');
-
-      toolsFilter.querySelectorAll('button').forEach(button => {
-        button.addEventListener('click', () => {
-          toolsFilter.querySelectorAll('button').forEach(btn => btn.classList.remove('active'));
-          button.classList.add('active');
-          activeTool = button.dataset.tool;
-          displayGames();
-        });
-      });
-    }
-
     function updateHeroOnScroll() {
       const scroll = window.scrollY;
       const progress = Math.min(scroll / 420, 1);
@@ -1045,30 +679,8 @@
       heroContent.style.transform = `translate3d(0, -${contentMove}px, 0)`;
     }
 
-    filterButtons.forEach(button => {
-      button.addEventListener('click', () => {
-        filterButtons.forEach(btn => btn.classList.remove('active'));
-        button.classList.add('active');
-        activeCategory = button.dataset.filter;
-        displayGames();
-      });
-    });
-
-    burgerBtn.addEventListener('click', () => {
-      burgerBtn.classList.toggle('open');
-      drawer.classList.toggle('open');
-    });
-
-    drawer.querySelectorAll('a').forEach(link => {
-      link.addEventListener('click', () => {
-        burgerBtn.classList.remove('open');
-        drawer.classList.remove('open');
-      });
-    });
-
     window.addEventListener('scroll', updateHeroOnScroll);
 
-    displayGames();
     updateHeroOnScroll();
   </script>
 </body>
