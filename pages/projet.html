@@ -1,4 +1,4 @@
-<!doctype html>
+﻿<!doctype html>
 <html lang="fr">
 <head>
   <meta charset="UTF-8" />
@@ -6,141 +6,117 @@
   <meta name="description" content="Portfolio d'Axel Marion, game designer et level designer — parcours en projets.">
   <title>Axel Marion — Parcours</title>
 
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../src/style.css">
 
   <style>
     :root {
-      --bg: #050912;
-      --panel: rgba(13, 19, 32, 0.82);
-      --panel2: rgba(17, 24, 39, 0.72);
-      --border: rgba(255, 255, 255, 0.10);
-      --text: #f5f7fb;
-      --muted: #9ca3af;
-      --soft: #cbd5e1;
-      --accent: #9b5cff;
-      --accent2: #c084fc;
       --green: #74d674;
       --blue: #67d4ff;
       --orange: #ffb45c;
-      --shadow: 0 24px 80px rgba(0, 0, 0, 0.42);
     }
 
-    * {
-      box-sizing: border-box;
-    }
-
-    body {
-      margin: 0;
-      font-family: Inter, system-ui, sans-serif;
-      color: var(--text);
-      background:
-        radial-gradient(circle at 20% 0%, rgba(155, 92, 255, 0.18), transparent 30%),
-        radial-gradient(circle at 80% 20%, rgba(86, 64, 255, 0.12), transparent 28%),
-        var(--bg);
-      overflow-x: hidden;
-    }
-
-    a {
-      color: inherit;
-      text-decoration: none;
-    }
-
-    .page {
-      min-height: 100vh;
-      padding: 26px 42px 54px;
-    }
-
-    header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 70px;
-    }
-
-    .logo {
-      font-size: 22px;
-      font-weight: 800;
-      letter-spacing: -0.04em;
-    }
-
-    .logo span {
-      color: var(--accent);
-    }
-
-    nav {
-      display: flex;
-      align-items: center;
-      gap: 42px;
-      font-size: 13px;
-      font-weight: 700;
-      text-transform: uppercase;
-      color: #d7dce6;
-    }
-
-    nav a {
-      opacity: 0.9;
-      position: relative;
-    }
-
-    nav a.active {
-      color: #ffffff;
-    }
-
-    nav a.active::after {
-      content: "";
+    /* Override .dot (style.css = 8px inline indicator; here = 12px absolute timeline dot) */
+    .dot {
       position: absolute;
-      left: 0;
-      right: 0;
-      bottom: -14px;
-      height: 2px;
+      top: 145px;
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: #d8c7ff;
+      transform: translateX(-50%);
+      box-shadow: 0 0 14px rgba(155, 92, 255, 0.8);
+      z-index: 3;
+      flex-shrink: unset;
+    }
+
+    .dot.big {
+      width: 24px;
+      height: 24px;
+      top: 139px;
       background: var(--accent);
-      box-shadow: 0 0 18px var(--accent);
+      box-shadow: 0 0 28px rgba(155, 92, 255, 0.95);
     }
 
-    .contact {
-      border: 1px solid var(--accent);
-      color: #ffffff;
-      padding: 10px 22px;
-      border-radius: 999px;
-      box-shadow: inset 0 0 20px rgba(155, 92, 255, 0.12);
-    }
-
+    /* ─── Sticky hero ─── */
     .hero {
-      display: grid;
-      grid-template-columns: 1fr auto;
-      gap: 24px;
-      align-items: start;
-      margin-bottom: 60px;
+      position: sticky;
+      top: 0;
+      height: 60vh;
+      min-height: 420px;
+      padding: calc(var(--header-h) + 40px) clamp(20px, 6vw, 96px) 70px;
+      display: flex;
+      align-items: center;
+      overflow: hidden;
+      background: var(--bg);
+      will-change: filter;
     }
 
-    .eyebrow {
-      color: var(--accent2);
-      font-weight: 800;
+    .hero::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(90deg, rgba(15,15,15,1) 0%, rgba(15,15,15,.88) 42%, rgba(15,15,15,.35) 100%),
+        radial-gradient(ellipse 70% 60% at 75% 50%, rgba(155,109,255,.28), transparent 70%),
+        radial-gradient(ellipse 40% 60% at 92% 30%, rgba(192,132,252,.12), transparent 60%);
+      transform: scale(1.08);
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.05'/%3E%3C/svg%3E");
+      background-size: 200px;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      max-width: 720px;
+    }
+
+    .hero-sub {
+      font-size: .88rem;
+      letter-spacing: .12em;
       text-transform: uppercase;
-      font-size: 13px;
-      margin-bottom: 14px;
+      color: var(--muted);
+      margin-bottom: 16px;
     }
 
-    h1 {
-      margin: 0 0 16px;
-      font-size: clamp(36px, 4vw, 62px);
-      line-height: 1;
-      letter-spacing: -0.06em;
+    .hero-title {
+      font-family: var(--font-d);
+      font-size: clamp(4rem, 9vw, 8rem);
+      line-height: .95;
+      color: #fff;
+      margin-bottom: 20px;
     }
 
-    h1 span {
-      color: var(--accent);
+    .hero-accent {
+      color: var(--accent2);
+      font-size: clamp(2.4rem, 5vw, 5.4rem);
     }
 
-    .hero p {
-      max-width: 490px;
-      color: var(--soft);
-      line-height: 1.65;
-      margin: 0;
+    .hero-desc {
+      color: var(--muted);
+      max-width: 560px;
+      line-height: 1.75;
     }
 
+    /* ─── Content scrolls over hero ─── */
+    main.page {
+      position: relative;
+      z-index: 2;
+      background: var(--bg);
+      min-height: 100vh;
+      padding: 40px 42px 54px;
+    }
+
+    /* ─── Timeline ─── */
     .timeline-section {
       position: relative;
       margin-left: -42px;
@@ -191,9 +167,7 @@
       scrollbar-width: none;
     }
 
-    .timeline-scroll::-webkit-scrollbar {
-      display: none;
-    }
+    .timeline-scroll::-webkit-scrollbar { display: none; }
 
     .timeline-track {
       min-width: 1800px;
@@ -201,9 +175,7 @@
       position: relative;
     }
 
-    .line {
-      display: none;
-    }
+    .line { display: none; }
 
     .timeline-fixed-line {
       position: absolute;
@@ -213,8 +185,8 @@
       height: 3px;
       z-index: 1;
       pointer-events: none;
-      background: linear-gradient(90deg, rgba(155, 92, 255, 0.1), rgba(155, 92, 255, 0.95), rgba(155, 92, 255, 0.1));
-      box-shadow: 0 0 22px rgba(155, 92, 255, 0.6);
+      background: linear-gradient(90deg, rgba(155,92,255,0.1), rgba(155,92,255,0.95), rgba(155,92,255,0.1));
+      box-shadow: 0 0 22px rgba(155,92,255,0.6);
     }
 
     .years {
@@ -226,31 +198,11 @@
       position: absolute;
       top: 120px;
       transform: translateX(-50%);
-      color: #c7cbd5;
+      color: var(--muted);
       font-size: 13px;
       font-weight: 700;
       text-transform: uppercase;
       white-space: nowrap;
-    }
-
-    .dot {
-      position: absolute;
-      top: 145px;
-      width: 12px;
-      height: 12px;
-      border-radius: 50%;
-      background: #d8c7ff;
-      transform: translateX(-50%);
-      box-shadow: 0 0 14px rgba(155, 92, 255, 0.8);
-      z-index: 3;
-    }
-
-    .dot.big {
-      width: 24px;
-      height: 24px;
-      top: 139px;
-      background: var(--accent);
-      box-shadow: 0 0 28px rgba(155, 92, 255, 0.95);
     }
 
     .cards-row {
@@ -265,11 +217,11 @@
       height: 245px;
       border: 1px solid var(--border);
       border-radius: 12px;
-      background: var(--panel);
+      background: rgba(255,255,255,.04);
       cursor: pointer;
       transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
       transform: translateX(-50%);
-      box-shadow: 0 18px 48px rgba(0, 0, 0, 0.28);
+      box-shadow: 0 18px 48px rgba(0,0,0,0.28);
     }
 
     .project-card::before {
@@ -279,7 +231,7 @@
       left: 50%;
       width: 1px;
       height: 42px;
-      background: linear-gradient(180deg, rgba(155, 92, 255, 0.9), rgba(155, 92, 255, 0.1));
+      background: linear-gradient(180deg, rgba(155,92,255,0.9), rgba(155,92,255,0.1));
       transform: translateX(-50%);
       z-index: 2;
       pointer-events: none;
@@ -288,7 +240,7 @@
     .project-card:hover,
     .project-card.active {
       border-color: var(--accent);
-      box-shadow: 0 0 0 1px rgba(155, 92, 255, 0.35), 0 0 32px rgba(155, 92, 255, 0.3);
+      box-shadow: 0 0 0 1px rgba(155,92,255,0.35), 0 0 32px rgba(155,92,255,0.3);
       transform: translateX(-50%) translateY(-8px);
     }
 
@@ -300,9 +252,7 @@
       display: block;
     }
 
-    .project-card .body {
-      padding: 14px;
-    }
+    .project-card .body { padding: 14px; }
 
     .project-card h3 {
       margin: 0 0 7px;
@@ -324,24 +274,13 @@
       font-size: 10px;
       font-weight: 800;
       text-transform: uppercase;
-      background: rgba(155, 92, 255, 0.17);
+      background: rgba(155,92,255,0.17);
       color: #d8bcff;
     }
 
-    .tag.green {
-      background: rgba(76, 175, 80, 0.18);
-      color: #9ef0a0;
-    }
-
-    .tag.blue {
-      background: rgba(103, 212, 255, 0.15);
-      color: #8ee7ff;
-    }
-
-    .tag.orange {
-      background: rgba(255, 180, 92, 0.18);
-      color: #ffd09a;
-    }
+    .tag.green  { background: rgba(76,175,80,0.18);   color: #9ef0a0; }
+    .tag.blue   { background: rgba(103,212,255,0.15); color: #8ee7ff; }
+    .tag.orange { background: rgba(255,180,92,0.18);  color: #ffd09a; }
 
     .diploma {
       position: absolute;
@@ -367,7 +306,7 @@
       top: 168px;
       width: 1px;
       height: 28px;
-      border-left: 1px dashed rgba(155, 92, 255, 0.75);
+      border-left: 1px dashed rgba(155,92,255,0.75);
       opacity: 0.9;
     }
 
@@ -382,8 +321,8 @@
       font-size: 26px;
       border: 1px solid var(--accent);
       color: var(--accent2);
-      background: rgba(155, 92, 255, 0.14);
-      box-shadow: 0 0 25px rgba(155, 92, 255, 0.35), inset 0 0 18px rgba(155, 92, 255, 0.08);
+      background: rgba(155,92,255,0.14);
+      box-shadow: 0 0 25px rgba(155,92,255,0.35), inset 0 0 18px rgba(155,92,255,0.08);
     }
 
     .diploma-title {
@@ -392,14 +331,14 @@
       letter-spacing: 0.02em;
       text-transform: uppercase;
       margin-bottom: 3px;
-      color: #ffffff;
+      color: #fff;
     }
 
     .diploma-date {
       font-size: 14px;
       font-weight: 700;
       margin-bottom: 2px;
-      color: #ffffff;
+      color: #fff;
     }
 
     .diploma-subtitle {
@@ -409,14 +348,15 @@
       max-width: 180px;
     }
 
+    /* ─── Detail panel ─── */
     .detail {
       margin: 0 38px;
-      border: 1px solid rgba(155, 92, 255, 0.45);
+      border: 1px solid rgba(155,92,255,0.45);
       box-shadow:
         0 0 0 1px rgba(155,92,255,.18),
         0 18px 60px rgba(0,0,0,.45),
         0 0 35px rgba(155,92,255,.12);
-      background: rgba(13, 19, 32, 0.78);
+      background: rgba(15,15,15,0.92);
       border-radius: 26px;
       display: grid;
       grid-template-columns: 1.3fr 1.5fr 1fr;
@@ -429,9 +369,9 @@
       transform: translateY(80px) scale(0.98);
       pointer-events: none;
       transition:
-        max-height 0.65s cubic-bezier(0.22, 1, 0.36, 1),
+        max-height 0.65s cubic-bezier(0.22,1,0.36,1),
         opacity 0.4s ease,
-        transform 0.65s cubic-bezier(0.16, 1, 0.3, 1),
+        transform 0.65s cubic-bezier(0.16,1,0.3,1),
         margin-top 0.45s ease;
     }
 
@@ -451,19 +391,16 @@
       left: var(--arrow-left, 36%);
       width: 18px;
       height: 18px;
-      background: rgba(13, 19, 32, 0.98);
-      border-left: 1px solid rgba(155, 92, 255, 0.7);
-      border-top: 1px solid rgba(155, 92, 255, 0.7);
+      background: rgba(15,15,15,0.98);
+      border-left: 1px solid rgba(155,92,255,0.7);
+      border-top: 1px solid rgba(155,92,255,0.7);
       transform: translateX(-50%) rotate(45deg);
-      box-shadow: -6px -6px 18px rgba(155, 92, 255, 0.08);
-      transition: left 0.65s cubic-bezier(0.22, 1, 0.36, 1);
+      box-shadow: -6px -6px 18px rgba(155,92,255,0.08);
+      transition: left 0.65s cubic-bezier(0.22,1,0.36,1);
     }
 
-    .detail.no-arrow-transition::before {
-      transition: none;
-    }
+    .detail.no-arrow-transition::before { transition: none; }
 
-    /* ─── Media stage : proportions naturelles ─── */
     .media-stage {
       position: relative;
       width: 100%;
@@ -471,19 +408,15 @@
       overflow: hidden;
       border: 1px solid var(--border);
       background: #000;
-      /* hauteur auto → l'image dicte sa propre hauteur */
     }
 
-    /* Conteneur vidéo gardé en 16:9 fixe */
     .video-wrap {
       display: none;
       width: 100%;
       aspect-ratio: 16 / 9;
     }
 
-    .video-wrap.active {
-      display: block;
-    }
+    .video-wrap.active { display: block; }
 
     .video-wrap iframe {
       width: 100%;
@@ -492,18 +425,13 @@
       display: block;
     }
 
-    /* Image principale : proportions naturelles */
     .main-image {
       display: none;
       width: 100%;
-      height: auto;        /* ← clé : hauteur automatique */
-      object-fit: unset;   /* ← plus de crop */
-      border-radius: 0;
+      height: auto;
     }
 
-    .main-image.active {
-      display: block;
-    }
+    .main-image.active { display: block; }
 
     .thumbs {
       display: grid;
@@ -520,7 +448,7 @@
       border: 1px solid var(--border);
       cursor: pointer;
       overflow: hidden;
-      background: rgba(255, 255, 255, 0.04);
+      background: rgba(255,255,255,0.04);
       color: var(--text);
       transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
     }
@@ -532,7 +460,7 @@
 
     .media-thumb.active {
       border-color: var(--accent);
-      box-shadow: 0 0 0 1px rgba(155, 92, 255, 0.35), 0 0 18px rgba(155, 92, 255, 0.25);
+      box-shadow: 0 0 0 1px rgba(155,92,255,0.35), 0 0 18px rgba(155,92,255,0.25);
     }
 
     .video-thumb {
@@ -559,10 +487,7 @@
     }
 
     .video-thumb span,
-    .video-thumb .play-icon {
-      position: relative;
-      z-index: 1;
-    }
+    .video-thumb .play-icon { position: relative; z-index: 1; }
 
     .video-thumb span:last-child {
       color: #fff;
@@ -576,14 +501,15 @@
       place-items: center;
       border-radius: 50%;
       background: var(--accent);
-      box-shadow: 0 0 18px rgba(155, 92, 255, 0.45);
+      box-shadow: 0 0 18px rgba(155,92,255,0.45);
       font-size: 12px;
     }
 
     .detail h2 {
-      font-size: 30px;
+      font-family: var(--font-d);
+      font-size: 2.2rem;
       margin: 8px 0 14px;
-      letter-spacing: -0.04em;
+      line-height: 1;
     }
 
     .chips {
@@ -598,12 +524,12 @@
       font-weight: 800;
       padding: 8px 10px;
       border-radius: 8px;
-      background: rgba(255, 255, 255, 0.06);
-      color: #d7dce6;
+      background: rgba(255,255,255,0.06);
+      color: var(--text);
     }
 
     .detail p {
-      color: var(--soft);
+      color: var(--muted);
       line-height: 1.6;
       font-size: 14px;
     }
@@ -618,31 +544,14 @@
     }
 
     .info-block h4,
-    .side h4 {
-      margin: 0 0 12px;
-      font-size: 15px;
-    }
+    .side h4 { margin: 0 0 12px; font-size: 15px; }
 
     ul {
       margin: 0;
       padding-left: 18px;
-      color: var(--soft);
+      color: var(--muted);
       font-size: 13px;
       line-height: 1.8;
-    }
-
-    .avatars {
-      display: flex;
-      align-items: center;
-    }
-
-    .avatar {
-      width: 32px;
-      height: 32px;
-      border-radius: 50%;
-      border: 2px solid #111827;
-      background: linear-gradient(135deg, #f59e0b, #7c3aed);
-      margin-right: -8px;
     }
 
     .tools {
@@ -657,10 +566,10 @@
       border-radius: 50%;
       display: grid;
       place-items: center;
-      background: rgba(255, 255, 255, 0.06);
+      background: rgba(255,255,255,0.06);
       border: 1px solid var(--border);
       font-weight: 800;
-      color: #ffffff;
+      color: var(--text);
     }
 
     .side {
@@ -673,7 +582,7 @@
       cursor: pointer;
       transition: transform .2s ease, border-color .2s ease, box-shadow .2s ease;
       padding: 18px;
-      background: rgba(255, 255, 255, 0.045);
+      background: rgba(255,255,255,0.045);
       border: 1px solid var(--border);
       border-radius: 14px;
       margin-top: 22px;
@@ -701,36 +610,10 @@
       display: grid;
       place-items: center;
       border-radius: 10px;
-      background: rgba(155, 92, 255, 0.14);
+      background: rgba(155,92,255,0.14);
       font-size: 24px;
     }
 
-    .bottom-scroll {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 14px;
-      color: var(--muted);
-      margin-top: 18px;
-    }
-
-    .bar {
-      width: 260px;
-      height: 3px;
-      background: rgba(255, 255, 255, 0.12);
-      border-radius: 999px;
-      overflow: hidden;
-    }
-
-    .bar span {
-      display: block;
-      width: 45%;
-      height: 100%;
-      background: var(--accent);
-      box-shadow: 0 0 18px var(--accent);
-    }
-
-    /* Bouton fermeture panneau */
     .detail-close {
       position: absolute;
       top: 16px;
@@ -740,7 +623,7 @@
       border-radius: 50%;
       border: 1px solid var(--border);
       background: rgba(255,255,255,0.06);
-      color: var(--soft);
+      color: var(--muted);
       font-size: 16px;
       cursor: pointer;
       display: grid;
@@ -755,24 +638,8 @@
     }
 
     @media (max-width: 980px) {
-      .page {
-        padding: 22px;
-      }
-
-      header {
-        align-items: flex-start;
-        gap: 22px;
-      }
-
-      nav {
-        gap: 18px;
-        font-size: 11px;
-        flex-wrap: wrap;
-        justify-content: flex-end;
-      }
-
-      .hero {
-        grid-template-columns: 1fr;
+      main.page {
+        padding: 28px 22px 54px;
       }
 
       .timeline-section {
@@ -780,9 +647,7 @@
         margin-right: -22px;
       }
 
-      .current-year {
-        left: 22px;
-      }
+      .current-year { left: 22px; }
 
       .timeline-track {
         min-width: 1800px;
@@ -801,27 +666,54 @@
         padding-top: 20px;
       }
     }
+
+    @media (max-width: 768px) {
+      .hero {
+        height: 56vh;
+        min-height: 380px;
+      }
+    }
   </style>
 </head>
 <body>
-  <main class="page">
-    <header>
-      <a href="/index.html" class="logo">AM</a> 
-      <nav>
-        <a href="/index.html">Accueil</a>
-        <a href="/pages/projet.html" class="active" >Projets</a>
-        <a href="/pages/jeux.html">Jeux</a>
-        <a href="/pages/a-propos.html">À propos</a>
-      </nav>
-    </header>
+  <header id="header">
+    <a href="/index.html" class="logo">A<span>M</span></a>
+    <nav class="nav-links">
+      <a href="/index.html">Accueil</a>
+      <a href="/pages/projet.html" class="active">Projets</a>
+      <a href="/pages/jeux.html">Jeux</a>
+      <a href="/pages/a-propos.html">À propos</a>
+    </nav>
+    <button class="burger" id="burgerBtn" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </header>
 
-    <section class="hero">
-      <div>
-        <div class="eyebrow">Parcourt</div>
-        <h1>Mon <span>parcourt</span> en projets</h1>
-        <p>Une frise chronologique mois par mois retraçant les projets marquants de mon parcours.</p>
-      </div>
-    </section>
+  <div class="drawer" id="drawer">
+    <a href="/index.html">Accueil</a>
+    <a href="/pages/projet.html">Projets</a>
+    <a href="/pages/jeux.html">Jeux</a>
+    <a href="/pages/a-propos.html">À propos</a>
+  </div>
+  <div class="drawer-overlay" id="drawerOverlay"></div>
+
+  <section id="hero" class="hero">
+    <div class="hero-content">
+      <p class="hero-sub">Portfolio jeu vidéo</p>
+      <h1 class="hero-title">
+        Mon<br>
+        <span class="hero-accent">Parcours</span>
+      </h1>
+      <p class="hero-desc">
+        Frise chronologique de mes projets et formations.
+      </p>
+    </div>
+  </section>
+
+  <main class="page">
+    <div class="section-header">
+      <h2 class="section-title">Frise chronologique</h2>
+    </div>
 
     <section class="timeline-section">
       <div class="timeline-fixed-line"></div>
@@ -874,14 +766,7 @@
           </div>
 
           <div class="info-block">
-            <h4>Équipe</h4>
-            <div class="avatars">
-              <span class="avatar"></span>
-              <span class="avatar"></span>
-              <span class="avatar"></span>
-              <span class="avatar"></span>
-            </div>
-            <h4 style="margin-top: 22px;">Outils utilisés</h4>
+            <h4 style="margin-top: 0;">Outils utilisés</h4>
             <div class="tools" id="toolsList"></div>
           </div>
         </div>
@@ -907,6 +792,20 @@
     </section>
   </main>
 
+  <footer>© 2025 Axel Marion</footer>
+
+  <script>
+    const hero = document.getElementById('hero');
+    function updateHeroOnScroll() {
+      const progress = Math.min(window.scrollY / (window.innerHeight * 0.6), 1);
+      hero.style.filter = `blur(${progress * 7}px)`;
+      hero.style.opacity = Math.max(0.25, 1 - progress * 0.7);
+    }
+    window.addEventListener('scroll', updateHeroOnScroll, { passive: true });
+    updateHeroOnScroll();
+  </script>
+
+  <script src="../src/data.js"></script>
   <script>
     const timeline = document.getElementById("timelineScroll");
     const yearsEl = document.getElementById("years");
@@ -921,515 +820,9 @@
 
     const months = ["JANV.", "FÉV.", "MARS", "AVR.", "MAI", "JUIN", "JUIL.", "AOÛT", "SEPT.", "OCT.", "NOV.", "DÉC."];
 
-    const images = [
-      "/realisation/Autoportart.jpg",
-      
-      "/realisation/montre/montre-de-base.png",
-      "/realisation/montre/montre-realise.png",
-      
-      "/realisation/vinyle/macarron-2.png",
-      "/realisation/vinyle/macarron.png",
-      "/realisation/vinyle/Recto.png",
-      "/realisation/vinyle/Verso.png",
+    const projects = window.PROJECTS;
 
-      "/realisation/cartedevisite/logo.png",
-      "/realisation/cartedevisite/texte.png",
-
-      "/realisation/carte/dos.png",
-      "/realisation/carte/blanc/onjn.png",
-      "/realisation/carte/blanc/revolution.png",
-      "/realisation/carte/jeuechec.png",
-      
-      "/realisation/decoration.png",
-      
-      "/realisation/festival/mindmapping.png",
-      "/realisation/festival/billetfestival.png",
-      "/realisation/festival/lisseappli.png",
-      "/realisation/festival/lissesite.png",
-      "/realisation/festival/Plan-de-travail1.png",
-      "/realisation/festival/Plan.png",
-      "/realisation/festival/Plandetravail.png",
-      
-      "/realisation/Pokeball.png",
-      
-      "/realisation/floatland/floatland.png",
-
-      "/realisation/infinitydot.png",
-
-      "/realisation/dotmusic.png",
-      
-      "/realisation/memoir/abstract.png",
-
-      "/realisation/fragment/fragment.png",
-
-      "/realisation/sobriquet/sobriquet.png",
-
-      "/realisation/longnigth/longnigth.png",
-      
-    ];
-
-    const projects = [
-      {
-        title: "Autoportart",
-        type: "Papier & Crayon",
-        tag: "Gobelins",
-        color: "blue",
-        date: "SEPT. 2022",
-        year: 2022,
-        month: 8,
-        img: images[0],
-        desc: "Réalisation d'un autoportrait ou je devais me représenter par ce que j'aime",
-        duration: "1 semaine",
-        role: ["Dessinateur", "Concepteur de l'image", "Choix des éléments visuels"],
-        learned: ["Croquis", "dessin", "composition visuelle"],
-        tools: [],
-        link: "#"
-      },
-      {
-        title: "Montre vectorisée",
-        type: "Illustrator",
-        tag: "Gobelins",
-        color: "blue",
-        date: "OCT. 2022",
-        year: 2022,
-        month: 9,
-        img: images[2],
-        gallery: [images[2], images[1]],
-        desc: "Vectorisation d'une montre à partir d'une image de référence",
-        duration: "3 semaines",
-        role: ["Vectoriseur"],
-        learned: ["Illustrator"],
-        tools: ["Il"],
-        link: "#"
-      },
-      {
-        title: "Vinyle",
-        type: "Illustrator & Photoshop",
-        tag: "Gobelins",
-        color: "blue",
-        date: "NOV. 2022",
-        year: 2022,
-        month: 10,
-        img: images[5],
-        gallery: [images[5], images[4],images[6], images[3]],
-        desc: "Création d'un visuel de pochette de vinyle, avec recto et verso, avec les macarons",
-        duration: "2 semaines",
-        role: ["Illustrateur", "Imprimeur"],
-        learned: ["mise en page pour impression","Photoshop", "Illustrator", "InDesign"],
-        tools: ["Il", "Ps", "Id"],
-        link: "#"
-      },
-      {
-        title: "Carte de visite",
-        type: "InDesign",
-        tag: "Gobelins",
-        color: "blue",
-        date: "JAV. 2023",
-        year: 2023,
-        month: 0,
-        img: images[7],
-        gallery: [images[7], images[8]],
-        desc: "Création d'une carte de visite professionnelle.",
-        duration: "1Mois",
-        role: ["Designer", "Mise en page", "Creation de logo"],
-        learned: ["InDesign", "typographie", "composition visuelle"],
-        tools: ["Id"],
-        link: "#"
-      },
-      {
-        title: "Revolte",
-        type: "Jeu De Carte",
-        tag: "Gobelins",
-        color: "blue",
-        date: "FEV. 2023",
-        year: 2023,
-        month: 1,
-        img: images[9],
-        gallery: [images[9], images[10], images[11], images[12]],
-        desc: "Un jeu de carte sur les visuel des echeque et sur les regle du jeux explosing kittens",
-        duration: "2 Mois",
-        role: ["Game Designer & Level Designer", "Illustrateur", "Équilibrage", "Imprimeur", "Testeur"],
-        learned: ["Concevoir des niveaux immersifs et cohérents", "Travailler en équipe avec une bonne organisation", "Itérer grâce aux tests joueurs"],
-        tools: ["Id", "Il",],
-        link: "#"
-      },
-      {
-        title: "Decoration",
-        type: "Decoupeuse laser",
-        tag: "Personnel",
-        color: "pink",
-        date: "MAI 2023",
-        year: 2023,
-        month: 4,
-        img: images[13],
-        desc: "Création d'une decoration en bois avec gravure a la decoupeuse laser",
-        duration: "1 semaine",
-        role: ["Designer", "Structure de salles", "Rythme d'affrontement"],
-        learned: ["Decoupeuse laser", "Illustrator"],
-        tools: ["Il",],
-        link: "#"
-      },
-      {
-        title: "Around The Rock",
-        type: "création d'identité visuelle ",
-        tag: "Gobelins",
-        color: "blue",
-        date: "JUIN 2023",
-        year: 2023,
-        month: 5,
-        img: images[14],
-        gallery: [images[14], images[15], images[16], images[17], images[18], images[19], images[20]],
-        desc: "création d'un festival de musique avec une identité visuelle cohérente",
-        duration: "2 mois",
-        role: ["Designer", "Créateur d'identité visuelle", "Concepteur de l'expérience globale"],
-        learned: ["travaille d'equipe", "gestion de projet", "création d'une identité visuelle"],
-        tools: ["Id", "Ps", "Il"],
-        link: "#"
-      },
-      {
-        title: "Photographie",
-        type: "Photographie",
-        tag: "Gobelins",
-        color: "blue",
-        date: "OCT. 2023",
-        year: 2023,
-        month: 9,
-        img: images[0],
-        desc: "Prototype atmosphérique basé sur le froid, le silence et la progression lente.",
-        duration: "1 Semaine",
-        role: ["Direction d'ambiance", "Level Design", "Prototype d'exploration"],
-        learned: ["Créer une ambiance forte avec peu d'éléments", "Travailler le silence et le rythme", "Construire une progression lente"],
-        tools: ["UE", "Bl", "Ps"],
-        link: "#"
-      },
-      {
-        title: "Enfain",
-        type: "Application",
-        tag: "Gobelins",
-        color: "blue",
-        date: "DEC. 2023",
-        year: 2023,
-        month: 11,
-        img: images[0],
-        desc: "Prototype atmosphérique basé sur le froid, le silence et la progression lente.",
-        duration: "1 Mois",
-        role: ["Direction d'ambiance", "Level Design", "Prototype d'exploration"],
-        learned: ["Créer une ambiance forte avec peu d'éléments", "Travailler le silence et le rythme", "Construire une progression lente"],
-        tools: ["UE", "Bl", "Ps"],
-        link: "#"
-      },
-      {
-        title: "Whellcome To Hell",
-        type: "Vidéo IA",
-        tag: "Gobelins",
-        color: "blue",
-        date: "MARS. 2024",
-        year: 2024,
-        month: 2,
-        img: images[3],
-        video: "https://www.youtube.com/embed/mYO2WOaA8CU?si=jT7o28wQXJ149gHN",
-        desc: "Nouvelle version du projet cyberpunk avec meilleure lisibilité des parcours.",
-        duration: "1 Semaine",
-        role: ["Level Designer", "Refonte des parcours", "Optimisation de la lisibilité"],
-        learned: ["Améliorer un niveau existant", "Hiérarchiser les repères visuels", "Rendre un parcours plus fluide"],
-        tools: ["U", "VS", "Ps"],
-        link: "#"
-      },
-      {
-        title: "Animation 3D",
-        type: "Vidéo",
-        tag: "Gobelins",
-        color: "blue",
-        date: "AVR. 2024",
-        year: 2024,
-        month: 3,
-        img: images[21],
-        video: "https://www.youtube.com/embed/sAeUvNG19OA?si=KS0gEqwmWWne0eha",
-        desc: "Nouvelle version du projet cyberpunk avec meilleure lisibilité des parcours.",
-        duration: "1 Semaine",
-        role: ["Level Designer", "Refonte des parcours", "Optimisation de la lisibilité"],
-        learned: ["Améliorer un niveau existant", "Hiérarchiser les repères visuels", "Rendre un parcours plus fluide"],
-        tools: ["U", "VS", "Ps"],
-        link: "#"
-      },
-      {
-        title: "Course de la mort",
-        type: "Jeux vidéo",
-        tag: "Gobelins",
-        color: "blue",
-        date: "MAI 2024",
-        year: 2024,
-        month: 4,
-        img: images[0],
-        desc: "Prototype atmosphérique basé sur le froid, le silence et la progression lente.",
-        duration: "1 Semaine",
-        role: ["Direction d'ambiance", "Level Design", "Prototype d'exploration"],
-        learned: ["Créer une ambiance forte avec peu d'éléments", "Travailler le silence et le rythme", "Construire une progression lente"],
-        tools: ["UE", "Bl", "Ps"],
-        link: "#"
-      },
-      {
-        title: "FloatLand",
-        type: "Jeux vidéo VR",
-        tag: "Gobelins",
-        color: "blue",
-        date: "JUIN. 2024",
-        year: 2024,
-        month: 5,
-        img: images[22],
-        video: "https://youtu.be/mYO2WOaA8CU",
-        desc: "Nouvelle version du projet cyberpunk avec meilleure lisibilité des parcours.",
-        duration: "1 Semaine",
-        role: ["Level Designer", "Refonte des parcours", "Optimisation de la lisibilité"],
-        learned: ["Améliorer un niveau existant", "Hiérarchiser les repères visuels", "Rendre un parcours plus fluide"],
-        tools: ["U", "VS", "Ps"],
-        link: "#"
-      },
-      {
-        title: "Infinity dot",
-        type: "Site Three.js",
-        tag: "Gobelins",
-        color: "blue",
-        date: "OCT. 2024",
-        year: 2024,
-        month: 9,
-        img: images[23],
-        desc: "Suite d'un projet scolaire avec amélioration des mécaniques et de la direction visuelle.",
-        duration: "1 semaine",
-        role: ["Game Design", "Developpeur", "Direction artistique"],
-        learned: ["Améliorer un ancien concept", "Rendre une DA plus cohérente", "Clarifier l'expérience joueur"],
-        tools: ["U", "Bl", "Ps"],
-        link: "/page/infinitydot.html"
-      },
-      {
-        title: "Dot Music",
-        type: "Site Vue.js",
-        tag: "Gobelins",
-        color: "blue",
-        date: "NOV. 2024",
-        year: 2024,
-        month: 10,
-        img: images[24],
-        desc: "Suite d'un projet scolaire avec amélioration des mécaniques et de la direction visuelle.",
-        duration: "1 semaine",
-        role: ["Game Design", "Developpeur", "Direction artistique"],
-        learned: ["Améliorer un ancien concept", "Rendre une DA plus cohérente", "Clarifier l'expérience joueur"],
-        tools: ["U", "Bl", "Ps"],
-        link: "/page/dotmusic.html"
-      },
-      {
-        title: "Mac's Story",
-        type: "Vidéo",
-        tag: "Gobelins",
-        color: "blue",
-        date: "DEC. 2024",
-        year: 2024,
-        month: 11,
-        img: images[4],
-        video: "https://www.youtube.com/embed/jl-DCLoXv2w?si=Si-nQJpyGj4MTeXj",
-        desc: "Prototype orienté combat, feedback visuel et sensations de jeu.",
-        duration: "2 semaines",
-        role: ["Combat Design", "Feedback visuel", "Tests de sensations"],
-        learned: ["Améliorer le ressenti des actions", "Créer des feedbacks lisibles", "Tester rapidement une mécanique"],
-        tools: ["UE", "Bl", "Ps"],
-        link: "#"
-      },
-      {
-        title: "Memoir Level Design",
-        type: "Memoir",
-        tag: "Gobelins",
-        color: "blue",
-        date: "JAV. 2025",
-        year: 2025,
-        month: 1,
-        img: images[25],
-        desc: "Prototype orienté combat, feedback visuel et sensations de jeu.",
-        duration: "6 Mois",
-        role: ["Combat Design", "Feedback visuel", "Tests de sensations"],
-        learned: ["Améliorer le ressenti des actions", "Créer des feedbacks lisibles", "Tester rapidement une mécanique"],
-        tools: ["UE", "Bl", "Ps"],
-        link: "#"
-      },
-      {
-        title: "Fragment",
-        type: "Jeux vidéo",
-        tag: "Gobelins",
-        color: "blue",
-        date: "JUIN 2025",
-        year: 2025,
-        month: 5,
-        img: images[26],
-        video: "https://www.youtube.com/watch?v=p1svvKTsktk",
-        desc: "Prototype orienté combat, feedback visuel et sensations de jeu.",
-        duration: "6 Mois",
-        role: ["Combat Design", "Feedback visuel", "Tests de sensations"],
-        learned: ["Améliorer le ressenti des actions", "Créer des feedbacks lisibles", "Tester rapidement une mécanique"],
-        tools: ["UE", "Bl", "Ps"],
-        link: "#"
-      },
-      {
-        title: "Game Designer - So'Briquet",
-        type: "Jeux vidéo",
-        tag: "IIM",
-        color: "orange",
-        date: "SEPT. 2025",
-        year: 2025,
-        month: 8,
-        img: images[27],
-        desc: "Prototype orienté combat, feedback visuel et sensations de jeu.",
-        duration: "1 Mois",
-        role: ["Combat Design", "Feedback visuel", "Tests de sensations"],
-        learned: ["Améliorer le ressenti des actions", "Créer des feedbacks lisibles", "Tester rapidement une mécanique"],
-        tools: ["UE", "Bl", "Ps"],
-        link: "#"
-      },
-      {
-        title: "Level Design Portal 2",
-        type: "Jeux vidéo",
-        tag: "IIM",
-        color: "orange",
-        date: "OCT. 2025",
-        year: 2025,
-        month: 9,
-        img: images[4],
-        desc: "Prototype orienté combat, feedback visuel et sensations de jeu.",
-        duration: "1 Mois",
-        role: ["Combat Design", "Feedback visuel", "Tests de sensations"],
-        learned: ["Améliorer le ressenti des actions", "Créer des feedbacks lisibles", "Tester rapidement une mécanique"],
-        tools: ["UE", "Bl", "Ps"],
-        link: "#"
-      },
-      {
-        title: "Modvember",
-        type: "Jeux vidéo",
-        tag: "Personnel",
-        color: "pink",
-        date: "NOV. 2025",
-        year: 2025,
-        month: 10,
-        img: images[4],
-        //video: ["https://youtu.be/0V8YQs3msWo","https://youtu.be/0dp348jROX4","https://youtu.be/kJqhrHaqJn8","https://youtu.be/VpzC4WX6iJA"],
-        desc: "Prototype orienté combat, feedback visuel et sensations de jeu.",
-        duration: "6 Mois",
-        role: ["Combat Design", "Feedback visuel", "Tests de sensations"],
-        learned: ["Améliorer le ressenti des actions", "Créer des feedbacks lisibles", "Tester rapidement une mécanique"],
-        tools: ["UE", "Bl", "Ps"],
-        link: "#"
-      },
-      {
-        title: "Level Design Far Cry 5",
-        type: "Blocking",
-        tag: "IIM",
-        color: "orange",
-        date: "DEC. 2025",
-        year: 2025,
-        month: 11,
-        img: images[4],
-        video: "https://www.youtube.com/watch?v=O8hXSBKPLLQ",
-        desc: "Prototype orienté combat, feedback visuel et sensations de jeu.",
-        duration: "6 Mois",
-        role: ["Combat Design", "Feedback visuel", "Tests de sensations"],
-        learned: ["Améliorer le ressenti des actions", "Créer des feedbacks lisibles", "Tester rapidement une mécanique"],
-        tools: ["UE", "Bl", "Ps"],
-        link: "#"
-      },
-      {
-        title: "Long Night At Grandma's",
-        type: "Jeux vidéo",
-        tag: "IIM",
-        color: "orange",
-        date: "FEV. 2026",
-        year: 2026,
-        month: 1,
-        img: images[28],
-        desc: "Prototype orienté combat, feedback visuel et sensations de jeu.",
-        duration: "1 Mois",
-        role: ["Combat Design", "Feedback visuel", "Tests de sensations"],
-        learned: ["Améliorer le ressenti des actions", "Créer des feedbacks lisibles", "Tester rapidement une mécanique"],
-        tools: ["UE", "Bl", "Ps"],
-        link: "#"
-      },
-      {
-        title: "Golf Unreal Engine",
-        type: "Jeux vidéo",
-        tag: "IIM",
-        color: "orange",
-        date: "AVR. 2026",
-        year: 2026,
-        month: 3,
-        img: images[4],
-        desc: "Prototype orienté combat, feedback visuel et sensations de jeu.",
-        duration: "1 Mois",
-        role: ["Combat Design", "Feedback visuel", "Tests de sensations"],
-        learned: ["Améliorer le ressenti des actions", "Créer des feedbacks lisibles", "Tester rapidement une mécanique"],
-        tools: ["UE", "Bl", "Ps"],
-        link: "#"
-      },
-      {
-        title: "Level Design Plague Tale",
-        type: "Jeux vidéo",
-        tag: "IIM",
-        color: "orange",
-        date: "MAI 2026",
-        year: 2026,
-        month: 4,
-        img: images[4],
-        desc: "Prototype orienté combat, feedback visuel et sensations de jeu.",
-        duration: "1 Mois",
-        role: ["Combat Design", "Feedback visuel", "Tests de sensations"],
-        learned: ["Améliorer le ressenti des actions", "Créer des feedbacks lisibles", "Tester rapidement une mécanique"],
-        tools: ["UE", "Bl", "Ps"],
-        link: "#"
-      },
-      {
-        title: "Project Unreal Engine",
-        type: "Jeux vidéo",
-        tag: "IIM",
-        color: "orange",
-        date: "JUIN 2026",
-        year: 2026,
-        month: 5,
-        img: images[4],
-        desc: "Prototype orienté combat, feedback visuel et sensations de jeu.",
-        duration: "1 Mois",
-        role: ["Combat Design", "Feedback visuel", "Tests de sensations"],
-        learned: ["Améliorer le ressenti des actions", "Créer des feedbacks lisibles", "Tester rapidement une mécanique"],
-        tools: ["UE", "Bl", "Ps"],
-        link: "#"
-      },
-    ];
-
-    const diplomas = [
-      {
-        title: "Debut de formation",
-        subtitle: "Coder sa créativité <br> DNMADe Mention Numerique",
-        date: "Debut de formation",
-        year: 2022,
-        month: 8
-      },
-      {
-        title: "Alternance",
-        subtitle: "Alternance chez Scale",
-        date: "Technicien du spectacle",
-        year: 2023,
-        month: 11
-      },
-      
-      {
-        title: "DIPLÔME OBTENU",
-        subtitle: "Coder sa créativité",
-        date: "DNMADe Mention Numerique",
-        year: 2025,
-        month: 5
-      },
-      {
-        title: "Debut de formation",
-        subtitle: "Game Design & Level Design <br> Bachelor IIM",
-        date: "Debut de formation",
-        year: 2025,
-        month: 8
-      },
-    ];
+    const diplomas = window.DIPLOMAS;
 
     function getX(year, month) {
       return startX + ((year - startYear) * 12 + month) * monthWidth;
@@ -1523,7 +916,6 @@
     function closeDetail() {
       detail.classList.remove("visible");
       document.querySelectorAll(".project-card").forEach(c => c.classList.remove("active"));
-      // Stopper la vidéo proprement
       document.getElementById("detailVideo").src = "about:blank";
     }
 
@@ -1588,13 +980,11 @@
       const detailImage = document.getElementById("detailImage");
       const thumbsContainer = document.getElementById("thumbsContainer");
 
-      // Stopper la vidéo précédente
       detailVideo.src = "about:blank";
       videoWrap.classList.remove("active");
 
       const gallery = project.gallery && project.gallery.length ? project.gallery : [project.img];
 
-      // Afficher la première image par défaut
       detailImage.src = gallery[0];
       detailImage.alt = project.title;
       detailImage.classList.add("active");
@@ -1631,13 +1021,11 @@
 
           if (thumb.dataset.type === "video") {
             detailImage.classList.remove("active");
-            // Charger la vidéo seulement au clic
             detailVideo.src = thumb.dataset.src;
             videoWrap.classList.add("active");
             return;
           }
 
-          // Stopper la vidéo si on revient sur une image
           detailVideo.src = "about:blank";
           videoWrap.classList.remove("active");
           detailImage.src = thumb.src;
@@ -1649,6 +1037,32 @@
     buildTimeline();
     timeline.scrollLeft = 0;
     updateCurrentYear();
+  </script>
+
+  <script>
+    (function() {
+      const btn = document.getElementById('burgerBtn');
+      const drawer = document.getElementById('drawer');
+      const overlay = document.getElementById('drawerOverlay');
+      if (!btn || !drawer) return;
+      btn.addEventListener('click', () => {
+        const open = drawer.classList.toggle('open');
+        btn.classList.toggle('open', open);
+        if (overlay) overlay.style.display = open ? 'block' : 'none';
+      });
+      drawer.querySelectorAll('a').forEach(a => {
+        a.addEventListener('click', () => {
+          drawer.classList.remove('open');
+          btn.classList.remove('open');
+          if (overlay) overlay.style.display = 'none';
+        });
+      });
+      if (overlay) overlay.addEventListener('click', () => {
+        drawer.classList.remove('open');
+        btn.classList.remove('open');
+        overlay.style.display = 'none';
+      });
+    })();
   </script>
 </body>
 </html>

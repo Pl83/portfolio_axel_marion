@@ -5,127 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Axel Marion — À propos</title>
 
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../src/style.css">
 
   <style>
-    :root {
-      --bg: #0f0f0f;
-      --bg2: #161616;
-      --bg3: #1e1e1e;
-      --border: rgba(255,255,255,0.08);
-      --text: #f0f0f0;
-      --muted: #888;
-      --accent: #9b6dff;
-      --accent2: #c084fc;
-      --header-h: 64px;
-      --font-d: 'Bebas Neue', sans-serif;
-      --font-b: 'Outfit', sans-serif;
-    }
-
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    html { scroll-behavior: smooth; }
-
-    body {
-      font-family: var(--font-b);
-      background: var(--bg);
-      color: var(--text);
-      font-size: 15px;
-      line-height: 1.6;
-      overflow-x: hidden;
-    }
-
-    img { display: block; max-width: 100%; }
-    a { color: inherit; text-decoration: none; }
-
-    #header {
-      position: fixed;
-      inset: 0 0 auto 0;
-      height: var(--header-h);
-      background: rgba(15,15,15,0.85);
-      backdrop-filter: blur(16px);
-      border-bottom: 1px solid var(--border);
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 0 clamp(20px, 4vw, 56px);
-      z-index: 500;
-    }
-
-    .logo {
-      font-family: var(--font-d);
-      font-size: 1.7rem;
-      letter-spacing: 0.04em;
-      color: #fff;
-    }
-
-    .logo span { color: var(--accent2); }
-
-    .nav-links { display: flex; gap: 36px; }
-
-    .nav-links a {
-      font-size: 0.82rem;
-      font-weight: 500;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      color: var(--muted);
-      transition: color .2s;
-    }
-
-    .nav-links a:hover,
-    .nav-links a.active { color: #fff; }
-
-    .burger {
-      display: none;
-      flex-direction: column;
-      gap: 5px;
-      background: none;
-      border: none;
-      cursor: pointer;
-      padding: 6px;
-    }
-
-    .burger span {
-      width: 22px;
-      height: 2px;
-      background: var(--text);
-      border-radius: 2px;
-      transition: transform .25s, opacity .25s;
-    }
-
-    .burger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
-    .burger.open span:nth-child(2) { opacity: 0; }
-    .burger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
-
-    .drawer {
-      position: fixed;
-      inset: var(--header-h) 0 0 0;
-      background: rgba(10,10,10,0.97);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: 32px;
-      transform: translateY(-100%);
-      opacity: 0;
-      transition: .3s;
-      z-index: 490;
-      pointer-events: none;
-    }
-
-    .drawer.open {
-      transform: translateY(0);
-      opacity: 1;
-      pointer-events: auto;
-    }
-
-    .drawer a {
-      font-family: var(--font-d);
-      font-size: 2.4rem;
-      letter-spacing: 0.06em;
-    }
-
     .hero {
       position: sticky;
       top: 0;
@@ -135,11 +17,14 @@
       display: flex;
       align-items: center;
       overflow: hidden;
-      z-index: 1;
       background: var(--bg);
-      transform-origin: top center;
-      will-change: transform, filter;
-      backface-visibility: hidden;
+      will-change: filter;
+    }
+
+    .section {
+      position: relative;
+      z-index: 2;
+      background: var(--bg);
     }
 
     .hero::after {
@@ -169,7 +54,6 @@
       position: relative;
       z-index: 2;
       max-width: 720px;
-      will-change: transform, opacity;
     }
 
     .hero-sub {
@@ -200,356 +84,6 @@
       margin-bottom: 34px;
     }
 
-    .btn-row { display: flex; gap: 12px; flex-wrap: wrap; }
-
-    .btn-primary,
-    .btn-ghost {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      border-radius: 4px;
-      padding: 14px 24px;
-      font-size: .82rem;
-      font-weight: 600;
-      letter-spacing: .1em;
-      text-transform: uppercase;
-      transition: .2s;
-    }
-
-    .btn-primary {
-      border: 1px solid rgba(255,255,255,.5);
-      color: #fff;
-      background: transparent;
-    }
-
-    .btn-primary:hover { border-color: #fff; background: rgba(255,255,255,.06); }
-
-    .btn-ghost {
-      border: 1px solid var(--border);
-      color: var(--muted);
-    }
-
-    .btn-ghost:hover { color: #fff; border-color: rgba(255,255,255,.3); }
-
-    .section {
-      position: relative;
-      z-index: 2;
-      background: var(--bg);
-      padding: 80px clamp(20px, 5vw, 80px);
-      border-top: 1px solid var(--border);
-      scroll-margin-top: var(--header-h);
-    }
-
-    .section-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 20px;
-      flex-wrap: wrap;
-      margin-bottom: 34px;
-    }
-
-    .section-label {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      font-size: .72rem;
-      font-weight: 600;
-      letter-spacing: .16em;
-      text-transform: uppercase;
-      color: var(--muted);
-    }
-
-    .dot {
-      width: 8px;
-      height: 8px;
-      border-radius: 50%;
-      background: var(--accent);
-      flex-shrink: 0;
-    }
-
-    .filters { display: flex; gap: 10px; flex-wrap: wrap; }
-
-    .tools-filter {
-      margin-top: 14px;
-      display: flex;
-      gap: 10px;
-      flex-wrap: wrap;
-    }
-
-    .filters button,
-    .tools-filter button {
-      background: transparent;
-      border: 1px solid var(--border);
-      color: var(--muted);
-      font-family: var(--font-b);
-      font-size: .76rem;
-      font-weight: 500;
-      letter-spacing: .08em;
-      text-transform: uppercase;
-      padding: 10px 14px;
-      border-radius: 4px;
-      cursor: pointer;
-      transition: .2s;
-    }
-
-    .filters button:hover,
-    .filters button.active,
-    .tools-filter button:hover,
-    .tools-filter button.active {
-      color: #fff;
-      border-color: var(--accent);
-      background: rgba(155,109,255,.10);
-    }
-
-    .tools-list {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-      margin: 8px 0 28px;
-    }
-
-    .tool {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      padding: 8px 14px;
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      background: rgba(255,255,255,0.03);
-      transition: .25s;
-    }
-
-    .tool:hover {
-      background: rgba(155,109,255,.15);
-      border-color: var(--accent);
-      transform: translateY(-2px);
-    }
-
-    .tool-icon {
-      width: 16px;
-      height: 16px;
-      opacity: .9;
-    }
-
-    .tool-name {
-      font-size: .75rem;
-      letter-spacing: .06em;
-      color: var(--text);
-    }
-
-    .games-layout {
-      display: block;
-      position: relative;
-    }
-
-    .games-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
-      gap: 2px;
-    }
-
-    .game-card {
-      background: var(--bg2);
-      cursor: pointer;
-      transition: background .22s, outline .22s;
-      outline: 1px solid transparent;
-      overflow: hidden;
-    }
-
-    .game-card:hover,
-    .game-card.active {
-      background: var(--bg3);
-      outline-color: rgba(192,132,252,.45);
-      z-index: 1;
-    }
-
-    .game-img {
-      aspect-ratio: 4/3;
-      overflow: hidden;
-      background: #0a0a0a;
-    }
-
-    .game-img img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      transition: transform .4s cubic-bezier(.25,.46,.45,.94);
-    }
-
-    .game-card:hover img { transform: scale(1.04); }
-
-    .game-info {
-      padding: 20px 22px 24px;
-      position: relative;
-      min-height: 142px;
-    }
-
-    .game-cat {
-      font-size: .68rem;
-      font-weight: 600;
-      letter-spacing: .14em;
-      text-transform: uppercase;
-      color: var(--accent2);
-      display: block;
-      margin-bottom: 8px;
-    }
-
-    .game-info h3 {
-      font-size: 1rem;
-      font-weight: 600;
-      color: #fff;
-      line-height: 1.3;
-      margin-bottom: 6px;
-    }
-
-    .game-info p {
-      font-size: .84rem;
-      color: var(--muted);
-    }
-
-    .game-arrow {
-      position: absolute;
-      right: 20px;
-      bottom: 20px;
-      color: var(--muted);
-    }
-
-    .detail-panel {
-      position: fixed;
-      top: var(--header-h);
-      right: 0;
-      width: min(520px, 92vw);
-      height: calc(100vh - var(--header-h));
-      background: var(--bg2);
-      border-left: 1px solid var(--border);
-      padding: 34px;
-      z-index: 600;
-      overflow-y: auto;
-      transform: translateX(100%);
-      opacity: 0;
-      pointer-events: none;
-      transition: transform .35s cubic-bezier(.22,.61,.36,1), opacity .25s;
-      box-shadow: -30px 0 80px rgba(0,0,0,.45);
-    }
-
-    .detail-panel.open {
-      transform: translateX(0);
-      opacity: 1;
-      pointer-events: auto;
-    }
-
-    .detail-close {
-      position: absolute;
-      top: 18px;
-      right: 18px;
-      width: 36px;
-      height: 36px;
-      border: 1px solid var(--border);
-      background: rgba(255,255,255,.03);
-      color: var(--text);
-      border-radius: 999px;
-      cursor: pointer;
-      transition: .2s;
-    }
-
-    .detail-close:hover {
-      background: rgba(155,109,255,.15);
-      border-color: var(--accent);
-    }
-
-    .detail-overlay {
-      position: fixed;
-      inset: var(--header-h) 0 0 0;
-      background: rgba(0,0,0,.45);
-      backdrop-filter: blur(2px);
-      z-index: 590;
-      opacity: 0;
-      pointer-events: none;
-      transition: opacity .25s;
-    }
-
-    .detail-overlay.open {
-      opacity: 1;
-      pointer-events: auto;
-    }
-
-    .back-link {
-      display: inline-flex;
-      color: var(--accent2);
-      font-size: .8rem;
-      font-weight: 600;
-      margin-bottom: 30px;
-    }
-
-    .detail-title {
-      font-size: clamp(2rem, 3vw, 3rem);
-      line-height: 1;
-      margin-bottom: 10px;
-      font-weight: 600;
-    }
-
-    .detail-meta {
-      color: var(--accent2);
-      font-size: .84rem;
-      margin-bottom: 24px;
-    }
-
-    .detail-cover {
-      width: 100%;
-      aspect-ratio: 16/9;
-      object-fit: cover;
-      background: #000;
-      margin-bottom: 22px;
-      border: 1px solid var(--border);
-    }
-
-    .detail-desc {
-      color: var(--muted);
-      line-height: 1.75;
-      margin-bottom: 30px;
-    }
-
-    .detail-infos {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 1px;
-      background: var(--border);
-      margin-bottom: 30px;
-    }
-
-    .detail-info {
-      background: var(--bg2);
-      padding: 18px;
-    }
-
-    .detail-info strong {
-      display: block;
-      color: var(--accent2);
-      font-size: .72rem;
-      letter-spacing: .14em;
-      text-transform: uppercase;
-      margin-bottom: 6px;
-    }
-
-    .detail-info span {
-      color: var(--text);
-      font-size: .88rem;
-    }
-
-    .contrib-title {
-      color: var(--accent2);
-      font-size: .85rem;
-      margin-bottom: 10px;
-    }
-
-    .contrib-list {
-      padding-left: 18px;
-      color: var(--muted);
-      line-height: 1.9;
-      font-size: .9rem;
-    }
-
     .about-section,
     .contact-section { max-width: 760px; }
 
@@ -570,28 +104,11 @@
       margin-bottom: 28px;
     }
 
-    footer {
-      text-align: center;
-      padding: 28px;
-      border-top: 1px solid var(--border);
-      font-size: .76rem;
-      color: var(--muted);
-      letter-spacing: .08em;
-    }
-
-    @media (max-width: 1000px) {
-      .games-layout { display: block; }
-    }
-
     @media (max-width: 768px) {
-      .nav-links { display: none; }
-      .burger { display: flex; }
       .hero {
         height: 56vh;
         min-height: 380px;
       }
-      .section { padding: 56px clamp(16px, 4vw, 32px); }
-      .detail-infos { grid-template-columns: 1fr; }
     }
   </style>
 </head>
@@ -616,8 +133,9 @@
     <a href="/index.html">Accueil</a>
     <a href="/pages/projet.html">Projets</a>
     <a href="/pages/jeux.html">Jeux</a>
-    <a href="/pages/a-propos.html" class="active">À propos</a>
+    <a href="/pages/a-propos.html">À propos</a>
   </div>
+  <div class="drawer-overlay" id="drawerOverlay"></div>
 
   <section id="hero" class="hero">
     <div class="hero-content">
@@ -644,44 +162,46 @@
         Mon parcours dans l'industrie du jeu vidéo a débuté il y a plusieurs années, lorsque j'ai découvert ma passion pour la programmation et le design de jeux. Depuis lors, j'ai travaillé sur une variété de projets, allant de petits jeux indépendants à des titres plus ambitieux. Mon objectif est de créer des expériences de jeu mémorables qui captivent les joueurs et les transportent dans des mondes imaginaires fascinants.
       </p>
     </div>
-    <a href="/realisation/cvaxelmarion.pdf" target="_blank" class="btn-secondary">Télécharger mon CV</a>
+    <a href="/realisation/cvaxelmarion.pdf" target="_blank" class="btn-primary">Télécharger mon CV</a>
   </section>
 
   <footer>© 2025 Axel Marion</footer>
 
   <script>
-    const gamesGrid = document.getElementById('gamesGrid');
-    const detailPanel = document.getElementById('detailPanel');
-    const detailOverlay = document.getElementById('detailOverlay');
-    const filterButtons = document.querySelectorAll('.filters button');
-    const toolsFilter = document.getElementById('toolsFilter');
-    const burgerBtn = document.getElementById('burgerBtn');
-    const drawer = document.getElementById('drawer');
     const hero = document.getElementById('hero');
-    const heroContent = document.querySelector('.hero-content');
-    
     function updateHeroOnScroll() {
-      const scroll = window.scrollY;
-      const progress = Math.min(scroll / 420, 1);
-
-      const move = progress * 70;
-      const blur = progress * 5;
-      const heroOpacity = Math.max(0.35, 1 - progress * 0.55);
-      const contentOpacity = Math.max(0, 1 - progress * 1.4);
-      const contentMove = progress * 90;
-
-      hero.style.transform = `translate3d(0, -${move}px, 0)`;
-      hero.style.filter = `blur(${blur}px)`;
-      hero.style.opacity = heroOpacity;
-      hero.style.pointerEvents = progress >= 0.9 ? 'none' : 'auto';
-
-      heroContent.style.opacity = contentOpacity;
-      heroContent.style.transform = `translate3d(0, -${contentMove}px, 0)`;
+      const progress = Math.min(window.scrollY / (window.innerHeight * 0.6), 1);
+      hero.style.filter = `blur(${progress * 7}px)`;
+      hero.style.opacity = Math.max(0.25, 1 - progress * 0.7);
     }
-
-    window.addEventListener('scroll', updateHeroOnScroll);
-
+    window.addEventListener('scroll', updateHeroOnScroll, { passive: true });
     updateHeroOnScroll();
+  </script>
+
+  <script>
+    (function() {
+      const btn = document.getElementById('burgerBtn');
+      const drawer = document.getElementById('drawer');
+      const overlay = document.getElementById('drawerOverlay');
+      if (!btn || !drawer) return;
+      btn.addEventListener('click', () => {
+        const open = drawer.classList.toggle('open');
+        btn.classList.toggle('open', open);
+        if (overlay) overlay.style.display = open ? 'block' : 'none';
+      });
+      drawer.querySelectorAll('a').forEach(a => {
+        a.addEventListener('click', () => {
+          drawer.classList.remove('open');
+          btn.classList.remove('open');
+          if (overlay) overlay.style.display = 'none';
+        });
+      });
+      if (overlay) overlay.addEventListener('click', () => {
+        drawer.classList.remove('open');
+        btn.classList.remove('open');
+        overlay.style.display = 'none';
+      });
+    })();
   </script>
 </body>
 </html>

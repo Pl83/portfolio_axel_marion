@@ -48,7 +48,7 @@
     <a href="/pages/projet.html" class="see-all">Voir tous les projets →</a>
   </div>
   <div class="cards-grid featured">
-    <a href="/pages/infinitydot.html" class="card-project">
+    <div class="card-project" onclick="openProject('infinitydot')">
       <div class="card-img-wrap">
         <img src="/realisation/infinitydot.png" alt="Des Points" loading="lazy">
       </div>
@@ -58,8 +58,8 @@
         <p>Representé la fin de toute chose</p>
         <span class="card-arrow">↗</span>
       </div>
-    </a>
-    <a href="/pages/dotmusic.html" class="card-project">
+    </div>
+    <div class="card-project" onclick="openProject('dotmusic')">
       <div class="card-img-wrap">
         <img src="/realisation/dotmusic.png" alt="Plus de point" loading="lazy">
       </div>
@@ -69,21 +69,21 @@
         <p>Representé le son de manière visuel</p>
         <span class="card-arrow">↗</span>
       </div>
-    </a>
-    <a href="" class="card-project">
+    </div>
+    <div class="card-project" onclick="openProject('floatland')">
       <div class="card-img-wrap">
         <img src="/realisation/floatland/floatland.png" alt="Floatland" loading="lazy" style="object-fit:contain;padding:5px">
       </div>
       <div class="card-info">
         <span class="card-cat">Jeux VR</span>
         <h3>Game Designer, Level Designer, Developeur</h3>
-        <p>Jeux de relaxation </p>
+        <p>Jeux de relaxation</p>
         <span class="card-arrow">↗</span>
       </div>
-    </a>
-    <a href="" class="card-project">
+    </div>
+    <div class="card-project" onclick="openProject('longnigth')">
       <div class="card-img-wrap card-img-dark">
-        <img src="realisation/longnigth/longnigth.png" alt="Revolte" loading="lazy" >
+        <img src="realisation/longnigth/longnigth.png" alt="Long Night" loading="lazy">
       </div>
       <div class="card-info">
         <span class="card-cat">Jeux Mobile</span>
@@ -91,7 +91,7 @@
         <p>Jeu de reflexion sur mobile</p>
         <span class="card-arrow">↗</span>
       </div>
-    </a>
+    </div>
   </div>
 </section>
 
@@ -108,6 +108,21 @@
   <p id="popup-description"></p>
 </div>
 
+<!-- DETAIL PANEL -->
+<div id="detail-overlay" class="detail-overlay" onclick="closeDetailPanel()"></div>
+<aside id="detail-panel" class="detail-panel">
+  <button class="detail-close" onclick="closeDetailPanel()">✕</button>
+  <h2 class="detail-title" id="dp-title"></h2>
+  <div class="detail-meta" id="dp-meta"></div>
+  <img class="detail-cover" id="dp-cover" src="" alt="">
+  <p class="detail-desc" id="dp-desc"></p>
+  <div class="detail-infos" id="dp-infos"></div>
+  <h3 class="dp-contrib-title">Mes contributions</h3>
+  <ul class="dp-contrib-list" id="dp-contrib"></ul>
+  <a id="dp-link" class="dp-voir-plus" href="#" target="_blank" rel="noopener noreferrer">Voir le projet ↗</a>
+</aside>
+
+<script src="src/data.js"></script>
 <script src="src/main.js"></script>
 </body>
 </html>
