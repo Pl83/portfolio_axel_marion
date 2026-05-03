@@ -1,0 +1,444 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Axel Marion — Mémoire Level Design</title>
+  <link rel="icon" type="image/svg+xml" href="/logo.svg" />
+  <link rel="stylesheet" href="../src/style.css">
+
+  <style>
+    /* ── Hero ─────────────────────────────────────────────────── */
+    .hero {
+      position: sticky;
+      top: 0;
+      min-height: 70vh;
+      padding: calc(var(--header-h) + 64px) clamp(20px, 6vw, 96px) 80px;
+      display: flex;
+      align-items: flex-end;
+      overflow: hidden;
+      background: var(--bg);
+      will-change: filter;
+      z-index: 1;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 50% 60% at 80% 40%, rgba(155,109,255,.22), transparent 70%),
+        radial-gradient(ellipse 35% 45% at 15% 75%, rgba(155,109,255,.08), transparent 60%),
+        url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+      background-size: 100%, 100%, 200px;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 1;
+      max-width: 900px;
+    }
+
+    .hero-eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font-size: .78rem;
+      font-weight: 500;
+      letter-spacing: .16em;
+      text-transform: uppercase;
+      color: var(--accent2);
+      margin-bottom: 20px;
+    }
+    .hero-eyebrow::before {
+      content: '';
+      display: block;
+      width: 28px;
+      height: 1px;
+      background: var(--accent2);
+    }
+
+    .hero-title {
+      font-family: var(--font-d);
+      font-size: clamp(4rem, 11vw, 10rem);
+      line-height: .9;
+      letter-spacing: .01em;
+      color: #fff;
+      margin-bottom: 24px;
+    }
+    .hero-title .accent { color: var(--accent2); }
+
+    .hero-question {
+      font-size: clamp(1rem, 1.8vw, 1.25rem);
+      color: rgba(255,255,255,.55);
+      font-style: italic;
+      max-width: 640px;
+      line-height: 1.7;
+      border-left: 2px solid var(--accent);
+      padding-left: 20px;
+    }
+
+    /* ── Page ─────────────────────────────────────────────────── */
+    .page {
+      position: relative;
+      z-index: 2;
+      background: var(--bg);
+    }
+
+    .page-inner {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 80px clamp(20px, 6vw, 96px) 120px;
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+
+    /* ── Divider ──────────────────────────────────────────────── */
+    .divider {
+      width: 100%;
+      height: 1px;
+      background: var(--border);
+      margin: 72px 0;
+    }
+
+    /* ── Section ──────────────────────────────────────────────── */
+    .m-section {
+      display: grid;
+      grid-template-columns: 200px 1fr;
+      gap: 40px 60px;
+      align-items: start;
+    }
+
+    .m-label {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      padding-top: 6px;
+    }
+
+    .m-label-tag {
+      font-size: .68rem;
+      font-weight: 600;
+      letter-spacing: .16em;
+      text-transform: uppercase;
+      color: var(--accent);
+    }
+
+    .m-label-num {
+      font-family: var(--font-d);
+      font-size: 3.5rem;
+      line-height: 1;
+      color: rgba(255,255,255,.06);
+      letter-spacing: .02em;
+    }
+
+    .m-body h2 {
+      font-family: var(--font-d);
+      font-size: clamp(2rem, 4vw, 3.2rem);
+      line-height: 1.0;
+      color: #fff;
+      margin-bottom: 20px;
+    }
+
+    .m-body p {
+      color: var(--muted);
+      line-height: 1.85;
+      font-size: clamp(.88rem, 1.2vw, .97rem);
+    }
+    .m-body p + p { margin-top: 14px; }
+
+    /* ── Chapitres ────────────────────────────────────────────── */
+    .chapters {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 1px;
+      background: var(--border);
+      margin-top: 32px;
+    }
+
+    .chapter-card {
+      background: var(--bg2);
+      padding: 28px 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      transition: background .2s;
+    }
+    .chapter-card:hover { background: var(--bg3); }
+
+    .chapter-num {
+      font-family: var(--font-d);
+      font-size: 1.8rem;
+      color: rgba(155,109,255,.3);
+      line-height: 1;
+    }
+
+    .chapter-title {
+      font-size: .92rem;
+      font-weight: 600;
+      color: #fff;
+      line-height: 1.3;
+    }
+
+    .chapter-desc {
+      font-size: .8rem;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+
+    /* ── Image ────────────────────────────────────────────────── */
+    .m-image {
+      width: 100%;
+      aspect-ratio: 16/9;
+      object-fit: cover;
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      display: block;
+      margin-top: 28px;
+      background: var(--bg2);
+    }
+
+    /* ── CTA download ─────────────────────────────────────────── */
+    .cta-block {
+      display: flex;
+      align-items: center;
+      gap: 24px;
+      flex-wrap: wrap;
+      padding: 40px 44px;
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      margin-top: 32px;
+    }
+
+    .cta-block p {
+      color: var(--muted);
+      font-size: .88rem;
+      flex: 1;
+      min-width: 200px;
+    }
+
+    .btn-download {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: var(--accent);
+      color: #fff;
+      font-size: .85rem;
+      font-weight: 600;
+      letter-spacing: .06em;
+      padding: 14px 28px;
+      border-radius: 8px;
+      text-decoration: none;
+      flex-shrink: 0;
+      transition: background .2s, transform .15s;
+    }
+    .btn-download:hover {
+      background: var(--accent2);
+      transform: translateY(-2px);
+    }
+
+    /* ── Méthodologie tags ────────────────────────────────────── */
+    .method-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 20px;
+    }
+
+    .method-tag {
+      font-size: .74rem;
+      font-weight: 500;
+      letter-spacing: .08em;
+      color: var(--accent2);
+      background: rgba(155,109,255,.1);
+      border: 1px solid rgba(155,109,255,.25);
+      border-radius: 4px;
+      padding: 5px 12px;
+    }
+
+    /* ── Responsive ───────────────────────────────────────────── */
+    @media (max-width: 768px) {
+      .m-section { grid-template-columns: 1fr; gap: 16px; }
+      .m-label-num { display: none; }
+      .cta-block { flex-direction: column; align-items: flex-start; padding: 28px 24px; }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- ── Header ───────────────────────────────────────────────── -->
+  <header id="header">
+    <a href="/index.html" class="logo">A<span>M</span></a>
+    <nav class="nav-links">
+      <a href="/index.html">Accueil</a>
+      <a href="/pages/projet.html">Projets</a>
+      <a href="/pages/jeux.html">Jeux</a>
+      <a href="/pages/memoir.html" class="active">Mémoire</a>
+      <a href="/pages/a-propos.html">À propos</a>
+    </nav>
+    <a href="/realisation/cvaxelmarion.pdf" class="nav-cv" target="_blank">CV ↓</a>
+    <button class="burger" id="burgerBtn" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </header>
+
+  <div class="drawer" id="drawer">
+    <a href="/index.html">Accueil</a>
+    <a href="/pages/projet.html">Projets</a>
+    <a href="/pages/jeux.html">Jeux</a>
+    <a href="/pages/memoir.html">Mémoire</a>
+    <a href="/pages/a-propos.html">À propos</a>
+    <a href="/realisation/cvaxelmarion.pdf" target="_blank" style="color:var(--accent2)">CV ↓</a>
+  </div>
+  <div class="drawer-overlay" id="drawerOverlay"></div>
+
+  <!-- ── Hero ─────────────────────────────────────────────────── -->
+  <section id="hero" class="hero">
+    <div class="hero-content">
+      <p class="hero-eyebrow">DNMADe Mention Numérique — Gobelins 2025</p>
+      <h1 class="hero-title">
+        Mémoire<br>
+        <span class="accent">Level Design</span>
+      </h1>
+      <p class="hero-question"> 
+      comment le joueur est guidé par le Level Design dans un jeu vidéo, plus particulièrement dans les jeux à la première personne ?
+      </p>
+    </div>
+  </section>
+
+  <!-- ── Contenu ──────────────────────────────────────────────── -->
+  <div class="page">
+    <div class="page-inner">
+
+      <!-- Introduction -->
+      <div class="m-section">
+        <div class="m-label">
+          <span class="m-label-tag">Introduction</span>
+          <span class="m-label-num">01</span>
+        </div>
+        <div class="m-body">
+          <h2>Pourquoi ce sujet ?</h2>
+          <p>Le level design est souvent invisible. Un bon niveau guide le joueur, l'informe, le challenge — sans que celui-ci s'en rende compte. C'est précisément cette invisibilité qui m'a fasciné : comment concevoir un espace qui parle sans mot, qui oriente sans flèche, qui enseigne sans tutoriel ?</p>
+          <p>Ce mémoire explore les mécanismes qui permettent au level design d'agir comme un langage silencieux, à travers l'analyse de références et la pratique de terrain.</p>
+          <img class="m-image" src="/realisation/Memoir/abstract.png" alt="Mémoire Level Design">
+        </div>
+      </div>
+
+      <div class="divider"></div>
+
+      <!-- Problématique -->
+      <div class="m-section">
+        <div class="m-label">
+          <span class="m-label-tag">Problématique</span>
+          <span class="m-label-num">02</span>
+        </div>
+        <div class="m-body">
+          <h2>La question centrale</h2>
+          <p>Dans un jeu vidéo, le joueur doit être guidé vers ses objectifs tout en gardant le sentiment de liberté et d'immersion. Comment le designer d'espace peut-il construire ce guidage de façon organique, en utilisant l'architecture, la lumière, le son et la narration environnementale plutôt que des éléments d'interface ?</p>
+          <p>La tension entre <em style="color:#fff">contrainte</em> et <em style="color:#fff">liberté perçue</em> est au cœur de cette réflexion.</p>
+        </div>
+      </div>
+
+      <div class="divider"></div>
+
+      <!-- Méthodologie -->
+      <div class="m-section">
+        <div class="m-label">
+          <span class="m-label-tag">Méthodologie</span>
+          <span class="m-label-num">03</span>
+        </div>
+        <div class="m-body">
+          <h2>Approche &amp; outils</h2>
+          <p>La recherche s'appuie sur une combinaison d'analyse critique de jeux existants, de prototypage pratique et de tests joueurs. Chaque concept théorique a été expérimenté dans un prototype concret.</p>
+          <div class="method-tags">
+            <span class="method-tag">Analyse de jeux de référence</span>
+            <span class="method-tag">Prototypage Unreal Engine</span>
+            <span class="method-tag">Tests joueurs</span>
+            <span class="method-tag">Level blocking</span>
+            <span class="method-tag">Narration environnementale</span>
+            <span class="method-tag">Eye-tracking théorique</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="divider"></div>
+
+      <!-- Chapitres -->
+      <div class="m-section">
+        <div class="m-label">
+          <span class="m-label-tag">Structure</span>
+          <span class="m-label-num">04</span>
+        </div>
+        <div class="m-body">
+          <h2>Les chapitres</h2>
+          <p>Le mémoire est organisé en quatre parties progressives, du concept théorique à l'application pratique.</p>
+          <div class="chapters">
+            <div class="chapter-card">
+              <span class="chapter-num">I</span>
+              <span class="chapter-title">Le langage de l'espace</span>
+              <span class="chapter-desc">Définitions, histoire du level design et ses fondements théoriques.</span>
+            </div>
+            <div class="chapter-card">
+              <span class="chapter-num">II</span>
+              <span class="chapter-title">Les outils du guidage</span>
+              <span class="chapter-desc">Lumière, couleur, architecture, son — les vecteurs du guidage implicite.</span>
+            </div>
+            <div class="chapter-card">
+              <span class="chapter-num">III</span>
+              <span class="chapter-title">Références &amp; analyse</span>
+              <span class="chapter-desc">Décorticage de niveaux emblématiques : Portal 2, Dark Souls, Half-Life 2.</span>
+            </div>
+            <div class="chapter-card">
+              <span class="chapter-num">IV</span>
+              <span class="chapter-title">Application pratique</span>
+              <span class="chapter-desc">Création d'un prototype et retours de tests joueurs.</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="divider"></div>
+
+      <!-- Téléchargement -->
+      <div class="m-section">
+        <div class="m-label">
+          <span class="m-label-tag">Document</span>
+          <span class="m-label-num">05</span>
+        </div>
+        <div class="m-body">
+          <h2>Lire le mémoire</h2>
+          <p>Le document complet est disponible en téléchargement. Il inclut les analyses de références, les prototypes réalisés et les conclusions sur le guidage implicite en level design.</p>
+          <div class="cta-block">
+            <p>Mémoire de fin d'études — DNMADe Mention Numérique, Gobelins 2025. 6 mois de recherche et de prototypage.</p>
+            <a href="/realisation/memoir/memoir-level-design.pdf" class="btn-download" target="_blank">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/>
+              </svg>
+              Télécharger le PDF
+            </a>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <footer>© 2025 Axel Marion</footer>
+
+  <script src="../src/main.js"></script>
+  <script>
+    const hero = document.getElementById('hero');
+    window.addEventListener('scroll', () => {
+      const progress = Math.min(window.scrollY / (window.innerHeight * 0.55), 1);
+      hero.style.filter  = `blur(${progress * 7}px)`;
+      hero.style.opacity = Math.max(0.25, 1 - progress * 0.7);
+    }, { passive: true });
+  </script>
+
+</body>
+</html>

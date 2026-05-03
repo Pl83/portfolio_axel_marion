@@ -3,6 +3,14 @@
 //
 // Vidéos multiples : utiliser "videos: [url1, url2, ...]"
 // Vidéo unique     : utiliser "video: url"  (rétrocompatible)
+//
+// Galerie enrichie (images, docs, légendes) :
+//   gallery: [
+//     "/realisation/img.png",                              ← image simple
+//     { src: "/realisation/img.png", caption: "Texte" },  ← image avec légende
+//     { src: "/realisation/gdd.docx", type: "doc", label: "GDD" },   ← Word
+//     { src: "/realisation/balance.xlsx", type: "doc", label: "Balance" }, ← Excel
+//   ]
 
 window.PROJECTS = [
   {
@@ -10,7 +18,7 @@ window.PROJECTS = [
     type: "Papier & Crayon",
     tag: "Gobelins", color: "blue",
     year: 2022, month: 8, date: "SEPT. 2022",
-    img: "/realisation/Autoportart.jpg",
+    img: "/realisation/autoportart.jpg",
     desc: "Réalisation d'un autoportrait où je devais me représenter par ce que j'aime",
     duration: "1 semaine",
     role: ["Dessinateur", "Concepteur de l'image", "Choix des éléments visuels"],
@@ -24,7 +32,7 @@ window.PROJECTS = [
     tag: "Gobelins", color: "blue",
     year: 2022, month: 9, date: "OCT. 2022",
     img: "/realisation/montre/montre-realise.png",
-    gallery: ["/realisation/montre/montre-realise.png", "/realisation/montre/Montre-de-base.png"],
+    gallery: ["/realisation/montre/montre-realise.png", "/realisation/montre/montre-de-base.png"],
     desc: "Vectorisation d'une montre à partir d'une image de référence",
     duration: "3 semaines",
     role: ["Vectoriseur"],
@@ -37,8 +45,8 @@ window.PROJECTS = [
     type: "Illustrator & Photoshop",
     tag: "Gobelins", color: "blue",
     year: 2022, month: 10, date: "NOV. 2022",
-    img: "/realisation/vinyle/Recto.png",
-    gallery: ["/realisation/vinyle/Recto.png", "/realisation/vinyle/macarron.png", "/realisation/vinyle/Verso.png", "/realisation/vinyle/macarron-2.png"],
+    img: "/realisation/vinyle/recto.png",
+    gallery: ["/realisation/vinyle/recto.png", "/realisation/vinyle/macarron.png", "/realisation/vinyle/verso.png", "/realisation/vinyle/macarron-2.png"],
     desc: "Création d'un visuel de pochette de vinyle, avec recto et verso, avec les macarons",
     duration: "2 semaines",
     role: ["Illustrateur", "Imprimeur"],
@@ -65,8 +73,8 @@ window.PROJECTS = [
     type: "Jeu De Carte",
     tag: "Gobelins", color: "blue",
     year: 2023, month: 1, date: "FEV. 2023",
-    img: "/realisation/carte/Dos.png",
-    gallery: ["/realisation/carte/Dos.png", "/realisation/carte/blanc/onjn.png", "/realisation/carte/blanc/Revolution.png", "/realisation/carte/jeuechec.png"],
+    img: "/realisation/carte/dos.png",
+    gallery: ["/realisation/carte/dos.png", "/realisation/carte/blanc/onjn.png", "/realisation/carte/blanc/Revolution.png", "/realisation/carte/jeuechec.png"],
     desc: "Un jeu de carte sur les visuels des échecs et sur les règles du jeu Exploding Kittens",
     duration: "2 Mois",
     role: ["Game Designer & Level Designer", "Illustrateur", "Équilibrage", "Imprimeur", "Testeur"],
@@ -186,7 +194,7 @@ window.PROJECTS = [
     team: "3 personnes",
     engine: "Unity",
     img: "/realisation/floatland/floatland.png",
-    video: "https://www.youtube.com/embed/mYO2WOaA8CU?si=jT7o28wQXJ149gHN",
+    video: "https://www.youtube.com/watch?v=p1svvKTsktk",
     desc: "Jeux de relaxation",
     duration: "Projet fin d'année",
     role: ["Game Designer", "Level Designer", "Développeur"],
@@ -250,7 +258,7 @@ window.PROJECTS = [
     type: "Memoir",
     tag: "Gobelins", color: "blue",
     year: 2025, month: 1, date: "JAV. 2025",
-    img: "/realisation/Memoir/abstract.png",
+    img: "/realisation/memoir/abstract.png",
     desc: "Prototype orienté combat, feedback visuel et sensations de jeu.",
     duration: "6 Mois",
     role: ["Combat Design", "Feedback visuel", "Tests de sensations"],
@@ -264,7 +272,6 @@ window.PROJECTS = [
     tag: "Gobelins", color: "blue",
     year: 2025, month: 5, date: "JUIN 2025",
     img: "/realisation/fragment/fragment.png",
-    video: "https://www.youtube.com/watch?v=p1svvKTsktk",
     desc: "Prototype orienté combat, feedback visuel et sensations de jeu.",
     duration: "6 Mois",
     role: ["Combat Design", "Feedback visuel", "Tests de sensations"],
@@ -283,7 +290,7 @@ window.PROJECTS = [
     role: ["Combat Design", "Feedback visuel", "Tests de sensations"],
     learned: ["Améliorer le ressenti des actions", "Créer des feedbacks lisibles", "Tester rapidement une mécanique"],
     tools: ["UE", "Bl", "Ps"],
-    link: "#"
+    link: "https://anatole13.itch.io/team-10-sobriquet#"
   },
   {
     title: "Level Design Portal 2",
@@ -304,6 +311,12 @@ window.PROJECTS = [
     tag: "Personnel", color: "pink",
     year: 2025, month: 10, date: "NOV. 2025",
     img: "/realisation/vinyle/macarron.png",
+    videos: [
+      "https://www.youtube.com/watch?v=0dp348jROX4",
+      "https://www.youtube.com/watch?v=0V8YQs3msWo",
+      "https://www.youtube.com/watch?v=kJqhrHaqJn8",
+      "https://www.youtube.com/watch?v=VpzC4WX6iJA",
+    ],
     desc: "Prototype orienté combat, feedback visuel et sensations de jeu.",
     duration: "6 Mois",
     role: ["Combat Design", "Feedback visuel", "Tests de sensations"],
@@ -335,11 +348,16 @@ window.PROJECTS = [
     team: "Équipe",
     engine: "Unity",
     img: "/realisation/longnigth/longnigth.png",
+    gallery: [
+      "/realisation/longnigth/ecrantitre.jpg",
+      "/realisation/longnigth/ingame.jpg",
+      { src: "https://docs.google.com/document/d/1fDn_6eyT4rtfno3CSW_KH2T5ynaEfMe871f1WIkwWqE/edit?usp=sharing", type: "doc", label: "GDD" },
+    ],
     desc: "Jeu de reflexion sur mobile",
     duration: "1 Mois",
     role: ["Lead Game Designer"],
     contributions: ["Direction du game design", "Conception des mécaniques", "Itération et tests"],
-    learned: ["Améliorer le ressenti des actions", "Créer des feedbacks lisibles", "Tester rapidement une mécanique"],
+    learned: ["Direction du game design","Conception des mécaniques de puzzle","Itérations et tests joueurs" ,"Documentation de game design"],
     tools: ["UE", "Bl", "Ps"],
     link: "#"
   },

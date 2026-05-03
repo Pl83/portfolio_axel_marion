@@ -615,6 +615,15 @@
 
     .main-image.active { display: block; }
 
+    .media-caption {
+      font-size: .78rem;
+      color: rgba(255,255,255,.38);
+      font-style: italic;
+      line-height: 1.5;
+      min-height: 1em;
+      margin-top: 6px;
+    }
+
     .thumbs {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
@@ -951,8 +960,10 @@
       <a href="/index.html">Accueil</a>
       <a href="/pages/projet.html" class="active">Projets</a>
       <a href="/pages/jeux.html">Jeux</a>
+      <a href="/pages/memoir.html">Mémoire</a>
       <a href="/pages/a-propos.html">À propos</a>
     </nav>
+    <a href="/realisation/cvaxelmarion.pdf" class="nav-cv" target="_blank">CV ↓</a>
     <button class="burger" id="burgerBtn" aria-label="Menu">
       <span></span><span></span><span></span>
     </button>
@@ -1039,6 +1050,7 @@
           </div>
           <div class="zoom-result" id="zoomResult"></div>
           <div class="thumbs" id="thumbsContainer"></div>
+          <p id="mediaCaption" class="media-caption"></p>
         </div>
 
         <div class="detail-center">
@@ -1363,11 +1375,42 @@
       img.addEventListener('mousemove',  moveZoom);
     }
 
-    function getYoutubeThumb(url) {
+    function getYoutubeId(url) {
       if (!url) return "";
-      const match = url.match(/embed\/([^?&]+)/);
-      const id = match ? match[1] : "";
+      const embed = url.match(/embed\/([^?&]+)/);
+      if (embed) return embed[1];
+      const watch = url.match(/[?&]v=([^&]+)/);
+      return watch ? watch[1] : "";
+    }
+
+    function getYoutubeThumb(url) {
+      const id = getYoutubeId(url);
       return id ? `https://img.youtube.com/vi/${id}/hqdefault.jpg` : "";
+    }
+
+    function toEmbedUrl(url) {
+      if (!url) return "";
+      if (url.includes("/embed/")) return url;
+      const id = getYoutubeId(url);
+      return id ? `https://www.youtube.com/embed/${id}` : url;
+    }
+
+    function toDocEmbedUrl(src) {
+      if (!src) return null;
+      if (src.includes('docs.google.com')) {
+        return src.replace(/\/(edit|view|pub)(\?.*)?$/, '/preview');
+      }
+      return null;
+    }
+
+    function getDocIcon(ext) {
+      if (['XLS','XLSX','CSV'].includes(ext)) return '📊';
+      if (['DOC','DOCX'].includes(ext)) return '📝';
+      return '📄';
+    }
+
+    function docViewerUrl(src) {
+      return `https://view.officeapps.live.com/op/embed.aspx?src=${encodeURIComponent(window.location.origin + src)}`;
     }
 
     function updateProjectMedia(project) {
@@ -1375,15 +1418,50 @@
       const detailVideo = document.getElementById("detailVideo");
       const detailImage = document.getElementById("detailImage");
       const thumbsContainer = document.getElementById("thumbsContainer");
+      const captionEl = document.getElementById('mediaCaption');
 
       detailVideo.src = "about:blank";
       videoWrap.classList.remove("active");
 
-      const gallery = project.gallery && project.gallery.length ? project.gallery : [project.img];
+      const rawGallery = project.gallery && project.gallery.length ? project.gallery : [project.img];
+      const gallery = rawGallery.map(g => {
+        if (typeof g === 'string') return { src: g, caption: '', type: 'image' };
+        return { type: 'image', caption: '', ...g };
+      });
 
-      detailImage.src = gallery[0];
-      detailImage.alt = project.title;
-      detailImage.classList.add("active");
+      const first = gallery[0];
+      const stage = document.getElementById('mediaStage');
+      const existingDc = stage ? stage.querySelector('.doc-card') : null;
+      if (existingDc) existingDc.style.display = 'none';
+
+      if (first.type === 'doc') {
+        detailImage.classList.remove("active");
+        const embedUrl = toDocEmbedUrl(first.src);
+        if (embedUrl) {
+          detailVideo.src = embedUrl;
+          videoWrap.classList.add("active");
+        } else {
+          videoWrap.classList.remove("active");
+          const ext = first.src.split('.').pop().toUpperCase();
+          const icon = ['XLS','XLSX','CSV'].includes(ext) ? '📊' : '📝';
+          let dc = stage ? stage.querySelector('.doc-card') : null;
+          if (!dc && stage) { dc = document.createElement('div'); dc.className = 'doc-card'; stage.appendChild(dc); }
+          if (dc) {
+            dc.innerHTML = `
+              <div class="doc-card-icon">${icon}</div>
+              <div class="doc-card-name">${first.label || ext}</div>
+              <div class="doc-card-ext">${ext}</div>
+              <a href="${first.src}" target="_blank" class="doc-card-btn">Ouvrir le document ↗</a>
+              <a href="${first.src}" download class="doc-card-dl">↓ Télécharger</a>`;
+            dc.style.display = 'flex';
+          }
+        }
+      } else {
+        detailImage.src = first.src;
+        detailImage.alt = project.title;
+        detailImage.classList.add("active");
+      }
+      if (captionEl) captionEl.textContent = first.caption || '';
 
       /* Normalise video + videos en un seul tableau */
       const videoList = [
@@ -1393,18 +1471,25 @@
 
       thumbsContainer.innerHTML = `
         ${videoList.map((url, i) => `
-          <button class="media-thumb video-thumb" type="button" data-type="video" data-src="${url}"
-            style="background-image:url('${i === 0 ? project.img : (getYoutubeThumb(url) || project.img)}')">
+          <button class="media-thumb video-thumb" type="button" data-type="video" data-src="${toEmbedUrl(url)}"
+            style="background-image:url('${getYoutubeThumb(url) || project.img}')">
             <span class="play-icon">▶</span>
             <span>${videoList.length > 1 ? `Vidéo ${i + 1}` : 'Vidéo'}</span>
           </button>
         `).join("")}
-        ${gallery.map((src, index) => `
-          <img class="media-thumb ${index === 0 ? "active" : ""}"
-              src="${src}"
-              alt="${project.title} — image ${index + 1}"
-              data-type="image">
-        `).join("")}
+        ${gallery.map(({ src, caption, type, label }, index) => {
+          if (type === 'doc') {
+            const ext = src.split('.').pop().toUpperCase();
+            return `<button class="media-thumb doc-thumb ${index === 0 ? 'active' : ''}"
+              type="button" data-type="doc" data-src="${src}" data-caption="${caption || ''}">
+              <span class="doc-thumb-icon">${getDocIcon(ext)}</span>
+              <span class="doc-thumb-label">${label || ext}</span>
+            </button>`;
+          }
+          return `<img class="media-thumb ${index === 0 ? "active" : ""}"
+              src="${src}" alt="${project.title} — image ${index + 1}"
+              data-type="image" data-caption="${caption || ''}">`;
+        }).join("")}
       `;
 
       enableThumbSelection();
@@ -1430,13 +1515,55 @@
             videoWrap.classList.add("active");
             if (zoomLens)   zoomLens.style.display   = 'none';
             if (zoomResult) zoomResult.style.display = 'none';
+            const cap = document.getElementById('mediaCaption');
+            if (cap) cap.textContent = thumb.dataset.caption || '';
             return;
           }
+
+          if (thumb.dataset.type === "doc") {
+            detailImage.classList.remove("active");
+            if (zoomLens)   zoomLens.style.display   = 'none';
+            if (zoomResult) zoomResult.style.display = 'none';
+            const src = thumb.dataset.src;
+            const embedUrl = toDocEmbedUrl(src);
+            const stage = document.getElementById('mediaStage');
+            const existDc = stage ? stage.querySelector('.doc-card') : null;
+            if (existDc) existDc.style.display = 'none';
+            if (embedUrl) {
+              detailVideo.src = embedUrl;
+              videoWrap.classList.add("active");
+            } else {
+              videoWrap.classList.remove("active");
+              detailVideo.src = "about:blank";
+              const ext = src.split('.').pop().toUpperCase();
+              const icon = ['XLS','XLSX','CSV'].includes(ext) ? '📊' : '📝';
+              const label = thumb.dataset.label || ext;
+              let dc = stage ? stage.querySelector('.doc-card') : null;
+              if (!dc && stage) { dc = document.createElement('div'); dc.className = 'doc-card'; stage.appendChild(dc); }
+              if (dc) {
+                dc.innerHTML = `
+                  <div class="doc-card-icon">${icon}</div>
+                  <div class="doc-card-name">${label}</div>
+                  <div class="doc-card-ext">${ext}</div>
+                  <a href="${src}" target="_blank" class="doc-card-btn">Ouvrir le document ↗</a>
+                  <a href="${src}" download class="doc-card-dl">↓ Télécharger</a>`;
+                dc.style.display = 'flex';
+              }
+            }
+            const cap = document.getElementById('mediaCaption');
+            if (cap) cap.textContent = thumb.dataset.caption || '';
+            return;
+          }
+          // Quand on quitte un doc, on cache la carte
+          const existingDc = document.getElementById('mediaStage')?.querySelector('.doc-card');
+          if (existingDc) existingDc.style.display = 'none';
 
           detailVideo.src = "about:blank";
           videoWrap.classList.remove("active");
           detailImage.src = thumb.src;
           detailImage.classList.add("active");
+          const cap = document.getElementById('mediaCaption');
+          if (cap) cap.textContent = thumb.dataset.caption || '';
         });
       });
     }

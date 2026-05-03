@@ -20,8 +20,10 @@
       <a href="/index.html" class="active">Accueil</a>
       <a href="/pages/projet.html" >Projets</a>
       <a href="/pages/jeux.html">Jeux</a>
+      <a href="/pages/memoir.html">Mémoire</a>
       <a href="/pages/a-propos.html">À propos</a>
     </nav>
+    <a href="/realisation/cvaxelmarion.pdf" class="nav-cv" target="_blank">CV ↓</a>
     <button class="burger" id="burgerBtn" aria-label="Menu">
       <span></span><span></span><span></span>
     </button>
@@ -31,7 +33,9 @@
     <a href="/index.html">Accueil</a>
     <a href="/pages/projet.html">Projets</a>
     <a href="/pages/jeux.html">Jeux</a>
+    <a href="/pages/memoir.html">Mémoire</a>
     <a href="/pages/a-propos.html">À propos</a>
+    <a href="/realisation/cvaxelmarion.pdf" target="_blank" style="color:var(--accent2)">CV ↓</a>
   </div>
   <div class="drawer-overlay" id="drawerOverlay"></div>
 
@@ -51,58 +55,13 @@
   <div class="hero-noise"></div>
 </section>
 
-<!-- PROJETS SÉLECTIONNÉS -->
+<!-- PROJETS -->
 <section id="projets" class="section">
   <div class="section-header">
-    <div class="section-label"><span class="dot"></span>Selection de projets</div>
-    <a href="/pages/projet.html" class="see-all">Voir tous les projets →</a>
+    <div class="section-label"><span class="dot"></span>Projets</div>
+    <a href="/pages/projet.html" class="see-all">Vue détaillée →</a>
   </div>
-  <div class="cards-grid featured">
-    <div class="card-project" onclick="openProject('infinitydot')">
-      <div class="card-img-wrap">
-        <img src="/realisation/infinitydot.png" alt="Des Points" loading="lazy">
-      </div>
-      <div class="card-info">
-        <span class="card-cat">Site Internet</span>
-        <h3>Developeur & Designer</h3>
-        <p>Representé la fin de toute chose</p>
-        <span class="card-arrow">↗</span>
-      </div>
-    </div>
-    <div class="card-project" onclick="openProject('dotmusic')">
-      <div class="card-img-wrap">
-        <img src="/realisation/dotmusic.png" alt="Plus de point" loading="lazy">
-      </div>
-      <div class="card-info">
-        <span class="card-cat">Site Internet</span>
-        <h3>Developeur & Designer</h3>
-        <p>Representé le son de manière visuel</p>
-        <span class="card-arrow">↗</span>
-      </div>
-    </div>
-    <div class="card-project" onclick="openProject('floatland')">
-      <div class="card-img-wrap">
-        <img src="/realisation/floatland/floatland.png" alt="Floatland" loading="lazy" style="object-fit:contain;padding:5px">
-      </div>
-      <div class="card-info">
-        <span class="card-cat">Jeux VR</span>
-        <h3>Game Designer, Level Designer, Developeur</h3>
-        <p>Jeux de relaxation</p>
-        <span class="card-arrow">↗</span>
-      </div>
-    </div>
-    <div class="card-project" onclick="openProject('longnigth')">
-      <div class="card-img-wrap card-img-dark">
-        <img src="realisation/longnigth/longnigth.png" alt="Long Night" loading="lazy">
-      </div>
-      <div class="card-info">
-        <span class="card-cat">Jeux Mobile</span>
-        <h3>Lead Game Designer</h3>
-        <p>Jeu de reflexion sur mobile</p>
-        <span class="card-arrow">↗</span>
-      </div>
-    </div>
-  </div>
+  <div class="cards-grid" id="projects-grid"></div>
 </section>
 
 <footer>
@@ -124,7 +83,9 @@
   <button class="detail-close" onclick="closeDetailPanel()">✕</button>
   <h2 class="detail-title" id="dp-title"></h2>
   <div class="detail-meta" id="dp-meta"></div>
-  <img class="detail-cover" id="dp-cover" src="" alt="">
+  <div class="dp-media" id="dp-media"></div>
+  <div class="dp-thumbs" id="dp-thumbs"></div>
+  <p class="dp-caption" id="dp-caption"></p>
   <p class="detail-desc" id="dp-desc"></p>
   <div class="detail-infos" id="dp-infos"></div>
   <h3 class="dp-contrib-title">Mes contributions</h3>

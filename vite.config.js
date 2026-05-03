@@ -14,6 +14,7 @@ export default defineConfig({
         about: resolve(__dirname, 'pages/a-propos.html'),
         game: resolve(__dirname, 'pages/jeux.html'),
         projet: resolve(__dirname, 'pages/projet.html'),
+        memoire: resolve(__dirname, 'pages/memoir.html'),
       },
     },
   },

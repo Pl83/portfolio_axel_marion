@@ -175,7 +175,19 @@ canvas {
   font-weight: 700;
   color: #7dc8ff;
   font-family: monospace;
-  transition: background .15s, border-color .15s;
+  transition: background .15s, border-color .15s, transform .1s;
+  cursor: pointer;
+  user-select: none;
+  padding: 0;
+  outline: none;
+}
+.num-key:hover {
+  background: rgba(125,200,255,.18);
+  border-color: rgba(125,200,255,.4);
+}
+.num-key:active {
+  transform: scale(0.88);
+  background: rgba(125,200,255,.28);
 }
 
 .num-center {
@@ -183,12 +195,26 @@ canvas {
   border-color: rgba(155,109,255,.3);
   color: #c084fc;
 }
+.num-center:hover {
+  background: rgba(155,109,255,.24);
+  border-color: rgba(155,109,255,.55);
+}
+.num-center:active {
+  background: rgba(155,109,255,.36);
+}
 
 .num-zero {
   width: 80px;
   background: rgba(155,109,255,.1);
   border-color: rgba(155,109,255,.25);
   color: #c084fc;
+}
+.num-zero:hover {
+  background: rgba(155,109,255,.22);
+  border-color: rgba(155,109,255,.5);
+}
+.num-zero:active {
+  background: rgba(155,109,255,.34);
 }
 
 .numpad-legend {

@@ -226,10 +226,8 @@ const canvas = document.getElementById("canvas");
         setTimeout(simulateRandomKeyPress, 2000);
       }
 
-      function onKeyDown(ev) {
-        if (ev.defaultPrevented) return;
-
-        switch (ev.code) {
+      function triggerKey(code) {
+        switch (code) {
           case "Numpad2":
             eventsc.push({ point: { x: width / 2, y: height }, time, duration: 2000 });
             playSound(98.1);
@@ -273,12 +271,27 @@ const canvas = document.getElementById("canvas");
         }
       }
 
+      function onKeyDown(ev) {
+        if (ev.defaultPrevented) return;
+        triggerKey(ev.code);
+      }
+
       // Démarre la première simulation
       simulateRandomKeyPress();
 
       // Attach event listeners
       canvas.addEventListener("mousemove", onMouseMove);
       document.addEventListener("keydown", onKeyDown);
+
+      // Wire up visual numpad buttons
+      document.querySelectorAll("[data-code]").forEach(btn => {
+        btn.addEventListener("click", () => {
+          if (!audioContext) {
+            audioContext = new (window.AudioContext || window.webkitAudioContext)();
+          }
+          triggerKey(btn.dataset.code);
+        });
+      });
 
       // Start animation
       start();
