@@ -13,17 +13,26 @@
 <body>
 
 <!-- HEADER -->
-<header id="header">
-  <a href="/index.html" class="logo">AM</a>
-  <nav class="nav-links">
+  <header id="header">
+    <a href="/index.html" class="logo">A<span>M</span></a>
+    <nav class="nav-links">
+      <a href="/index.html" class="active">Accueil</a>
+      <a href="/pages/projet.html" >Projets</a>
+      <a href="/pages/jeux.html">Jeux</a>
+      <a href="/pages/a-propos.html">À propos</a>
+    </nav>
+    <button class="burger" id="burgerBtn" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </header>
+
+  <div class="drawer" id="drawer">
+    <a href="/index.html">Accueil</a>
     <a href="/pages/projet.html">Projets</a>
-    <a href="/pages/Jeux.html">Jeux</a>
+    <a href="/pages/jeux.html">Jeux</a>
     <a href="/pages/a-propos.html">À propos</a>
-  </nav>
-  <button class="burger" id="burgerBtn" aria-label="Menu">
-    <span></span><span></span><span></span>
-  </button>
-</header>
+  </div>
+  <div class="drawer-overlay" id="drawerOverlay"></div>
 
 <!-- HERO -->
 <section id="hero">
@@ -35,7 +44,7 @@
       
     </h1>
     <p class="hero-desc">
-      Faire des choses pas serieusse serieurment
+      Faire des choses pas sérieuses sérieusement
     </p>
   </div>
   <div class="hero-noise"></div>
