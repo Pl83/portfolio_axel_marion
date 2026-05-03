@@ -4,10 +4,73 @@
     <meta charset="utf-8" />
     <link rel="icon" type="image/svg+xml" href="/logo.svg" />
     <title>dot musique</title>
-    <script type="module" src="../src/music.js"  defer></script>
+    <script type="module" src="../src/music.js" defer></script>
     <link rel="stylesheet" href="../src/music.css">
   </head>
   <body>
-    <canvas id="canvas" width="1000" height="1000"></canvas>
+
+    <div class="layout">
+
+      <canvas id="canvas" width="1000" height="1000"></canvas>
+
+      <aside class="info-panel">
+
+        <div class="info-header">
+          <p class="info-eyebrow">Expérience interactive</p>
+          <h1 class="info-title">Dot<br><span>Musique</span></h1>
+          <p class="info-desc">Interagissez avec la grille de points pour déclencher des ondes sonores depuis différentes positions.</p>
+        </div>
+
+        <div class="info-block">
+          <h4 class="info-label">Souris</h4>
+          <div class="control-row">
+            <span class="ctrl-key">⬡ Move</span>
+            <span class="ctrl-desc">Ondulations sur les points</span>
+          </div>
+          <div class="control-row">
+            <span class="ctrl-key">Clic</span>
+            <span class="ctrl-desc">Activer le son</span>
+          </div>
+        </div>
+
+        <div class="info-block">
+          <h4 class="info-label">Pavé numérique</h4>
+          <p class="info-sub">Chaque touche déclenche une onde depuis une position du canvas.</p>
+          <div class="numpad-wrap">
+            <div class="numpad-grid">
+              <span class="num-key">7</span>
+              <span class="num-key">8</span>
+              <span class="num-key">9</span>
+              <span class="num-key">4</span>
+              <span class="num-key num-center">5</span>
+              <span class="num-key">6</span>
+              <span class="num-key">1</span>
+              <span class="num-key">2</span>
+              <span class="num-key">3</span>
+            </div>
+            <div class="numpad-zero">
+              <span class="num-key num-zero">0</span>
+            </div>
+          </div>
+          <div class="numpad-legend">
+            <span class="legend-dot" style="background:#7dc8ff"></span>
+            <span>Onde bleue depuis un coin / bord</span>
+            <span class="legend-dot" style="background:#9b6dff; margin-left:8px;"></span>
+            <span>Centre (5 et 0)</span>
+          </div>
+        </div>
+
+        <div class="info-block info-auto">
+          <h4 class="info-label">Automatique</h4>
+          <div class="control-row">
+            <span class="ctrl-key auto-badge">AUTO</span>
+            <span class="ctrl-desc">Ondes rouges aléatoires toutes les 2s</span>
+          </div>
+        </div>
+
+      </aside>
+
+    </div>
+
   </body>
 </html>

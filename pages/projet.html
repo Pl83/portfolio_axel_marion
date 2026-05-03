@@ -1,4 +1,4 @@
-﻿<!doctype html>
+<!doctype html>
 <html lang="fr">
 <head>
   <meta charset="UTF-8" />
@@ -116,6 +116,61 @@
       padding: 40px 42px 54px;
     }
 
+    /* ─── Section header extras ─── */
+    .section-header-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 14px;
+      margin-bottom: 20px;
+    }
+
+    /* ─── Tag legend ─── */
+    .tag-legend {
+      display: flex;
+      gap: 7px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .tag-legend-label {
+      font-size: .7rem;
+      letter-spacing: .11em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-right: 2px;
+    }
+
+    /* ─── Year navigation ─── */
+    .year-nav {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+      margin-bottom: 0;
+    }
+
+    .year-nav button {
+      background: transparent;
+      border: 1px solid var(--border);
+      color: var(--muted);
+      font-family: var(--font-d);
+      font-size: 1.1rem;
+      letter-spacing: .04em;
+      padding: 7px 18px;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: .18s;
+      line-height: 1;
+    }
+
+    .year-nav button:hover,
+    .year-nav button.active {
+      color: #fff;
+      border-color: var(--accent);
+      background: rgba(155,109,255,.12);
+    }
+
     /* ─── Timeline ─── */
     .timeline-section {
       position: relative;
@@ -212,26 +267,29 @@
 
     .project-card {
       position: absolute;
-      top: 20px;
-      width: 178px;
-      height: 245px;
+      top: 16px;
+      width: 172px;
+      height: 255px;
       border: 1px solid var(--border);
-      border-radius: 12px;
-      background: rgba(255,255,255,.04);
+      border-top: 3px solid var(--accent);
+      border-radius: 14px;
+      background: var(--bg2);
       cursor: pointer;
-      transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+      transition: transform 0.28s cubic-bezier(0.22,1,0.36,1), border-color 0.2s, box-shadow 0.2s;
       transform: translateX(-50%);
-      box-shadow: 0 18px 48px rgba(0,0,0,0.28);
     }
+
+    .project-card[data-color="blue"]   { border-top-color: var(--blue); }
+    .project-card[data-color="orange"] { border-top-color: var(--orange); }
 
     .project-card::before {
       content: "";
       position: absolute;
-      top: -42px;
+      top: -44px;
       left: 50%;
       width: 1px;
-      height: 42px;
-      background: linear-gradient(180deg, rgba(155,92,255,0.9), rgba(155,92,255,0.1));
+      height: 43px;
+      background: linear-gradient(180deg, rgba(155,92,255,0.8), rgba(155,92,255,0.08));
       transform: translateX(-50%);
       z-index: 2;
       pointer-events: none;
@@ -240,30 +298,54 @@
     .project-card:hover,
     .project-card.active {
       border-color: var(--accent);
-      box-shadow: 0 0 0 1px rgba(155,92,255,0.35), 0 0 32px rgba(155,92,255,0.3);
-      transform: translateX(-50%) translateY(-8px);
+      border-top-color: var(--accent);
+      box-shadow: 0 0 0 1px rgba(155,109,255,0.28), 0 20px 50px rgba(0,0,0,0.45), 0 0 30px rgba(155,109,255,0.22);
+      transform: translateX(-50%) translateY(-10px);
+    }
+
+    .project-card[data-color="blue"]:hover,
+    .project-card[data-color="blue"].active { border-top-color: var(--blue); }
+
+    .project-card[data-color="orange"]:hover,
+    .project-card[data-color="orange"].active { border-top-color: var(--orange); }
+
+    .card-img-wrap {
+      overflow: hidden;
+      border-radius: 11px 11px 0 0;
+      height: 128px;
     }
 
     .project-card img {
-      border-radius: 12px 12px 0 0;
       width: 100%;
-      height: 132px;
+      height: 100%;
       object-fit: cover;
       display: block;
+      transition: transform 0.35s ease;
     }
 
-    .project-card .body { padding: 14px; }
+    .project-card:hover img { transform: scale(1.06); }
+
+    .project-card .body {
+      padding: 11px 13px;
+      display: flex;
+      flex-direction: column;
+      gap: 7px;
+    }
 
     .project-card h3 {
-      margin: 0 0 7px;
-      font-size: 15px;
-      line-height: 1.2;
+      margin: 0;
+      font-size: 13.5px;
+      font-weight: 600;
+      line-height: 1.25;
+      color: #fff;
     }
 
     .project-card p {
-      margin: 0 0 12px;
+      margin: 0;
       color: var(--muted);
-      font-size: 12px;
+      font-size: 10.5px;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
     }
 
     .tag {
@@ -351,22 +433,15 @@
     /* ─── Detail panel ─── */
     .detail {
       margin: 0 38px;
-      border: 1px solid rgba(155,92,255,0.45);
-      box-shadow:
-        0 0 0 1px rgba(155,92,255,.18),
-        0 18px 60px rgba(0,0,0,.45),
-        0 0 35px rgba(155,92,255,.12);
-      background: rgba(15,15,15,0.92);
-      border-radius: 26px;
-      display: grid;
-      grid-template-columns: 1.3fr 1.5fr 1fr;
-      gap: 28px;
-      padding: 28px;
+      border: 1px solid rgba(155,92,255,0.26);
+      box-shadow: 0 28px 70px rgba(0,0,0,0.55), 0 0 60px rgba(155,92,255,0.05);
+      background: #0d0d0d;
+      border-radius: 22px;
       position: relative;
       max-height: 0;
       opacity: 0;
       overflow: hidden;
-      transform: translateY(80px) scale(0.98);
+      transform: translateY(70px) scale(0.98);
       pointer-events: none;
       transition:
         max-height 0.65s cubic-bezier(0.22,1,0.36,1),
@@ -376,7 +451,7 @@
     }
 
     .detail.visible {
-      max-height: 1200px;
+      max-height: 1800px;
       opacity: 1;
       margin-top: 18px;
       transform: translateY(0) scale(1);
@@ -389,24 +464,93 @@
       position: absolute;
       top: -9px;
       left: var(--arrow-left, 36%);
-      width: 18px;
-      height: 18px;
-      background: rgba(15,15,15,0.98);
-      border-left: 1px solid rgba(155,92,255,0.7);
-      border-top: 1px solid rgba(155,92,255,0.7);
+      width: 16px;
+      height: 16px;
+      background: #0d0d0d;
+      border-left: 1px solid rgba(155,92,255,0.38);
+      border-top: 1px solid rgba(155,92,255,0.38);
       transform: translateX(-50%) rotate(45deg);
-      box-shadow: -6px -6px 18px rgba(155,92,255,0.08);
       transition: left 0.65s cubic-bezier(0.22,1,0.36,1);
     }
 
     .detail.no-arrow-transition::before { transition: none; }
 
+    /* Header full-width */
+    .detail-top {
+      display: grid;
+      grid-template-columns: 1fr 1.3fr;
+      gap: 28px;
+      padding: 26px 28px 22px;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+      align-items: center;
+    }
+
+    .detail h2 {
+      font-family: var(--font-d);
+      font-size: clamp(2.2rem, 3.5vw, 4rem);
+      line-height: 0.94;
+      color: #fff;
+      margin: 0 0 12px;
+      letter-spacing: 0.01em;
+    }
+
+    .chips {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    .chip {
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    .chip-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--accent);
+      flex-shrink: 0;
+    }
+
+    .chip-sep {
+      color: rgba(255,255,255,0.2);
+      font-size: 13px;
+    }
+
+    .detail-top-desc {
+      color: var(--muted);
+      line-height: 1.8;
+      font-size: 14.5px;
+    }
+
+    /* Body: 3 columns */
+    .detail-body {
+      display: grid;
+      grid-template-columns: 1fr 1.4fr 0.85fr;
+      gap: 12px;
+      padding: 16px 16px 20px;
+    }
+
+    .media-main,
+    .detail-center {
+      background: rgba(255,255,255,0.02);
+      border: 1px solid rgba(255,255,255,0.06);
+      border-radius: 12px;
+      padding: 14px;
+    }
+
+    .media-main { position: relative; }
+
     .media-stage {
       position: relative;
       width: 100%;
-      border-radius: 12px;
+      border-radius: 8px;
       overflow: hidden;
-      border: 1px solid var(--border);
       background: #000;
     }
 
@@ -429,6 +573,44 @@
       display: none;
       width: 100%;
       height: auto;
+      max-height: 280px;
+      object-fit: contain;
+      background: #000;
+      cursor: crosshair;
+    }
+
+    .zoom-lens {
+      position: absolute;
+      width: 90px;
+      height: 90px;
+      border: 2px solid rgba(155,92,255,0.8);
+      background: rgba(155,92,255,0.1);
+      border-radius: 6px;
+      pointer-events: none;
+      display: none;
+      z-index: 5;
+      box-shadow: 0 0 0 1px rgba(155,92,255,0.25);
+    }
+
+    .zoom-result {
+      display: none;
+      position: absolute;
+      top: 0;
+      left: calc(100% + 12px);
+      width: 320px;
+      height: 320px;
+      border: 1px solid rgba(155,92,255,0.3);
+      border-radius: 12px;
+      overflow: hidden;
+      background: #000 no-repeat center/cover;
+      z-index: 100;
+      box-shadow: 0 20px 50px rgba(0,0,0,0.6), 0 0 30px rgba(155,92,255,0.08);
+      pointer-events: none;
+    }
+
+    @media (max-width: 980px) {
+      .zoom-lens, .zoom-result { display: none !important; }
+      .main-image { cursor: default; }
     }
 
     .main-image.active { display: block; }
@@ -436,31 +618,28 @@
     .thumbs {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
-      gap: 8px;
-      margin-top: 10px;
+      gap: 6px;
+      margin-top: 8px;
     }
 
     .media-thumb {
-      height: 70px;
+      height: 56px;
       width: 100%;
       object-fit: cover;
-      border-radius: 8px;
-      border: 1px solid var(--border);
+      border-radius: 6px;
+      border: 1px solid rgba(255,255,255,0.08);
       cursor: pointer;
       overflow: hidden;
       background: rgba(255,255,255,0.04);
       color: var(--text);
-      transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+      transition: border-color 0.2s, box-shadow 0.2s;
     }
 
-    .media-thumb:hover {
-      transform: translateY(-2px);
-      border-color: var(--accent);
-    }
+    .media-thumb:hover { border-color: var(--accent); }
 
     .media-thumb.active {
       border-color: var(--accent);
-      box-shadow: 0 0 0 1px rgba(155,92,255,0.35), 0 0 18px rgba(155,92,255,0.25);
+      box-shadow: 0 0 0 1px rgba(155,92,255,0.3);
     }
 
     .video-thumb {
@@ -472,17 +651,17 @@
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      gap: 6px;
-      font-weight: 800;
+      gap: 4px;
+      font-weight: 700;
       text-transform: uppercase;
-      font-size: 11px;
+      font-size: 10px;
     }
 
     .video-thumb::before {
       content: "";
       position: absolute;
       inset: 0;
-      background: linear-gradient(180deg, rgba(0,0,0,.15), rgba(0,0,0,.65));
+      background: linear-gradient(180deg, rgba(0,0,0,.2), rgba(0,0,0,.6));
       z-index: 0;
     }
 
@@ -491,140 +670,151 @@
 
     .video-thumb span:last-child {
       color: #fff;
-      text-shadow: 0 2px 8px rgba(0,0,0,.55);
+      text-shadow: 0 1px 5px rgba(0,0,0,.5);
     }
 
     .play-icon {
-      width: 30px;
-      height: 30px;
+      width: 24px;
+      height: 24px;
       display: grid;
       place-items: center;
       border-radius: 50%;
       background: var(--accent);
-      box-shadow: 0 0 18px rgba(155,92,255,0.45);
-      font-size: 12px;
+      box-shadow: 0 0 12px rgba(155,92,255,0.5);
+      font-size: 10px;
     }
 
-    .detail h2 {
-      font-family: var(--font-d);
-      font-size: 2.2rem;
-      margin: 8px 0 14px;
-      line-height: 1;
-    }
-
-    .chips {
+    /* Centre: rôle + outils */
+    .detail-center {
       display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      margin-bottom: 18px;
-    }
-
-    .chip {
-      font-size: 11px;
-      font-weight: 800;
-      padding: 8px 10px;
-      border-radius: 8px;
-      background: rgba(255,255,255,0.06);
-      color: var(--text);
-    }
-
-    .detail p {
-      color: var(--muted);
-      line-height: 1.6;
-      font-size: 14px;
+      flex-direction: column;
+      gap: 18px;
     }
 
     .info-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 20px;
-      border-top: 1px solid var(--border);
-      padding-top: 18px;
-      margin-top: 18px;
+      gap: 16px;
     }
 
     .info-block h4,
-    .side h4 { margin: 0 0 12px; font-size: 15px; }
+    .side h4 {
+      margin: 0 0 10px;
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--muted);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .info-block h4::before,
+    .side h4::before {
+      content: '';
+      display: block;
+      width: 12px;
+      height: 1px;
+      background: currentColor;
+      flex-shrink: 0;
+    }
 
     ul {
       margin: 0;
-      padding-left: 18px;
+      padding-left: 16px;
       color: var(--muted);
       font-size: 13px;
-      line-height: 1.8;
+      line-height: 1.9;
     }
 
     .tools {
       display: flex;
-      gap: 10px;
+      gap: 6px;
       flex-wrap: wrap;
     }
 
     .tool {
-      width: 38px;
-      height: 38px;
-      border-radius: 50%;
-      display: grid;
-      place-items: center;
-      background: rgba(255,255,255,0.06);
-      border: 1px solid var(--border);
-      font-weight: 800;
+      display: inline-flex;
+      align-items: center;
+      padding: 5px 10px;
+      border-radius: 6px;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.08);
+      font-size: 11.5px;
+      font-weight: 600;
       color: var(--text);
+      transition: background .2s, border-color .2s;
     }
 
+    .tool:hover {
+      background: rgba(155,92,255,.12);
+      border-color: rgba(155,92,255,.38);
+    }
+
+    /* Panneau latéral */
     .side {
-      border-left: 1px solid var(--border);
-      padding-left: 28px;
+      background: rgba(155,92,255,0.04);
+      border: 1px solid rgba(155,92,255,0.14);
+      border-radius: 12px;
+      padding: 18px 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+
+    .side-block {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    #detailDuration {
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--text);
+      line-height: 1.4;
     }
 
     .side-card {
       display: block;
       cursor: pointer;
-      transition: transform .2s ease, border-color .2s ease, box-shadow .2s ease;
-      padding: 18px;
-      background: rgba(255,255,255,0.045);
-      border: 1px solid var(--border);
-      border-radius: 14px;
-      margin-top: 22px;
+      text-decoration: none;
+      padding: 11px 16px;
+      background: var(--accent);
+      border-radius: 9px;
+      transition: background .2s, transform .15s;
+      margin-top: auto;
     }
 
     .side-card:hover {
-      transform: translateY(-3px);
-      border-color: rgba(155,92,255,.45);
-      box-shadow: 0 10px 30px rgba(0,0,0,.25), 0 0 18px rgba(155,92,255,.12);
+      background: var(--accent2);
+      transform: translateY(-2px);
     }
 
     .download {
       display: flex;
-      gap: 14px;
+      gap: 8px;
       align-items: center;
-      color: #d7b7ff;
-      font-weight: 800;
+      color: #fff;
+      font-weight: 600;
       font-size: 13px;
-      text-transform: uppercase;
+      letter-spacing: 0.04em;
     }
 
-    .download-icon {
-      width: 44px;
-      height: 44px;
-      display: grid;
-      place-items: center;
-      border-radius: 10px;
-      background: rgba(155,92,255,0.14);
-      font-size: 24px;
-    }
+    .download-icon { font-size: 15px; }
 
     .detail-close {
       position: absolute;
-      top: 16px;
-      right: 16px;
-      width: 32px;
-      height: 32px;
+      top: 14px;
+      right: 14px;
+      width: 28px;
+      height: 28px;
       border-radius: 50%;
-      border: 1px solid var(--border);
-      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.1);
+      background: rgba(255,255,255,0.05);
       color: var(--muted);
-      font-size: 16px;
+      font-size: 14px;
       cursor: pointer;
       display: grid;
       place-items: center;
@@ -633,14 +823,21 @@
     }
 
     .detail-close:hover {
-      background: rgba(155,92,255,0.18);
+      background: rgba(155,92,255,0.2);
       border-color: var(--accent);
+      color: #fff;
     }
 
+    /* ─── Scroll hint (mobile) ─── */
+    .timeline-hint {
+      display: none;
+    }
+
+    /* ─── 980px ─── */
     @media (max-width: 980px) {
-      main.page {
-        padding: 28px 22px 54px;
-      }
+      main.page { padding: 28px 22px 54px; }
+
+      .section-header-top { gap: 10px; }
 
       .timeline-section {
         margin-left: -22px;
@@ -654,24 +851,96 @@
         padding: 0 54px;
       }
 
-      .detail {
-        grid-template-columns: 1fr;
-        margin: 8px 22px 0;
-      }
+      .detail { margin: 8px 22px 0; }
 
-      .side {
-        border-left: 0;
-        padding-left: 0;
-        border-top: 1px solid var(--border);
-        padding-top: 20px;
-      }
+      .detail-top { grid-template-columns: 1fr; gap: 10px; }
+
+      .detail-body { grid-template-columns: 1fr; }
     }
 
+    /* ─── 768px ─── */
     @media (max-width: 768px) {
-      .hero {
-        height: 56vh;
-        min-height: 380px;
+      .hero { height: 56vh; min-height: 380px; }
+
+      /* Year nav: scrollable horizontalement au lieu de disparaître */
+      .year-nav {
+        display: flex;
+        overflow-x: auto;
+        scrollbar-width: none;
+        flex-wrap: nowrap;
+        gap: 6px;
+        padding-bottom: 2px;
       }
+      .year-nav::-webkit-scrollbar { display: none; }
+      .year-nav button {
+        flex-shrink: 0;
+        font-size: .9rem;
+        padding: 6px 14px;
+      }
+
+      /* Hint de scroll horizontal */
+      .timeline-hint {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        font-size: .7rem;
+        letter-spacing: .1em;
+        text-transform: uppercase;
+        color: var(--muted);
+        padding: 0 22px 10px;
+        opacity: .7;
+      }
+      .timeline-hint::before,
+      .timeline-hint::after {
+        content: "←";
+        color: var(--accent2);
+      }
+      .timeline-hint::after { content: "→"; }
+    }
+
+    /* ─── 580px ─── */
+    @media (max-width: 580px) {
+      main.page { padding: 20px 14px 54px; }
+
+      .section-header-top {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+        margin-bottom: 12px;
+      }
+
+      .section-title { font-size: clamp(1.4rem, 6vw, 2rem); }
+
+      .timeline-section {
+        margin-left: -14px;
+        margin-right: -14px;
+      }
+
+      .current-year {
+        left: 14px;
+        font-size: 20px;
+        top: 36px;
+      }
+      .current-year::before,
+      .current-year::after { display: none; }
+
+      .detail { margin: 8px 0 0; border-radius: 16px; }
+
+      .detail-top { padding: 18px 16px 16px; }
+
+      .detail-body { padding: 10px 10px 16px; gap: 8px; }
+
+      .detail h2 { font-size: 1.8rem; }
+
+      .info-grid { grid-template-columns: 1fr; gap: 14px; }
+
+      .thumbs { grid-template-columns: repeat(3, 1fr); }
+    }
+
+    /* ─── 400px ─── */
+    @media (max-width: 400px) {
+      .tag-legend { display: none; }
+      .thumbs { grid-template-columns: repeat(2, 1fr); }
     }
   </style>
 </head>
@@ -701,25 +970,42 @@
     <div class="hero-content">
       <p class="hero-sub">Portfolio jeu vidéo</p>
       <h1 class="hero-title">
-        Mon<br>
-        <span class="hero-accent">Parcours</span>
+        Projets<br>
+        <span class="hero-accent">Expériences</span>
       </h1>
       <p class="hero-desc">
-        Frise chronologique de mes projets et formations.
+        Mon parcours de 2022 à aujourd'hui — projets, formations et expériences.
       </p>
     </div>
   </section>
 
   <main class="page">
     <div class="section-header">
-      <h2 class="section-title">Frise chronologique</h2>
+      <div class="section-header-top">
+        <h2 class="section-title">Frise chronologique</h2>
+        <div class="tag-legend">
+          <span class="tag-legend-label">Légende —</span>
+          <span class="tag blue">Gobelins</span>
+          <span class="tag orange">IIM</span>
+          <span class="tag">Personnel</span>
+        </div>
+      </div>
+      <nav class="year-nav" id="yearNav">
+        <button data-year="2022" class="active">2022</button>
+        <button data-year="2023">2023</button>
+        <button data-year="2024">2024</button>
+        <button data-year="2025">2025</button>
+        <button data-year="2026">2026</button>
+      </nav>
     </div>
+
+    <div class="timeline-hint">Faites défiler la frise</div>
 
     <section class="timeline-section">
       <div class="timeline-fixed-line"></div>
       <div class="current-year" id="currentYear">2022</div>
 
-      <div class="timeline-scroll" id="timelineScroll">
+      <div class="timeline-scroll" id="timelineScroll" style="touch-action: pan-x;">
         <div class="timeline-track" id="track">
           <div class="line"></div>
           <div class="years" id="years"></div>
@@ -731,64 +1017,61 @@
     <section class="detail" id="detail">
       <button class="detail-close" id="detailClose" aria-label="Fermer">✕</button>
 
-      <div class="media-main">
-        <div class="media-stage" id="mediaStage">
-          <div class="video-wrap" id="videoWrap">
-            <iframe id="detailVideo" src="about:blank" title="Vidéo projet" allowfullscreen></iframe>
-          </div>
-          <img id="detailImage" class="main-image" src="" alt="Projet sélectionné">
+      <!-- En-tête pleine largeur -->
+      <div class="detail-top">
+        <div>
+          <h2 id="detailTitle"></h2>
+          <div class="chips" id="detailChips"></div>
         </div>
-
-        <div class="thumbs" id="thumbsContainer">
-          <button class="media-thumb video-thumb active" type="button" data-type="video" aria-label="Afficher la vidéo" style="background-image:url('https://img.youtube.com/vi/dQw4w9WgXcQ/hqdefault.jpg')">
-            <span class="play-icon">▶</span>
-            <span>Vidéo</span>
-          </button>
-          <img class="media-thumb" src="https://images.unsplash.com/photo-1518709268805-4e9042af2176?auto=format&fit=crop&w=500&q=80" alt="Miniature 1" data-type="image">
-          <img class="media-thumb" src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=500&q=80" alt="Miniature 2" data-type="image">
-          <img class="media-thumb" src="https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?auto=format&fit=crop&w=500&q=80" alt="Miniature 3" data-type="image">
-        </div>
+        <p class="detail-top-desc" id="detailText"></p>
       </div>
 
-      <div>
-        <h2 id="detailTitle">Forgotten Realms</h2>
-        <div class="chips" id="detailChips"></div>
-        <p id="detailText">Un jeu d'action-aventure médiéval fantastique où le joueur explore un monde ouvert rempli de secrets, de créatures et de quêtes.</p>
+      <!-- Corps : 3 colonnes -->
+      <div class="detail-body">
 
-        <div class="info-grid">
-          <div class="info-block">
-            <h4>Mon rôle</h4>
-            <ul id="roleList">
-              <li>Game Designer & Level Designer</li>
-              <li>Conception des mécaniques de gameplay</li>
-              <li>Équilibrage et itérations</li>
-            </ul>
+        <div class="media-main">
+          <div class="media-stage" id="mediaStage">
+            <div class="video-wrap" id="videoWrap">
+              <iframe id="detailVideo" src="about:blank" title="Vidéo projet" allowfullscreen></iframe>
+            </div>
+            <img id="detailImage" class="main-image" src="" alt="Projet sélectionné">
+            <div class="zoom-lens" id="zoomLens"></div>
           </div>
-
-          <div class="info-block">
-            <h4 style="margin-top: 0;">Outils utilisés</h4>
-            <div class="tools" id="toolsList"></div>
-          </div>
+          <div class="zoom-result" id="zoomResult"></div>
+          <div class="thumbs" id="thumbsContainer"></div>
         </div>
-      </div>
 
-      <aside class="side">
-        <h4>Durée</h4>
-        <p id="detailDuration">3 mois<br>(Avril 2023 – Juin 2023)</p>
-
-        <h4>Ce que j'ai appris</h4>
-        <ul id="learnedList"></ul>
-
-        <a class="side-card download-link" id="downloadLink" href="#" target="_blank" rel="noopener noreferrer">
-          <div class="download">
-            <div class="download-icon">↓</div>
-            <div>
-              Voir Plus<br>
-              <span style="color: var(--muted); font-weight: 500; text-transform: none;"></span>
+        <div class="detail-center">
+          <div class="info-grid">
+            <div class="info-block">
+              <h4>Mon rôle</h4>
+              <ul id="roleList"></ul>
+            </div>
+            <div class="info-block">
+              <h4>Outils utilisés</h4>
+              <div class="tools" id="toolsList"></div>
             </div>
           </div>
-        </a>
-      </aside>
+        </div>
+
+        <aside class="side">
+          <div class="side-block">
+            <h4>Durée</h4>
+            <p id="detailDuration"></p>
+          </div>
+          <div class="side-block">
+            <h4>Ce que j'ai appris</h4>
+            <ul id="learnedList"></ul>
+          </div>
+          <a class="side-card download-link" id="downloadLink" href="#" target="_blank" rel="noopener noreferrer" style="display:none;">
+            <div class="download">
+              <span class="download-icon">↗</span>
+              <span>Voir le projet</span>
+            </div>
+          </a>
+        </aside>
+
+      </div>
     </section>
   </main>
 
@@ -820,8 +1103,17 @@
 
     const months = ["JANV.", "FÉV.", "MARS", "AVR.", "MAI", "JUIN", "JUIL.", "AOÛT", "SEPT.", "OCT.", "NOV.", "DÉC."];
 
-    const projects = window.PROJECTS;
+    const toolNames = {
+      "Il": "Illustrator",
+      "Ps": "Photoshop",
+      "Id": "InDesign",
+      "U":  "Unity",
+      "UE": "Unreal Engine",
+      "Bl": "Blender",
+      "VS": "Visual Studio",
+    };
 
+    const projects = window.PROJECTS;
     const diplomas = window.DIPLOMAS;
 
     function getX(year, month) {
@@ -866,8 +1158,11 @@
         card.className = "project-card";
         card.style.left = x + "px";
         card.setAttribute("tabindex", "0");
+        card.dataset.color = project.color || '';
         card.innerHTML = `
-          <img src="${project.img}" alt="${project.title}">
+          <div class="card-img-wrap">
+            <img src="${project.img}" alt="${project.title}" loading="lazy">
+          </div>
           <div class="body">
             <h3>${project.title}</h3>
             <p>${project.type}</p>
@@ -887,30 +1182,44 @@
       card.classList.add("active");
       detail.classList.add("visible");
 
-      const timelineSection = document.querySelector(".timeline-section");
-      if (timelineSection) {
-        timelineSection.scrollIntoView({ behavior: "smooth", block: "start" });
-      }
-
       requestAnimationFrame(() => moveDetailArrow(card));
 
       document.getElementById("detailTitle").textContent = project.title;
       document.getElementById("detailText").textContent = project.desc;
       document.getElementById("detailDuration").innerHTML = project.duration || "Projet court<br>(" + project.date + ")";
 
+      const colorMap = { blue: '#67d4ff', orange: '#ffb45c' };
+      const dotColor = colorMap[project.color] || '#9b6dff';
       document.getElementById("detailChips").innerHTML = `
+        <span class="chip-dot" style="background:${dotColor}"></span>
         <span class="chip">${project.tag}</span>
-        <span class="chip">PC</span>
+        <span class="chip-sep">·</span>
+        <span class="chip">${project.type}</span>
+        <span class="chip-sep">·</span>
         <span class="chip">${project.year}</span>
       `;
 
       document.getElementById("roleList").innerHTML = (project.role || []).map(item => `<li>${item}</li>`).join("");
       document.getElementById("learnedList").innerHTML = (project.learned || []).map(item => `<li>${item}</li>`).join("");
-      document.getElementById("toolsList").innerHTML = (project.tools || []).map(tool => `<span class="tool">${tool}</span>`).join("");
 
-      document.getElementById("downloadLink").href = project.link || "#";
+      document.getElementById("toolsList").innerHTML = (project.tools || []).map(tool => {
+        const label = toolNames[tool] || tool;
+        return `<span class="tool">${label}</span>`;
+      }).join("");
+
+      const link = document.getElementById("downloadLink");
+      if (project.link && project.link !== "#") {
+        link.href = project.link;
+        link.style.display = "block";
+      } else {
+        link.style.display = "none";
+      }
 
       updateProjectMedia(project);
+
+      setTimeout(() => {
+        detail.scrollIntoView({ behavior: "smooth", block: window.innerWidth < 768 ? "start" : "nearest" });
+      }, 80);
     }
 
     function closeDetail() {
@@ -939,8 +1248,22 @@
       const currentIndex = Math.floor((timeline.scrollLeft + januaryOffset) / (monthWidth * 12));
       const visibleYear = Math.min(startYear + Math.max(0, currentIndex), endYear);
       currentYearEl.textContent = visibleYear;
+
+      document.querySelectorAll("[data-year]").forEach(btn => {
+        btn.classList.toggle("active", parseInt(btn.dataset.year) === visibleYear);
+      });
     }
 
+    // ── Year nav ────────────────────────────────────────────────
+    document.querySelectorAll("[data-year]").forEach(btn => {
+      btn.addEventListener("click", () => {
+        const year = parseInt(btn.dataset.year);
+        const targetScroll = (year - startYear) * 12 * monthWidth;
+        timeline.scrollTo({ left: targetScroll, behavior: "smooth" });
+      });
+    });
+
+    // ── Timeline scroll events ───────────────────────────────────
     timeline.addEventListener("wheel", (event) => {
       if (Math.abs(event.deltaY) > Math.abs(event.deltaX)) {
         event.preventDefault();
@@ -967,6 +1290,79 @@
       if (activeCard) moveDetailArrow(activeCard);
     });
 
+    function initZoom() {
+      const img    = document.getElementById('detailImage');
+      const lens   = document.getElementById('zoomLens');
+      const result = document.getElementById('zoomResult');
+      if (!img || !lens || !result) return;
+
+      /* Calcule la zone réellement affichée de l'image (object-fit: contain) */
+      function getRenderedArea() {
+        const natW = img.naturalWidth;
+        const natH = img.naturalHeight;
+        if (!natW || !natH) return null;
+        const elemW = img.offsetWidth;
+        const elemH = img.offsetHeight;
+        const natRatio  = natW / natH;
+        const elemRatio = elemW / elemH;
+        let rW, rH, oX, oY;
+        if (natRatio > elemRatio) {
+          rW = elemW; rH = elemW / natRatio;
+          oX = 0;     oY = (elemH - rH) / 2;
+        } else {
+          rH = elemH; rW = elemH * natRatio;
+          oY = 0;     oX = (elemW - rW) / 2;
+        }
+        return { w: rW, h: rH, x: oX, y: oY };
+      }
+
+      function hideZoom() {
+        lens.style.display = 'none';
+        result.style.display = 'none';
+      }
+
+      function moveZoom(e) {
+        if (!img.classList.contains('active') || window.innerWidth < 981) return;
+        const area = getRenderedArea();
+        if (!area) return;
+
+        const rect    = img.getBoundingClientRect();
+        const lensW   = lens.offsetWidth;
+        const lensH   = lens.offsetHeight;
+        const resultW = result.offsetWidth;
+        const resultH = result.offsetHeight;
+
+        /* Position relative à la zone réelle de l'image */
+        let x = e.clientX - rect.left - area.x - lensW / 2;
+        let y = e.clientY - rect.top  - area.y - lensH / 2;
+
+        /* Masquer si hors de l'image (zone noire letterbox) */
+        const curX = e.clientX - rect.left - area.x;
+        const curY = e.clientY - rect.top  - area.y;
+        if (curX < 0 || curY < 0 || curX > area.w || curY > area.h) {
+          hideZoom(); return;
+        }
+
+        lens.style.display   = 'block';
+        result.style.display = 'block';
+
+        x = Math.max(0, Math.min(x, area.w - lensW));
+        y = Math.max(0, Math.min(y, area.h - lensH));
+
+        lens.style.left = (area.x + x) + 'px';
+        lens.style.top  = (area.y + y) + 'px';
+
+        const cx = resultW / lensW;
+        const cy = resultH / lensH;
+        result.style.backgroundImage    = `url('${img.src}')`;
+        result.style.backgroundSize     = `${area.w * cx}px ${area.h * cy}px`;
+        result.style.backgroundPosition = `-${x * cx}px -${y * cy}px`;
+      }
+
+      img.addEventListener('mouseleave', hideZoom);
+      img.addEventListener('mousemove',  moveZoom);
+    }
+
     function getYoutubeThumb(url) {
       if (!url) return "";
       const match = url.match(/embed\/([^?&]+)/);
@@ -989,14 +1385,20 @@
       detailImage.alt = project.title;
       detailImage.classList.add("active");
 
+      /* Normalise video + videos en un seul tableau */
+      const videoList = [
+        ...(project.video  ? [project.video]  : []),
+        ...(project.videos ? project.videos   : []),
+      ];
+
       thumbsContainer.innerHTML = `
-        ${project.video ? `
-          <button class="media-thumb video-thumb" type="button" data-type="video" data-src="${project.video}"
-            style="background-image:url('${getYoutubeThumb(project.video)}')">
+        ${videoList.map((url, i) => `
+          <button class="media-thumb video-thumb" type="button" data-type="video" data-src="${url}"
+            style="background-image:url('${i === 0 ? project.img : (getYoutubeThumb(url) || project.img)}')">
             <span class="play-icon">▶</span>
-            <span>Vidéo</span>
+            <span>${videoList.length > 1 ? `Vidéo ${i + 1}` : 'Vidéo'}</span>
           </button>
-        ` : ""}
+        `).join("")}
         ${gallery.map((src, index) => `
           <img class="media-thumb ${index === 0 ? "active" : ""}"
               src="${src}"
@@ -1019,10 +1421,15 @@
           thumbs.forEach(t => t.classList.remove("active"));
           thumb.classList.add("active");
 
+          const zoomLens   = document.getElementById('zoomLens');
+          const zoomResult = document.getElementById('zoomResult');
+
           if (thumb.dataset.type === "video") {
             detailImage.classList.remove("active");
             detailVideo.src = thumb.dataset.src;
             videoWrap.classList.add("active");
+            if (zoomLens)   zoomLens.style.display   = 'none';
+            if (zoomResult) zoomResult.style.display = 'none';
             return;
           }
 
@@ -1035,8 +1442,13 @@
     }
 
     buildTimeline();
+    initZoom();
     timeline.scrollLeft = 0;
     updateCurrentYear();
+
+    // Auto-sélection du premier projet
+    const firstCard = cardsEl.querySelector(".project-card");
+    if (firstCard) selectProject(projects[0], firstCard);
   </script>
 
   <script>

@@ -1,4 +1,4 @@
-<!doctype html>
+﻿<!doctype html>
 <html lang="fr">
 <head>
   <meta charset="UTF-8" />
@@ -8,6 +8,7 @@
   <link rel="stylesheet" href="../src/style.css">
 
   <style>
+    /* ─── Hero ─── */
     .hero {
       position: sticky;
       top: 0;
@@ -78,77 +79,100 @@
       margin-bottom: 34px;
     }
 
+    /* ─── Section ─── */
     .section {
       position: relative;
       z-index: 2;
       background: var(--bg);
     }
 
-    /* Filters */
-    .filters { display: flex; gap: 10px; flex-wrap: wrap; }
-
-    .tools-filter {
-      margin-top: 14px;
+    /* ─── Filters ─── */
+    .filter-bar {
       display: flex;
+      flex-wrap: wrap;
       gap: 10px;
+      align-items: center;
+    }
+
+    .filter-group {
+      display: flex;
+      gap: 6px;
       flex-wrap: wrap;
     }
 
-    .filters button,
-    .tools-filter button {
+    .filter-sep {
+      width: 1px;
+      height: 28px;
+      background: var(--border);
+      align-self: center;
+    }
+
+    .filter-bar button {
       background: transparent;
       border: 1px solid var(--border);
       color: var(--muted);
       font-family: var(--font-b);
-      font-size: .76rem;
-      font-weight: 500;
-      letter-spacing: .08em;
+      font-size: .73rem;
+      font-weight: 600;
+      letter-spacing: .09em;
       text-transform: uppercase;
-      padding: 10px 14px;
+      padding: 8px 13px;
       border-radius: 4px;
       cursor: pointer;
-      transition: .2s;
+      transition: .18s;
     }
 
-    .filters button:hover,
-    .filters button.active,
-    .tools-filter button:hover,
-    .tools-filter button.active {
+    .filter-bar button:hover,
+    .filter-bar button.active {
       color: #fff;
       border-color: var(--accent);
-      background: rgba(155,109,255,.10);
+      background: rgba(155,109,255,.12);
     }
 
+    .filter-count {
+      margin-left: auto;
+      font-size: .78rem;
+      color: var(--muted);
+      white-space: nowrap;
+      align-self: center;
+    }
 
-    /* Game grid */
+    .filter-count strong {
+      color: var(--accent2);
+    }
+
+    /* ─── Layout ─── */
     .games-layout {
       display: block;
       position: relative;
     }
 
+    /* ─── Game grid ─── */
     .games-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+      grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
       gap: 2px;
     }
 
     .game-card {
       background: var(--bg2);
       cursor: pointer;
-      transition: background .22s, outline .22s;
-      outline: 1px solid transparent;
+      transition: background .22s;
+      outline: 2px solid transparent;
+      outline-offset: -2px;
       overflow: hidden;
+      position: relative;
     }
 
-    .game-card:hover,
+    .game-card:hover { background: var(--bg3); }
+
     .game-card.active {
       background: var(--bg3);
-      outline-color: rgba(192,132,252,.45);
-      z-index: 1;
+      outline-color: var(--accent);
     }
 
     .game-img {
-      aspect-ratio: 4/3;
+      aspect-ratio: 16/9;
       overflow: hidden;
       background: #0a0a0a;
     }
@@ -160,77 +184,99 @@
       transition: transform .4s cubic-bezier(.25,.46,.45,.94);
     }
 
-    .game-card:hover img { transform: scale(1.04); }
+    .game-card:hover img,
+    .game-card.active img { transform: scale(1.04); }
 
     .game-info {
-      padding: 20px 22px 24px;
-      position: relative;
-      min-height: 142px;
+      padding: 16px 18px 18px;
     }
 
-    .game-cat {
-      font-size: .68rem;
-      font-weight: 600;
-      letter-spacing: .14em;
+    .game-type-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      font-size: .67rem;
+      font-weight: 700;
+      letter-spacing: .12em;
       text-transform: uppercase;
-      color: var(--accent2);
-      display: block;
-      margin-bottom: 8px;
+      padding: 3px 8px;
+      border-radius: 3px;
+      margin-bottom: 9px;
     }
+
+    .game-type-badge.type-jeu      { background: rgba(155,109,255,.18); color: #c4a0ff; }
+    .game-type-badge.type-carte    { background: rgba(103,212,255,.15); color: #8ee7ff; }
+    .game-type-badge.type-proto    { background: rgba(116,214,116,.15); color: #9ef0a0; }
+    .game-type-badge.type-blocking { background: rgba(255,180,92,.15);  color: #ffd09a; }
 
     .game-info h3 {
-      font-size: 1rem;
+      font-size: .95rem;
       font-weight: 600;
       color: #fff;
       line-height: 1.3;
-      margin-bottom: 6px;
+      margin-bottom: 4px;
     }
 
     .game-info p {
-      font-size: .84rem;
+      font-size: .78rem;
       color: var(--muted);
     }
 
     .game-arrow {
       position: absolute;
-      right: 20px;
-      bottom: 20px;
-      color: var(--muted);
+      bottom: 14px;
+      right: 16px;
+      color: var(--accent2);
+      font-size: .85rem;
+      opacity: 0;
+      transition: opacity .2s;
     }
 
-    /* Tool badges in detail panel */
+    .game-card:hover .game-arrow,
+    .game-card.active .game-arrow { opacity: 1; }
+
+    /* ─── Empty state ─── */
+    .empty-state {
+      grid-column: 1 / -1;
+      padding: 60px 20px;
+      text-align: center;
+      color: var(--muted);
+      font-size: .9rem;
+    }
+
+    /* ─── Tools list ─── */
+    .tools-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 24px;
+    }
+
     .tool {
       display: flex;
       align-items: center;
-      gap: 8px;
-      padding: 8px 14px;
+      gap: 7px;
+      padding: 7px 12px;
       border: 1px solid var(--border);
-      border-radius: 8px;
+      border-radius: 7px;
       background: rgba(255,255,255,0.03);
-      transition: .25s;
+      transition: .22s;
     }
 
     .tool:hover {
-      background: rgba(155,109,255,.15);
+      background: rgba(155,109,255,.14);
       border-color: var(--accent);
-      transform: translateY(-2px);
     }
 
-    .tool-icon {
-      width: 16px;
-      height: 16px;
-      opacity: .9;
-    }
-
-    .tool-name {
-      font-size: .75rem;
-      letter-spacing: .06em;
-      color: var(--text);
-    }
+    .tool-icon { width: 15px; height: 15px; opacity: .9; }
+    .tool-name { font-size: .73rem; letter-spacing: .05em; color: var(--text); }
 
     .contrib-title {
+      font-size: .7rem;
+      font-weight: 700;
+      letter-spacing: .12em;
+      text-transform: uppercase;
       color: var(--accent2);
-      font-size: .85rem;
       margin-bottom: 10px;
     }
 
@@ -238,21 +284,47 @@
       padding-left: 18px;
       color: var(--muted);
       line-height: 1.9;
-      font-size: .9rem;
+      font-size: .88rem;
+    }
+
+    /* ─── Desktop: two-column layout ─── */
+    @media (min-width: 920px) {
+      .games-layout {
+        display: grid;
+        grid-template-columns: 1fr 400px;
+        align-items: start;
+      }
+
+      .detail-panel {
+        position: sticky !important;
+        top: var(--header-h) !important;
+        right: auto !important;
+        width: 100% !important;
+        height: calc(100vh - var(--header-h)) !important;
+        transform: none !important;
+        opacity: 1 !important;
+        pointer-events: auto !important;
+        box-shadow: none !important;
+        border-left: 1px solid var(--border);
+        grid-row: 1;
+        grid-column: 2;
+      }
+
+      .detail-panel .detail-close { display: none; }
+
+      .detail-overlay { display: none !important; }
     }
 
     @media (max-width: 768px) {
-      .hero {
-        height: 56vh;
-        min-height: 380px;
-      }
+      .hero { height: 56vh; min-height: 380px; }
+      .filter-sep { display: none; }
     }
   </style>
 </head>
 
 <body>
   <header id="header">
-    <a href="/index.html" class="logo">AM</a>
+    <a href="/index.html" class="logo">A<span>M</span></a>
 
     <nav class="nav-links">
       <a href="/index.html">Accueil</a>
@@ -279,11 +351,10 @@
       <p class="hero-sub">Portfolio jeu vidéo</p>
       <h1 class="hero-title">
         Jeux<br>
-        <span class="hero-accent">Game design<br>univers interactifs</span>
+        <span class="hero-accent">Design · Level · Dev</span>
       </h1>
       <p class="hero-desc">
-        Découvrez les jeux que j'ai imaginés, conçus et produits. Game design, level design,
-        direction artistique, prototypage et développement Unity.
+        Projets réalisés en équipe ou en solo, en cours ou sur mon temps libre.
       </p>
     </div>
   </section>
@@ -291,332 +362,116 @@
   <section id="jeux" class="section">
     <div class="section-header">
       <div class="section-label"><span class="dot"></span>Tous les jeux</div>
-      <div>
-        <div class="filters">
+      <div class="filter-bar" id="filterBar">
+        <div class="filter-group" id="typeFilter">
           <button data-type="all" class="active">Tous</button>
           <button data-type="Jeu vidéo">Jeu vidéo</button>
+          <button data-type="Jeu de cartes">Cartes</button>
           <button data-type="Prototype">Prototype</button>
+          <button data-type="Blocking">Blocking</button>
         </div>
 
-        <div class="filters" id="modeFilter">
+        <div class="filter-sep"></div>
+
+        <div class="filter-group" id="modeFilter">
           <button data-mode="all" class="active">Tous modes</button>
           <button data-mode="Solo">Solo</button>
           <button data-mode="Équipe">Équipe</button>
         </div>
 
-        <div class="tools-filter" id="toolsFilter"></div>
+        <span class="filter-count" id="filterCount"></span>
       </div>
     </div>
 
     <div class="games-layout">
       <div class="games-grid" id="gamesGrid"></div>
+      <aside class="detail-panel" id="detailPanel">
+        <p style="color:var(--muted);padding:40px 20px;text-align:center;font-size:.9rem;">
+          Sélectionnez un projet pour voir les détails.
+        </p>
+      </aside>
       <div class="detail-overlay" id="detailOverlay"></div>
-      <aside class="detail-panel" id="detailPanel"></aside>
     </div>
   </section>
 
   <footer>© 2025 Axel Marion</footer>
 
+  <script src="../src/data.js"></script>
   <script>
-    const games = [
-      {
-        title: "Floatland",
-        type: "Jeu Vidéo",
-        mode: "Équipe",
-        year: "2024",
-        platform: "VR / PC",
-        engine: "Unity",
-        duration: "Projet fin d'année",
-        team: "3 personnes",
-        role: "Level Design, Game Design, Développement Unity, Implémentation",
-        tools: ["Unity", "Blender", "C#", "VR"],
-        image: "/realisation/floatland/floatland.png",
-        description: "Jeu VR composé d'îles thématiques, chacune avec son identité visuelle et ses mini-jeux. Le joueur explore un monde lowpoly pensé pour l'immersion et l'interaction.",
-        contributions: [
-          "Conception du level design des îles",
-          "Création des mécaniques de mini-jeux",
-          "Intégration et développement dans Unity",
-          "Réflexion sur l'expérience utilisateur en VR"
-        ]
-      },
-      {
-        title: "Révolte",
-        type: "Jeu de cartes",
-        mode: "Solo",
-        year: "2023",
-        platform: "Physique",
-        engine: "Prototype papier",
-        duration: "Projet de cours",
-        team: "Solo",
-        role: "Game Design, règles, cartes, prototype interactif",
-        tools: ["Photoshop", "Illustrator", "JavaScript"],
-        image: "/realisation/carte/dos.png",
-        description: "Jeu de société interactif pensé pour 4 joueurs, basé sur des cartes, des effets et une logique d'affrontement entre factions.",
-        contributions: [
-          "Création des règles de jeu",
-          "Conception des cartes et de leurs effets",
-          "Direction graphique du jeu",
-          "Prototype interactif sur le portfolio"
-        ]
-      },
-      {
-        title: "After the Révolte",
-        type: "Prototype",
-        mode: "Solo",
-        year: "2023",
-        platform: "PandaSuite",
-        engine: "PandaSuite",
-        duration: "Projet court",
-        team: "Solo",
-        role: "Narration interactive, UX, prototypage",
-        tools: ["PandaSuite", "Photoshop"],
-        image: "/realisation/afterrevolt/moyen.png",
-        description: "Prototype narratif inspiré de Reigns, où le joueur avance par décisions successives et conséquences immédiates.",
-        contributions: [
-          "Structure de l'expérience interactive",
-          "Création du système de décisions",
-          "Écriture des situations",
-          "Intégration sur PandaSuite"
-        ]
-      },
-      {
-        title: "Infinity Dot",
-        type: "Prototype",
-        mode: "Équipe",
-        year: "2024",
-        platform: "Web",
-        engine: "Three.js",
-        duration: "Projet court",
-        team: "Solo",
-        role: "Développement créatif, expérimentation visuelle",
-        tools: ["Three.js", "JavaScript"],
-        image: "/realisation/infinitydot.png",
-        description: "Expérimentation visuelle autour de particules et de formes génératives en Three.js.",
-        contributions: [
-          "Création d'une scène interactive",
-          "Manipulation de formes et particules",
-          "Recherche esthétique autour du mouvement",
-          "Développement web créatif"
-        ]
-      },
-      {
-        title: "Dot Musique",
-        type: "Prototype",
-        mode: "Solo",
-        year: "2024",
-        platform: "Web",
-        engine: "Vue.js",
-        duration: "Projet court",
-        team: "Solo",
-        role: "Développement web, interaction audio",
-        tools: ["Vue.js", "JavaScript"],
-        image: "/realisation/dotmusic.png",
-        description: "Visualisation audio réactive qui explore l'effet du son sur des particules et éléments graphiques.",
-        contributions: [
-          "Création d'une interface interactive",
-          "Lien entre son et animation",
-          "Expérimentation avec Vue.js",
-          "Travail sur le rythme visuel"
-        ]
-      },
-      {
-        title: "Fragment",
-        type: "Jeu vidéo",
-        mode: "Solo",
-        year: "2025",
-        platform: "Recherche / Design",
-        engine: "Unity",
-        duration: "3 Mois",
-        team: "Solo",
-        role: "Developeur, level designer, game designer",
-        tools: ["Unity"],
-        image: "/realisation/fragment/fragment.png",
-        description: "Exprimer des Emotion par l'environement et guidé le joueur",
-        contributions: [
-          "Création d'un gameplay",
-          "Expression des emotions par l'ambience",
-          "Réflexion sur le guidage joueur"
-        ]
-      },
-      {
-        title: "Game Designer",
-        type: "Jeu vidéo",
-        mode: "Solo",
-        year: "2025",
-        platform: "PC",
-        engine: "Analyse Level Design",
-        duration: "Mémoire",
-        team: "Solo",
-        role: "Recherche, analyse, level design",
-        tools: ["Unity",],
-        image: "/realisation/sobriquet/sobriquet.png",
-        description: "Recherche sur la manière dont le level design peut guider le joueur dans les FPS sans casser l'immersion.",
-        contributions: [
-          "Analyse de références FPS",
-          "Étude des signes visuels et spatiaux",
-          "Réflexion sur le guidage joueur",
-          "Rédaction d'un mémoire complet"
-        ]
-      },
-      {
-        title: "Level Designer Portal 2",
-        type: "Blocking",
-        mode: "Solo",
-        year: "2025",
-        platform: "Recherche / Design",
-        engine: "Analyse Level Design",
-        duration: "Mémoire",
-        team: "Solo",
-        role: "Recherche, analyse, level design",
-        tools: ["Unity", "Photoshop"],
-        image: "https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=1200&q=80",
-        description: "Recherche sur la manière dont le level design peut guider le joueur dans les FPS sans casser l'immersion.",
-        contributions: [
-          "Analyse de références FPS",
-          "Étude des signes visuels et spatiaux",
-          "Réflexion sur le guidage joueur",
-          "Rédaction d'un mémoire complet"
-        ]
-      },
-      {
-        title: "Blocking Level Designer Far Cry 5",
-        type: "Blocking",
-        mode: "Solo",
-        year: "2025",
-        platform: "Recherche / Design",
-        engine: "Analyse Level Design",
-        duration: "Mémoire",
-        team: "Solo",
-        role: "Recherche, analyse, level design",
-        tools: ["Unity", "Photoshop"],
-        image: "https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=1200&q=80",
-        description: "Recherche sur la manière dont le level design peut guider le joueur dans les FPS sans casser l'immersion.",
-        contributions: [
-          "Analyse de références FPS",
-          "Étude des signes visuels et spatiaux",
-          "Réflexion sur le guidage joueur",
-          "Rédaction d'un mémoire complet"
-        ]
-      },
-      {
-        title: "Lead Game Designer",
-        type: "Jeu vidéo",
-        mode: "Solo",
-        year: "2026",
-        platform: "Mobile",
-        engine: "Analyse Level Design",
-        duration: "Mémoire",
-        team: "Solo",
-        role: "Recherche, analyse, level design",
-        tools: ["Unity",],
-        image: "https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=1200&q=80",
-        description: "Recherche sur la manière dont le level design peut guider le joueur dans les FPS sans casser l'immersion.",
-        contributions: [
-          "Analyse de références FPS",
-          "Étude des signes visuels et spatiaux",
-          "Réflexion sur le guidage joueur",
-          "Rédaction d'un mémoire complet"
-        ]
-      },
-      {
-        title: "Blocking Level Designer Plague Tale Requiem",
-        type: "Blocking",
-        mode: "Solo",
-        year: "2026",
-        platform: "Recherche / Design",
-        engine: "Analyse Level Design",
-        duration: "Mémoire",
-        team: "Solo",
-        role: "Recherche, analyse, level design",
-        tools: ["Unity", "Photoshop"],
-        image: "https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=1200&q=80",
-        description: "Recherche sur la manière dont le level design peut guider le joueur dans les FPS sans casser l'immersion.",
-        contributions: [
-          "Analyse de références FPS",
-          "Étude des signes visuels et spatiaux",
-          "Réflexion sur le guidage joueur",
-          "Rédaction d'un mémoire complet"
-        ]
-      },
-    ];
+    const games = window.GAMES;
+
 
     const gamesGrid = document.getElementById('gamesGrid');
     const detailPanel = document.getElementById('detailPanel');
     const detailOverlay = document.getElementById('detailOverlay');
-    const filterButtons = document.querySelectorAll('.filters button');
-    const toolsFilter = document.getElementById('toolsFilter');
-    const burgerBtn = document.getElementById('burgerBtn');
-    const drawer = document.getElementById('drawer');
-    const hero = document.getElementById('hero');
-    const heroContent = document.querySelector('.hero-content');
+    const filterCount = document.getElementById('filterCount');
+
     let activeType = 'all';
     let activeMode = 'all';
-    let activeTool = 'all';
+    let activeCardEl = null;
 
+    function getTypeBadgeClass(type) {
+      const map = {
+        'Jeu vidéo':    'type-jeu',
+        'Jeu de cartes':'type-carte',
+        'Prototype':    'type-proto',
+        'Blocking':     'type-blocking',
+      };
+      return map[type] || 'type-jeu';
+    }
 
     function displayGames() {
       gamesGrid.innerHTML = '';
 
-      const filteredGames = games.filter(game => {
-      const matchType = activeType === 'all' || game.type === activeType;
-      const matchMode = activeMode === 'all' || game.mode === activeMode;
-      const matchTool = activeTool === 'all' || game.tools.includes(activeTool);
+      const filtered = games.filter(g => {
+        const matchType = activeType === 'all' || g.type === activeType;
+        const matchMode = activeMode === 'all' || g.mode === activeMode;
+        return matchType && matchMode;
+      });
 
-      return matchType && matchMode && matchTool;
-    });
+      filterCount.innerHTML = `<strong>${filtered.length}</strong> projet${filtered.length > 1 ? 's' : ''}`;
 
-      filteredGames.forEach((game, index) => {
+      if (filtered.length === 0) {
+        gamesGrid.innerHTML = '<div class="empty-state">Aucun projet ne correspond à ces filtres.</div>';
+        return;
+      }
+
+      filtered.forEach((game, index) => {
         const card = document.createElement('article');
         card.className = 'game-card';
+        card.setAttribute('tabindex', '0');
         card.innerHTML = `
-          <div class="game-img"><img src="${game.image}" alt="${game.title}"></div>
+          <div class="game-img"><img src="${game.image}" alt="${game.title}" loading="lazy"></div>
           <div class="game-info">
-            <span class="game-cat">${game.type}</span>
+            <span class="game-type-badge ${getTypeBadgeClass(game.type)}">${game.type}</span>
             <h3>${game.title}</h3>
             <p>${game.year} · ${game.platform}</p>
-            <span class="game-arrow">↗</span>
           </div>
+          <span class="game-arrow">↗</span>
         `;
 
-        card.addEventListener('click', () => {
-          document.querySelectorAll('.game-card').forEach(c => c.classList.remove('active'));
-          card.classList.add('active');
-          displayDetails(game);
-          openDetailPanel();
+        card.addEventListener('click', () => selectCard(card, game));
+        card.addEventListener('keydown', e => {
+          if (e.key === 'Enter' || e.key === ' ') selectCard(card, game);
         });
 
         gamesGrid.appendChild(card);
 
         if (index === 0) {
           card.classList.add('active');
+          activeCardEl = card;
           displayDetails(game);
         }
       });
-
-      if (filteredGames.length === 0) {
-        detailPanel.innerHTML = '<p>Aucun projet ne correspond à ce filtre.</p>';
-      }
     }
 
-    // ---------- TYPE ----------
-    document.querySelectorAll('[data-type]').forEach(btn => {
-      btn.addEventListener('click', () => {
-        document.querySelectorAll('[data-type]').forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
-        activeType = btn.dataset.type;
-        displayGames();
-      });
-    });
-
-    // ---------- MODE ----------
-    document.querySelectorAll('[data-mode]').forEach(btn => {
-      btn.addEventListener('click', () => {
-        document.querySelectorAll('[data-mode]').forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
-        activeMode = btn.dataset.mode;
-        displayGames();
-      });
-    });
+    function selectCard(card, game) {
+      if (activeCardEl) activeCardEl.classList.remove('active');
+      card.classList.add('active');
+      activeCardEl = card;
+      displayDetails(game);
+      if (window.innerWidth < 920) openDetailPanel();
+    }
 
     function displayDetails(game) {
       detailPanel.innerHTML = `
@@ -635,12 +490,10 @@
 
         <h3 class="contrib-title">Outils</h3>
         <div class="tools-list">
-          ${game.tools.map(tool => `
-            <div class="tool">
-              ${getToolIcon(tool) ? `<img src="${getToolIcon(tool)}" class="tool-icon" alt="${tool}">` : ''}
-              <span class="tool-name">${tool}</span>
-            </div>
-          `).join('')}
+          ${game.tools.map(tool => {
+            const icon = getToolIcon(tool);
+            return `<div class="tool">${icon ? `<img src="${icon}" class="tool-icon" alt="${tool}">` : ''}<span class="tool-name">${tool}</span></div>`;
+          }).join('')}
         </div>
 
         <h3 class="contrib-title">Mes contributions</h3>
@@ -664,42 +517,46 @@
 
     detailOverlay.addEventListener('click', closeDetailPanel);
 
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape') closeDetailPanel();
+    });
+
     function getToolIcon(tool) {
       const icons = {
-        "Unity": "https://cdn.simpleicons.org/unity/ffffff",
-        "Blender": "https://cdn.simpleicons.org/blender/ffffff",
-        "C#": "https://cdn.simpleicons.org/csharp/ffffff",
-        "Three.js": "https://cdn.simpleicons.org/threedotjs/ffffff",
-        "Vue.js": "https://cdn.simpleicons.org/vuedotjs/ffffff",
-        "Photoshop": "https://cdn.simpleicons.org/adobephotoshop/ffffff",
-        "Illustrator": "https://cdn.simpleicons.org/adobeillustrator/ffffff",
-        "PandaSuite": null,
-        "JavaScript": "https://cdn.simpleicons.org/javascript/ffffff",
-        "VR": null
+        "Unity":        "https://cdn.simpleicons.org/unity/ffffff",
+        "Blender":      "https://cdn.simpleicons.org/blender/ffffff",
+        "C#":           "https://cdn.simpleicons.org/csharp/ffffff",
+        "Three.js":     "https://cdn.simpleicons.org/threedotjs/ffffff",
+        "Vue.js":       "https://cdn.simpleicons.org/vuedotjs/ffffff",
+        "Photoshop":    "https://cdn.simpleicons.org/adobephotoshop/ffffff",
+        "Illustrator":  "https://cdn.simpleicons.org/adobeillustrator/ffffff",
+        "JavaScript":   "https://cdn.simpleicons.org/javascript/ffffff",
       };
-
       return icons[tool] || null;
     }
 
-    function buildToolFilters() {
-      const tools = ['all', ...new Set(games.flatMap(game => game.tools))];
-
-      toolsFilter.innerHTML = tools.map(tool => `
-        <button class="${tool === 'all' ? 'active' : ''}" data-tool="${tool}">
-          ${tool === 'all' ? 'Tous les outils' : tool}
-        </button>
-      `).join('');
-
-      toolsFilter.querySelectorAll('button').forEach(button => {
-        button.addEventListener('click', () => {
-          toolsFilter.querySelectorAll('button').forEach(btn => btn.classList.remove('active'));
-          button.classList.add('active');
-          activeTool = button.dataset.tool;
-          displayGames();
-        });
+    // ── Type filter ──────────────────────────────────────────────
+    document.querySelectorAll('[data-type]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('[data-type]').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        activeType = btn.dataset.type;
+        displayGames();
       });
-    }
+    });
 
+    // ── Mode filter ──────────────────────────────────────────────
+    document.querySelectorAll('[data-mode]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('[data-mode]').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        activeMode = btn.dataset.mode;
+        displayGames();
+      });
+    });
+
+    // ── Hero blur ────────────────────────────────────────────────
+    const hero = document.getElementById('hero');
     function updateHeroOnScroll() {
       const progress = Math.min(window.scrollY / (window.innerHeight * 0.6), 1);
       hero.style.filter = `blur(${progress * 7}px)`;
@@ -707,17 +564,7 @@
     }
     window.addEventListener('scroll', updateHeroOnScroll, { passive: true });
 
-    filterButtons.forEach(button => {
-      button.addEventListener('click', () => {
-        filterButtons.forEach(btn => btn.classList.remove('active'));
-        button.classList.add('active');
-        activeCategory = button.dataset.filter;
-        displayGames();
-      });
-    });
-
     displayGames();
-    buildToolFilters();
     updateHeroOnScroll();
   </script>
 

@@ -8,112 +8,247 @@
   <link rel="stylesheet" href="../src/style.css">
 
   <style>
+    /* ── Hero ─────────────────────────────────────────────────── */
     .hero {
       position: sticky;
       top: 0;
-      height: 60vh;
-      min-height: 420px;
-      padding: calc(var(--header-h) + 40px) clamp(20px, 6vw, 96px) 70px;
+      min-height: 62vh;
+      padding: calc(var(--header-h) + 56px) clamp(20px, 6vw, 96px) 80px;
       display: flex;
-      align-items: center;
+      align-items: flex-end;
       overflow: hidden;
       background: var(--bg);
       will-change: filter;
-    }
-
-    .section {
-      position: relative;
-      z-index: 2;
-      background: var(--bg);
-    }
-
-    .hero::after {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background:
-        linear-gradient(90deg, rgba(15,15,15,1) 0%, rgba(15,15,15,.88) 42%, rgba(15,15,15,.35) 100%),
-        radial-gradient(ellipse 60% 50% at 70% 50%, rgba(155,109,255,.24), transparent 70%),
-        url('https://images.unsplash.com/photo-1518709268805-4e9042af2176?auto=format&fit=crop&w=1800&q=80') center/cover;
-      transform: scale(1.08);
-      z-index: 0;
-      pointer-events: none;
+      z-index: 1;
     }
 
     .hero::before {
       content: '';
       position: absolute;
       inset: 0;
-      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.05'/%3E%3C/svg%3E");
-      background-size: 200px;
+      background:
+        radial-gradient(ellipse 55% 60% at 75% 40%, rgba(155,109,255,.18), transparent 70%),
+        radial-gradient(ellipse 30% 40% at 20% 80%, rgba(155,109,255,.07), transparent 60%),
+        url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+      background-size: 100%, 100%, 200px;
       pointer-events: none;
-      z-index: 1;
+      z-index: 0;
     }
 
     .hero-content {
       position: relative;
-      z-index: 2;
-      max-width: 720px;
+      z-index: 1;
+      max-width: 780px;
     }
 
-    .hero-sub {
-      font-size: .88rem;
-      letter-spacing: .12em;
+    .hero-eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font-size: .78rem;
+      font-weight: 500;
+      letter-spacing: .14em;
       text-transform: uppercase;
-      color: var(--muted);
-      margin-bottom: 16px;
+      color: var(--accent2);
+      margin-bottom: 18px;
+    }
+    .hero-eyebrow::before {
+      content: '';
+      display: block;
+      width: 28px;
+      height: 1px;
+      background: var(--accent2);
     }
 
     .hero-title {
       font-family: var(--font-d);
-      font-size: clamp(4rem, 9vw, 8rem);
-      line-height: .95;
+      font-size: clamp(4rem, 10vw, 9rem);
+      line-height: .92;
+      letter-spacing: .01em;
       color: #fff;
-      margin-bottom: 20px;
-    }
-
-    .hero-accent {
-      color: var(--accent2);
-      font-size: clamp(2.4rem, 5vw, 5.4rem);
-    }
-
-    .hero-desc {
-      color: var(--muted);
-      max-width: 560px;
-      line-height: 1.75;
-      margin-bottom: 34px;
-    }
-
-    .about-section,
-    .contact-section { max-width: 760px; }
-
-    .about-section h2,
-    .contact-title {
-      font-family: var(--font-d);
-      font-size: clamp(2.6rem, 5vw, 5rem);
-      line-height: 1.05;
-      margin: 28px 0 20px;
-    }
-
-    .accent { color: var(--accent2); }
-
-    .about-section p,
-    .contact-section p {
-      color: var(--muted);
-      line-height: 1.75;
       margin-bottom: 28px;
     }
 
+    .hero-title .accent { color: var(--accent2); }
+
+    .hero-desc {
+      color: var(--muted);
+      font-size: clamp(.9rem, 1.4vw, 1rem);
+      max-width: 500px;
+      line-height: 1.8;
+    }
+
+    /* ── Page ─────────────────────────────────────────────────── */
+    .page {
+      position: relative;
+      z-index: 2;
+      background: var(--bg);
+    }
+
+    .page-inner {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 0 clamp(20px, 6vw, 96px) 100px;
+    }
+
+    /* ── Divider ──────────────────────────────────────────────── */
+    .divider {
+      width: 100%;
+      height: 1px;
+      background: var(--border);
+      margin: 64px 0;
+    }
+
+    /* ── Block texte ──────────────────────────────────────────── */
+    .block-label {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font-size: .75rem;
+      font-weight: 500;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 16px;
+    }
+    .block-label::before {
+      content: '';
+      display: block;
+      width: 20px;
+      height: 1px;
+      background: var(--accent);
+    }
+
+    .block-title {
+      font-family: var(--font-d);
+      font-size: clamp(2.6rem, 5vw, 5rem);
+      line-height: 1.0;
+      color: #fff;
+      margin-bottom: 24px;
+    }
+
+    .block-body {
+      color: var(--muted);
+      line-height: 1.85;
+      font-size: clamp(.88rem, 1.2vw, .97rem);
+    }
+
+    .block-body p + p { margin-top: 16px; }
+
+    /* ── Liens contact ────────────────────────────────────────── */
+    .contact-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+      margin-top: 48px;
+    }
+
+    .contact-card {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      padding: 24px 20px;
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: var(--r);
+      text-decoration: none;
+      color: var(--text);
+      transition: border-color .2s, background .2s, transform .18s;
+    }
+    .contact-card:hover {
+      border-color: var(--accent);
+      background: var(--bg3);
+      transform: translateY(-3px);
+    }
+
+    .contact-icon {
+      width: 36px;
+      height: 36px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(155,109,255,.12);
+      border-radius: 8px;
+      flex-shrink: 0;
+    }
+    .contact-icon svg {
+      width: 18px;
+      height: 18px;
+      fill: var(--accent2);
+    }
+
+    .contact-label {
+      font-size: .72rem;
+      font-weight: 500;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+    .contact-name {
+      font-size: .92rem;
+      font-weight: 500;
+      color: #fff;
+      word-break: break-all;
+    }
+    .contact-arrow {
+      margin-top: auto;
+      font-size: .78rem;
+      color: var(--accent);
+      letter-spacing: .06em;
+    }
+
+    /* ── CV bouton ────────────────────────────────────────────── */
+    .cv-row {
+      margin-top: 56px;
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+    .cv-label {
+      font-size: .82rem;
+      color: var(--muted);
+    }
+
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 12px 26px;
+      background: var(--accent);
+      color: #fff;
+      font-size: .85rem;
+      font-weight: 500;
+      letter-spacing: .06em;
+      border-radius: 8px;
+      text-decoration: none;
+      transition: background .2s, transform .15s;
+    }
+    .btn-primary:hover {
+      background: var(--accent2);
+      transform: translateY(-2px);
+    }
+    .btn-primary svg {
+      width: 14px;
+      height: 14px;
+      fill: #fff;
+    }
+
+    /* ── Responsive ───────────────────────────────────────────── */
     @media (max-width: 768px) {
-      .hero {
-        height: 56vh;
-        min-height: 380px;
-      }
+      .hero { min-height: 54vh; }
+      .contact-grid { grid-template-columns: 1fr 1fr; }
+    }
+    @media (max-width: 520px) {
+      .contact-grid { grid-template-columns: 1fr; }
+      .divider { margin: 44px 0; }
+      .cv-row { flex-direction: column; align-items: flex-start; }
     }
   </style>
 </head>
 
 <body>
+
+  <!-- ── Header ───────────────────────────────────────────────── -->
   <header id="header">
     <a href="/index.html" class="logo">A<span>M</span></a>
 
@@ -137,71 +272,138 @@
   </div>
   <div class="drawer-overlay" id="drawerOverlay"></div>
 
+  <!-- ── Hero ─────────────────────────────────────────────────── -->
   <section id="hero" class="hero">
     <div class="hero-content">
-      <p class="hero-sub">Portfolio jeu vidéo</p>
+      <p class="hero-eyebrow">Portfolio — Game Design &amp; Dev</p>
       <h1 class="hero-title">
-        À propos<br>
-        <span class="hero-accent">Axel MARION</span>
+        Axel<br>
+        <span class="accent">Marion</span>
       </h1>
       <p class="hero-desc">
-        Fait des truc pas serieux, mais serieusement
+        Étudiant en game design, passionné par la création de jeux vidéo
+        et la conception d'expériences interactives.
       </p>
     </div>
   </section>
 
-  <section id="jeux" class="section">
-    <div class="section-header">
-        <h2 class="section-title">À propos de moi</h2>
+  <!-- ── Contenu principal ────────────────────────────────────── -->
+  <div class="page">
+    <div class="page-inner">
+
+      <!-- Professionnel -->
+      <div class="text-block">
+        <span class="block-label">Professionnel</span>
+        <h2 class="block-title">Parcours &amp;<br>compétences</h2>
+        <div class="block-body">
+          <p>Formé aux Gobelins de 2022 à 2025, je poursuis aujourd'hui mes études à l'IIM. Ce double parcours m'a permis de développer une vraie polyvalence : web design, UI/UX, game design, level design et développement.</p>
+          <p>Côté outils, je travaille sur Unreal Engine, Unity, Blender, Illustrator et Figma — autant de langages qui me permettent de passer du concept au prototype sans friction.</p>
+        </div>
+      </div>
+
+      <div class="divider"></div>
+
+      <!-- Passion -->
+      <div class="text-block">
+        <span class="block-label">Passion</span>
+        <h2 class="block-title">Ce qui me<br>motive</h2>
+        <div class="block-body">
+          <p>Ce qui m'attire dans le jeu vidéo, c'est sa capacité à transmettre. Un jeu peut divertir, émouvoir, faire réfléchir — tout à la fois. C'est un médium immersif comme aucun autre.</p>
+          <p>Mes inspirations viennent de partout : un livre, une chanson, un film, un autre jeu. Je m'en nourris pour créer des expériences qui touchent les gens — des univers et des instants qui laissent quelque chose.</p>
+        </div>
+      </div>
+
+      <div class="divider"></div>
+
+      <!-- Avenir -->
+      <div class="text-block">
+        <span class="block-label">Avenir</span>
+        <h2 class="block-title">Objectifs &amp;<br>ambitions</h2>
+        <div class="block-body">
+          <p>Je suis à la recherche d'un stage, d'une alternance ou d'un premier emploi dans un studio de taille moyenne — un environnement où ma polyvalence est un atout, pas une contrainte.</p>
+          <p>Mon objectif : devenir level designer. Concevoir des espaces qui racontent une histoire, guident le joueur sans qu'il s'en rende compte, et créent des émotions par la seule architecture du niveau.</p>
+        </div>
+      </div>
+
+      <div class="divider"></div>
+
+      <!-- Contact -->
+      <div class="text-block">
+        <span class="block-label">Me contacter</span>
+        <h2 class="block-title">Restons<br>en contact</h2>
+
+        <div class="contact-grid">
+
+          <!-- LinkedIn -->
+          <a class="contact-card" href="https://www.linkedin.com/in/axel-marion-763034259" target="_blank" rel="noopener">
+            <div class="contact-icon">
+              <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path d="M20.447 20.452H16.89v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a1.977 1.977 0 0 1-1.972-1.98c0-1.093.883-1.98 1.972-1.98 1.087 0 1.972.887 1.972 1.98 0 1.093-.885 1.98-1.972 1.98zm1.783 13.019H3.554V9h3.566v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+              </svg>
+            </div>
+            <div>
+              <div class="contact-label">LinkedIn</div>
+              <div class="contact-name">Axel Marion</div>
+            </div>
+            <div class="contact-arrow">Voir le profil →</div>
+          </a>
+
+          <!-- Itch.io -->
+          <a class="contact-card" href="https://axelmar.itch.io" target="_blank" rel="noopener">
+            <div class="contact-icon">
+              <svg viewBox="0 0 245.37 220.8" xmlns="http://www.w3.org/2000/svg">
+                <path d="M31.99 1.365C21.287 7.72.2 31.945 0 38.298v10.516C0 62.144 12.46 73.86 23.773 73.86c13.584 0 24.902-11.258 24.902-24.77 0 13.512 10.959 24.77 24.545 24.77 13.587 0 24.17-11.258 24.17-24.77 0 13.512 11.444 24.77 25.03 24.77h.173c13.586 0 25.028-11.258 25.028-24.77 0 13.512 10.583 24.77 24.17 24.77 13.586 0 24.544-11.258 24.544-24.77 0 13.512 11.319 24.77 24.903 24.77 11.313 0 23.773-11.716 23.773-25.046V38.298c-.2-6.353-21.287-30.578-31.988-36.933C189.074.678 37.285.678 31.99 1.365zm65.317 117.188c-16.255 1.999-28.97 16.08-28.97 33.09v34.822l-.036.428C68.076 204.178 78.38 220.8 122.685 220.8c44.305 0 54.609-16.622 54.382-34.907l-.036-.428v-34.822c0-17.01-12.714-31.091-28.97-33.09l-25.377-3.116-25.377 3.116z"/>
+              </svg>
+            </div>
+            <div>
+              <div class="contact-label">Itch.io</div>
+              <div class="contact-name">axelmar.itch.io</div>
+            </div>
+            <div class="contact-arrow">Voir les jeux →</div>
+          </a>
+
+          <!-- Email -->
+          <a class="contact-card" href="mailto:axelmarion6@gmail.com">
+            <div class="contact-icon">
+              <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4-8 5-8-5V6l8 5 8-5v2z"/>
+              </svg>
+            </div>
+            <div>
+              <div class="contact-label">Email</div>
+              <div class="contact-name">axelmarion6@gmail.com</div>
+            </div>
+            <div class="contact-arrow">Envoyer un message →</div>
+          </a>
+
+        </div>
+
+        <!-- CV -->
+        <div class="cv-row">
+          <span class="cv-label">Mon curriculum vitæ —</span>
+          <a href="/realisation/cvaxelmarion.pdf" target="_blank" class="btn-primary">
+            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/>
+            </svg>
+            Télécharger mon CV
+          </a>
+        </div>
+
+      </div>
+
     </div>
-    <div class="about-section">
-      <p>
-        Je suis un développeur de jeux vidéo passionné, spécialisé dans la création d'expériences interactives uniques. Avec une solide expérience en programmation et en design de jeux, je m'efforce de repousser les limites de la créativité pour offrir des aventures captivantes aux joueurs du monde entier.
-      </p>
-      <p>
-        Mon parcours dans l'industrie du jeu vidéo a débuté il y a plusieurs années, lorsque j'ai découvert ma passion pour la programmation et le design de jeux. Depuis lors, j'ai travaillé sur une variété de projets, allant de petits jeux indépendants à des titres plus ambitieux. Mon objectif est de créer des expériences de jeu mémorables qui captivent les joueurs et les transportent dans des mondes imaginaires fascinants.
-      </p>
-    </div>
-    <a href="/realisation/cvaxelmarion.pdf" target="_blank" class="btn-primary">Télécharger mon CV</a>
-  </section>
+  </div>
 
   <footer>© 2025 Axel Marion</footer>
 
+  <script src="../src/main.js"></script>
   <script>
     const hero = document.getElementById('hero');
-    function updateHeroOnScroll() {
-      const progress = Math.min(window.scrollY / (window.innerHeight * 0.6), 1);
-      hero.style.filter = `blur(${progress * 7}px)`;
+    window.addEventListener('scroll', () => {
+      const progress = Math.min(window.scrollY / (window.innerHeight * 0.55), 1);
+      hero.style.filter  = `blur(${progress * 7}px)`;
       hero.style.opacity = Math.max(0.25, 1 - progress * 0.7);
-    }
-    window.addEventListener('scroll', updateHeroOnScroll, { passive: true });
-    updateHeroOnScroll();
-  </script>
-
-  <script>
-    (function() {
-      const btn = document.getElementById('burgerBtn');
-      const drawer = document.getElementById('drawer');
-      const overlay = document.getElementById('drawerOverlay');
-      if (!btn || !drawer) return;
-      btn.addEventListener('click', () => {
-        const open = drawer.classList.toggle('open');
-        btn.classList.toggle('open', open);
-        if (overlay) overlay.style.display = open ? 'block' : 'none';
-      });
-      drawer.querySelectorAll('a').forEach(a => {
-        a.addEventListener('click', () => {
-          drawer.classList.remove('open');
-          btn.classList.remove('open');
-          if (overlay) overlay.style.display = 'none';
-        });
-      });
-      if (overlay) overlay.addEventListener('click', () => {
-        drawer.classList.remove('open');
-        btn.classList.remove('open');
-        overlay.style.display = 'none';
-      });
-    })();
+    }, { passive: true });
   </script>
 </body>
 </html>

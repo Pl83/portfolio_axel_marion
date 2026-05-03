@@ -1,5 +1,8 @@
 // ── Données centralisées du portfolio ────────────────────────
 // Modifier ce fichier pour mettre à jour toutes les pages.
+//
+// Vidéos multiples : utiliser "videos: [url1, url2, ...]"
+// Vidéo unique     : utiliser "video: url"  (rétrocompatible)
 
 window.PROJECTS = [
   {
@@ -405,5 +408,227 @@ window.DIPLOMAS = [
     subtitle: "Game Design & Level Design <br> Bachelor IIM",
     date: "Debut de formation",
     year: 2025, month: 8
+  },
+];
+
+window.GAMES = [
+  {
+    title: "Floatland",
+    type: "Jeu vidéo",
+    mode: "Équipe",
+    year: "2024",
+    platform: "VR / PC",
+    engine: "Unity",
+    duration: "Projet fin d'année",
+    team: "3 personnes",
+    role: "Level Design, Game Design, Développement Unity, Implémentation",
+    tools: ["Unity", "Blender", "C#", "VR"],
+    image: "/realisation/floatland/floatland.png",
+    description: "Jeu VR composé d'îles thématiques, chacune avec son identité visuelle et ses mini-jeux. Le joueur explore un monde lowpoly pensé pour l'immersion et l'interaction.",
+    contributions: [
+      "Conception du level design des îles",
+      "Création des mécaniques de mini-jeux",
+      "Intégration et développement dans Unity",
+      "Réflexion sur l'expérience utilisateur en VR"
+    ]
+  },
+  {
+    title: "Révolte",
+    type: "Jeu de cartes",
+    mode: "Solo",
+    year: "2023",
+    platform: "Physique",
+    engine: "Prototype papier",
+    duration: "Projet de cours",
+    team: "Solo",
+    role: "Game Design, règles, cartes, prototype interactif",
+    tools: ["Photoshop", "Illustrator", "JavaScript"],
+    image: "/realisation/carte/dos.png",
+    description: "Jeu de société interactif pensé pour 4 joueurs, basé sur des cartes, des effets et une logique d'affrontement entre factions.",
+    contributions: [
+      "Création des règles de jeu",
+      "Conception des cartes et de leurs effets",
+      "Direction graphique du jeu",
+      "Prototype interactif sur le portfolio"
+    ]
+  },
+  {
+    title: "After the Révolte",
+    type: "Prototype",
+    mode: "Solo",
+    year: "2023",
+    platform: "PandaSuite",
+    engine: "PandaSuite",
+    duration: "Projet court",
+    team: "Solo",
+    role: "Narration interactive, UX, prototypage",
+    tools: ["PandaSuite", "Photoshop"],
+    image: "/realisation/afterrevolt/moyen.png",
+    description: "Prototype narratif inspiré de Reigns, où le joueur avance par décisions successives et conséquences immédiates.",
+    contributions: [
+      "Structure de l'expérience interactive",
+      "Création du système de décisions",
+      "Écriture des situations",
+      "Intégration sur PandaSuite"
+    ]
+  },
+  {
+    title: "Infinity Dot",
+    type: "Prototype",
+    mode: "Solo",
+    year: "2024",
+    platform: "Web",
+    engine: "Three.js",
+    duration: "Projet court",
+    team: "Solo",
+    role: "Développement créatif, expérimentation visuelle",
+    tools: ["Three.js", "JavaScript"],
+    image: "/realisation/infinitydot.png",
+    description: "Expérimentation visuelle autour de particules et de formes génératives en Three.js.",
+    contributions: [
+      "Création d'une scène interactive",
+      "Manipulation de formes et particules",
+      "Recherche esthétique autour du mouvement",
+      "Développement web créatif"
+    ]
+  },
+  {
+    title: "Dot Musique",
+    type: "Prototype",
+    mode: "Solo",
+    year: "2024",
+    platform: "Web",
+    engine: "Vue.js",
+    duration: "Projet court",
+    team: "Solo",
+    role: "Développement web, interaction audio",
+    tools: ["Vue.js", "JavaScript"],
+    image: "/realisation/dotmusic.png",
+    description: "Visualisation audio réactive qui explore l'effet du son sur des particules et éléments graphiques.",
+    contributions: [
+      "Création d'une interface interactive",
+      "Lien entre son et animation",
+      "Expérimentation avec Vue.js",
+      "Travail sur le rythme visuel"
+    ]
+  },
+  {
+    title: "Fragment",
+    type: "Jeu vidéo",
+    mode: "Solo",
+    year: "2025",
+    platform: "PC",
+    engine: "Unity",
+    duration: "3 Mois",
+    team: "Solo",
+    role: "Développeur, Level Designer, Game Designer",
+    tools: ["Unity"],
+    image: "/realisation/fragment/fragment.png",
+    description: "Exprimer des émotions par l'environnement et guider le joueur sans interface directe.",
+    contributions: [
+      "Création d'un gameplay expressif",
+      "Expression des émotions par l'ambiance",
+      "Réflexion sur le guidage joueur"
+    ]
+  },
+  {
+    title: "Game Designer — So'Briquet",
+    type: "Jeu vidéo",
+    mode: "Solo",
+    year: "2025",
+    platform: "PC",
+    engine: "Unity",
+    duration: "1 Mois",
+    team: "Solo",
+    role: "Game Design, conception des mécaniques",
+    tools: ["Unity"],
+    image: "/realisation/sobriquet/sobriquet.png",
+    description: "Recherche sur la manière dont le level design peut guider le joueur dans les FPS sans casser l'immersion.",
+    contributions: [
+      "Analyse de références FPS",
+      "Étude des signes visuels et spatiaux",
+      "Réflexion sur le guidage joueur",
+      "Rédaction d'un mémoire complet"
+    ]
+  },
+  {
+    title: "Level Design Portal 2",
+    type: "Blocking",
+    mode: "Solo",
+    year: "2025",
+    platform: "PC",
+    engine: "Hammer Editor",
+    duration: "1 Mois",
+    team: "Solo",
+    role: "Level Design, blocking, puzzle design",
+    tools: ["Unity", "Photoshop"],
+    image: "https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=1200&q=80",
+    description: "Création d'un niveau Portal 2 en partant du blocking jusqu'à l'habillage, axé sur la progression des puzzles.",
+    contributions: [
+      "Conception du puzzle principal",
+      "Blocking et itérations",
+      "Étude des signes visuels de Portal 2",
+      "Habillage et finitions"
+    ]
+  },
+  {
+    title: "Level Design Far Cry 5",
+    type: "Blocking",
+    mode: "Solo",
+    year: "2025",
+    platform: "PC",
+    engine: "Far Cry Arcade",
+    duration: "1 Mois",
+    team: "Solo",
+    role: "Level Design, blocking, game feel",
+    tools: ["Unity", "Photoshop"],
+    image: "https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=1200&q=80",
+    description: "Reproduction d'une zone de Far Cry 5 en blocking pour analyser les choix de level design du studio.",
+    contributions: [
+      "Analyse du level design original",
+      "Blocking fidèle à la référence",
+      "Réflexion sur l'intention du designer",
+      "Documentation des apprentissages"
+    ]
+  },
+  {
+    title: "Long Night At Grandma's",
+    type: "Jeu vidéo",
+    mode: "Équipe",
+    year: "2026",
+    platform: "Mobile",
+    engine: "Unity",
+    duration: "1 Mois",
+    team: "Équipe",
+    role: "Lead Game Designer",
+    tools: ["Unity"],
+    image: "/realisation/longnigth/longnigth.png",
+    description: "Jeu de réflexion mobile où le joueur explore la maison de sa grand-mère en résolvant des énigmes progressives.",
+    contributions: [
+      "Direction du game design",
+      "Conception des mécaniques de puzzle",
+      "Itérations et tests joueurs",
+      "Documentation de game design"
+    ]
+  },
+  {
+    title: "Level Design Plague Tale",
+    type: "Blocking",
+    mode: "Solo",
+    year: "2026",
+    platform: "PC",
+    engine: "Unreal Engine",
+    duration: "1 Mois",
+    team: "Solo",
+    role: "Level Design, blocking, ambiance",
+    tools: ["Unity", "Photoshop"],
+    image: "https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=1200&q=80",
+    description: "Reproduction d'une zone de A Plague Tale Requiem pour analyser la direction artistique et le level design narratif.",
+    contributions: [
+      "Analyse du level design de référence",
+      "Blocking fidèle à la scène originale",
+      "Étude de la narration environnementale",
+      "Rapport d'analyse"
+    ]
   },
 ];
