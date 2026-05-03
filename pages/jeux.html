@@ -205,7 +205,7 @@
     }
 
     .game-type-badge.type-jeu      { background: rgba(155,109,255,.18); color: #c4a0ff; }
-    .game-type-badge.type-carte    { background: rgba(103,212,255,.15); color: #8ee7ff; }
+    .game-type-badge.type-carte    { background: rgba(155,109,255,.18); color: #c4a0ff; }
     .game-type-badge.type-proto    { background: rgba(116,214,116,.15); color: #9ef0a0; }
     .game-type-badge.type-blocking { background: rgba(255,180,92,.15);  color: #ffd09a; }
 
@@ -291,7 +291,7 @@
     @media (min-width: 920px) {
       .games-layout {
         display: grid;
-        grid-template-columns: 1fr 400px;
+        grid-template-columns: 1fr 520px;
         align-items: start;
       }
 
@@ -318,6 +318,149 @@
     @media (max-width: 768px) {
       .hero { height: 56vh; min-height: 380px; }
       .filter-sep { display: none; }
+    }
+
+    /* ─── Media gallery in detail panel ─── */
+    .dp-media-wrap { position: relative; margin-bottom: 16px; }
+
+    .dp-media-stage {
+      position: relative;
+      width: 100%;
+      border-radius: 8px;
+      overflow: hidden;
+      background: #000;
+    }
+
+    .dp-video-wrap { display: none; width: 100%; aspect-ratio: 16/9; }
+    .dp-video-wrap.active { display: block; }
+    .dp-video-wrap iframe { width: 100%; height: 100%; border: 0; display: block; }
+
+    .dp-main-image {
+      display: none;
+      width: 100%;
+      height: auto;
+      max-height: 320px;
+      object-fit: contain;
+      background: #000;
+      cursor: crosshair;
+    }
+
+    .dp-main-image.active { display: block; }
+
+    .dp-zoom-lens {
+      position: absolute;
+      width: 80px;
+      height: 80px;
+      border: 2px solid rgba(155,92,255,.8);
+      background: rgba(155,92,255,.08);
+      border-radius: 6px;
+      pointer-events: none;
+      display: none;
+      z-index: 5;
+    }
+
+    .dp-zoom-result {
+      display: none;
+      position: fixed;
+      width: 260px;
+      height: 260px;
+      border: 1px solid rgba(155,92,255,.35);
+      border-radius: 12px;
+      overflow: hidden;
+      background: #000 no-repeat center/cover;
+      z-index: 9999;
+      box-shadow: 0 20px 50px rgba(0,0,0,.65), 0 0 30px rgba(155,92,255,.1);
+      pointer-events: none;
+    }
+
+    .dp-thumbs {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 5px;
+      margin-top: 6px;
+    }
+
+    .dp-thumb {
+      height: 50px;
+      width: 100%;
+      border-radius: 5px;
+      border: 1px solid rgba(255,255,255,.08);
+      cursor: pointer;
+      overflow: hidden;
+      background: rgba(255,255,255,.04);
+      transition: border-color .2s;
+    }
+
+    img.dp-thumb { object-fit: cover; display: block; }
+
+    .dp-thumb:hover { border-color: var(--accent); }
+
+    .dp-thumb.active {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 1px rgba(155,92,255,.35);
+    }
+
+    .dp-video-thumb {
+      position: relative;
+      background-size: cover;
+      background-position: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 3px;
+      font-weight: 700;
+      font-size: 9px;
+      text-transform: uppercase;
+      color: #fff;
+    }
+
+    .dp-video-thumb::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, rgba(0,0,0,.2), rgba(0,0,0,.6));
+    }
+
+    .dp-video-thumb span,
+    .dp-play-icon { position: relative; z-index: 1; }
+
+    .dp-play-icon {
+      width: 20px;
+      height: 20px;
+      display: grid;
+      place-items: center;
+      border-radius: 50%;
+      background: var(--accent);
+      font-size: 8px;
+    }
+
+    .dp-doc-thumb {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 2px;
+      font-size: 9px;
+      font-weight: 700;
+      color: var(--muted);
+      text-align: center;
+    }
+
+    .dp-doc-thumb span:first-child { font-size: 16px; }
+
+    .media-caption {
+      font-size: .76rem;
+      color: rgba(255,255,255,.35);
+      font-style: italic;
+      min-height: 1em;
+      margin-top: 4px;
+    }
+
+    @media (max-width: 980px) {
+      .dp-zoom-lens,
+      .dp-zoom-result { display: none !important; }
+      .dp-main-image { cursor: default; }
     }
   </style>
 </head>
@@ -367,10 +510,6 @@
       <div class="filter-bar" id="filterBar">
         <div class="filter-group" id="typeFilter">
           <button data-type="all" class="active">Tous</button>
-          <button data-type="Jeu vidéo">Jeu vidéo</button>
-          <button data-type="Jeu de cartes">Cartes</button>
-          <button data-type="Prototype">Prototype</button>
-          <button data-type="Blocking">Blocking</button>
         </div>
 
         <div class="filter-sep"></div>
@@ -400,33 +539,318 @@
 
   <script src="/data.js"></script>
   <script>
-    const games = window.GAMES;
+    // ── Normalisation ────────────────────────────────────────────
+    const TOOL_NAMES = { U:'Unity', Bl:'Blender', Ps:'Photoshop', Il:'Illustrator', Id:'InDesign', UE:'Unreal Engine', VS:'Visual Studio' };
+    function normalizeTool(t) { return TOOL_NAMES[t] || t; }
 
+    const games = (window.PROJECTS || [])
+      .filter(p => p.jeux)
+      .map(p => ({
+        ...p,
+        image:         p.img,
+        description:   p.desc,
+        mode:          p.mode || (p.team === 'Solo' ? 'Solo' : 'Équipe'),
+        role:          Array.isArray(p.role) ? p.role.join(', ') : (p.role || ''),
+        contributions: p.contributions || p.role || [],
+        tools:         (p.tools || []).map(normalizeTool),
+      }));
 
-    const gamesGrid = document.getElementById('gamesGrid');
-    const detailPanel = document.getElementById('detailPanel');
+    const gamesGrid    = document.getElementById('gamesGrid');
+    const detailPanel  = document.getElementById('detailPanel');
     const detailOverlay = document.getElementById('detailOverlay');
-    const filterCount = document.getElementById('filterCount');
+    const filterCount  = document.getElementById('filterCount');
 
-    let activeType = 'all';
-    let activeMode = 'all';
+    let activeType  = 'all';
+    let activeMode  = 'all';
     let activeCardEl = null;
 
-    function getTypeBadgeClass(type) {
-      const map = {
-        'Jeu vidéo':    'type-jeu',
-        'Jeu de cartes':'type-carte',
-        'Prototype':    'type-proto',
-        'Blocking':     'type-blocking',
-      };
-      return map[type] || 'type-jeu';
+    // ── Helpers media ────────────────────────────────────────────
+    function getYoutubeId(url) {
+      if (!url) return '';
+      const embed = url.match(/embed\/([^?&]+)/);
+      if (embed) return embed[1];
+      const watch = url.match(/[?&]v=([^&]+)/);
+      return watch ? watch[1] : '';
     }
 
+    function getYoutubeThumb(url) {
+      const id = getYoutubeId(url);
+      return id ? `https://img.youtube.com/vi/${id}/hqdefault.jpg` : '';
+    }
+
+    function toEmbedUrl(url) {
+      if (!url) return '';
+      if (url.includes('/embed/')) return url;
+      const id = getYoutubeId(url);
+      return id ? `https://www.youtube.com/embed/${id}` : url;
+    }
+
+    function toDocEmbedUrl(src) {
+      if (!src) return null;
+      if (src.includes('docs.google.com'))
+        return src.replace(/\/(edit|view|pub)(\?.*)?$/, '/preview');
+      return null;
+    }
+
+    function getDocIcon(ext) {
+      if (['XLS','XLSX','CSV'].includes(ext)) return '📊';
+      if (['DOC','DOCX'].includes(ext)) return '📝';
+      return '📄';
+    }
+
+    function getToolIcon(tool) {
+      const icons = {
+        "Unity":         "https://cdn.simpleicons.org/unity/ffffff",
+        "Blender":       "https://cdn.simpleicons.org/blender/ffffff",
+        "Three.js":      "https://cdn.simpleicons.org/threedotjs/ffffff",
+        "Vue.js":        "https://cdn.simpleicons.org/vuedotjs/ffffff",
+        "JavaScript":    "https://cdn.simpleicons.org/javascript/ffffff",
+        "Unreal Engine": "https://cdn.simpleicons.org/unrealengine/ffffff",
+        "Photoshop":     null,
+        "Illustrator":   null,
+        "InDesign":      null,
+        "C#":            null,
+        "Visual Studio": null,
+        "PandaSuite":    null,
+        "VR":            null,
+      };
+      return icons[tool] || null;
+    }
+
+    function getTypeBadgeClass(type) {
+      const t = type.toLowerCase();
+      if (t.includes('cart')) return 'type-carte';
+      if (t.includes('proto')) return 'type-proto';
+      if (t.includes('block')) return 'type-blocking';
+      return 'type-jeu';
+    }
+
+    // ── Galerie + zoom ───────────────────────────────────────────
+    function updateProjectMedia(game) {
+      const videoWrap  = document.getElementById('dpVideoWrap');
+      const dpVideo    = document.getElementById('dpVideo');
+      const dpImage    = document.getElementById('dpImage');
+      const thumbsCont = document.getElementById('dpThumbsContainer');
+      const captionEl  = document.getElementById('dpCaption');
+
+      dpVideo.src = 'about:blank';
+      videoWrap.classList.remove('active');
+
+      const rawGallery = (game.gallery && game.gallery.length) ? game.gallery : [game.image];
+      const gallery = rawGallery.map(g => {
+        if (typeof g === 'string') return { src: g, caption: '', type: 'image' };
+        return { type: 'image', caption: '', ...g };
+      });
+
+      const videoList = [
+        ...(game.video  ? [game.video]  : []),
+        ...(game.videos ? game.videos   : []),
+      ];
+
+      // Affiche le premier élément
+      const first = gallery[0];
+      const stage = document.getElementById('dpMediaStage');
+      if (first && first.type === 'doc') {
+        dpImage.classList.remove('active');
+        const embedUrl = toDocEmbedUrl(first.src);
+        if (embedUrl) {
+          dpVideo.src = embedUrl;
+          videoWrap.classList.add('active');
+        } else {
+          const ext = first.src.split('.').pop().toUpperCase();
+          let dc = stage.querySelector('.doc-card');
+          if (!dc) { dc = document.createElement('div'); dc.className = 'doc-card'; stage.appendChild(dc); }
+          dc.innerHTML = `
+            <div class="doc-card-icon">${getDocIcon(ext)}</div>
+            <div class="doc-card-name">${first.label || ext}</div>
+            <div class="doc-card-ext">${ext}</div>
+            <a href="${first.src}" target="_blank" class="doc-card-btn">Ouvrir ↗</a>
+            <a href="${first.src}" download class="doc-card-dl">↓ Télécharger</a>`;
+          dc.style.display = 'flex';
+        }
+      } else if (first) {
+        dpImage.src = first.src;
+        dpImage.alt = game.title;
+        dpImage.classList.add('active');
+      }
+      if (captionEl) captionEl.textContent = (first && first.caption) || '';
+
+      // Miniatures
+      const allThumbs = [
+        ...videoList.map((url, i) => ({
+          type: 'video', src: toEmbedUrl(url),
+          thumb: getYoutubeThumb(url) || game.image,
+          label: videoList.length > 1 ? `Vidéo ${i + 1}` : 'Vidéo',
+        })),
+        ...gallery,
+      ];
+
+      if (allThumbs.length > 1) {
+        thumbsCont.style.display = 'grid';
+        thumbsCont.innerHTML = allThumbs.map(({ type, src, thumb, label, caption }) => {
+          if (type === 'video') {
+            return `<button class="dp-thumb dp-video-thumb" type="button"
+              data-type="video" data-src="${src}"
+              style="background-image:url('${thumb}')">
+              <span class="dp-play-icon">▶</span>
+              <span>${label}</span>
+            </button>`;
+          }
+          if (type === 'doc') {
+            const ext = src.split('.').pop().toUpperCase();
+            return `<button class="dp-thumb dp-doc-thumb" type="button"
+              data-type="doc" data-src="${src}" data-caption="${caption || ''}">
+              <span>${getDocIcon(ext)}</span>
+              <span>${label || ext}</span>
+            </button>`;
+          }
+          return `<img class="dp-thumb" src="${src}" alt=""
+            data-type="image" data-caption="${caption || ''}">`;
+        }).join('');
+
+        // Premier miniature actif
+        const first = thumbsCont.querySelector('.dp-thumb');
+        if (first) first.classList.add('active');
+      } else {
+        thumbsCont.style.display = 'none';
+        thumbsCont.innerHTML = '';
+      }
+
+      enableThumbSelection();
+    }
+
+    function enableThumbSelection() {
+      const videoWrap = document.getElementById('dpVideoWrap');
+      const dpVideo   = document.getElementById('dpVideo');
+      const dpImage   = document.getElementById('dpImage');
+      const captionEl = document.getElementById('dpCaption');
+      const thumbs    = document.querySelectorAll('#dpThumbsContainer .dp-thumb');
+
+      thumbs.forEach(thumb => {
+        thumb.addEventListener('click', () => {
+          thumbs.forEach(t => t.classList.remove('active'));
+          thumb.classList.add('active');
+
+          const stage  = document.getElementById('dpMediaStage');
+          const existDc = stage && stage.querySelector('.doc-card');
+
+          if (thumb.dataset.type === 'video') {
+            dpImage.classList.remove('active');
+            dpVideo.src = thumb.dataset.src;
+            videoWrap.classList.add('active');
+            if (existDc) existDc.style.display = 'none';
+            if (captionEl) captionEl.textContent = '';
+            return;
+          }
+
+          if (thumb.dataset.type === 'doc') {
+            dpImage.classList.remove('active');
+            videoWrap.classList.remove('active');
+            dpVideo.src = 'about:blank';
+            if (existDc) existDc.style.display = 'none';
+            const src = thumb.dataset.src;
+            const embedUrl = toDocEmbedUrl(src);
+            if (embedUrl) {
+              dpVideo.src = embedUrl;
+              videoWrap.classList.add('active');
+            } else {
+              const ext = src.split('.').pop().toUpperCase();
+              let dc = stage && stage.querySelector('.doc-card');
+              if (!dc && stage) { dc = document.createElement('div'); dc.className = 'doc-card'; stage.appendChild(dc); }
+              if (dc) {
+                dc.innerHTML = `
+                  <div class="doc-card-icon">${getDocIcon(ext)}</div>
+                  <div class="doc-card-name">${thumb.dataset.label || ext}</div>
+                  <div class="doc-card-ext">${ext}</div>
+                  <a href="${src}" target="_blank" class="doc-card-btn">Ouvrir ↗</a>
+                  <a href="${src}" download class="doc-card-dl">↓ Télécharger</a>`;
+                dc.style.display = 'flex';
+              }
+            }
+            if (captionEl) captionEl.textContent = thumb.dataset.caption || '';
+            return;
+          }
+
+          // image
+          if (existDc) existDc.style.display = 'none';
+          dpVideo.src = 'about:blank';
+          videoWrap.classList.remove('active');
+          dpImage.src = thumb.src;
+          dpImage.classList.add('active');
+          if (captionEl) captionEl.textContent = thumb.dataset.caption || '';
+        });
+      });
+    }
+
+    function initZoom() {
+      const img    = document.getElementById('dpImage');
+      const lens   = document.getElementById('dpZoomLens');
+      const result = document.getElementById('dpZoomResult');
+      if (!img || !lens || !result) return;
+
+      function getRenderedArea() {
+        const natW = img.naturalWidth, natH = img.naturalHeight;
+        if (!natW || !natH) return null;
+        const elemW = img.offsetWidth, elemH = img.offsetHeight;
+        const natRatio = natW / natH, elemRatio = elemW / elemH;
+        let rW, rH, oX, oY;
+        if (natRatio > elemRatio) {
+          rW = elemW; rH = elemW / natRatio; oX = 0; oY = (elemH - rH) / 2;
+        } else {
+          rH = elemH; rW = elemH * natRatio; oY = 0; oX = (elemW - rW) / 2;
+        }
+        return { w: rW, h: rH, x: oX, y: oY };
+      }
+
+      function hideZoom() {
+        lens.style.display  = 'none';
+        result.style.display = 'none';
+      }
+
+      function moveZoom(e) {
+        if (!img.classList.contains('active') || window.innerWidth < 981) return;
+        const area = getRenderedArea();
+        if (!area) return;
+        const rect = img.getBoundingClientRect();
+        const lensW = lens.offsetWidth, lensH = lens.offsetHeight;
+        const resW  = result.offsetWidth, resH = result.offsetHeight;
+
+        const curX = e.clientX - rect.left - area.x;
+        const curY = e.clientY - rect.top  - area.y;
+        if (curX < 0 || curY < 0 || curX > area.w || curY > area.h) {
+          hideZoom(); return;
+        }
+
+        lens.style.display  = 'block';
+        result.style.display = 'block';
+
+        let lx = Math.max(0, Math.min(curX - lensW / 2, area.w - lensW));
+        let ly = Math.max(0, Math.min(curY - lensH / 2, area.h - lensH));
+
+        lens.style.left = (area.x + lx) + 'px';
+        lens.style.top  = (area.y + ly) + 'px';
+
+        // Zoom result positionné à gauche du panneau (position: fixed)
+        const panelRect = detailPanel.getBoundingClientRect();
+        result.style.left = Math.max(8, panelRect.left - resW - 16) + 'px';
+        result.style.top  = Math.max(8, Math.min(e.clientY - resH / 2, window.innerHeight - resH - 8)) + 'px';
+
+        const cx = resW / lensW, cy = resH / lensH;
+        result.style.backgroundImage    = `url('${img.src}')`;
+        result.style.backgroundSize     = `${area.w * cx}px ${area.h * cy}px`;
+        result.style.backgroundPosition = `-${lx * cx}px -${ly * cy}px`;
+      }
+
+      img.addEventListener('mouseleave', hideZoom);
+      img.addEventListener('mousemove',  moveZoom);
+    }
+
+    // ── Affichage ────────────────────────────────────────────────
     function displayGames() {
       gamesGrid.innerHTML = '';
 
       const filtered = games.filter(g => {
-        const matchType = activeType === 'all' || g.type === activeType;
+        const matchType = activeType === 'all' || g.category === activeType;
         const matchMode = activeMode === 'all' || g.mode === activeMode;
         return matchType && matchMode;
       });
@@ -447,16 +871,14 @@
           <div class="game-info">
             <span class="game-type-badge ${getTypeBadgeClass(game.type)}">${game.type}</span>
             <h3>${game.title}</h3>
-            <p>${game.year} · ${game.platform}</p>
+            <p>${game.year} · ${game.platform || ''}</p>
           </div>
           <span class="game-arrow">↗</span>
         `;
-
         card.addEventListener('click', () => selectCard(card, game));
         card.addEventListener('keydown', e => {
           if (e.key === 'Enter' || e.key === ' ') selectCard(card, game);
         });
-
         gamesGrid.appendChild(card);
 
         if (index === 0) {
@@ -479,14 +901,28 @@
       detailPanel.innerHTML = `
         <button class="detail-close" onclick="closeDetailPanel()">✕</button>
         <h2 class="detail-title">${game.title}</h2>
-        <div class="detail-meta">${game.type} · ${game.platform} · ${game.year}</div>
-        <img class="detail-cover" src="${game.image}" alt="${game.title}">
+        <div class="detail-meta">${game.type} · ${game.platform || ''} · ${game.year}</div>
+
+        <div class="dp-media-wrap">
+          <div class="dp-media-stage" id="dpMediaStage">
+            <div class="dp-video-wrap" id="dpVideoWrap">
+              <iframe id="dpVideo" src="about:blank" frameborder="0" allowfullscreen
+                allow="autoplay; encrypted-media; picture-in-picture"></iframe>
+            </div>
+            <img id="dpImage" class="dp-main-image" src="" alt="${game.title}">
+            <div class="dp-zoom-lens" id="dpZoomLens"></div>
+          </div>
+          <div class="dp-zoom-result" id="dpZoomResult"></div>
+          <div class="dp-thumbs" id="dpThumbsContainer"></div>
+          <p id="dpCaption" class="media-caption"></p>
+        </div>
+
         <p class="detail-desc">${game.description}</p>
 
         <div class="detail-infos">
           <div class="detail-info"><strong>Mon rôle</strong><span>${game.role}</span></div>
-          <div class="detail-info"><strong>Équipe</strong><span>${game.team}</span></div>
-          <div class="detail-info"><strong>Moteur</strong><span>${game.engine}</span></div>
+          <div class="detail-info"><strong>Équipe</strong><span>${game.team || '—'}</span></div>
+          <div class="detail-info"><strong>Moteur</strong><span>${game.engine || '—'}</span></div>
           <div class="detail-info"><strong>Durée</strong><span>${game.duration}</span></div>
         </div>
 
@@ -503,6 +939,9 @@
           ${game.contributions.map(item => `<li>${item}</li>`).join('')}
         </ul>
       `;
+
+      updateProjectMedia(game);
+      initZoom();
     }
 
     function openDetailPanel() {
@@ -518,36 +957,32 @@
     }
 
     detailOverlay.addEventListener('click', closeDetailPanel);
-
     document.addEventListener('keydown', e => {
       if (e.key === 'Escape') closeDetailPanel();
     });
 
-    function getToolIcon(tool) {
-      const icons = {
-        "Unity":        "https://cdn.simpleicons.org/unity/ffffff",
-        "Blender":      "https://cdn.simpleicons.org/blender/ffffff",
-        "C#":           "https://cdn.simpleicons.org/csharp/ffffff",
-        "Three.js":     "https://cdn.simpleicons.org/threedotjs/ffffff",
-        "Vue.js":       "https://cdn.simpleicons.org/vuedotjs/ffffff",
-        "Photoshop":    "https://cdn.simpleicons.org/adobephotoshop/ffffff",
-        "Illustrator":  "https://cdn.simpleicons.org/adobeillustrator/ffffff",
-        "JavaScript":   "https://cdn.simpleicons.org/javascript/ffffff",
-      };
-      return icons[tool] || null;
-    }
-
-    // ── Type filter ──────────────────────────────────────────────
-    document.querySelectorAll('[data-type]').forEach(btn => {
-      btn.addEventListener('click', () => {
-        document.querySelectorAll('[data-type]').forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
-        activeType = btn.dataset.type;
-        displayGames();
+    // ── Génération automatique des boutons de catégorie ──────────
+    (function buildTypeFilters() {
+      const typeFilter = document.getElementById('typeFilter');
+      const categories = [...new Set(games.map(g => g.category).filter(Boolean))];
+      categories.forEach(cat => {
+        const btn = document.createElement('button');
+        btn.dataset.type = cat;
+        btn.textContent = cat;
+        typeFilter.appendChild(btn);
       });
+    })();
+
+    // ── Filtres ──────────────────────────────────────────────────
+    document.getElementById('typeFilter').addEventListener('click', e => {
+      const btn = e.target.closest('button[data-type]');
+      if (!btn) return;
+      document.querySelectorAll('#typeFilter button').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      activeType = btn.dataset.type;
+      displayGames();
     });
 
-    // ── Mode filter ──────────────────────────────────────────────
     document.querySelectorAll('[data-mode]').forEach(btn => {
       btn.addEventListener('click', () => {
         document.querySelectorAll('[data-mode]').forEach(b => b.classList.remove('active'));
