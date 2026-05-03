@@ -23,7 +23,7 @@ window.PROJECTS = [
     duration: "1 semaine",
     role: ["Dessinateur", "Concepteur de l'image", "Choix des éléments visuels"],
     learned: ["Croquis", "dessin", "composition visuelle"],
-    tools: [],
+    tools: ["Crayon", "Papier"],
     link: "#"
   },
   {
@@ -37,7 +37,7 @@ window.PROJECTS = [
     duration: "3 semaines",
     role: ["Vectoriseur"],
     learned: ["Illustrator"],
-    tools: ["Il"],
+    tools: ["Illustrator"],
     link: "#"
   },
   {
@@ -47,11 +47,11 @@ window.PROJECTS = [
     year: 2022, month: 10, date: "NOV. 2022",
     img: "/realisation/vinyle/recto.png",
     gallery: ["/realisation/vinyle/recto.png", "/realisation/vinyle/macarron.png", "/realisation/vinyle/verso.png", "/realisation/vinyle/macarron-2.png"],
-    desc: "Création d'un visuel de pochette de vinyle, avec recto et verso, avec les macarons",
+    desc: "Création d'un visuel de pochette de vinyle, avec recto et verso, avec les macarons, puis de l'imprimer pour un vrai vinyle",
     duration: "2 semaines",
     role: ["Illustrateur", "Imprimeur"],
     learned: ["Mise en page pour impression", "Photoshop", "Illustrator", "InDesign"],
-    tools: ["Il", "Ps", "Id"],
+    tools: ["Illustrator", "Photoshop", "InDesign"],
     link: "#"
   },
   {
@@ -61,11 +61,11 @@ window.PROJECTS = [
     year: 2023, month: 0, date: "JAV. 2023",
     img: "/realisation/cartedevisite/logo.png",
     gallery: ["/realisation/cartedevisite/logo.png", "/realisation/cartedevisite/texte.png"],
-    desc: "Création d'une carte de visite professionnelle.",
+    desc: "Création d'une carte de visite avec notre identité visuelle.",
     duration: "1 Mois",
     role: ["Designer", "Mise en page", "Création de logo"],
     learned: ["InDesign", "typographie", "composition visuelle"],
-    tools: ["Id"],
+    tools: ["InDesign"],
     link: "#"
   },
   {
@@ -88,32 +88,9 @@ window.PROJECTS = [
       "Prototype interactif sur le portfolio"
     ],
     learned: ["Concevoir des niveaux immersifs et cohérents", "Travailler en équipe avec une bonne organisation", "Itérer grâce aux tests joueurs"],
-    tools: ["Id", "Il"],
+    tools: ["InDesign", "Illustrator"],
     link: "#",
     jeux: true, mode: "Solo", category: "Jeux"
-  },
-  {
-    title: "After the Révolte",
-    type: "Prototype",
-    platform: "PandaSuite",
-    engine: "PandaSuite",
-    tag: "Gobelins", color: "blue",
-    year: 2023, month: 2, date: "MARS 2023",
-    team: "Solo",
-    img: "/realisation/afterrevolt/moyen.png",
-    desc: "Prototype narratif inspiré de Reigns, où le joueur avance par décisions successives et conséquences immédiates.",
-    duration: "Projet court",
-    role: ["Narration interactive", "UX", "Prototypage"],
-    contributions: [
-      "Structure de l'expérience interactive",
-      "Création du système de décisions",
-      "Écriture des situations",
-      "Intégration sur PandaSuite"
-    ],
-    learned: [],
-    tools: ["Ps"],
-    link: "#",
-    jeux: true, mode: "Solo", category: "Prototype"
   },
   {
     title: "Decoration",
@@ -125,7 +102,7 @@ window.PROJECTS = [
     duration: "1 semaine",
     role: ["Designer"],
     learned: ["Découpeuse laser", "Illustrator"],
-    tools: ["Il"],
+    tools: ["Illustrator", "Découpeuse laser"],
     link: "#"
   },
   {
@@ -147,20 +124,20 @@ window.PROJECTS = [
     duration: "2 mois",
     role: ["Designer", "Créateur d'identité visuelle", "Concepteur de l'expérience globale"],
     learned: ["Travail d'équipe", "gestion de projet", "création d'une identité visuelle"],
-    tools: ["Id", "Ps", "Il"],
+    tools: ["InDesign", "Photoshop", "Illustrator" ],
     link: "#"
   },
   {
     title: "Photographie",
     type: "Photographie",
     tag: "Gobelins", color: "blue",
-    year: 2023, month: 9, date: "OCT. 2023",
+    year: 2023, month: 5, date: "Mai 2023",
     img: "/realisation/Autoportart.jpg",
-    desc: "Prototype atmosphérique basé sur le froid, le silence et la progression lente.",
+    desc: "Photographie d'une camarade de classe dans une ambiance chaleureuse",
     duration: "1 Semaine",
-    role: ["Direction d'ambiance", "Level Design", "Prototype d'exploration"],
-    learned: ["Créer une ambiance forte avec peu d'éléments", "Travailler le silence et le rythme", "Construire une progression lente"],
-    tools: ["UE", "Bl", "Ps"],
+    role: ["Direction d'ambiance", "Compositeur", "Photographe"],
+    learned: ["Création d'images", "Traitement d'images", "Colorimétrie"],
+    tools: ["Photoshop", "Lightroom"],
     link: "#"
   },
   {
@@ -169,25 +146,48 @@ window.PROJECTS = [
     tag: "Gobelins", color: "blue",
     year: 2023, month: 11, date: "DEC. 2023",
     img: "/realisation/Autoportart.jpg",
-    desc: "Prototype atmosphérique basé sur le froid, le silence et la progression lente.",
-    duration: "1 Mois",
-    role: ["Direction d'ambiance", "Level Design", "Prototype d'exploration"],
-    learned: ["Créer une ambiance forte avec peu d'éléments", "Travailler le silence et le rythme", "Construire une progression lente"],
-    tools: ["UE", "Bl", "Ps"],
+    desc: "Prototype d'une application en cas d'un manque de reapprovisionnement alimentaire dans Paris",
+    duration: "1 Semaine",
+    role: ["User Experience", "User Research", "Prototypage", "Design d'interface"],
+    learned: ["Poser des questions", "Analyse des besoins", "UX", "UI"],
+    tools: ["Figma"],
     link: "#"
+  },
+  {
+    title: "After the Révolte",
+    type: "Prototype",
+    platform: "PandaSuite",
+    engine: "PandaSuite",
+    tag: "Gobelins", color: "blue",
+    year: 2024, month: 1, date: "MARS 2024",
+    team: "Solo",
+    img: "/realisation/afterrevolt/moyen.png",
+    desc: "Prototype narratif inspiré de Reigns, où le joueur avance par décisions successives et conséquences immédiates.",
+    duration: "Projet court",
+    role: ["Narration interactive", "UX", "Prototypage"],
+    contributions: [
+      "Structure de l'expérience interactive",
+      "Création du système de décisions",
+      "Écriture des situations",
+      "Intégration sur PandaSuite"
+    ],
+    learned: ["Narration interactive", "UX", "Prototypage"],
+    tools: ["PandaSuite"],
+    link: "#",
+    jeux: true, mode: "Solo", category: "Prototype"
   },
   {
     title: "Whellcome To Hell",
     type: "Vidéo IA",
     tag: "Gobelins", color: "blue",
     year: 2024, month: 2, date: "MARS. 2024",
-    img: "/realisation/vinyle/macarron-2.png",
+    img: "/realisation/whellcome.png",
     video: "https://www.youtube.com/embed/mYO2WOaA8CU?si=jT7o28wQXJ149gHN",
     desc: "Nouvelle version du projet cyberpunk avec meilleure lisibilité des parcours.",
     duration: "1 Semaine",
-    role: ["Level Designer", "Refonte des parcours", "Optimisation de la lisibilité"],
-    learned: ["Améliorer un niveau existant", "Hiérarchiser les repères visuels", "Rendre un parcours plus fluide"],
-    tools: ["U", "VS", "Ps"],
+    role: ["Monteur", "Concepteur de l'image", "Choix des éléments visuels"],
+    learned: ["Utiliser les outils d'IA pour créer du contenu visuel", "Storybord", "Montage vidéo"],
+    tools: ["Intelligence Artificielle", "After Effects"],
     link: "#"
   },
   {
@@ -201,7 +201,7 @@ window.PROJECTS = [
     duration: "1 Semaine",
     role: ["Level Designer", "Refonte des parcours", "Optimisation de la lisibilité"],
     learned: ["Améliorer un niveau existant", "Hiérarchiser les repères visuels", "Rendre un parcours plus fluide"],
-    tools: ["U", "VS", "Ps"],
+    tools: ["Blender", "After Effects"],
     link: "#"
   },
   {
@@ -214,7 +214,7 @@ window.PROJECTS = [
     duration: "1 Semaine",
     role: ["Direction d'ambiance", "Level Design", "Prototype d'exploration"],
     learned: ["Créer une ambiance forte avec peu d'éléments", "Travailler le silence et le rythme", "Construire une progression lente"],
-    tools: ["UE", "Bl", "Ps"],
+    tools: ["Construct",],
     link: "#"
   },
   {
@@ -234,7 +234,7 @@ window.PROJECTS = [
     role: ["Game Designer", "Level Designer", "Développeur"],
     contributions: ["Conception du level design", "Mécaniques de gameplay", "Développement Unity"],
     learned: ["Améliorer un niveau existant", "Hiérarchiser les repères visuels", "Rendre un parcours plus fluide"],
-    tools: ["U", "VS", "Ps"],
+    tools: ["Unity", "Blender"],
     link: "#"
   },
   {
@@ -253,7 +253,7 @@ window.PROJECTS = [
     role: ["Développeur", "Designer"],
     contributions: ["Création de la scène Three.js", "Animation des particules", "Design et intégration"],
     learned: ["Améliorer un ancien concept", "Rendre une DA plus cohérente", "Clarifier l'expérience joueur"],
-    tools: ["U", "Bl", "Ps"],
+    tools: ["Three.js"],
     link: "/pages/infinitydot.html"
   },
   {
@@ -272,7 +272,7 @@ window.PROJECTS = [
     role: ["Développeur", "Designer"],
     contributions: ["Visualisation audio réactive", "Lien entre son et animation", "Interface interactive"],
     learned: ["Améliorer un ancien concept", "Rendre une DA plus cohérente", "Clarifier l'expérience joueur"],
-    tools: ["U", "Bl", "Ps"],
+    tools: ["Vue.js"],
     link: "/pages/dotmusic.html"
   },
   {
@@ -280,13 +280,14 @@ window.PROJECTS = [
     type: "Vidéo",
     tag: "Gobelins", color: "blue",
     year: 2024, month: 11, date: "DEC. 2024",
-    img: "/realisation/vinyle/macarron.png",
+    img: "/realisation/macstory.png",
+    gallery: ["/realisation/macstory.png", "/realisation/macstory1.png"],
     video: "https://www.youtube.com/embed/jl-DCLoXv2w?si=Si-nQJpyGj4MTeXj",
-    desc: "Prototype orienté combat, feedback visuel et sensations de jeu.",
+    desc: "Vidéo de deux ordinateurs qui discutent sans interation directe",
     duration: "2 semaines",
-    role: ["Combat Design", "Feedback visuel", "Tests de sensations"],
+    role: ["Monteur", "Animation", "Doublage", "Conception de l'image"],
     learned: ["Améliorer le ressenti des actions", "Créer des feedbacks lisibles", "Tester rapidement une mécanique"],
-    tools: ["UE", "Bl", "Ps"],
+    tools: ["Chataigne", "After Effects", "Photoshop"],
     link: "#"
   },
   {
@@ -295,11 +296,11 @@ window.PROJECTS = [
     tag: "Gobelins", color: "blue",
     year: 2025, month: 1, date: "JAV. 2025",
     img: "/realisation/memoir/abstract.png",
-    desc: "Prototype orienté combat, feedback visuel et sensations de jeu.",
+    desc: "Comment le joueur est guidé par le Level Design dans un jeu vidéo, plus particulièrement dans les jeux à la première personne ?",
     duration: "6 Mois",
-    role: ["Combat Design", "Feedback visuel", "Tests de sensations"],
-    learned: ["Améliorer le ressenti des actions", "Créer des feedbacks lisibles", "Tester rapidement une mécanique"],
-    tools: ["UE", "Bl", "Ps"],
+    role: ["Rédaction", "Chercheur", "Analyste"],
+    learned: ["Rédiger un texte en fonction d'analyse", "Rechercher sur un sujet"],
+    tools: ["Google Docs"],
     link: "#"
   },
   {
@@ -320,7 +321,7 @@ window.PROJECTS = [
       "Réflexion sur le guidage joueur"
     ],
     learned: ["Améliorer le ressenti des actions", "Créer des feedbacks lisibles", "Tester rapidement une mécanique"],
-    tools: ["U", "Bl", "Ps"],
+    tools: ["Unity", "Blender"],
     link: "#",
     jeux: true, mode: "Solo", category: "Jeux"
   },
@@ -343,7 +344,7 @@ window.PROJECTS = [
       "Rédaction d'un mémoire complet"
     ],
     learned: ["Améliorer le ressenti des actions", "Créer des feedbacks lisibles", "Tester rapidement une mécanique"],
-    tools: ["U", "Bl", "Ps"],
+    tools: ["Unity", "Blender"],
     link: "https://anatole13.itch.io/team-10-sobriquet#",
     jeux: true, mode: "Solo", category: "Jeux"
   },
@@ -366,7 +367,7 @@ window.PROJECTS = [
       "Habillage et finitions"
     ],
     learned: ["Améliorer le ressenti des actions", "Créer des feedbacks lisibles", "Tester rapidement une mécanique"],
-    tools: ["U", "Ps"],
+    tools: ["Portal 2 Editeur"],
     link: "#",
     jeux: true, mode: "Solo", category: "Blocking"
   },
@@ -386,7 +387,7 @@ window.PROJECTS = [
     duration: "6 Mois",
     role: ["Combat Design", "Feedback visuel", "Tests de sensations"],
     learned: ["Améliorer le ressenti des actions", "Créer des feedbacks lisibles", "Tester rapidement une mécanique"],
-    tools: ["UE", "Bl", "Ps"],
+    tools: ["Trackmania Editeur"],
     link: "#"
   },
   {
@@ -409,7 +410,7 @@ window.PROJECTS = [
       "Documentation des apprentissages"
     ],
     learned: ["Améliorer le ressenti des actions", "Créer des feedbacks lisibles", "Tester rapidement une mécanique"],
-    tools: ["UE", "Ps"],
+    tools: ["Far Cry 5 editeur"],
     link: "#",
     jeux: true, mode: "Solo", category: "Blocking"
   },
@@ -434,7 +435,7 @@ window.PROJECTS = [
     role: ["Lead Game Designer"],
     contributions: ["Direction du game design", "Conception des mécaniques", "Itération et tests"],
     learned: ["Direction du game design","Conception des mécaniques de puzzle","Itérations et tests joueurs" ,"Documentation de game design"],
-    tools: ["UE", "Bl", "Ps"],
+    tools: ["Unity", "Google Docs","Figma"],
     link: "#"
   },
   {
@@ -447,7 +448,7 @@ window.PROJECTS = [
     duration: "1 Mois",
     role: ["Combat Design", "Feedback visuel", "Tests de sensations"],
     learned: ["Améliorer le ressenti des actions", "Créer des feedbacks lisibles", "Tester rapidement une mécanique"],
-    tools: ["UE", "Bl", "Ps"],
+    tools: ["Unreal Engine"],
     link: "#"
   },
   {
@@ -469,7 +470,7 @@ window.PROJECTS = [
       "Rapport d'analyse"
     ],
     learned: ["Améliorer le ressenti des actions", "Créer des feedbacks lisibles", "Tester rapidement une mécanique"],
-    tools: ["UE", "Bl", "Ps"],
+    tools: ["Unreal Engine"],
     link: "#",
     jeux: true, mode: "Solo", category: "Blocking"
   },
@@ -483,7 +484,7 @@ window.PROJECTS = [
     duration: "1 Mois",
     role: ["Combat Design", "Feedback visuel", "Tests de sensations"],
     learned: ["Améliorer le ressenti des actions", "Créer des feedbacks lisibles", "Tester rapidement une mécanique"],
-    tools: ["UE", "Bl", "Ps"],
+    tools: ["Unreal Engine"],
     link: "#"
   },
 ];
