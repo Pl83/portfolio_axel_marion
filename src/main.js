@@ -70,3 +70,7 @@ function closeDetailPanel() {
 document.addEventListener('keydown', e => {
   if (e.key === 'Escape') closeDetailPanel();
 });
+
+// À ajouter tout en bas de main.js
+window.openProject = openProject;
+window.closeDetailPanel = closeDetailPanel;
