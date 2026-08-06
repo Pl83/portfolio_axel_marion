@@ -75,7 +75,10 @@ window.openProject = openProject;
 window.closeDetailPanel = closeDetailPanel;
 
 // ── Galerie projets — index ───────────────────────────────────
-const TAG_COLORS = { blue: '#3b82f6', orange: '#f97316', pink: '#ec4899' };
+// Couleurs des tags project.color, définies dans public/data.js (window.COLORS.tags)
+const TAG_COLORS = Object.fromEntries(
+  Object.entries((window.COLORS && window.COLORS.tags) || {}).map(([k, v]) => [k, v.value])
+);
 
 const FEATURED_IDS = ['dotmusic', 'infinitydot', 'floatland', 'longnigth'];
 
@@ -88,9 +91,9 @@ function renderProjectsGallery() {
     .filter(({ p }) => FEATURED_IDS.includes(p.id) || FEATURED_IDS.includes(p.title));
 
   grid.innerHTML = featured.map(({ p, i }) => {
-    const border = TAG_COLORS[p.color] || '#9b6dff';
+    const border = TAG_COLORS[p.color] || getComputedStyle(document.documentElement).getPropertyValue('--accent').trim();
     const imgHtml = p.img
-      ? `<img src="${p.img}" alt="${p.title}" loading="lazy">`
+      ? `<img src="${p.thumb || p.img}" alt="${p.title}" loading="lazy">`
       : `<div class="card-placeholder">${p.title}</div>`;
     return `
       <div class="card-project" style="border-top:3px solid ${border}" onclick="openProjectByIndex(${i})">
@@ -139,7 +142,7 @@ function openProjectByIndex(i) {
   const mediaList = [
     ...(p.video  ? [{ type: 'video', src: toEmbedUrl(p.video),  thumb: p.img, caption: '' }] : []),
     ...(p.videos ? p.videos.map(v => ({ type: 'video', src: toEmbedUrl(v), thumb: p.img, caption: '' })) : []),
-    ...(p.img    ? [{ type: 'image', src: p.img, caption: '' }] : []),
+    ...(p.img && !p.thumb ? [{ type: 'image', src: p.img, caption: '' }] : []),
     ...rawGallery,
   ];
 

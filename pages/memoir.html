@@ -6,6 +6,7 @@
   <title>Axel Marion — Mémoire Level Design</title>
   <link rel="icon" type="image/svg+xml" href="/logo.svg" />
   <link rel="stylesheet" href="../src/style.css">
+  <script src="/data.js"></script>
 
   <style>
     /* ── Hero ─────────────────────────────────────────────────── */
@@ -27,8 +28,8 @@
       position: absolute;
       inset: 0;
       background:
-        radial-gradient(ellipse 50% 60% at 80% 40%, rgba(155,109,255,.22), transparent 70%),
-        radial-gradient(ellipse 35% 45% at 15% 75%, rgba(155,109,255,.08), transparent 60%),
+        radial-gradient(ellipse 50% 60% at 80% 40%, rgba(var(--accent-rgb),.22), transparent 70%),
+        radial-gradient(ellipse 35% 45% at 15% 75%, rgba(var(--accent-rgb),.08), transparent 60%),
         url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
       background-size: 100%, 100%, 200px;
       pointer-events: none;
@@ -65,14 +66,14 @@
       font-size: clamp(4rem, 11vw, 10rem);
       line-height: .9;
       letter-spacing: .01em;
-      color: #fff;
+      color: var(--white);
       margin-bottom: 24px;
     }
     .hero-title .accent { color: var(--accent2); }
 
     .hero-question {
       font-size: clamp(1rem, 1.8vw, 1.25rem);
-      color: rgba(255,255,255,.55);
+      color: rgba(var(--white-rgb),.55);
       font-style: italic;
       max-width: 640px;
       line-height: 1.7;
@@ -131,7 +132,7 @@
       font-family: var(--font-d);
       font-size: 3.5rem;
       line-height: 1;
-      color: rgba(255,255,255,.06);
+      color: rgba(var(--white-rgb),.06);
       letter-spacing: .02em;
     }
 
@@ -139,7 +140,7 @@
       font-family: var(--font-d);
       font-size: clamp(2rem, 4vw, 3.2rem);
       line-height: 1.0;
-      color: #fff;
+      color: var(--white);
       margin-bottom: 20px;
     }
 
@@ -172,14 +173,14 @@
     .chapter-num {
       font-family: var(--font-d);
       font-size: 1.8rem;
-      color: rgba(155,109,255,.3);
+      color: rgba(var(--accent-rgb),.3);
       line-height: 1;
     }
 
     .chapter-title {
       font-size: .92rem;
       font-weight: 600;
-      color: #fff;
+      color: var(--white);
       line-height: 1.3;
     }
 
@@ -226,7 +227,7 @@
       align-items: center;
       gap: 10px;
       background: var(--accent);
-      color: #fff;
+      color: var(--white);
       font-size: .85rem;
       font-weight: 600;
       letter-spacing: .06em;
@@ -250,14 +251,108 @@
     }
 
     .method-tag {
-      font-size: .74rem;
+      display: inline-flex;
+      align-items: center;
+      font-size: .78rem;
       font-weight: 500;
-      letter-spacing: .08em;
+      letter-spacing: .01em;
       color: var(--accent2);
-      background: rgba(155,109,255,.1);
-      border: 1px solid rgba(155,109,255,.25);
-      border-radius: 4px;
-      padding: 5px 12px;
+      background: transparent;
+      border: 1px solid rgba(var(--accent2-rgb),.4);
+      border-radius: 999px;
+      padding: 7px 13px;
+    }
+
+    .highlight { color: var(--accent2); font-weight: 600; }
+
+    /* ── Bibliographie (accordéon) ───────────────────────────────── */
+    .biblio-accordion { margin-top: 24px; }
+
+    .biblio-faq { border-bottom: 1px solid var(--border); }
+    .biblio-faq:first-of-type { border-top: 1px solid var(--border); }
+
+    .biblio-faq-summary {
+      list-style: none;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      padding: 18px 0;
+      cursor: pointer;
+    }
+    .biblio-faq-summary::-webkit-details-marker { display: none; }
+
+    .biblio-faq-title {
+      font-size: .78rem;
+      font-weight: 600;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: var(--white);
+    }
+    .biblio-faq-count {
+      font-size: .74rem;
+      color: var(--muted);
+      margin-left: 8px;
+      font-weight: 400;
+      text-transform: none;
+      letter-spacing: normal;
+    }
+
+    .biblio-faq-chevron {
+      flex-shrink: 0;
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: transform .25s, background .2s, border-color .2s;
+    }
+    .biblio-faq-chevron svg {
+      width: 13px;
+      height: 13px;
+      fill: none;
+      stroke: var(--muted);
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+    .biblio-faq[open] .biblio-faq-chevron {
+      transform: rotate(180deg);
+      background: rgba(var(--accent-rgb),.12);
+      border-color: var(--accent);
+    }
+    .biblio-faq[open] .biblio-faq-chevron svg { stroke: var(--accent2); }
+
+    .biblio-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 11px;
+      padding: 0 0 24px;
+    }
+    .biblio-list li {
+      font-size: .78rem;
+      line-height: 1.55;
+      color: var(--muted);
+    }
+    .biblio-list a {
+      color: var(--text);
+      text-decoration: underline;
+      text-decoration-color: var(--border);
+      text-underline-offset: 2px;
+      transition: color .2s, text-decoration-color .2s;
+    }
+    .biblio-list a:hover { color: var(--accent2); text-decoration-color: var(--accent2); }
+
+    .biblio-game-title {
+      display: block;
+      color: var(--white);
+      font-weight: 600;
+      font-size: .82rem;
+      margin-bottom: 2px;
     }
 
     /* ── Responsive ───────────────────────────────────────────── */
@@ -300,7 +395,7 @@
   <!-- ── Hero ─────────────────────────────────────────────────── -->
   <section id="hero" class="hero">
     <div class="hero-content">
-      <p class="hero-eyebrow">DNMADe Mention Numérique — Gobelins 2025</p>
+      <p class="hero-eyebrow">DN MADe Mention Numérique — Gobelins, 2024/2025</p>
       <h1 class="hero-title">
         Mémoire<br>
         <span class="accent">Level Design</span>
@@ -323,8 +418,8 @@
         </div>
         <div class="m-body">
           <h2>Pourquoi ce sujet ?</h2>
-          <p>Le level design est souvent invisible. Un bon niveau guide le joueur, l'informe, le challenge — sans que celui-ci s'en rende compte. C'est précisément cette invisibilité qui m'a fasciné : comment concevoir un espace qui parle sans mot, qui oriente sans flèche, qui enseigne sans tutoriel ?</p>
-          <p>Ce mémoire explore les mécanismes qui permettent au level design d'agir comme un langage silencieux, à travers l'analyse de références et la pratique de terrain.</p>
+          <p>Un level designer met en place les niveaux d'un jeu en fonction du game design : il décide du rythme, anticipe les émotions et le comportement du joueur pour garantir une expérience amusante et immersive. Le joueur reste <span class="highlight">libre</span> avec son personnage — il faut donc lui indiquer où et comment aller, sans jamais le lui imposer.</p>
+          <p>Pour répondre à cette question, j'ai étudié tour à tour l'<span class="highlight">architecture</span> des niveaux, l'importance des <span class="highlight">textures et de l'éclairage</span>, puis la vie apportée par les <span class="highlight">interactions et les intelligences artificielles</span>.</p>
           <img class="m-image" src="/realisation/memoir/abstract.png" alt="Mémoire Level Design">
         </div>
       </div>
@@ -339,8 +434,8 @@
         </div>
         <div class="m-body">
           <h2>La question centrale</h2>
-          <p>Dans un jeu vidéo, le joueur doit être guidé vers ses objectifs tout en gardant le sentiment de liberté et d'immersion. Comment le designer d'espace peut-il construire ce guidage de façon organique, en utilisant l'architecture, la lumière, le son et la narration environnementale plutôt que des éléments d'interface ?</p>
-          <p>La tension entre <em style="color:#fff">contrainte</em> et <em style="color:#fff">liberté perçue</em> est au cœur de cette réflexion.</p>
+          <p>Dans un jeu vidéo, le joueur doit être guidé vers ses objectifs tout en gardant le sentiment de liberté et d'immersion. Comment le level designer peut-il construire ce guidage de façon organique — par l'architecture, la lumière, la couleur et les intelligences artificielles — plutôt que par des éléments d'interface ?</p>
+          <p>La tension entre <span class="highlight">contrainte</span> et <span class="highlight">liberté perçue</span> est au cœur de cette réflexion.</p>
         </div>
       </div>
 
@@ -353,15 +448,14 @@
           <span class="m-label-num">03</span>
         </div>
         <div class="m-body">
-          <h2>Approche &amp; outils</h2>
-          <p>La recherche s'appuie sur une combinaison d'analyse critique de jeux existants, de prototypage pratique et de tests joueurs. Chaque concept théorique a été expérimenté dans un prototype concret.</p>
+          <h2>Approche &amp; analyse</h2>
+          <p>Ce mémoire s'appuie sur l'analyse de jeux de référence — <span class="highlight">Titanfall 2</span>, <span class="highlight">Mirror's Edge</span>, <span class="highlight">Portal</span>, <span class="highlight">Doom Eternal</span>, <span class="highlight">Ghost Runner 2</span> et <span class="highlight">Alien Isolation</span> — croisée avec des lectures académiques et professionnelles sur le level design et les techniques artistiques de navigation (Alexander Keller, Wadstein, IronEqual).</p>
           <div class="method-tags">
             <span class="method-tag">Analyse de jeux de référence</span>
-            <span class="method-tag">Prototypage Unreal Engine</span>
-            <span class="method-tag">Tests joueurs</span>
-            <span class="method-tag">Level blocking</span>
-            <span class="method-tag">Narration environnementale</span>
-            <span class="method-tag">Eye-tracking théorique</span>
+            <span class="method-tag">Recherche académique</span>
+            <span class="method-tag">Étude de l'architecture</span>
+            <span class="method-tag">Éclairage &amp; couleur</span>
+            <span class="method-tag">Guidage par IA</span>
           </div>
         </div>
       </div>
@@ -376,27 +470,22 @@
         </div>
         <div class="m-body">
           <h2>Les chapitres</h2>
-          <p>Le mémoire est organisé en quatre parties progressives, du concept théorique à l'application pratique.</p>
+          <p>Le mémoire est organisé en trois parties progressives, de l'architecture globale jusqu'à la vie apportée au niveau par les intelligences artificielles.</p>
           <div class="chapters">
             <div class="chapter-card">
               <span class="chapter-num">I</span>
-              <span class="chapter-title">Le langage de l'espace</span>
-              <span class="chapter-desc">Définitions, histoire du level design et ses fondements théoriques.</span>
+              <span class="chapter-title">Structurer le parcours du joueur à travers l'architecture</span>
+              <span class="chapter-desc">Plans 2D, architecture globale et exemples concrets : Titanfall 2, Mirror's Edge et Portal.</span>
             </div>
             <div class="chapter-card">
               <span class="chapter-num">II</span>
-              <span class="chapter-title">Les outils du guidage</span>
-              <span class="chapter-desc">Lumière, couleur, architecture, son — les vecteurs du guidage implicite.</span>
+              <span class="chapter-title">Textures, éclairage et signaux pour guider le joueur</span>
+              <span class="chapter-desc">Couleurs, contrastes et lumière comme langage visuel : Mirror's Edge, Doom Eternal, Titanfall 2.</span>
             </div>
             <div class="chapter-card">
               <span class="chapter-num">III</span>
-              <span class="chapter-title">Références &amp; analyse</span>
-              <span class="chapter-desc">Décorticage de niveaux emblématiques : Portal 2, Dark Souls, Half-Life 2.</span>
-            </div>
-            <div class="chapter-card">
-              <span class="chapter-num">IV</span>
-              <span class="chapter-title">Application pratique</span>
-              <span class="chapter-desc">Création d'un prototype et retours de tests joueurs.</span>
+              <span class="chapter-title">Les IA comme guide et défi</span>
+              <span class="chapter-desc">Quand les intelligences artificielles guident le joueur ou, à l'inverse, le poussent à fuir : Ghost Runner 2, Alien Isolation, Mirror's Edge.</span>
             </div>
           </div>
         </div>
@@ -412,15 +501,119 @@
         </div>
         <div class="m-body">
           <h2>Lire le mémoire</h2>
-          <p>Le document complet est disponible en téléchargement. Il inclut les analyses de références, les prototypes réalisés et les conclusions sur le guidage implicite en level design.</p>
+          <p>Le document complet est disponible en téléchargement. Il inclut l'abstract, l'analyse détaillée des trois chapitres, la conclusion, une annexe et une bibliographie de plus de 25 sources académiques et professionnelles.</p>
           <div class="cta-block">
-            <p>Mémoire de fin d'études — DNMADe Mention Numérique, Gobelins 2025. 6 mois de recherche et de prototypage.</p>
+            <p>Mémoire de fin d'études — DN MADe Mention Numérique, Gobelins, 2024/2025. 6 mois de recherche et d'analyse.</p>
             <a href="/realisation/memoir/memoir-level-design.pdf" class="btn-download" target="_blank">
               <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
                 <path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/>
               </svg>
               Télécharger le PDF
             </a>
+          </div>
+        </div>
+      </div>
+
+      <div class="divider"></div>
+
+      <!-- Bibliographie -->
+      <div class="m-section">
+        <div class="m-label">
+          <span class="m-label-tag">Sources</span>
+          <span class="m-label-num">06</span>
+        </div>
+        <div class="m-body">
+          <h2>Bibliographie</h2>
+          <p>Livres, études/articles, jeux étudiés et vidéos qui ont nourri la recherche — la liste complète, avec liens, est aussi disponible dans le PDF.</p>
+
+          <div class="biblio-accordion">
+
+            <details class="biblio-faq">
+              <summary class="biblio-faq-summary">
+                <span class="biblio-faq-title">Livres<span class="biblio-faq-count">(5)</span></span>
+                <span class="biblio-faq-chevron"><svg viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg></span>
+              </summary>
+              <ul class="biblio-list">
+                <li><a href="https://students.aiu.edu/submissions/profiles/resources/onlineBook/V4f4R6_architecture%20level%20design.pdf" target="_blank" rel="noopener">Totten, C. W., <em>Architectural Approach to Level Design</em></a>, CRC Press, 2019</li>
+                <li>Phil Co, <em>Level Design for Games: Creating Compelling Game Experiences</em></li>
+                <li><a href="https://www.gamedeveloper.com/design/book-excerpt-game-design-workshop" target="_blank" rel="noopener">Fullerton, T., <em>Game Design Workshop</em>, 5<sup>e</sup> édition</a>, 2024</li>
+                <li><a href="https://www.goodreads.com/book/show/63243458-a-practical-guide-to-level-design" target="_blank" rel="noopener">Bauer, B., <em>A Practical Guide to Level Design</em></a></li>
+                <li><a href="https://books.google.fr/books?id=kgKp0KBnU18C&printsec=frontcover&hl=fr#v=onepage&q&f=false" target="_blank" rel="noopener">Schell, J., <em>L'Art du game design : 100 objectifs pour mieux concevoir vos jeux</em></a>, Pearson, 2008</li>
+              </ul>
+            </details>
+
+            <details class="biblio-faq">
+              <summary class="biblio-faq-summary">
+                <span class="biblio-faq-title">Études &amp; articles<span class="biblio-faq-count">(25)</span></span>
+                <span class="biblio-faq-chevron"><svg viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg></span>
+              </summary>
+              <ul class="biblio-list">
+                <li><a href="https://press-start.gla.ac.uk/index.php/press-start/article/view/129" target="_blank" rel="noopener">Tempini, M., <em>Guiding with a Soft Touch</em></a>, Press Start, 2019</li>
+                <li><a href="https://www.diva-portal.org/smash/get/diva2:829676/FULLTEXT01.pdf" target="_blank" rel="noopener">Wadstein, E., <em>Artistic techniques to influence navigational behavior in 3D-Games</em></a>, thèse, 2013</li>
+                <li><a href="https://edugieccip.sharepoint.com/:b:/r/teams/-fichiertransfer/Documents%20partages/General/memoir%20dossier/5-game-design-theory-and-practice.pdf?csf=1&web=1&e=Q13dII" target="_blank" rel="noopener">Falstein, N., <em>Game Design Theory and Practice</em></a>, 2005</li>
+                <li><a href="https://heystacks.com/doc/345/ld---in-pursuit-of-better-levels" target="_blank" rel="noopener">Keller, A., <em>Levels Design in Pursuit of Better Levels</em></a>, mémoire, 2020</li>
+                <li>Hullett, K. &amp; Whitehead, J., <em>Design Patterns in FPS Level</em></li>
+                <li><a href="https://shapeofplay.wordpress.com/2013/06/25/composition-level-design/" target="_blank" rel="noopener">Gunson, L., <em>Composition Techniques and Player Direction</em></a>, 2013</li>
+                <li><a href="https://gamedevelopment.tutsplus.com/tutorials/a-beginners-guide-to-designing-video-game-levels--cms-25662" target="_blank" rel="noopener">Stout, M., <em>A Beginner's Guide to Designing Video Game Levels</em></a></li>
+                <li><a href="https://edugieccip.sharepoint.com/:b:/t/-fichiertransfer/EdzS_q-7Q9VMqdYUXEQTrRYBVJzYbJ_BscyIrIsYOiMxBw" target="_blank" rel="noopener">Hurford, R., LaCombe, J. &amp; Martin, A., <em>The Mirror's Edge — Creating a dynamic games course</em></a></li>
+                <li><a href="https://edugieccip.sharepoint.com/:b:/t/-fichiertransfer/EW00F4qAzmhAs9ojXEfNUNIBp6IJPzhL-jhEG9ByW8kIwg" target="_blank" rel="noopener">Kayali, F. &amp; Schuh, J., <em>Retro Evolved: Level Design Practice exemplified by the Contemporary Retro Game</em></a></li>
+                <li><a href="https://www.gamedeveloper.com/design/-level-design-process-01-cube-to-temple" target="_blank" rel="noopener">Montazeri, A., <em>Level Design Process #01: Cube to Temple</em></a>, 2024</li>
+                <li><a href="https://www.gamedeveloper.com/design/level-design-compare-fps-vs-tps-games" target="_blank" rel="noopener">Xinyan, L., <em>Level Design Compare: FPS vs TPS Games</em></a>, 2024</li>
+                <li><a href="https://medium.com/@brunolorenz98/unity-level-design-building-amazing-levels-55d6ef743e2f" target="_blank" rel="noopener">Lorenz, B., <em>Unity Level Design: Building Amazing Levels</em></a>, 2024</li>
+                <li><a href="https://medium.com/ironequal/practical-guide-on-first-person-level-design-e187e45c744c" target="_blank" rel="noopener">IronEqual, <em>Practical Guide on First Person Level Design</em></a>, 2017</li>
+                <li><a href="https://www.forum-dessine.fr/tutoriels/level-design" target="_blank" rel="noopener">Lubie, L., <em>Le level design</em></a>, 2013</li>
+                <li><a href="https://kreonit.com/idea-generation-and-game-design/level-design-for-beginners/" target="_blank" rel="noopener">Skoroplyas, P., <em>Level design for beginners</em></a>, 2021</li>
+                <li><a href="https://gamedesignskills.com/game-design/level-design/" target="_blank" rel="noopener">Brazie, A., <em>What is Level Design? And How Do You Learn It?</em></a></li>
+                <li><a href="https://www.isart.fr/metier-level-designer/" target="_blank" rel="noopener"><em>Level Designer — Fiche métier</em></a>, ISART</li>
+                <li><a href="https://fr.slideshare.net/slideshow/e-silli-taome/5039380" target="_blank" rel="noopener">EA / DICE, <em>Level Design Challenges &amp; Solutions — Mirror's Edge</em></a>, 2010</li>
+                <li><a href="https://www.gamedeveloper.com/design/practical-guide-on-first-person-level-design" target="_blank" rel="noopener">Tiercelin, N., <em>Practical Guide on First Person Level Design</em></a>, 2017</li>
+                <li><a href="https://www.davidshaver.net/portfolio_titanfall2_boomtown.html" target="_blank" rel="noopener">Shaver, D., <em>Titanfall 2 — Mission 03 « Into the Abyss »</em></a></li>
+                <li><a href="https://medium.com/@CaseyEvans_/effect-cause-titanfall-2-masterclass-in-videogame-level-design-9ba31a0bf8a8" target="_blank" rel="noopener">Evans, C., <em>Effect &amp; Cause — Titanfall 2's Masterclass in Level Design</em></a>, 2024</li>
+                <li><a href="https://www.mapcore.org/articles/development/creating-a-single-player-combat-space-r80/" target="_blank" rel="noopener">PeteEllis, <em>Creating a Single-Player Combat Space</em></a>, 2016</li>
+                <li><a href="https://fr.wikipedia.org/wiki/Intelligence_artificielle_dans_le_jeu_vid%C3%A9o" target="_blank" rel="noopener">Wikipédia, <em>Intelligence artificielle dans le jeu vidéo</em></a>, 2024</li>
+                <li><a href="https://www.globant.com/fr/tech-terms/ia-dans-jeu-video" target="_blank" rel="noopener">Globant, <em>IA dans le Jeu Vidéo</em></a></li>
+                <li><a href="https://www.senscritique.com/liste/l_histoire_des_fps/59576" target="_blank" rel="noopener"><em>L'histoire des FPS</em></a>, SensCritique, 2024</li>
+                <li><a href="https://www.jeuxvideo.com/forums/42-36-54693691-1-0-1-0-pourquoi-dire-que-dishonored-est-un-jeu-d-infiltration.htm" target="_blank" rel="noopener">CrazyCat25000, <em>Pourquoi dire que Dishonored est un jeu d'infiltration ?</em></a>, 2018</li>
+                <li><a href="https://store.epicgames.com/fr/news/how-the-perfect-parkour-of-mirror-s-edge-continues-to-influence-game-developers-15-years-later" target="_blank" rel="noopener">Olson, M., <em>Le parkour parfait de Mirror's Edge...</em></a>, 2024</li>
+              </ul>
+            </details>
+
+            <details class="biblio-faq">
+              <summary class="biblio-faq-summary">
+                <span class="biblio-faq-title">Jeux référencés<span class="biblio-faq-count">(6)</span></span>
+                <span class="biblio-faq-chevron"><svg viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg></span>
+              </summary>
+              <ul class="biblio-list">
+                <li><span class="biblio-game-title">Mirror's Edge</span>DICE, EA Mobile, IronMonkey Studios — 11 novembre 2008<br>Jeu de tir à la première personne, Jeu d'action-aventure, Adventure</li>
+                <li><span class="biblio-game-title">Alien Isolation</span>Creative Assembly, Feral Interactive — 6 octobre 2014<br>Survival horror, Jeu de tir à la première personne, Jeu d'infiltration, Jeu vidéo de réflexion, Jeu d'action-aventure</li>
+                <li><span class="biblio-game-title">Portal</span>Valve Corporation — 10 octobre 2007<br>Jeu vidéo de réflexion, Jeu de tir à la première personne, Jeu de plates-formes</li>
+                <li><span class="biblio-game-title">Titanfall 2</span>Respawn Entertainment — 28 octobre 2016<br>Jeu de tir à la première personne, Jeu de plates-formes, Jeu d'aventure</li>
+                <li><span class="biblio-game-title">Doom Eternal</span>id Software, Panic Button — 20 mars 2020<br>Jeu de tir à la première personne, Jeu de plates-formes, Jeu d'aventure</li>
+                <li><span class="biblio-game-title">Ghost Runner 2</span>One More Level Spólka Akcyjna — 26 octobre 2023<br>Jeu de plates-formes, Jeu d'aventure, Jeu de combat, Adventure, Strategy</li>
+              </ul>
+            </details>
+
+            <details class="biblio-faq">
+              <summary class="biblio-faq-summary">
+                <span class="biblio-faq-title">Vidéos<span class="biblio-faq-count">(12)</span></span>
+                <span class="biblio-faq-chevron"><svg viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg></span>
+              </summary>
+              <ul class="biblio-list">
+                <li><a href="https://www.youtube.com/watch?v=ucX_WCNSbpo" target="_blank" rel="noopener">Qu'est-ce que le cinéma a appris au jeu vidéo ?</a></li>
+                <li><a href="https://www.youtube.com/watch?v=56LKR--wO44" target="_blank" rel="noopener">Le seul vrai jeu vidéo</a></li>
+                <li><a href="https://www.youtube.com/watch?v=d6LfTCOUcVo" target="_blank" rel="noopener">Leçon de mise en scène avec Doom Eternal</a></li>
+                <li><a href="https://youtu.be/piDuPxjvr2k" target="_blank" rel="noopener">Le jeu le plus immersif</a></li>
+                <li><a href="https://www.youtube.com/watch?v=XHtizUDOOkg" target="_blank" rel="noopener">C'est QUOI le LEVEL DESIGN?</a></li>
+                <li><a href="https://www.youtube.com/watch?v=jRLLz2PN2Q0" target="_blank" rel="noopener">LEVEL DESIGN : Les ESCALIERS dans le jeu vidéo</a></li>
+                <li><a href="https://www.youtube.com/watch?v=XUw_7Hk6SmQ" target="_blank" rel="noopener">Level Design Cover 101 - Placement &amp; Mindset</a></li>
+                <li><a href="https://youtu.be/XQ1qw6xRUjA" target="_blank" rel="noopener">Level Design practice inspired from Titanfall 2</a></li>
+                <li><a href="https://www.youtube.com/watch?v=BUdaOxKpkaY" target="_blank" rel="noopener">Mirror's Edge Walkthrough - Training</a></li>
+                <li><a href="https://youtu.be/CkHGuHd9BgU" target="_blank" rel="noopener">Designing Unforgettable Titanfall Single Player Levels with Action Blocks</a></li>
+                <li><a href="https://www.youtube.com/watch?v=K2kUQPJEot8&t=67s" target="_blank" rel="noopener">19 ways to improve this FPS level design</a></li>
+                <li><a href="https://www.youtube.com/watch?v=ZFwxnKY7CUo&t=92s" target="_blank" rel="noopener">Portal walkthrough - Test Chamber 10</a></li>
+              </ul>
+            </details>
+
           </div>
         </div>
       </div>

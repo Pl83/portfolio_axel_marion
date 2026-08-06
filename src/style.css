@@ -7,6 +7,8 @@
 @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Outfit:wght@300;400;500;600&display=swap');
 
 /* ── Variables ─────────────────────────────────────────────── */
+/* Valeurs de secours : réécrites au chargement par window.COLORS (public/data.js).
+   Pour changer une couleur du site, éditer public/data.js — pas ce bloc. */
 :root {
   --bg:         #0f0f0f;
   --bg2:        #161616;
@@ -14,15 +16,28 @@
   --border:     rgba(255,255,255,0.08);
   --text:       #f0f0f0;
   --muted:      #888;
-  --accent:     #9b6dff;       /* violet principal */
-  --accent2:    #c084fc;       /* lilas clair hover */
+  --accent:     #776dff;       /* violet principal */
+  --accent2:    #84d6fc;       /* lilas clair hover */
+  --accent-rgb:  119,109,255;  /* accent en "r,g,b", pour les rgba(var(--accent-rgb),X) */
+  --accent2-rgb: 132,214,252;  /* accent2 en "r,g,b" */
 
-  --fixe:       #e07050;
-  --aroud:      #a855f7;
-  --video:      #3b82f6;
-  --interactif: #ec4899;
-  --floatland:  #22d3ee;
-  --memoir:     #a1a1aa;
+  --white:      #ffffff;
+  --black:      #000000;
+  --off-white:  #f5f7fb;
+  --bg-rgb:     15,15,15;
+  --white-rgb:  255,255,255;
+  --black-rgb:  0,0,0;
+
+  --surface-media-alt:     #0a0a0a;
+  --surface-media-alt-rgb: 10,10,10;
+  --surface-placeholder:   #111111;
+  --surface-panel:         #0d0d0d;
+
+  --blue:        #67d4ff; --blue-text:   #8ee7ff; --blue-rgb:   103,212,255;
+  --orange:      #ffb45c; --orange-text: #ffd09a; --orange-rgb: 255,180,92;
+  --green:       #74d674; --green-text:  #9ef0a0; --green-rgb:  116,214,116;
+
+  --hero-glow-rgb: 80,30,160;
 
   --header-h:  64px;
   --r:         10px;
@@ -88,14 +103,14 @@ a { color: inherit; text-decoration: none; }
   font-weight: 600;
   letter-spacing: 0.1em;
   color: var(--accent2);
-  border: 1px solid rgba(155,109,255,0.35);
+  border: 1px solid rgba(var(--accent-rgb),0.35);
   padding: 6px 14px;
   border-radius: 5px;
   transition: background .2s, border-color .2s, color .2s;
   white-space: nowrap;
 }
 .nav-cv:hover {
-  background: rgba(155,109,255,0.12);
+  background: rgba(var(--accent-rgb),0.12);
   border-color: var(--accent);
   color: #fff;
 }
@@ -283,7 +298,7 @@ a { color: inherit; text-decoration: none; }
   margin-top: 12px;
   transition: background .2s, border-color .2s;
 }
-.btn-card:hover { background: rgba(155,109,255,0.1); border-color: var(--accent); }
+.btn-card:hover { background: rgba(var(--accent-rgb),0.1); border-color: var(--accent); }
 
 /* ── Sections ───────────────────────────────────────────────── */
 .section {
@@ -325,13 +340,6 @@ a { color: inherit; text-decoration: none; }
   background: var(--accent);
   flex-shrink: 0;
 }
-.dot-fixe       { background: var(--fixe); }
-.dot-aroud      { background: var(--aroud); }
-.dot-video      { background: var(--video); }
-.dot-interactif { background: var(--interactif); }
-.dot-floatland  { background: var(--floatland); }
-.dot-memoir     { background: var(--memoir); }
-
 .see-all {
   font-size: 0.8rem;
   font-weight: 500;
@@ -369,7 +377,7 @@ a { color: inherit; text-decoration: none; }
   width: 100%;
   aspect-ratio: 4/3;
   overflow: hidden;
-  background: #111;
+  background: var(--surface-placeholder);
 }
 
 .card-img-wrap img {
@@ -417,7 +425,7 @@ a { color: inherit; text-decoration: none; }
   font-weight: 600;
   letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: rgba(155,109,255,0.4);
+  color: rgba(var(--accent-rgb),0.4);
 }
 
 .card-info {
@@ -603,13 +611,13 @@ a { color: inherit; text-decoration: none; }
   object-fit: cover;
   border-radius: 8px 0 8px 0;
   cursor: pointer;
-  border: 1px solid rgba(155,109,255,0.3);
+  border: 1px solid rgba(var(--accent-rgb),0.3);
   transition: transform .2s, box-shadow .2s;
 }
 
 .deck-img:hover {
   transform: translateY(-4px);
-  box-shadow: 0 8px 24px rgba(155,109,255,0.25);
+  box-shadow: 0 8px 24px rgba(var(--accent-rgb),0.25);
 }
 
 .revolte-btns {
@@ -831,7 +839,7 @@ footer {
 }
 
 .detail-panel .detail-close:hover {
-  background: rgba(155,109,255,.15);
+  background: rgba(var(--accent-rgb),.15);
   border-color: var(--accent);
 }
 
@@ -946,7 +954,7 @@ footer {
   overflow: hidden;
   border: 2px solid transparent;
   cursor: pointer;
-  background: #111;
+  background: var(--surface-placeholder);
   transition: border-color .15s;
 }
 .dp-thumb.active { border-color: var(--accent); }
@@ -1109,7 +1117,7 @@ footer {
 }
 
 .dp-voir-plus:hover {
-  background: rgba(155,109,255,.10);
+  background: rgba(var(--accent-rgb),.10);
   border-color: var(--accent);
   color: #fff;
 }

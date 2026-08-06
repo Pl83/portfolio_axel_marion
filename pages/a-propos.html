@@ -6,6 +6,7 @@
   <title>Axel Marion — À propos</title>
   <link rel="icon" type="image/svg+xml" href="/logo.svg" />
   <link rel="stylesheet" href="../src/style.css">
+  <script src="/data.js"></script>
 
   <style>
     /* ── Hero ─────────────────────────────────────────────────── */
@@ -27,8 +28,8 @@
       position: absolute;
       inset: 0;
       background:
-        radial-gradient(ellipse 55% 60% at 75% 40%, rgba(155,109,255,.18), transparent 70%),
-        radial-gradient(ellipse 30% 40% at 20% 80%, rgba(155,109,255,.07), transparent 60%),
+        radial-gradient(ellipse 55% 60% at 75% 40%, rgba(var(--accent-rgb),.18), transparent 70%),
+        radial-gradient(ellipse 30% 40% at 20% 80%, rgba(var(--accent-rgb),.07), transparent 60%),
         url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
       background-size: 100%, 100%, 200px;
       pointer-events: none;
@@ -65,7 +66,7 @@
       font-size: clamp(4rem, 10vw, 9rem);
       line-height: .92;
       letter-spacing: .01em;
-      color: #fff;
+      color: var(--white);
       margin-bottom: 28px;
     }
 
@@ -78,6 +79,27 @@
       line-height: 1.8;
     }
 
+    .hero-facts {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 26px;
+    }
+    .hero-fact {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 14px;
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      font-size: .8rem;
+      color: var(--text);
+      transition: border-color .2s, background .2s;
+    }
+    a.hero-fact:hover { border-color: var(--accent); background: var(--bg3); }
+    .hero-fact svg { width: 13px; height: 13px; fill: var(--accent2); flex-shrink: 0; }
+
     /* ── Page ─────────────────────────────────────────────────── */
     .page {
       position: relative;
@@ -86,44 +108,90 @@
     }
 
     .page-inner {
-      max-width: 860px;
+      max-width: 1220px;
       margin: 0 auto;
-      padding: 0 clamp(20px, 6vw, 96px) 100px;
+      padding: 25px clamp(20px, 6vw, 96px) 100px;
     }
 
-    /* ── Divider ──────────────────────────────────────────────── */
-    .divider {
-      width: 100%;
-      height: 1px;
-      background: var(--border);
-      margin: 64px 0;
+    /* ── Layout : CV à côté du reste ─────────────────────────────── */
+    .ap-layout {
+      display: grid;
+      grid-template-columns: 1fr 340px;
+      gap: 64px;
+      align-items: start;
+    }
+    .ap-narrative-col { order: 2; }
+    .ap-cv-col {
+      order: 1;
+      position: sticky;
+      top: calc(var(--header-h) + 40px);
     }
 
-    /* ── Block texte ──────────────────────────────────────────── */
-    .block-label {
-      display: inline-flex;
+
+    /* ── Accordion "questions" ───────────────────────────────────── */
+    .ap-faq { border-bottom: 1px solid var(--border); }
+    .ap-faq:first-of-type { border-top: 1px solid var(--border); }
+    .ap-faq-summary {
+      list-style: none;
+      display: flex;
       align-items: center;
-      gap: 10px;
-      font-size: .75rem;
-      font-weight: 500;
-      letter-spacing: .14em;
-      text-transform: uppercase;
+      justify-content: space-between;
+      gap: 20px;
+      padding: 22px 0;
+      cursor: pointer;
+    }
+    .ap-faq-summary::-webkit-details-marker { display: none; }
+    .ap-faq-q {
+      font-family: var(--font-d);
+      font-size: clamp(1.3rem, 2.4vw, 1.8rem);
+      letter-spacing: .01em;
+      color: var(--white);
+    }
+    .ap-faq-chevron {
+      flex-shrink: 0;
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: transform .25s, background .2s, border-color .2s;
+    }
+    .ap-faq-chevron svg {
+      width: 14px;
+      height: 14px;
+      fill: none;
+      stroke: var(--muted);
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+    .ap-faq[open] .ap-faq-chevron {
+      transform: rotate(180deg);
+      background: rgba(var(--accent-rgb),.12);
+      border-color: var(--accent);
+    }
+    .ap-faq[open] .ap-faq-chevron svg { stroke: var(--accent2); }
+    .ap-faq-content { padding: 0 0 28px; }
+
+    .ap-faq-link {
+      display: inline-block;
+      margin-top: 14px;
+      font-size: .82rem;
+      font-weight: 600;
+      letter-spacing: .04em;
       color: var(--accent);
-      margin-bottom: 16px;
+      transition: color .2s;
     }
-    .block-label::before {
-      content: '';
-      display: block;
-      width: 20px;
-      height: 1px;
-      background: var(--accent);
-    }
+    .ap-faq-link:hover { color: var(--accent2); }
 
     .block-title {
       font-family: var(--font-d);
       font-size: clamp(2.6rem, 5vw, 5rem);
       line-height: 1.0;
-      color: #fff;
+      color: var(--accent2);
       margin-bottom: 24px;
     }
 
@@ -135,113 +203,124 @@
 
     .block-body p + p { margin-top: 16px; }
 
-    /* ── Liens contact ────────────────────────────────────────── */
-    .contact-grid {
+    .highlight { color: var(--accent2); font-weight: 600; }
+
+    .block-tags { margin-top: 22px; }
+
+    /* ── CV : compétences, langues, formation, expériences ───────── */
+    .ap-cv-col .block-title {
+      margin-bottom: 24px;
+    }
+    .cv-meta-row {
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 14px;
-      margin-top: 48px;
+      grid-template-columns: 1fr 1fr;
+      gap: 40px;
+      margin-top: 8px;
     }
+    .cv-meta-row > div { min-width: 0; }
 
-    .contact-card {
+    .cv-timelines {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 48px;
+      margin-top: 36px;
+      padding-top: 28px;
+      border-top: 1px solid var(--border);
+    }
+    .cv-timelines > div { min-width: 0; }
+
+    .tag-group {
       display: flex;
-      flex-direction: column;
-      gap: 14px;
-      padding: 24px 20px;
-      background: var(--bg2);
-      border: 1px solid var(--border);
-      border-radius: var(--r);
-      text-decoration: none;
-      color: var(--text);
-      transition: border-color .2s, background .2s, transform .18s;
+      flex-wrap: wrap;
+      gap: 8px;
     }
-    .contact-card:hover {
-      border-color: var(--accent);
-      background: var(--bg3);
-      transform: translateY(-3px);
-    }
-
-    .contact-icon {
-      width: 36px;
-      height: 36px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background: rgba(155,109,255,.12);
-      border-radius: 8px;
-      flex-shrink: 0;
-    }
-    .contact-icon svg {
-      width: 18px;
-      height: 18px;
-      fill: var(--accent2);
-    }
-
-    .contact-label {
-      font-size: .72rem;
-      font-weight: 500;
-      letter-spacing: .1em;
-      text-transform: uppercase;
-      color: var(--muted);
-    }
-    .contact-name {
-      font-size: .92rem;
-      font-weight: 500;
-      color: #fff;
-      word-break: break-all;
-    }
-    .contact-arrow {
-      margin-top: auto;
-      font-size: .78rem;
-      color: var(--accent);
-      letter-spacing: .06em;
-    }
-
-    /* ── CV bouton ────────────────────────────────────────────── */
-    .cv-row {
-      margin-top: 56px;
-      display: flex;
-      align-items: center;
-      gap: 20px;
-    }
-    .cv-label {
-      font-size: .82rem;
-      color: var(--muted);
-    }
-
-    .btn-primary {
+    .tag {
       display: inline-flex;
       align-items: center;
-      gap: 8px;
-      padding: 12px 26px;
-      background: var(--accent);
-      color: #fff;
-      font-size: .85rem;
-      font-weight: 500;
-      letter-spacing: .06em;
-      border-radius: 8px;
-      text-decoration: none;
-      transition: background .2s, transform .15s;
+      padding: 7px 13px;
+      background: transparent;
+      border: 1px solid rgba(var(--accent-rgb),.4);
+      border-radius: 999px;
+      font-size: .78rem;
+      color: var(--accent);
     }
-    .btn-primary:hover {
-      background: var(--accent2);
-      transform: translateY(-2px);
+    .tag-muted {
+      background: var(--bg2);
+      border-color: var(--border);
+      color: var(--muted);
     }
-    .btn-primary svg {
-      width: 14px;
-      height: 14px;
-      fill: #fff;
+    .tag-soft {
+      background: transparent;
+      border: 1px solid rgba(var(--accent2-rgb),.4);
+      color: var(--accent2);
     }
 
+    .cv-sub-label {
+      font-size: .7rem;
+      font-weight: 600;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: var(--white);
+      margin-bottom: 12px;
+    }
+    .cv-sub-label.spaced { margin-top: 22px; }
+    .cv-skill-block + .cv-skill-block { margin-top: 22px; }
+
+    .timeline {
+      display: flex;
+      flex-direction: column;
+      gap: 30px;
+      padding-left: 22px;
+      border-left: 1px solid var(--border);
+    }
+    .timeline-item { position: relative; }
+    .timeline-item::before {
+      content: '';
+      position: absolute;
+      left: -27.5px;
+      top: 5px;
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      background: var(--accent);
+      box-shadow: 0 0 0 4px var(--bg);
+    }
+    .timeline-date {
+      font-size: .72rem;
+      font-weight: 600;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      color: var(--accent2);
+      margin-bottom: 6px;
+    }
+    .timeline-title {
+      font-size: 1.05rem;
+      font-weight: 600;
+      color: var(--white);
+      margin-bottom: 4px;
+    }
+    .timeline-place {
+      font-size: .84rem;
+      color: var(--muted);
+      margin-bottom: 8px;
+    }
+    .timeline-desc {
+      font-size: .86rem;
+      color: var(--muted);
+      line-height: 1.7;
+    }
+
+
     /* ── Responsive ───────────────────────────────────────────── */
+    @media (max-width: 1000px) {
+      .ap-layout { grid-template-columns: 1fr; gap: 56px; }
+      .ap-cv-col { position: static; }
+      .ap-narrative-col { max-width: none; }
+    }
     @media (max-width: 768px) {
       .hero { min-height: 54vh; }
-      .contact-grid { grid-template-columns: 1fr 1fr; }
-    }
-    @media (max-width: 520px) {
-      .contact-grid { grid-template-columns: 1fr; }
-      .divider { margin: 44px 0; }
-      .cv-row { flex-direction: column; align-items: flex-start; }
+      .cv-meta-row { grid-template-columns: 1fr; gap: 24px; }
+      .cv-timelines { grid-template-columns: 1fr; gap: 24px; }
     }
   </style>
 </head>
@@ -286,6 +365,7 @@
         Étudiant en game design, passionné par la création de jeux vidéo
         et la conception d'expériences interactives.
       </p>
+      <div class="hero-facts" id="hero-facts"></div>
     </div>
   </section>
 
@@ -293,104 +373,103 @@
   <div class="page">
     <div class="page-inner">
 
-      <!-- Professionnel -->
-      <div class="text-block">
-        <span class="block-label">Professionnel</span>
-        <h2 class="block-title">Parcours &amp;<br>compétences</h2>
-        <div class="block-body">
-          <p>Formé aux Gobelins de 2022 à 2025, je poursuis aujourd'hui mes études à l'IIM. Ce double parcours m'a permis de développer une vraie polyvalence : web design, UI/UX, game design, level design et développement.</p>
-          <p>Côté outils, je travaille sur Unreal Engine, Unity, Blender, Illustrator et Figma — autant de langages qui me permettent de passer du concept au prototype sans friction.</p>
-        </div>
-      </div>
-
-      <div class="divider"></div>
-
-      <!-- Passion -->
-      <div class="text-block">
-        <span class="block-label">Passion</span>
-        <h2 class="block-title">Ce qui me<br>motive</h2>
-        <div class="block-body">
-          <p>Ce qui m'attire dans le jeu vidéo, c'est sa capacité à transmettre. Un jeu peut divertir, émouvoir, faire réfléchir — tout à la fois. C'est un médium immersif comme aucun autre.</p>
-          <p>Mes inspirations viennent de partout : un livre, une chanson, un film, un autre jeu. Je m'en nourris pour créer des expériences qui touchent les gens — des univers et des instants qui laissent quelque chose.</p>
-        </div>
-      </div>
-
-      <div class="divider"></div>
-
-      <!-- Avenir -->
-      <div class="text-block">
-        <span class="block-label">Avenir</span>
-        <h2 class="block-title">Objectifs &amp;<br>ambitions</h2>
-        <div class="block-body">
-          <p>Je suis à la recherche d'un stage, d'une alternance ou d'un premier emploi dans un studio de taille moyenne — un environnement où ma polyvalence est un atout, pas une contrainte.</p>
-          <p>Mon objectif : devenir level designer. Concevoir des espaces qui racontent une histoire, guident le joueur sans qu'il s'en rende compte, et créent des émotions par la seule architecture du niveau.</p>
-        </div>
-      </div>
-
-      <div class="divider"></div>
-
-      <!-- Contact -->
-      <div class="text-block">
-        <span class="block-label">Me contacter</span>
-        <h2 class="block-title">Restons<br>en contact</h2>
-
-        <div class="contact-grid">
-
-          <!-- LinkedIn -->
-          <a class="contact-card" href="https://www.linkedin.com/in/axel-marion-763034259" target="_blank" rel="noopener">
-            <div class="contact-icon">
-              <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                <path d="M20.447 20.452H16.89v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a1.977 1.977 0 0 1-1.972-1.98c0-1.093.883-1.98 1.972-1.98 1.087 0 1.972.887 1.972 1.98 0 1.093-.885 1.98-1.972 1.98zm1.783 13.019H3.554V9h3.566v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
-              </svg>
-            </div>
-            <div>
-              <div class="contact-label">LinkedIn</div>
-              <div class="contact-name">Axel Marion</div>
-            </div>
-            <div class="contact-arrow">Voir le profil →</div>
-          </a>
-
-          <!-- Itch.io -->
-          <a class="contact-card" href="https://axelmar.itch.io" target="_blank" rel="noopener">
-            <div class="contact-icon">
-              <svg viewBox="0 0 245.37 220.8" xmlns="http://www.w3.org/2000/svg">
-                <path d="M31.99 1.365C21.287 7.72.2 31.945 0 38.298v10.516C0 62.144 12.46 73.86 23.773 73.86c13.584 0 24.902-11.258 24.902-24.77 0 13.512 10.959 24.77 24.545 24.77 13.587 0 24.17-11.258 24.17-24.77 0 13.512 11.444 24.77 25.03 24.77h.173c13.586 0 25.028-11.258 25.028-24.77 0 13.512 10.583 24.77 24.17 24.77 13.586 0 24.544-11.258 24.544-24.77 0 13.512 11.319 24.77 24.903 24.77 11.313 0 23.773-11.716 23.773-25.046V38.298c-.2-6.353-21.287-30.578-31.988-36.933C189.074.678 37.285.678 31.99 1.365zm65.317 117.188c-16.255 1.999-28.97 16.08-28.97 33.09v34.822l-.036.428C68.076 204.178 78.38 220.8 122.685 220.8c44.305 0 54.609-16.622 54.382-34.907l-.036-.428v-34.822c0-17.01-12.714-31.091-28.97-33.09l-25.377-3.116-25.377 3.116z"/>
-              </svg>
-            </div>
-            <div>
-              <div class="contact-label">Itch.io</div>
-              <div class="contact-name">axelmar.itch.io</div>
-            </div>
-            <div class="contact-arrow">Voir les jeux →</div>
-          </a>
-
-          <!-- Email -->
-          <a class="contact-card" href="mailto:axelmarion6@gmail.com">
-            <div class="contact-icon">
-              <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                <path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4-8 5-8-5V6l8 5 8-5v2z"/>
-              </svg>
-            </div>
-            <div>
-              <div class="contact-label">Email</div>
-              <div class="contact-name">axelmarion6@gmail.com</div>
-            </div>
-            <div class="contact-arrow">Envoyer un message →</div>
-          </a>
-
-        </div>
+      <div class="ap-layout">
 
         <!-- CV -->
-        <div class="cv-row">
-          <span class="cv-label">Mon curriculum vitæ —</span>
-          <a href="/realisation/cvaxelmarion.pdf" target="_blank" class="btn-primary">
-            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-              <path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/>
-            </svg>
-            Télécharger mon CV
-          </a>
+        <div class="ap-cv-col">
+          <h2 class="block-title">Mon CV</h2>
+
+          <div class="cv-meta-row">
+            <div>
+              <div id="cv-skills"></div>
+            </div>
+            <div>
+              <div class="cv-sub-label">Diplômes</div>
+              <div class="timeline" id="cv-education"></div>
+            </div>
+          </div>
+
+          <div class="cv-timelines">
+            <div>
+              <div class="cv-sub-label">Langues</div>
+              <div class="tag-group" id="cv-languages"></div>
+              <div class="cv-sub-label spaced">Caractéristiques</div>
+              <div class="tag-group" id="cv-interests"></div>
+            </div>
+            <div>
+              <div class="cv-sub-label">Expériences</div>
+              <div class="timeline" id="cv-work"></div>
+            </div>
+          </div>
         </div>
 
+        <!-- Le reste -->
+        <div class="ap-narrative-col">
+
+      <!-- Passion -->
+      <details class="ap-faq">
+        <summary class="ap-faq-summary">
+          <span class="ap-faq-q">Qu'est-ce qui me motive ?</span>
+          <span class="ap-faq-chevron"><svg viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg></span>
+        </summary>
+        <div class="ap-faq-content">
+          <div class="block-body">
+            <p>Ce qui m'attire dans le jeu vidéo, c'est <span class="highlight">sa capacité à transmettre</span>. Un jeu peut divertir, émouvoir, faire réfléchir — tout à la fois. C'est un médium immersif comme aucun autre.</p>
+            <p>Mes inspirations viennent de partout : un livre, une chanson, un film, un autre jeu. Je m'en nourris pour créer des expériences qui touchent les gens — des univers et des instants qui laissent quelque chose.</p>
+          </div>
+        </div>
+      </details>
+
+      <!-- Avenir -->
+      <details class="ap-faq">
+        <summary class="ap-faq-summary">
+          <span class="ap-faq-q">Quels sont mes objectifs ?</span>
+          <span class="ap-faq-chevron"><svg viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg></span>
+        </summary>
+        <div class="ap-faq-content">
+          <div class="block-body">
+            <p>Je suis à la recherche d'un stage, d'une alternance ou d'un premier emploi dans un studio de taille moyenne — un environnement où ma polyvalence est un atout, pas une contrainte.</p>
+            <p>Mon objectif : devenir <span class="highlight">level designer</span>. Concevoir des espaces qui racontent une histoire, guident le joueur sans qu'il s'en rende compte, et créent des émotions par la seule architecture du niveau.</p>
+          </div>
+          <div class="tag-group block-tags">
+            <span class="tag tag-muted">Stage</span>
+            <span class="tag tag-muted">Alternance</span>
+            <span class="tag tag-muted">Premier emploi</span>
+          </div>
+        </div>
+      </details>
+
+      <!-- Hors jeu vidéo -->
+      <details class="ap-faq">
+        <summary class="ap-faq-summary">
+          <span class="ap-faq-q">Qu'est-ce que je fais hors du jeu vidéo ?</span>
+          <span class="ap-faq-chevron"><svg viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg></span>
+        </summary>
+        <div class="ap-faq-content">
+          <div class="block-body">
+            <p>J'aime <span class="highlight">apprendre de nouvelles choses</span> et <span class="highlight">fabriquer avec mes mains</span> — la randonnée en fait aussi partie, pour décrocher et prendre l'air.</p>
+            <p>Côté centres d'intérêt plus posés : la musique et la lecture.</p>
+          </div>
+        </div>
+      </details>
+
+      <!-- Projet représentatif -->
+      <details class="ap-faq">
+        <summary class="ap-faq-summary">
+          <span class="ap-faq-q">Quel projet me représente le mieux ?</span>
+          <span class="ap-faq-chevron"><svg viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg></span>
+        </summary>
+        <div class="ap-faq-content">
+          <div class="block-body">
+            <p><a href="/pages/projet.html?p=autoportrait" class="highlight">Autoportrait</a> et <a href="/pages/projet.html?p=revolte" class="highlight">Revolte</a> sont les deux projets qui me représentent le plus.</p>
+            <p>Revolte en particulier : je l'ai conçu, écrit, illustré et équilibré entièrement seul — et j'ai tenu la comparaison face à des camarades qui travaillaient en groupe sur leur propre jeu.</p>
+          </div>
+          <a href="/pages/projet.html?p=autoportrait" class="ap-faq-link">Voir Autoportrait →</a>
+          <a href="/pages/projet.html?p=revolte" class="ap-faq-link" style="margin-left:16px;">Voir Revolte →</a>
+        </div>
+      </details>
+
+        </div>
       </div>
 
     </div>
@@ -398,6 +477,76 @@
 
   <footer>© 2025 Axel Marion</footer>
 
+  <script>
+    const ICONS = {
+      mail: '<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4-8 5-8-5V6l8 5 8-5v2z"/></svg>',
+      pin: '<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5A2.5 2.5 0 1 1 12 6.5a2.5 2.5 0 0 1 0 5z"/></svg>',
+      linkedin: '<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20.447 20.452H16.89v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a1.977 1.977 0 0 1-1.972-1.98c0-1.093.883-1.98 1.972-1.98 1.087 0 1.972.887 1.972 1.98 0 1.093-.885 1.98-1.972 1.98zm1.783 13.019H3.554V9h3.566v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>',
+      itch: '<svg viewBox="0 0 245.37 220.8" xmlns="http://www.w3.org/2000/svg"><path d="M31.99 1.365C21.287 7.72.2 31.945 0 38.298v10.516C0 62.144 12.46 73.86 23.773 73.86c13.584 0 24.902-11.258 24.902-24.77 0 13.512 10.959 24.77 24.545 24.77 13.587 0 24.17-11.258 24.17-24.77 0 13.512 11.444 24.77 25.03 24.77h.173c13.586 0 25.028-11.258 25.028-24.77 0 13.512 10.583 24.77 24.17 24.77 13.586 0 24.544-11.258 24.544-24.77 0 13.512 11.319 24.77 24.903 24.77 11.313 0 23.773-11.716 23.773-25.046V38.298c-.2-6.353-21.287-30.578-31.988-36.933C189.074.678 37.285.678 31.99 1.365zm65.317 117.188c-16.255 1.999-28.97 16.08-28.97 33.09v34.822l-.036.428C68.076 204.178 78.38 220.8 122.685 220.8c44.305 0 54.609-16.622 54.382-34.907l-.036-.428v-34.822c0-17.01-12.714-31.091-28.97-33.09l-25.377-3.116-25.377 3.116z"/></svg>'
+    };
+
+    function formatDate(d) {
+      if (!d) return '';
+      const parts = d.split('-');
+      if (parts.length === 3) return `${parts[2]}/${parts[1]}/${parts[0]}`;
+      if (parts.length === 2) return `${parts[1]}/${parts[0]}`;
+      return d;
+    }
+    function formatRange(start, end) {
+      return `${formatDate(start)} — ${formatDate(end)}`;
+    }
+
+    function renderResume() {
+      const r = window.RESUME;
+      if (!r) return;
+      const b = r.basics;
+
+      const linkedin = (b.profiles || []).find(p => p.network.toLowerCase().includes('linkedin'));
+      const itch = (b.profiles || []).find(p => p.network.toLowerCase().includes('itch'));
+
+      const mapUrl = (loc) => `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`${loc.city} ${loc.postalCode} France`)}`;
+
+      document.getElementById('hero-facts').innerHTML = `
+        ${itch ? `<a class="hero-fact" href="${itch.url}" target="_blank" rel="noopener">${ICONS.itch}Itch.io</a>` : ''}
+        ${linkedin ? `<a class="hero-fact" href="${linkedin.url}" target="_blank" rel="noopener">${ICONS.linkedin}LinkedIn</a>` : ''}
+        <a class="hero-fact" href="mailto:${b.email}">${ICONS.mail}${b.email}</a>
+        <a class="hero-fact" href="${mapUrl(b.location)}" target="_blank" rel="noopener">${ICONS.pin}${b.location.city} (${b.location.postalCode.slice(0, 2)})</a>
+        ${b.location2 ? `<a class="hero-fact" href="${mapUrl(b.location2)}" target="_blank" rel="noopener">${ICONS.pin}${b.location2.city} (${b.location2.postalCode.slice(0, 2)})</a>` : ''}
+      `;
+
+      document.getElementById('cv-skills').innerHTML = (r.skills || []).map(s => `
+        <div class="cv-skill-block">
+          <div class="cv-sub-label">${s.name}</div>
+          <div class="tag-group">${s.keywords.map(k => `<span class="tag">${k}</span>`).join('')}</div>
+        </div>
+      `).join('');
+
+      document.getElementById('cv-languages').innerHTML = (r.languages || [])
+        .map(l => `<span class="tag tag-soft">${l.language}</span>`).join('');
+
+      document.getElementById('cv-interests').innerHTML = (r.interests || [])
+        .flatMap(i => i.keywords).map(k => `<span class="tag tag-soft">${k}</span>`).join('');
+
+      document.getElementById('cv-education').innerHTML = (r.education || []).map(e => `
+        <div class="timeline-item">
+          <div class="timeline-date">${formatRange(e.startDate, e.endDate)}</div>
+          <div class="timeline-title">${e.studyType}</div>
+          <div class="timeline-place">${e.institution}</div>
+        </div>
+      `).join('');
+
+      document.getElementById('cv-work').innerHTML = (r.work || []).map(w => `
+        <div class="timeline-item">
+          <div class="timeline-date">${formatRange(w.startDate, w.endDate)}</div>
+          <div class="timeline-title">${w.position}</div>
+          <div class="timeline-place">${w.name}${w.location ? ' — ' + w.location : ''}</div>
+          ${w.highlights && w.highlights.length ? `<div class="timeline-desc">${w.highlights.join(', ')}.</div>` : ''}
+        </div>
+      `).join('');
+    }
+
+    renderResume();
+  </script>
   <script src="../src/main.js"></script>
   <script>
     const hero = document.getElementById('hero');

@@ -264,10 +264,6 @@ const canvas = document.getElementById("canvas");
             eventsc.push({ point: { x: 0, y: height }, time, duration: 2000 });
             playSound(32.7);
             break;
-          case "Numpad0":
-            eventsc.push({ point: { x: width / 2, y: height / 2 }, time, duration: 2000 });
-            playSound(440.0);
-            break;
         }
       }
 

@@ -67,6 +67,100 @@
 				color: rgba(255,255,255,0.55);
 				font-size: 12px;
 			}
+
+			/* ── Menu pause ───────────────────────────────────────── */
+			#pause-overlay {
+				position: fixed;
+				inset: 0;
+				background: rgba(5,5,8,0.72);
+				backdrop-filter: blur(6px);
+				-webkit-backdrop-filter: blur(6px);
+				display: none;
+				align-items: center;
+				justify-content: center;
+				z-index: 200;
+				font-family: 'Outfit', system-ui, sans-serif;
+			}
+			#pause-overlay.open { display: flex; }
+
+			.pause-panel {
+				background: rgba(12,12,16,0.92);
+				border: 1px solid rgba(255,255,255,0.1);
+				border-radius: 18px;
+				padding: 36px 40px;
+				min-width: 280px;
+				text-align: center;
+				box-shadow: 0 30px 80px rgba(0,0,0,0.6);
+			}
+
+			.pause-title {
+				color: #fff;
+				font-size: 20px;
+				font-weight: 700;
+				letter-spacing: 0.1em;
+				text-transform: uppercase;
+				margin: 0 0 26px;
+			}
+
+			.pause-buttons {
+				display: flex;
+				flex-direction: column;
+				gap: 12px;
+			}
+
+			.pause-btn {
+				display: block;
+				width: 100%;
+				padding: 13px 22px;
+				background: rgba(255,255,255,0.06);
+				border: 1px solid rgba(255,255,255,0.14);
+				border-radius: 10px;
+				color: #fff;
+				font-family: inherit;
+				font-size: 14px;
+				font-weight: 600;
+				letter-spacing: 0.02em;
+				cursor: pointer;
+				text-decoration: none;
+				transition: background .2s, border-color .2s;
+				box-sizing: border-box;
+			}
+			.pause-btn:hover { background: rgba(216,199,255,0.14); border-color: #d8c7ff; }
+
+			.pause-btn.primary {
+				background: #d8c7ff;
+				color: #14121c;
+				border-color: #d8c7ff;
+			}
+			.pause-btn.primary:hover { background: #c4a8ff; }
+
+			.pause-controls-view { display: none; }
+			.pause-controls-view.open { display: block; }
+			.pause-controls-view .hint-grid { margin-bottom: 26px; }
+			.pause-controls-view .hint-title { text-align: left; }
+
+			/* ── Plein écran ──────────────────────────────────────── */
+			#btn-fullscreen-toggle {
+				position: fixed;
+				top: 20px;
+				right: 20px;
+				width: 40px;
+				height: 40px;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				background: rgba(8,8,8,0.6);
+				border: 1px solid rgba(255,255,255,0.14);
+				border-radius: 50%;
+				color: #fff;
+				cursor: pointer;
+				z-index: 150;
+				backdrop-filter: blur(10px);
+				-webkit-backdrop-filter: blur(10px);
+				transition: background .2s, border-color .2s;
+			}
+			#btn-fullscreen-toggle:hover { background: rgba(216,199,255,0.14); border-color: #d8c7ff; }
+			#btn-fullscreen-toggle svg { width: 18px; height: 18px; fill: #fff; }
 		</style>
 	</head>
 	<body>
@@ -89,12 +183,162 @@
 			</div>
 		</div>
 
+		<!-- ── Plein écran ─────────────────────────────────────────── -->
+		<button id="btn-fullscreen-toggle" title="Plein écran" aria-label="Plein écran">
+			<svg viewBox="0 0 24 24"><path d="M7 14H5v5h5v-2H7v-3zm-2-4h2V7h3V5H5v5zm12 7h-3v2h5v-5h-2v3zM14 5v2h3v3h2V5h-5z"/></svg>
+		</button>
+
+		<!-- ── Menu pause (Échap) ─────────────────────────────────── -->
+		<div id="pause-overlay">
+			<div class="pause-panel">
+
+				<div id="pause-main">
+					<p class="pause-title">Pause</p>
+					<div class="pause-buttons">
+						<button class="pause-btn primary" id="btn-resume">Reprendre</button>
+						<button class="pause-btn" id="btn-show-controls">Voir les touches</button>
+						<button class="pause-btn" id="btn-pause-fullscreen">Plein écran</button>
+						<button class="pause-btn" id="btn-quit">Fermer</button>
+					</div>
+				</div>
+
+				<div id="pause-controls-view" class="pause-controls-view">
+					<p class="hint-title">Contrôles</p>
+					<div class="hint-grid">
+						<span class="hint-key">Clic</span>
+						<span class="hint-desc">Activer la souris</span>
+
+						<span class="hint-key">WASD</span>
+						<span class="hint-desc">Se déplacer</span>
+
+						<span class="hint-key">Espace</span>
+						<span class="hint-desc">Monter</span>
+
+						<span class="hint-key">Shift</span>
+						<span class="hint-desc">Descendre</span>
+
+						<span class="hint-key">Échap</span>
+						<span class="hint-desc">Pause</span>
+					</div>
+					<button class="pause-btn" id="btn-back-controls">Retour</button>
+				</div>
+
+			</div>
+		</div>
+
 		<script>
 			const hint = document.getElementById('controls-hint');
 			setTimeout(() => {
 				hint.classList.add('fade-out');
 				setTimeout(() => hint.remove(), 950);
 			}, 4000);
+		</script>
+
+		<script>
+			const pauseOverlay = document.getElementById('pause-overlay');
+			const pauseMain = document.getElementById('pause-main');
+			const pauseControlsView = document.getElementById('pause-controls-view');
+			let isPaused = false;
+			let lastAutoPauseTime = 0;
+
+			function openPause() {
+				isPaused = true;
+				window.__paused = true;
+				pauseOverlay.classList.add('open');
+				pauseMain.style.display = 'block';
+				pauseControlsView.classList.remove('open');
+				if (document.pointerLockElement) document.exitPointerLock();
+			}
+
+			function closePause() {
+				isPaused = false;
+				window.__paused = false;
+				pauseOverlay.classList.remove('open');
+				document.body.requestPointerLock();
+			}
+
+			document.addEventListener('keydown', (event) => {
+				if (event.code !== 'Escape') return;
+				// Évite le double déclenchement : sortir du plein écran (Fullscreen API)
+				// avec Échap ouvre déjà la pause via 'fullscreenchange' juste avant ce keydown.
+				if (performance.now() - lastAutoPauseTime < 150) return;
+				if (isPaused) closePause(); else openPause();
+			});
+
+			document.getElementById('btn-resume').addEventListener('click', closePause);
+
+			document.getElementById('btn-show-controls').addEventListener('click', () => {
+				pauseMain.style.display = 'none';
+				pauseControlsView.classList.add('open');
+			});
+
+			document.getElementById('btn-back-controls').addEventListener('click', () => {
+				pauseControlsView.classList.remove('open');
+				pauseMain.style.display = 'block';
+			});
+
+			document.getElementById('btn-quit').addEventListener('click', () => {
+				window.close();
+				// Si le navigateur refuse de fermer l'onglet (ex : pas ouvert par script),
+				// window.close() ne fait rien silencieusement — on revient alors au site.
+				setTimeout(() => {
+					if (window.history.length > 1) window.history.back();
+					else window.location.href = '/index.html';
+				}, 300);
+			});
+		</script>
+
+		<script>
+			const fsToggle = document.getElementById('btn-fullscreen-toggle');
+			const pauseFsBtn = document.getElementById('btn-pause-fullscreen');
+			let wasFullscreen = false;
+
+			function isFullscreen() {
+				return !!document.fullscreenElement;
+			}
+
+			function toggleFullscreen() {
+				if (isFullscreen()) {
+					document.exitFullscreen();
+				} else {
+					document.documentElement.requestFullscreen().catch(() => {});
+				}
+			}
+
+			function updateFullscreenLabels() {
+				const label = isFullscreen() ? 'Quitter le plein écran' : 'Plein écran';
+				pauseFsBtn.textContent = label;
+				fsToggle.setAttribute('aria-label', label);
+				fsToggle.title = label;
+			}
+
+			fsToggle.addEventListener('click', toggleFullscreen);
+			pauseFsBtn.addEventListener('click', toggleFullscreen);
+
+			document.addEventListener('fullscreenchange', () => {
+				updateFullscreenLabels();
+				const nowFullscreen = isFullscreen();
+
+				if (wasFullscreen && !nowFullscreen && !isPaused) {
+					lastAutoPauseTime = performance.now();
+					openPause();
+				}
+
+				wasFullscreen = nowFullscreen;
+			});
+
+			updateFullscreenLabels();
+
+			// Le menu pause suit l'affichage du curseur : dès que le pointer lock est
+			// relâché (Échap, alt-tab, perte de focus, clic hors fenêtre...), le curseur
+			// redevient visible et on ouvre la pause — pas seulement via le raccourci Échap.
+			document.addEventListener('pointerlockchange', () => {
+				const cursorVisible = !document.pointerLockElement;
+				if (cursorVisible && !isPaused) {
+					lastAutoPauseTime = performance.now();
+					openPause();
+				}
+			});
 		</script>
 	</body>
 </html>

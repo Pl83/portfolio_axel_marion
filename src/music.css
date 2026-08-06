@@ -16,6 +16,7 @@ body {
   width: 100vw;
   height: 100vh;
   align-items: center;
+  justify-content: center;
 }
 
 canvas {
@@ -156,12 +157,6 @@ canvas {
   gap: 4px;
 }
 
-.numpad-zero {
-  display: flex;
-  justify-content: center;
-  margin-left: 0;
-}
-
 .num-key {
   width: 36px;
   height: 36px;
@@ -201,20 +196,6 @@ canvas {
 }
 .num-center:active {
   background: rgba(155,109,255,.36);
-}
-
-.num-zero {
-  width: 80px;
-  background: rgba(155,109,255,.1);
-  border-color: rgba(155,109,255,.25);
-  color: #c084fc;
-}
-.num-zero:hover {
-  background: rgba(155,109,255,.22);
-  border-color: rgba(155,109,255,.5);
-}
-.num-zero:active {
-  background: rgba(155,109,255,.34);
 }
 
 .numpad-legend {

@@ -7,13 +7,10 @@
   <title>Axel Marion — Parcours</title>
   <link rel="icon" type="image/svg+xml" href="/logo.svg" />
   <link rel="stylesheet" href="../src/style.css">
+  <script src="/data.js"></script>
 
   <style>
-    :root {
-      --green: #74d674;
-      --blue: #67d4ff;
-      --orange: #ffb45c;
-    }
+    /* --green / --blue / --orange sont fournies par window.COLORS.school (public/data.js) */
 
     /* Override .dot (style.css = 8px inline indicator; here = 12px absolute timeline dot) */
     .dot {
@@ -22,9 +19,9 @@
       width: 12px;
       height: 12px;
       border-radius: 50%;
-      background: #d8c7ff;
+      background: var(--accent2);
       transform: translateX(-50%);
-      box-shadow: 0 0 14px rgba(155, 92, 255, 0.8);
+      box-shadow: 0 0 14px rgba(var(--accent-rgb), 0.8);
       z-index: 3;
       flex-shrink: unset;
     }
@@ -34,7 +31,7 @@
       height: 24px;
       top: 139px;
       background: var(--accent);
-      box-shadow: 0 0 28px rgba(155, 92, 255, 0.95);
+      box-shadow: 0 0 28px rgba(var(--accent-rgb), 0.95);
     }
 
     /* ─── Sticky hero ─── */
@@ -56,9 +53,9 @@
       position: absolute;
       inset: 0;
       background:
-        linear-gradient(90deg, rgba(15,15,15,1) 0%, rgba(15,15,15,.88) 42%, rgba(15,15,15,.35) 100%),
-        radial-gradient(ellipse 70% 60% at 75% 50%, rgba(155,109,255,.28), transparent 70%),
-        radial-gradient(ellipse 40% 60% at 92% 30%, rgba(192,132,252,.12), transparent 60%);
+        linear-gradient(90deg, rgba(var(--bg-rgb),1) 0%, rgba(var(--bg-rgb),.88) 42%, rgba(var(--bg-rgb),.35) 100%),
+        radial-gradient(ellipse 70% 60% at 75% 50%, rgba(var(--accent-rgb),.28), transparent 70%),
+        radial-gradient(ellipse 40% 60% at 92% 30%, rgba(var(--accent2-rgb),.12), transparent 60%);
       transform: scale(1.08);
       z-index: 0;
       pointer-events: none;
@@ -92,7 +89,7 @@
       font-family: var(--font-d);
       font-size: clamp(4rem, 9vw, 8rem);
       line-height: .95;
-      color: #fff;
+      color: var(--white);
       margin-bottom: 20px;
     }
 
@@ -166,9 +163,9 @@
 
     .year-nav button:hover,
     .year-nav button.active {
-      color: #fff;
+      color: var(--white);
       border-color: var(--accent);
-      background: rgba(155,109,255,.12);
+      background: rgba(var(--accent-rgb),.12);
     }
 
     /* ─── Timeline ─── */
@@ -184,7 +181,7 @@
       left: 230px;
       top: 50px;
       z-index: 25;
-      color: var(--accent);
+      color: var(--accent2);
       font-size: 30px;
       font-weight: 800;
       letter-spacing: -0.04em;
@@ -198,8 +195,8 @@
       top: 18px;
       width: 28px;
       height: 48px;
-      border-left: 2px solid var(--accent2);
-      border-top: 2px solid var(--accent2);
+      border-left: 2px solid var(--accent);
+      border-top: 2px solid var(--accent);
       transform: skewX(-28deg);
       opacity: 0.9;
     }
@@ -211,7 +208,7 @@
       top: 17px;
       width: 70px;
       height: 2px;
-      background: linear-gradient(90deg, var(--accent2), transparent);
+      background: linear-gradient(90deg, var(--accent), transparent);
     }
 
     .timeline-scroll {
@@ -240,8 +237,8 @@
       height: 3px;
       z-index: 1;
       pointer-events: none;
-      background: linear-gradient(90deg, rgba(155,92,255,0.1), rgba(155,92,255,0.95), rgba(155,92,255,0.1));
-      box-shadow: 0 0 22px rgba(155,92,255,0.6);
+      background: linear-gradient(90deg, rgba(var(--accent-rgb),0.1), rgba(var(--accent-rgb),0.95), rgba(var(--accent-rgb),0.1));
+      box-shadow: 0 0 22px rgba(var(--accent-rgb),0.6);
     }
 
     .years {
@@ -289,7 +286,7 @@
       left: 50%;
       width: 1px;
       height: 43px;
-      background: linear-gradient(180deg, rgba(155,92,255,0.8), rgba(155,92,255,0.08));
+      background: linear-gradient(180deg, rgba(var(--accent-rgb),0.8), rgba(var(--accent-rgb),0.08));
       transform: translateX(-50%);
       z-index: 2;
       pointer-events: none;
@@ -299,7 +296,7 @@
     .project-card.active {
       border-color: var(--accent);
       border-top-color: var(--accent);
-      box-shadow: 0 0 0 1px rgba(155,109,255,0.28), 0 20px 50px rgba(0,0,0,0.45), 0 0 30px rgba(155,109,255,0.22);
+      box-shadow: 0 0 0 1px rgba(var(--accent-rgb),0.28), 0 20px 50px rgba(var(--black-rgb),0.45), 0 0 30px rgba(var(--accent-rgb),0.22);
       transform: translateX(-50%) translateY(-10px);
     }
 
@@ -337,7 +334,7 @@
       font-size: 13.5px;
       font-weight: 600;
       line-height: 1.25;
-      color: #fff;
+      color: var(--white);
     }
 
     .project-card p {
@@ -356,13 +353,13 @@
       font-size: 10px;
       font-weight: 800;
       text-transform: uppercase;
-      background: rgba(155,92,255,0.17);
-      color: #d8bcff;
+      background: rgba(var(--accent-rgb),0.17);
+      color: var(--accent2);
     }
 
-    .tag.green  { background: rgba(76,175,80,0.18);   color: #9ef0a0; }
-    .tag.blue   { background: rgba(103,212,255,0.15); color: #8ee7ff; }
-    .tag.orange { background: rgba(255,180,92,0.18);  color: #ffd09a; }
+    .tag.green  { background: rgba(var(--green-rgb),0.18);   color: var(--green-text); }
+    .tag.blue   { background: rgba(var(--blue-rgb),0.15); color: var(--blue-text); }
+    .tag.orange { background: rgba(var(--orange-rgb),0.18);  color: var(--orange-text); }
 
     .diploma {
       position: absolute;
@@ -374,7 +371,7 @@
       flex-direction: column;
       align-items: center;
       text-align: center;
-      color: #f5f7fb;
+      color: var(--off-white);
       line-height: 1.35;
       z-index: 20;
       pointer-events: none;
@@ -388,7 +385,7 @@
       top: 168px;
       width: 1px;
       height: 28px;
-      border-left: 1px dashed rgba(155,92,255,0.75);
+      border-left: 1px dashed rgba(var(--accent-rgb),0.75);
       opacity: 0.9;
     }
 
@@ -403,8 +400,8 @@
       font-size: 26px;
       border: 1px solid var(--accent);
       color: var(--accent2);
-      background: rgba(155,92,255,0.14);
-      box-shadow: 0 0 25px rgba(155,92,255,0.35), inset 0 0 18px rgba(155,92,255,0.08);
+      background: rgba(var(--accent-rgb),0.14);
+      box-shadow: 0 0 25px rgba(var(--accent-rgb),0.35), inset 0 0 18px rgba(var(--accent-rgb),0.08);
     }
 
     .diploma-title {
@@ -413,29 +410,29 @@
       letter-spacing: 0.02em;
       text-transform: uppercase;
       margin-bottom: 3px;
-      color: #fff;
+      color: var(--white);
     }
 
     .diploma-date {
       font-size: 14px;
       font-weight: 700;
       margin-bottom: 2px;
-      color: #fff;
+      color: var(--white);
     }
 
     .diploma-subtitle {
       font-size: 13px;
       font-weight: 700;
-      color: #cbb7ff;
+      color: var(--accent2);
       max-width: 180px;
     }
 
     /* ─── Detail panel ─── */
     .detail {
       margin: 0 38px;
-      border: 1px solid rgba(155,92,255,0.26);
-      box-shadow: 0 28px 70px rgba(0,0,0,0.55), 0 0 60px rgba(155,92,255,0.05);
-      background: #0d0d0d;
+      border: 1px solid rgba(var(--accent-rgb),0.26);
+      box-shadow: 0 28px 70px rgba(var(--black-rgb),0.55), 0 0 60px rgba(var(--accent-rgb),0.05);
+      background: var(--surface-panel);
       border-radius: 22px;
       position: relative;
       max-height: 0;
@@ -466,9 +463,9 @@
       left: var(--arrow-left, 36%);
       width: 16px;
       height: 16px;
-      background: #0d0d0d;
-      border-left: 1px solid rgba(155,92,255,0.38);
-      border-top: 1px solid rgba(155,92,255,0.38);
+      background: var(--surface-panel);
+      border-left: 1px solid rgba(var(--accent-rgb),0.38);
+      border-top: 1px solid rgba(var(--accent-rgb),0.38);
       transform: translateX(-50%) rotate(45deg);
       transition: left 0.65s cubic-bezier(0.22,1,0.36,1);
     }
@@ -481,7 +478,7 @@
       grid-template-columns: 1fr 1.3fr;
       gap: 28px;
       padding: 26px 28px 22px;
-      border-bottom: 1px solid rgba(255,255,255,0.06);
+      border-bottom: 1px solid rgba(var(--white-rgb),0.06);
       align-items: center;
     }
 
@@ -489,7 +486,7 @@
       font-family: var(--font-d);
       font-size: clamp(2.2rem, 3.5vw, 4rem);
       line-height: 0.94;
-      color: #fff;
+      color: var(--white);
       margin: 0 0 12px;
       letter-spacing: 0.01em;
     }
@@ -518,7 +515,7 @@
     }
 
     .chip-sep {
-      color: rgba(255,255,255,0.2);
+      color: rgba(var(--white-rgb),0.2);
       font-size: 13px;
     }
 
@@ -538,8 +535,8 @@
 
     .media-main,
     .detail-center {
-      background: rgba(255,255,255,0.02);
-      border: 1px solid rgba(255,255,255,0.06);
+      background: rgba(var(--white-rgb),0.02);
+      border: 1px solid rgba(var(--white-rgb),0.06);
       border-radius: 12px;
       padding: 14px;
     }
@@ -551,7 +548,7 @@
       width: 100%;
       border-radius: 8px;
       overflow: hidden;
-      background: #000;
+      background: var(--black);
     }
 
     .video-wrap {
@@ -575,7 +572,7 @@
       height: auto;
       max-height: 280px;
       object-fit: contain;
-      background: #000;
+      background: var(--black);
       cursor: crosshair;
     }
 
@@ -583,13 +580,13 @@
       position: absolute;
       width: 90px;
       height: 90px;
-      border: 2px solid rgba(155,92,255,0.8);
-      background: rgba(155,92,255,0.1);
+      border: 2px solid rgba(var(--accent-rgb),0.8);
+      background: rgba(var(--accent-rgb),0.1);
       border-radius: 6px;
       pointer-events: none;
       display: none;
       z-index: 5;
-      box-shadow: 0 0 0 1px rgba(155,92,255,0.25);
+      box-shadow: 0 0 0 1px rgba(var(--accent-rgb),0.25);
     }
 
     .zoom-result {
@@ -599,12 +596,12 @@
       left: calc(100% + 12px);
       width: 320px;
       height: 320px;
-      border: 1px solid rgba(155,92,255,0.3);
+      border: 1px solid rgba(var(--accent-rgb),0.3);
       border-radius: 12px;
       overflow: hidden;
-      background: #000 no-repeat center/cover;
+      background: var(--black) no-repeat center/cover;
       z-index: 100;
-      box-shadow: 0 20px 50px rgba(0,0,0,0.6), 0 0 30px rgba(155,92,255,0.08);
+      box-shadow: 0 20px 50px rgba(var(--black-rgb),0.6), 0 0 30px rgba(var(--accent-rgb),0.08);
       pointer-events: none;
     }
 
@@ -617,7 +614,7 @@
 
     .media-caption {
       font-size: .78rem;
-      color: rgba(255,255,255,.38);
+      color: rgba(var(--white-rgb),.38);
       font-style: italic;
       line-height: 1.5;
       min-height: 1em;
@@ -636,10 +633,10 @@
       width: 100%;
       object-fit: cover;
       border-radius: 6px;
-      border: 1px solid rgba(255,255,255,0.08);
+      border: 1px solid rgba(var(--white-rgb),0.08);
       cursor: pointer;
       overflow: hidden;
-      background: rgba(255,255,255,0.04);
+      background: rgba(var(--white-rgb),0.04);
       color: var(--text);
       transition: border-color 0.2s, box-shadow 0.2s;
     }
@@ -648,7 +645,7 @@
 
     .media-thumb.active {
       border-color: var(--accent);
-      box-shadow: 0 0 0 1px rgba(155,92,255,0.3);
+      box-shadow: 0 0 0 1px rgba(var(--accent-rgb),0.3);
     }
 
     .video-thumb {
@@ -670,7 +667,7 @@
       content: "";
       position: absolute;
       inset: 0;
-      background: linear-gradient(180deg, rgba(0,0,0,.2), rgba(0,0,0,.6));
+      background: linear-gradient(180deg, rgba(var(--black-rgb),.2), rgba(var(--black-rgb),.6));
       z-index: 0;
     }
 
@@ -678,8 +675,8 @@
     .video-thumb .play-icon { position: relative; z-index: 1; }
 
     .video-thumb span:last-child {
-      color: #fff;
-      text-shadow: 0 1px 5px rgba(0,0,0,.5);
+      color: var(--white);
+      text-shadow: 0 1px 5px rgba(var(--black-rgb),.5);
     }
 
     .play-icon {
@@ -689,7 +686,7 @@
       place-items: center;
       border-radius: 50%;
       background: var(--accent);
-      box-shadow: 0 0 12px rgba(155,92,255,0.5);
+      box-shadow: 0 0 12px rgba(var(--accent-rgb),0.5);
       font-size: 10px;
     }
 
@@ -748,8 +745,8 @@
       align-items: center;
       padding: 5px 10px;
       border-radius: 6px;
-      background: rgba(255,255,255,0.05);
-      border: 1px solid rgba(255,255,255,0.08);
+      background: rgba(var(--white-rgb),0.05);
+      border: 1px solid rgba(var(--white-rgb),0.08);
       font-size: 11.5px;
       font-weight: 600;
       color: var(--text);
@@ -757,14 +754,14 @@
     }
 
     .tool:hover {
-      background: rgba(155,92,255,.12);
-      border-color: rgba(155,92,255,.38);
+      background: rgba(var(--accent-rgb),.12);
+      border-color: rgba(var(--accent-rgb),.38);
     }
 
     /* Panneau latéral */
     .side {
-      background: rgba(155,92,255,0.04);
-      border: 1px solid rgba(155,92,255,0.14);
+      background: rgba(var(--accent-rgb),0.04);
+      border: 1px solid rgba(var(--accent-rgb),0.14);
       border-radius: 12px;
       padding: 18px 16px;
       display: flex;
@@ -805,7 +802,7 @@
       display: flex;
       gap: 8px;
       align-items: center;
-      color: #fff;
+      color: var(--white);
       font-weight: 600;
       font-size: 13px;
       letter-spacing: 0.04em;
@@ -820,8 +817,8 @@
       width: 28px;
       height: 28px;
       border-radius: 50%;
-      border: 1px solid rgba(255,255,255,0.1);
-      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(var(--white-rgb),0.1);
+      background: rgba(var(--white-rgb),0.05);
       color: var(--muted);
       font-size: 14px;
       cursor: pointer;
@@ -832,9 +829,9 @@
     }
 
     .detail-close:hover {
-      background: rgba(155,92,255,0.2);
+      background: rgba(var(--accent-rgb),0.2);
       border-color: var(--accent);
-      color: #fff;
+      color: var(--white);
     }
 
     /* ─── Scroll hint (mobile) ─── */
@@ -1100,7 +1097,6 @@
     updateHeroOnScroll();
   </script>
 
-  <script src="/data.js"></script>
   <script>
     const timeline = document.getElementById("timelineScroll");
     const yearsEl = document.getElementById("years");
@@ -1130,6 +1126,16 @@
 
     function getX(year, month) {
       return startX + ((year - startYear) * 12 + month) * monthWidth;
+    }
+
+    // Pour les liens profonds : /pages/projet.html?p=nom-du-projet
+    function slugify(str) {
+      return (str || "")
+        .toString()
+        .normalize("NFD").replace(/[̀-ͯ]/g, "")
+        .toLowerCase()
+        .replace(/[^a-z0-9]+/g, "-")
+        .replace(/^-+|-+$/g, "");
     }
 
     function buildTimeline() {
@@ -1171,9 +1177,10 @@
         card.style.left = x + "px";
         card.setAttribute("tabindex", "0");
         card.dataset.color = project.color || '';
+        card.dataset.slug = slugify(project.id || project.title);
         card.innerHTML = `
           <div class="card-img-wrap">
-            <img src="${project.img}" alt="${project.title}" loading="lazy">
+            <img src="${project.thumb || project.img}" alt="${project.title}" loading="lazy">
           </div>
           <div class="body">
             <h3>${project.title}</h3>
@@ -1200,8 +1207,11 @@
       document.getElementById("detailText").textContent = project.desc;
       document.getElementById("detailDuration").innerHTML = project.duration || "Projet court<br>(" + project.date + ")";
 
-      const colorMap = { blue: '#67d4ff', orange: '#ffb45c' };
-      const dotColor = colorMap[project.color] || '#9b6dff';
+      // Couleurs des tags project.color, définies dans public/data.js (window.COLORS.tags)
+      const colorMap = Object.fromEntries(
+        Object.entries((window.COLORS && window.COLORS.tags) || {}).map(([k, v]) => [k, v.value])
+      );
+      const dotColor = colorMap[project.color] || getComputedStyle(document.documentElement).getPropertyValue('--accent').trim();
       document.getElementById("detailChips").innerHTML = `
         <span class="chip-dot" style="background:${dotColor}"></span>
         <span class="chip">${project.tag}</span>
@@ -1422,20 +1432,30 @@
 
       detailVideo.src = "about:blank";
       videoWrap.classList.remove("active");
+      detailImage.src = '';
+      detailImage.classList.remove("active");
 
-      const rawGallery = project.gallery && project.gallery.length ? project.gallery : [project.img];
+      const rawGallery = project.gallery && project.gallery.length
+        ? project.gallery
+        : (project.thumb ? [] : (project.img ? [project.img] : []));
       const gallery = rawGallery.map(g => {
         if (typeof g === 'string') return { src: g, caption: '', type: 'image' };
         return { type: 'image', caption: '', ...g };
       });
 
+      /* Normalise video + videos en un seul tableau (needed for first-video fallback) */
+      const videoList = [
+        ...(project.video  ? [project.video]  : []),
+        ...(project.videos ? project.videos   : []),
+      ];
+
       const first = gallery[0];
+      const firstVideo = videoList[0];
       const stage = document.getElementById('mediaStage');
       const existingDc = stage ? stage.querySelector('.doc-card') : null;
       if (existingDc) existingDc.style.display = 'none';
 
-      if (first.type === 'doc') {
-        detailImage.classList.remove("active");
+      if (first && first.type === 'doc') {
         const embedUrl = toDocEmbedUrl(first.src);
         if (embedUrl) {
           detailVideo.src = embedUrl;
@@ -1456,18 +1476,15 @@
             dc.style.display = 'flex';
           }
         }
-      } else {
+      } else if (first) {
         detailImage.src = first.src;
         detailImage.alt = project.title;
         detailImage.classList.add("active");
+      } else if (firstVideo) {
+        detailVideo.src = toEmbedUrl(firstVideo);
+        videoWrap.classList.add("active");
       }
-      if (captionEl) captionEl.textContent = first.caption || '';
-
-      /* Normalise video + videos en un seul tableau */
-      const videoList = [
-        ...(project.video  ? [project.video]  : []),
-        ...(project.videos ? project.videos   : []),
-      ];
+      if (captionEl) captionEl.textContent = (first && first.caption) || '';
 
       thumbsContainer.innerHTML = `
         ${videoList.map((url, i) => `
@@ -1570,7 +1587,17 @@
 
     buildTimeline();
     initZoom();
-    timeline.scrollLeft = 0;
+
+    // Lien profond : /pages/projet.html?p=nom-du-projet ouvre directement ce projet
+    const deepLinkSlug = new URLSearchParams(location.search).get("p");
+    const deepLinkCard = deepLinkSlug && document.querySelector(`.project-card[data-slug="${deepLinkSlug}"]`);
+    if (deepLinkCard) {
+      const project = projects.find(p => slugify(p.id || p.title) === deepLinkSlug);
+      timeline.scrollLeft = Math.max(0, getX(project.year, project.month) - startX);
+      selectProject(project, deepLinkCard);
+    } else {
+      timeline.scrollLeft = 0;
+    }
     updateCurrentYear();
   </script>
 

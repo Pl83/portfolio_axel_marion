@@ -255,9 +255,11 @@ function animate() {
 
     const deltaTime = Math.min(0.05, clock.getDelta()) / STEPS_PER_FRAME;
 
-    for (let i = 0; i < STEPS_PER_FRAME; i++) {
-        controls(deltaTime);
-        updatePlayer(deltaTime);
+    if (!window.__paused) {
+        for (let i = 0; i < STEPS_PER_FRAME; i++) {
+            controls(deltaTime);
+            updatePlayer(deltaTime);
+        }
     }
 
     renderer.render(scene, camera);

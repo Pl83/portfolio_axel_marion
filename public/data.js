@@ -1,16 +1,43 @@
-// ── Données centralisées du portfolio ────────────────────────
-// Modifier ce fichier pour mettre à jour toutes les pages.
+// ── Projets du portfolio ──────────────────────────────────────
+// Chaque entrée du tableau est un projet. Modifier ce fichier met à jour
+// toutes les pages qui l'utilisent (accueil, pages/projet.html, pages/jeux.html).
 //
-// Vidéos multiples : utiliser "videos: [url1, url2, ...]"
-// Vidéo unique     : utiliser "video: url"  (rétrocompatible)
+// Champs communs à tous les projets :
+//   title    : titre du projet
+//   type     : sous-titre affiché sous le titre (ex: "Jeux vidéo", "Illustrator")
+//   tag      : école/contexte affiché sur la carte (ex: "Gobelins", "IIM", "Personnel")
+//   color    : couleur de la carte — "blue", "orange" ou "pink"
+//   year, month, date : year/month servent à trier les projets (month: 0 = janvier ... 11 = décembre)
+//                        date est le texte affiché sur la carte (ex: "SEPT. 2022")
+//   desc     : description courte, affichée sur la carte et en tête du panneau détail
+//   duration : durée du projet, affichée dans le détail (ex: "2 semaines")
+//   role     : liste des rôles tenus sur le projet
+//   tools    : liste des outils/logiciels utilisés
+//   link     : lien externe ("#" si aucun lien : masque le bouton "Voir le projet")
 //
-// Galerie enrichie (images, docs, légendes) :
-//   gallery: [
-//     "/realisation/img.png",                              ← image simple
-//     { src: "/realisation/img.png", caption: "Texte" },  ← image avec légende
-//     { src: "/realisation/gdd.docx", type: "doc", label: "GDD" },   ← Word
-//     { src: "/realisation/balance.xlsx", type: "doc", label: "Balance" }, ← Excel
-//   ]
+// Champs optionnels :
+//   id            : identifiant utilisé pour ouvrir le détail depuis l'accueil (openProject) et pour les projets mis en avant
+//   contributions : liste détaillée des contributions ; remplace "role" dans le panneau détail si présent
+//   learned       : liste de ce qui a été appris, affichée dans "Ce que j'ai appris" (pages/projet.html)
+//   team          : composition de l'équipe (ex: "Solo", "3 personnes", "Équipe")
+//   engine        : moteur/outil principal (ex: "Unity", "Unreal Engine")
+//   platform      : plateforme (ex: "PC", "VR / PC", "Mobile")
+//
+// Champs image / vidéo :
+//   img     : image principale (carte + première image du détail)
+//   thumb   : miniature spécifique à la carte, si différente de "img" (n'apparaît PAS dans la galerie)
+//   video   : une seule vidéo, URL YouTube (rétrocompatible)
+//   videos  : plusieurs vidéos — ex: ["url1", "url2", ...]
+//   gallery : galerie enrichie, chaque élément peut être :
+//     "/realisation/img.png"                                     ← image simple
+//     { src: "/realisation/img.png", caption: "Texte" }          ← image avec légende
+//     { src: "/realisation/gdd.docx", type: "doc", label: "GDD" }        ← document Word
+//     { src: "/realisation/balance.xlsx", type: "doc", label: "Balance" } ← document Excel
+//
+// Champs utilisés uniquement par la page Jeux (pages/jeux.html) :
+//   jeux     : true pour faire apparaître le projet sur la page Jeux
+//   mode     : "Solo" ou "Équipe" (déduit de "team" si absent)
+//   category : catégorie utilisée pour les filtres de la page Jeux (ex: "Jeux", "Blocking", "Prototype")
 
 window.PROJECTS = [
   {
@@ -77,7 +104,7 @@ window.PROJECTS = [
     year: 2023, month: 1, date: "FEV. 2023",
     team: "Solo",
     img: "/realisation/carte/dos.png",
-    gallery: ["/realisation/carte/dos.png", "/realisation/carte/blanc/onjn.png", "/realisation/carte/blanc/Revolution.png", "/realisation/carte/jeuechec.png"],
+    gallery: ["/realisation/carte/dos.png", "/realisation/carte/blanc/onjn.png", "/realisation/carte/blanc/revolution.png", "/realisation/carte/jeuechec.png"],
     desc: "Un jeu de carte sur les visuels des échecs et sur les règles du jeu Exploding Kittens",
     duration: "2 Mois",
     role: ["Game Designer", "Level Designer", "Illustrateur", "Équilibrage", "Imprimeur", "Testeur"],
@@ -370,7 +397,7 @@ window.PROJECTS = [
     type: "Jeux vidéo",
     tag: "Personnel", color: "pink",
     year: 2025, month: 10, date: "NOV. 2025",
-    img: "/realisation/vinyle/macarron.png",
+    thumb: "/realisation/Trackmania.avif",
     videos: [
       "https://www.youtube.com/watch?v=0dp348jROX4",
       "https://www.youtube.com/watch?v=0V8YQs3msWo",
@@ -380,7 +407,7 @@ window.PROJECTS = [
     desc: "Map trackmania sur différent type de course trackmania",
     duration: "1 Mois",
     role: ["Level Design"],
-    learned: ["Améliorer le ressenti des actions", "Créer des feedbacks lisibles", "Tester rapidement une mécanique"],
+    learned: ["Level design de course"],
     tools: ["Trackmania Editeur"],
     link: "#"
   },
@@ -396,14 +423,9 @@ window.PROJECTS = [
     video: "https://www.youtube.com/watch?v=O8hXSBKPLLQ",
     desc: "Reproduction d'une zone de Far Cry 5 en blocking pour analyser les choix de level design du studio.",
     duration: "1 Mois",
-    role: ["Level Design", "Blocking", "Game Feel"],
-    contributions: [
-      "Analyse du level design original",
-      "Blocking fidèle à la référence",
-      "Réflexion sur l'intention du designer",
-      "Documentation des apprentissages"
-    ],
-    learned: ["Améliorer le ressenti des actions", "Créer des feedbacks lisibles", "Tester rapidement une mécanique"],
+    role: ["Level Design", "Blocking"],
+    contributions: [ "Level design"],
+    learned: ["Level design de FPS", "Blocking"],
     tools: ["Far Cry 5 editeur"],
     link: "#",
     jeux: true, mode: "Solo", category: "Blocking"
@@ -424,7 +446,7 @@ window.PROJECTS = [
       "/realisation/longnigth/ingame.jpg",
       { src: "https://docs.google.com/document/d/1fDn_6eyT4rtfno3CSW_KH2T5ynaEfMe871f1WIkwWqE/edit?usp=sharing", type: "doc", label: "GDD" },
     ],
-    desc: "Jeu de reflexion sur mobile",
+    desc: "Jeu de reflexion sur mobile, où le joueur doit deffendre son manoir contre des vagues d'ennemis",
     duration: "1 Mois",
     role: ["Lead Game Designer"],
     contributions: ["Direction du game design", "Conception des mécaniques", "Itération et tests"],
@@ -432,6 +454,7 @@ window.PROJECTS = [
     tools: ["Unity", "Google Docs","Figma"],
     link: "#"
   },
+  /* INCOMPLET — à compléter avant de publier
   {
     title: "Golf Unreal Engine",
     type: "Jeux vidéo",
@@ -440,11 +463,12 @@ window.PROJECTS = [
     img: "/realisation/vinyle/macarron.png",
     desc: "Prototype orienté combat, feedback visuel et sensations de jeu.",
     duration: "1 Mois",
-    role: ["Combat Design", "Feedback visuel", "Tests de sensations"],
+    role: ["Level Design", "Mécanique de jeu", "Tests de sensations", "Blueprint"],
     learned: ["Améliorer le ressenti des actions", "Créer des feedbacks lisibles", "Tester rapidement une mécanique"],
     tools: ["Unreal Engine"],
     link: "#"
   },
+  */
   {
     title: "Level Design Plague Tale",
     type: "Blocking",
@@ -468,6 +492,7 @@ window.PROJECTS = [
     link: "#",
     jeux: true, mode: "Solo", category: "Blocking"
   },
+  /* INCOMPLET — à compléter avant de publier
   {
     title: "Project Unreal Engine",
     type: "Jeux vidéo",
@@ -481,8 +506,15 @@ window.PROJECTS = [
     tools: ["Unreal Engine"],
     link: "#"
   },
+  */
 ];
 
+// ── Frise diplômes / alternance (page d'accueil) ─────────────
+// Chaque entrée est une étape affichée sur la frise chronologique.
+//   title    : titre court affiché en avant (ex: "DIPLÔME OBTENU")
+//   subtitle : détail sous le titre, peut contenir "<br>" pour aller à la ligne
+//   date     : texte affiché en dessous (ex: nom du diplôme, intitulé du poste...)
+//   year, month : servent à trier/positionner l'étape sur la frise (month: 0 = janvier ... 11 = décembre)
 window.DIPLOMAS = [
   {
     title: "Debut de formation",
@@ -509,4 +541,218 @@ window.DIPLOMAS = [
     year: 2025, month: 8
   },
 ];
+
+// ── CV / Résumé — format JSON Resume (jsonresume.org) ────────
+// Affiché dynamiquement sur pages/cv.html (le script y lit window.RESUME).
+// Pour modifier le CV visible sur le site, éditer uniquement ce bloc.
+//   basics.profiles : liens externes affichés en chips/cartes (LinkedIn, Itch.io, book InDesign...)
+//   work, education  : listes affichées en frise, dans l'ordre où elles sont écrites ici
+//     dates au format "AAAA-MM-JJ" (ou "AAAA-MM" si le jour n'est pas connu)
+//     highlights : liste de points affichés sous chaque expérience
+//   skills, languages, interests : affichés sous forme de tags dans la colonne de gauche
+window.RESUME = {
+  basics: {
+    name: "Axel Marion",
+    label: "Game Designer — Design Web & Dev",
+    image: "",
+    email: "axelmarion6@gmail.com",
+    phone: "+33 7 83 63 35 88",
+    url: "",
+    summary: "Diplômé DN MADe (Gobelins), polyvalent entre web design, UI/UX, game design, level design et développement. À la recherche d'une alternance, d'un stage ou d'un premier poste dans un studio de taille moyenne.",
+    location: {
+      address: "",
+      postalCode: "95540",
+      city: "Méry-sur-Oise",
+      countryCode: "FR",
+      region: "Île-de-France"
+    },
+    // Extension hors schéma JSON Resume : second domicile, affiché en plus de "location"
+    location2: {
+      address: "",
+      postalCode: "75017",
+      city: "Paris",
+      countryCode: "FR",
+      region: "Île-de-France"
+    },
+    profiles: [
+      { network: "LinkedIn", username: "axel-marion-763034259", url: "https://www.linkedin.com/in/axel-marion-763034259" },
+      { network: "Itch.io", username: "axelmar", url: "https://axelmar.itch.io" }
+    ]
+  },
+  work: [
+    {
+      name: "Collectif Scale",
+      position: "Employé polyvalent",
+      url: "",
+      location: "Montereau-Fault-Yonne",
+      startDate: "2023-11-27",
+      endDate: "2025-07-31",
+      summary: "",
+      highlights: ["Création d'œuvres", "Entretien des œuvres", "Montage des œuvres"]
+    },
+    {
+      name: "Scol'Art Rex",
+      position: "Graphiste",
+      url: "",
+      location: "Avèze — stage en télétravail",
+      startDate: "2023-05-09",
+      endDate: "2023-07-07",
+      summary: "",
+      highlights: ["Conception d'atelier artistique", "Réalisation de vidéo", "Montage"]
+    },
+    {
+      name: "Stokomani",
+      position: "Employé polyvalent",
+      url: "",
+      location: "Saint-Ouen-l'Aumône",
+      startDate: "2022-07-01",
+      endDate: "2022-08-30",
+      summary: "",
+      highlights: ["Agent de caisse", "Gestion de rayon"]
+    }
+  ],
+  education: [
+    {
+      institution: "Gobelins Paris",
+      url: "",
+      area: "Métiers d'art et du design",
+      studyType: "Diplôme national des métiers d'art et du design (DN MADe)",
+      startDate: "2022-09",
+      endDate: "2025-07",
+      score: "",
+      courses: []
+    },
+    {
+      institution: "Lycée Edmond Rostand",
+      url: "",
+      area: "Physique-chimie & SVT",
+      studyType: "Baccalauréat général",
+      startDate: "2019-09",
+      endDate: "2021-07",
+      score: "",
+      courses: []
+    }
+  ],
+  skills: [
+    { name: "Design", level: "", keywords: ["Illustrator", "Photoshop", "InDesign", "Canva", "Premiere Pro", "After Effects", "Blender", "Unity"] },
+    { name: "Programmation", level: "", keywords: ["HTML", "CSS", "JavaScript", "Three.js", "C#"] }
+  ],
+  languages: [
+    { language: "Français", fluency: "Langue maternelle" },
+    { language: "Anglais", fluency: "" }
+  ],
+  interests: [
+    { name: "Qualités personnelles", keywords: ["Calme", "Attentionné", "Discret", "Patient", "Altruiste", "Travail d'équipe", "Sérieux"] }
+  ],
+  meta: {
+    canonical: "",
+    version: "v1.0.0",
+    lastModified: "2026-08-06"
+  }
+};
+
+// ── Palette de couleurs du site (source des variables CSS) ────
+// C'est ICI qu'on change les couleurs du site — modifier une valeur ci-dessous
+// met à jour toutes les pages qui chargent data.js (les variables --bg, --accent...
+// de src/style.css sont réécrites automatiquement au chargement, voir applyColors()
+// plus bas). Les valeurs dans src/style.css ne servent que de secours si data.js
+// ne se charge pas.
+//   base       : fonds, texte, bordures, blanc/noir purs
+//   accent     : violet/lilas — boutons, liens, hover
+//   tags       : couleur du point/bordure associé à project.color (accueil + détail projet.html)
+//   surfaces   : fonds "presque noirs" des zones média/placeholder/panneaux
+//   school     : palette des cartes/badges de la frise projet.html (Gobelins/IIM + badge non utilisé)
+//   decor      : couleurs décoratives ponctuelles (glow du hero d'accueil)
+window.COLORS = {
+  base: {
+    bg: { value: "#0f0f0f", usage: "Fond principal du site" },
+    bg2: { value: "#161616", usage: "Fond des cartes, sections alternées" },
+    bg3: { value: "#1e1e1e", usage: "Fond au survol (hover)" },
+    border: { value: "rgba(255,255,255,0.08)", usage: "Bordures, séparateurs" },
+    text: { value: "#f0f0f0", usage: "Texte principal" },
+    muted: { value: "#888888", usage: "Texte secondaire, légendes" },
+    white: { value: "#ffffff", usage: "Blanc pur — titres, icônes" },
+    black: { value: "#000000", usage: "Noir pur — fonds vidéo/image, ombres" },
+    offWhite: { value: "#f5f7fb", usage: "Blanc cassé — texte des diplômes (frise projet.html)" }
+  },
+  accent: {
+    accent: { value: "#776dff", usage: "Violet principal — boutons, liens, points" },
+    accent2: { value: "#84d6fc", usage: "Lilas clair — hover, accents de titres" }
+  },
+  tags: {
+    blue: { value: "#3b82f6", usage: "project.color: \"blue\"" },
+    orange: { value: "#f97316", usage: "project.color: \"orange\"" },
+    pink: { value: "#ec4899", usage: "project.color: \"pink\"" }
+  },
+  surfaces: {
+    mediaAlt: { value: "#0a0a0a", usage: "Fond alternatif des vignettes image (légèrement moins noir que --black)" },
+    placeholder: { value: "#111111", usage: "Fond des cartes/miniatures sans image" },
+    panel: { value: "#0d0d0d", usage: "Fond du panneau détail (pages/projet.html)" }
+  },
+  school: {
+    blue: { value: "#67d4ff", text: "#8ee7ff", usage: "Gobelins — bordure de carte + badge (pages/projet.html)" },
+    orange: { value: "#ffb45c", text: "#ffd09a", usage: "IIM — bordure de carte + badge (pages/projet.html, pages/jeux.html)" },
+    green: { value: "#74d674", text: "#9ef0a0", usage: "Badge \"Prototype\" (pages/jeux.html) — pas de project.color associé actuellement" }
+  },
+  decor: {
+    heroGlow: { value: "#501ea0", usage: "Lueur violette du hero (accueil, index.html)" }
+  }
+};
+
+// ── Application de window.COLORS aux variables CSS ────────────
+// Écrase les variables :root définies dans src/style.css avec les valeurs
+// ci-dessus, dès que ce fichier se charge — pas besoin de toucher au CSS.
+// Génère aussi --accent-rgb / --accent2-rgb ("r,g,b") à partir des valeurs hex,
+// utilisés partout où le site a besoin d'un accent semi-transparent (rgba(...)).
+(function applyColors() {
+  const c = window.COLORS;
+  if (!c) return;
+  const root = document.documentElement.style;
+  const set = (cssVar, group, key) => {
+    const entry = c[group] && c[group][key];
+    if (entry) root.setProperty(cssVar, entry.value);
+  };
+  const hexToRgb = (hex) => {
+    const m = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+    return m ? [parseInt(m[1], 16), parseInt(m[2], 16), parseInt(m[3], 16)].join(',') : null;
+  };
+  const setRgb = (cssVar, group, key) => {
+    const entry = c[group] && c[group][key];
+    const rgb = entry && hexToRgb(entry.value);
+    if (rgb) root.setProperty(cssVar, rgb);
+  };
+
+  set('--bg', 'base', 'bg');
+  set('--bg2', 'base', 'bg2');
+  set('--bg3', 'base', 'bg3');
+  set('--border', 'base', 'border');
+  set('--text', 'base', 'text');
+  set('--muted', 'base', 'muted');
+  set('--white', 'base', 'white');
+  set('--black', 'base', 'black');
+  set('--off-white', 'base', 'offWhite');
+  setRgb('--bg-rgb', 'base', 'bg');
+  setRgb('--white-rgb', 'base', 'white');
+  setRgb('--black-rgb', 'base', 'black');
+
+  set('--accent', 'accent', 'accent');
+  set('--accent2', 'accent', 'accent2');
+  setRgb('--accent-rgb', 'accent', 'accent');
+  setRgb('--accent2-rgb', 'accent', 'accent2');
+
+  set('--surface-media-alt', 'surfaces', 'mediaAlt');
+  set('--surface-placeholder', 'surfaces', 'placeholder');
+  set('--surface-panel', 'surfaces', 'panel');
+  setRgb('--surface-media-alt-rgb', 'surfaces', 'mediaAlt');
+
+  // Groupe "school" : chaque entrée a un "value" (couleur pleine) ET un "text" (variante pastel)
+  Object.entries(c.school || {}).forEach(([key, entry]) => {
+    root.setProperty(`--${key}`, entry.value);
+    root.setProperty(`--${key}-text`, entry.text);
+    const rgb = hexToRgb(entry.value);
+    if (rgb) root.setProperty(`--${key}-rgb`, rgb);
+  });
+
+  setRgb('--hero-glow-rgb', 'decor', 'heroGlow');
+})();
 
