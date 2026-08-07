@@ -16,10 +16,10 @@
   --border:     rgba(255,255,255,0.08);
   --text:       #f0f0f0;
   --muted:      #888;
-  --accent:     #776dff;       /* violet principal */
-  --accent2:    #84d6fc;       /* lilas clair hover */
-  --accent-rgb:  119,109,255;  /* accent en "r,g,b", pour les rgba(var(--accent-rgb),X) */
-  --accent2-rgb: 132,214,252;  /* accent2 en "r,g,b" */
+  --accent:     #24408f;       /* bleu nuit */
+  --accent2:    #6ec6ff;       /* bleu ciel hover */
+  --accent-rgb:  36,64,143;    /* accent en "r,g,b", pour les rgba(var(--accent-rgb),X) */
+  --accent2-rgb: 110,198,255;  /* accent2 en "r,g,b" */
 
   --white:      #ffffff;
   --black:      #000000;
@@ -33,16 +33,35 @@
   --surface-placeholder:   #111111;
   --surface-panel:         #0d0d0d;
 
-  --blue:        #67d4ff; --blue-text:   #8ee7ff; --blue-rgb:   103,212,255;
-  --orange:      #ffb45c; --orange-text: #ffd09a; --orange-rgb: 255,180,92;
+  --blue:        #3b82f6; --blue-text:   #a5c9ff; --blue-rgb:   59,130,246;
+  --orange:      #f97316; --orange-text: #ffc48c; --orange-rgb: 249,115,22;
   --green:       #74d674; --green-text:  #9ef0a0; --green-rgb:  116,214,116;
 
-  --hero-glow-rgb: 80,30,160;
+  /* Glow du hero — source unique, utilisée par toutes les pages (index.html, a-propos.html,
+     memoir.html, jeux.html, projet.html) via var(--hero-glow) pour rester identique partout. */
+  --hero-glow:
+    radial-gradient(ellipse 58% 55% at 66% 50%, rgba(var(--accent2-rgb),.22) 0%, rgba(var(--accent-rgb),.16) 40%, transparent 70%);
+
+  /* Grain du hero — même principe. Deux variantes : discrète (heros pleins) et plus
+     marquée (heros avec photo de fond, pour rester visible par-dessus l'image). */
+  --hero-noise: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+  --hero-noise-strong: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.05'/%3E%3C/svg%3E");
 
   --header-h:  64px;
+  --hero-h:    560px; /* hauteur fixe du hero, identique sur toutes les pages */
   --r:         10px;
   --font-d:   'Bebas Neue', sans-serif;
   --font-b:   'Outfit', sans-serif;
+}
+
+/* Hauteur du hero adaptée à l'écran — toujours une valeur fixe (pas de vh),
+   juste une valeur différente selon le point de rupture. Change ici, se
+   répercute automatiquement sur les 5 pages qui utilisent var(--hero-h). */
+@media (max-width: 768px) {
+  :root { --hero-h: 420px; }
+}
+@media (max-width: 480px) {
+  :root { --hero-h: 340px; }
 }
 
 /* ── Reset ─────────────────────────────────────────────────── */
@@ -104,15 +123,17 @@ a { color: inherit; text-decoration: none; }
   letter-spacing: 0.1em;
   color: var(--accent2);
   border: 1px solid rgba(var(--accent-rgb),0.35);
+  box-shadow: 0 0 8px rgba(var(--accent-rgb),.35);
   padding: 6px 14px;
   border-radius: 5px;
-  transition: background .2s, border-color .2s, color .2s;
+  transition: background .2s, border-color .2s, color .2s, box-shadow .2s;
   white-space: nowrap;
 }
 .nav-cv:hover {
   background: rgba(var(--accent-rgb),0.12);
   border-color: var(--accent);
   color: #fff;
+  box-shadow: 0 0 14px rgba(var(--accent-rgb),.55);
 }
 
 /* Burger */
@@ -176,10 +197,13 @@ a { color: inherit; text-decoration: none; }
 }
 
 /* ── Hero ──────────────────────────────────────────────────── */
-#hero {
+/* Sélecteur de classe (pas d'ID) : chaque page utilisant .hero peut définir
+   ses propres règles .hero::before/::after sans conflit de spécificité CSS
+   avec ce bloc générique. id="hero" reste réservé au JS (scroll/blur). */
+.hero {
   position: sticky;
   top: 0;
-  min-height: 50svh;
+  min-height: var(--hero-h);
   display: flex;
   align-items: center;
   padding: calc(var(--header-h) + 48px) clamp(20px, 6vw, 96px) 80px;
@@ -190,13 +214,13 @@ a { color: inherit; text-decoration: none; }
 }
 
 /* subtle grain overlay */
-#hero::before {
+.hero::before {
   content: '';
   position: absolute;
   inset: 0;
   background-image:
-    radial-gradient(ellipse 60% 50% at 70% 50%, rgba(80, 30, 160, 0.18) 0%, transparent 70%),
-    url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+    var(--hero-glow),
+    var(--hero-noise);
   background-size: 100%, 200px;
   pointer-events: none;
   z-index: 0;
@@ -352,7 +376,7 @@ a { color: inherit; text-decoration: none; }
 .cards-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: 2px;
+  gap: 22px;
 }
 
 .cards-grid.featured {

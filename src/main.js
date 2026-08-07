@@ -96,7 +96,7 @@ function renderProjectsGallery() {
       ? `<img src="${p.thumb || p.img}" alt="${p.title}" loading="lazy">`
       : `<div class="card-placeholder">${p.title}</div>`;
     return `
-      <div class="card-project" style="border-top:3px solid ${border}" onclick="openProjectByIndex(${i})">
+      <div class="card-project" style="border-top:3px solid ${border}; box-shadow: 0 -8px 16px -4px ${border}" onclick="openProjectByIndex(${i})">
         <div class="card-img-wrap">${imgHtml}</div>
         <div class="card-info">
           <span class="card-cat">${p.type || ''}</span>

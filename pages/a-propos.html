@@ -13,7 +13,7 @@
     .hero {
       position: sticky;
       top: 0;
-      min-height: 62vh;
+      min-height: var(--hero-h);
       padding: calc(var(--header-h) + 56px) clamp(20px, 6vw, 96px) 80px;
       display: flex;
       align-items: flex-end;
@@ -28,10 +28,9 @@
       position: absolute;
       inset: 0;
       background:
-        radial-gradient(ellipse 55% 60% at 75% 40%, rgba(var(--accent-rgb),.18), transparent 70%),
-        radial-gradient(ellipse 30% 40% at 20% 80%, rgba(var(--accent-rgb),.07), transparent 60%),
-        url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
-      background-size: 100%, 100%, 200px;
+        var(--hero-glow),
+        var(--hero-noise);
+      background-size: 100%, 200px;
       pointer-events: none;
       z-index: 0;
     }
@@ -105,6 +104,7 @@
       position: relative;
       z-index: 2;
       background: var(--bg);
+      border-top: 1px solid var(--border);
     }
 
     .page-inner {
@@ -240,6 +240,7 @@
       padding: 7px 13px;
       background: transparent;
       border: 1px solid rgba(var(--accent-rgb),.4);
+      box-shadow: 0 0 8px rgba(var(--accent-rgb),.35);
       border-radius: 999px;
       font-size: .78rem;
       color: var(--accent);
@@ -248,10 +249,12 @@
       background: var(--bg2);
       border-color: var(--border);
       color: var(--muted);
+      box-shadow: none;
     }
     .tag-soft {
       background: transparent;
       border: 1px solid rgba(var(--accent2-rgb),.4);
+      box-shadow: 0 0 8px rgba(var(--accent2-rgb),.35);
       color: var(--accent2);
     }
 
@@ -318,7 +321,6 @@
       .ap-narrative-col { max-width: none; }
     }
     @media (max-width: 768px) {
-      .hero { min-height: 54vh; }
       .cv-meta-row { grid-template-columns: 1fr; gap: 24px; }
       .cv-timelines { grid-template-columns: 1fr; gap: 24px; }
     }

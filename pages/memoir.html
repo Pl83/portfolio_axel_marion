@@ -13,7 +13,7 @@
     .hero {
       position: sticky;
       top: 0;
-      min-height: 70vh;
+      min-height: var(--hero-h);
       padding: calc(var(--header-h) + 64px) clamp(20px, 6vw, 96px) 80px;
       display: flex;
       align-items: flex-end;
@@ -28,10 +28,9 @@
       position: absolute;
       inset: 0;
       background:
-        radial-gradient(ellipse 50% 60% at 80% 40%, rgba(var(--accent-rgb),.22), transparent 70%),
-        radial-gradient(ellipse 35% 45% at 15% 75%, rgba(var(--accent-rgb),.08), transparent 60%),
-        url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
-      background-size: 100%, 100%, 200px;
+        var(--hero-glow),
+        var(--hero-noise);
+      background-size: 100%, 200px;
       pointer-events: none;
       z-index: 0;
     }
@@ -86,6 +85,7 @@
       position: relative;
       z-index: 2;
       background: var(--bg);
+      border-top: 1px solid var(--border);
     }
 
     .page-inner {
@@ -154,7 +154,7 @@
     /* ── Chapitres ────────────────────────────────────────────── */
     .chapters {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      grid-template-columns: 1fr;
       gap: 1px;
       background: var(--border);
       margin-top: 32px;
@@ -166,9 +166,15 @@
       display: flex;
       flex-direction: column;
       gap: 10px;
-      transition: background .2s;
+      border: 1px solid rgba(var(--accent-rgb),.25);
+      box-shadow: 0 0 18px rgba(var(--accent-rgb),.12);
+      transition: background .2s, box-shadow .2s, border-color .2s;
     }
-    .chapter-card:hover { background: var(--bg3); }
+    .chapter-card:hover {
+      background: var(--bg3);
+      border-color: rgba(var(--accent-rgb),.5);
+      box-shadow: 0 0 24px rgba(var(--accent-rgb),.3);
+    }
 
     .chapter-num {
       font-family: var(--font-d);
@@ -210,7 +216,8 @@
       flex-wrap: wrap;
       padding: 40px 44px;
       background: var(--bg2);
-      border: 1px solid var(--border);
+      border: 1px solid rgba(var(--accent-rgb),.3);
+      box-shadow: 0 0 24px rgba(var(--accent-rgb),.18);
       border-radius: 10px;
       margin-top: 32px;
     }
@@ -235,11 +242,13 @@
       border-radius: 8px;
       text-decoration: none;
       flex-shrink: 0;
-      transition: background .2s, transform .15s;
+      box-shadow: 0 0 18px rgba(var(--accent-rgb),.5);
+      transition: background .2s, transform .15s, box-shadow .2s;
     }
     .btn-download:hover {
       background: var(--accent2);
       transform: translateY(-2px);
+      box-shadow: 0 0 24px rgba(var(--accent2-rgb),.6);
     }
 
     /* ── Méthodologie tags ────────────────────────────────────── */
@@ -261,6 +270,7 @@
       border: 1px solid rgba(var(--accent2-rgb),.4);
       border-radius: 999px;
       padding: 7px 13px;
+      box-shadow: 0 0 9px rgba(var(--accent2-rgb),.25);
     }
 
     .highlight { color: var(--accent2); font-weight: 600; }
@@ -360,6 +370,7 @@
       .m-section { grid-template-columns: 1fr; gap: 16px; }
       .m-label-num { display: none; }
       .cta-block { flex-direction: column; align-items: flex-start; padding: 28px 24px; }
+      .chapters { grid-template-columns: 1fr; }
     }
   </style>
 </head>

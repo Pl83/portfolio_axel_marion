@@ -676,8 +676,8 @@ window.COLORS = {
     offWhite: { value: "#f5f7fb", usage: "Blanc cassé — texte des diplômes (frise projet.html)" }
   },
   accent: {
-    accent: { value: "#776dff", usage: "Violet principal — boutons, liens, points" },
-    accent2: { value: "#84d6fc", usage: "Lilas clair — hover, accents de titres" }
+    accent: { value: "#24408f", usage: "Bleu nuit — boutons, liens, points" },
+    accent2: { value: "#6ec6ff", usage: "Bleu ciel — hover, accents de titres" }
   },
   tags: {
     blue: { value: "#3b82f6", usage: "project.color: \"blue\"" },
@@ -689,13 +689,12 @@ window.COLORS = {
     placeholder: { value: "#111111", usage: "Fond des cartes/miniatures sans image" },
     panel: { value: "#0d0d0d", usage: "Fond du panneau détail (pages/projet.html)" }
   },
+  // "blue" et "orange" ont la même valeur que tags.blue/tags.orange : une seule couleur
+  // pour "Gobelins"/"IIM" (école) et project.color "blue"/"orange" (projets).
   school: {
-    blue: { value: "#67d4ff", text: "#8ee7ff", usage: "Gobelins — bordure de carte + badge (pages/projet.html)" },
-    orange: { value: "#ffb45c", text: "#ffd09a", usage: "IIM — bordure de carte + badge (pages/projet.html, pages/jeux.html)" },
+    blue: { value: "#3b82f6", text: "#a5c9ff", usage: "Gobelins — bordure de carte + badge (pages/projet.html)" },
+    orange: { value: "#f97316", text: "#ffc48c", usage: "IIM — bordure de carte + badge (pages/projet.html, pages/jeux.html)" },
     green: { value: "#74d674", text: "#9ef0a0", usage: "Badge \"Prototype\" (pages/jeux.html) — pas de project.color associé actuellement" }
-  },
-  decor: {
-    heroGlow: { value: "#501ea0", usage: "Lueur violette du hero (accueil, index.html)" }
   }
 };
 
@@ -752,7 +751,5 @@ window.COLORS = {
     const rgb = hexToRgb(entry.value);
     if (rgb) root.setProperty(`--${key}-rgb`, rgb);
   });
-
-  setRgb('--hero-glow-rgb', 'decor', 'heroGlow');
 })();
 
