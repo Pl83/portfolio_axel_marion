@@ -679,6 +679,23 @@ window.RESUME = {
 //   timeline : couleur de la ligne centrale de la frise chronologique, une par
 //              année dans l'ordre (year1 = 2022, year2 = 2023, ...).
 //              → pages/projet.html.
+// Couleurs de base réutilisées dans plusieurs groupes ci-dessous (ex: le bleu de
+// "Gobelins" est le même que celui de project.color "blue"). Centralisées ici pour
+// n'avoir qu'un seul endroit à modifier si l'une de ces teintes doit changer —
+// chaque groupe référence SWATCHES.xxx au lieu de répéter le code hex.
+const SWATCHES = {
+  navy: "#24408f",         // Bleu nuit — accent principal du site
+  sky: "#6ec6ff",          // Bleu ciel — accent2 / hover
+  blue: "#3b82f6",         // Bleu — Gobelins / project.color "blue"
+  bluePastel: "#a5c9ff",
+  orange: "#f97316",       // Orange — IIM / Blocking / project.color "orange"
+  orangePastel: "#ffc48c",
+  green: "#74d674",        // Vert — Prototype / project.color "green"
+  greenPastel: "#9ef0a0",
+  pink: "#ec4899",         // Rose — Personnel / project.color "pink"
+  pinkPastel: "#f9a8d4",
+};
+
 window.COLORS = {
   base: {
     bg: { value: "#0f0f0f", usage: "Fond principal du site" },
@@ -692,47 +709,52 @@ window.COLORS = {
     offWhite: { value: "#f5f7fb", usage: "Blanc cassé — texte des diplômes (frise projet.html)" }
   },
   accent: {
-    accent: { value: "#24408f", usage: "Bleu nuit — boutons, liens, points" },
-    accent2: { value: "#6ec6ff", usage: "Bleu ciel — hover, accents de titres" }
+    accent: { value: SWATCHES.navy, usage: "Bleu nuit — boutons, liens, points" },
+    accent2: { value: SWATCHES.sky, usage: "Bleu ciel — hover, accents de titres" }
   },
   tags: {
-    blue: { value: "#3b82f6", usage: "project.color: \"blue\"" },
-    orange: { value: "#f97316", usage: "project.color: \"orange\"" },
-    pink: { value: "#ec4899", usage: "project.color: \"pink\"" }
+    blue: { value: SWATCHES.blue, usage: "project.color: \"blue\"" },
+    orange: { value: SWATCHES.orange, usage: "project.color: \"orange\"" },
+    pink: { value: SWATCHES.pink, usage: "project.color: \"pink\"" }
   },
   surfaces: {
     mediaAlt: { value: "#0a0a0a", usage: "Fond alternatif des vignettes image (légèrement moins noir que --black)" },
     placeholder: { value: "#111111", usage: "Fond des cartes/miniatures sans image" },
     panel: { value: "#0d0d0d", usage: "Fond du panneau détail (pages/projet.html)" }
   },
-  // "blue" et "orange" ont la même valeur que tags.blue/tags.orange : une seule couleur
-  // pour "Gobelins"/"IIM" (école) et project.color "blue"/"orange" (projets).
+  // gobelins/iim partagent SWATCHES.blue/orange avec tags.blue/tags.orange : une
+  // seule couleur pour "Gobelins"/"IIM" (école) et project.color (projets).
   school: {
-    gobelins: { value: "#3b82f6", text: "#a5c9ff", usage: "Gobelins — bordure de carte + badge (pages/projet.html)" },
-    iim: { value: "#f97316", text: "#ffc48c", usage: "IIM — bordure de carte + badge (pages/projet.html, pages/jeux.html)" },
-    perso: { value: "#74d674", text: "#9ef0a0", usage: "Badge \"Prototype\" (pages/jeux.html) — pas de project.color associé actuellement" }
+    gobelins: { value: SWATCHES.blue, text: SWATCHES.bluePastel, usage: "Gobelins — bordure de carte + badge (pages/projet.html)" },
+    iim: { value: SWATCHES.orange, text: SWATCHES.orangePastel, usage: "IIM — bordure de carte + badge (pages/projet.html, pages/jeux.html)" },
+    perso: { value: SWATCHES.green, text: SWATCHES.greenPastel, usage: "Badge \"Prototype\" (pages/jeux.html) — pas de project.color associé actuellement" }
   },
   // Filtres et badges de type sur pages/jeux.html (boutons "Jeux/Prototype/Blocking"
-  // + badge de type sur chaque carte). "jeux" reprend la couleur de accent.accent.
+  // + badge de type sur chaque carte). "jeux" partage SWATCHES.navy avec accent.accent,
+  // "prototype" partage SWATCHES.green avec school.perso, "blocking" partage
+  // SWATCHES.orange avec school.iim/tags.orange.
   jeux: {
-    jeux: { value: "#24408f", text: "#6ec6ff", usage: "Badge \"Jeux\" / \"Jeu de carte\" — bordure + badge (pages/jeux.html)" },
-    prototype: { value: "#74d674", text: "#9ef0a0", usage: "Badge \"Prototype\" — bordure + badge (pages/jeux.html)" },
-    blocking: { value: "#f97316", text: "#ffc48c", usage: "Badge \"Blocking\" — bordure + badge (pages/jeux.html)" }
+    jeux: { value: SWATCHES.navy, text: SWATCHES.sky, usage: "Badge \"Jeux\" / \"Jeu de carte\" — bordure + badge (pages/jeux.html)" },
+    prototype: { value: SWATCHES.green, text: SWATCHES.greenPastel, usage: "Badge \"Prototype\" — bordure + badge (pages/jeux.html)" },
+    blocking: { value: SWATCHES.orange, text: SWATCHES.orangePastel, usage: "Badge \"Blocking\" — bordure + badge (pages/jeux.html)" }
   },
   // Couleur liée à project.color ("blue"/"orange"/"pink") sur la frise elle-même :
-  // carte, tag, panneau détail + panneau latéral (pages/projet.html). Mêmes valeurs
-  // que "tags" (utilisé à l'accueil), dupliquées ici pour un groupe propre à la page.
+  // carte, tag, panneau détail + panneau latéral (pages/projet.html). Mêmes SWATCHES
+  // que "tags" (utilisé à l'accueil), dans un groupe propre à la page.
   projet: {
-    blue: { value: "#3b82f6", text: "#a5c9ff", usage: "project.color: \"blue\" — carte, tag, panneau détail (pages/projet.html)" },
-    orange: { value: "#f97316", text: "#ffc48c", usage: "project.color: \"orange\" — carte, tag, panneau détail (pages/projet.html)" },
-    pink: { value: "#ec4899", text: "#f9a8d4", usage: "project.color: \"pink\" — carte, tag, panneau détail (pages/projet.html)" }
+    blue: { value: SWATCHES.blue, text: SWATCHES.bluePastel, usage: "project.color: \"blue\" — carte, tag, panneau détail (pages/projet.html)" },
+    orange: { value: SWATCHES.orange, text: SWATCHES.orangePastel, usage: "project.color: \"orange\" — carte, tag, panneau détail (pages/projet.html)" },
+    pink: { value: SWATCHES.pink, text: SWATCHES.pinkPastel, usage: "project.color: \"pink\" — carte, tag, panneau détail (pages/projet.html)" }
   },
+  // Couleurs indépendantes des SWATCHES ci-dessus — modifiables librement sans
+  // affecter les autres groupes (contrairement aux groupes plus haut qui
+  // partagent volontairement les mêmes teintes entre eux).
   timeline: {
-    year1: { value: "#24408f", usage: "1ère année de la frise — même couleur que accent.accent" },
-    year2: { value: "#6ec6ff", usage: "2e année de la frise — même couleur que accent.accent2" },
-    year3: { value: "#3b82f6", usage: "3e année de la frise — même couleur que school.gobelins" },
-    year4: { value: "#74d674", usage: "4e année de la frise — même couleur que school.perso" },
-    year5: { value: "#f97316", usage: "5e année de la frise — même couleur que school.iim" }
+    year1: { value: "#24408f", usage: "1ère année de la frise" },
+    year2: { value: "#6ec6ff", usage: "2e année de la frise" },
+    year3: { value: "#3b82f6", usage: "3e année de la frise" },
+    year4: { value: "#74d674", usage: "4e année de la frise" },
+    year5: { value: "#f97316", usage: "5e année de la frise" }
   }
 };
 
