@@ -10,28 +10,21 @@
   <script src="/data.js"></script>
 
   <style>
-    /* --green / --blue / --orange sont fournies par window.COLORS.school (public/data.js) */
+    /* --perso est fournie par window.COLORS.school ; --blue/--orange/--pink par
+       window.COLORS.projet (public/data.js) */
 
     /* Override .dot (style.css = 8px inline indicator; here = 12px absolute timeline dot) */
     .dot {
       position: absolute;
-      top: 145px;
-      width: 12px;
-      height: 12px;
+      top: 148px;
+      width: 8px;
+      height: 8px;
       border-radius: 50%;
-      background: var(--accent2);
+      background: var(--white);
       transform: translateX(-50%);
-      box-shadow: 0 0 14px rgba(var(--accent-rgb), 0.8);
-      z-index: 3;
+      box-shadow: 0 0 8px rgba(var(--white-rgb), 0.9), 0 0 16px rgba(var(--white-rgb), 0.5);
+      z-index: 10;
       flex-shrink: unset;
-    }
-
-    .dot.big {
-      width: 24px;
-      height: 24px;
-      top: 139px;
-      background: var(--accent);
-      box-shadow: 0 0 28px rgba(var(--accent-rgb), 0.95);
     }
 
     /* ─── Sticky hero ─── */
@@ -163,14 +156,16 @@
 
     .year-nav button:hover,
     .year-nav button.active {
-      color: var(--white);
-      border-color: var(--accent);
-      background: rgba(var(--accent-rgb),.12);
+      color: var(--year-color, var(--accent));
+      border-color: var(--year-color, var(--accent));
+      background: rgba(var(--year-color-rgb, var(--accent-rgb)),.12);
+      box-shadow: 0 0 10px rgba(var(--year-color-rgb, var(--accent-rgb)),.4);
     }
 
     /* ─── Timeline ─── */
     .timeline-section {
       position: relative;
+      margin-top: 20px;
       margin-left: -42px;
       margin-right: -42px;
       overflow: visible;
@@ -179,9 +174,9 @@
     .current-year {
       position: absolute;
       left: 230px;
-      top: 50px;
+      top: 200px;
       z-index: 25;
-      color: var(--accent2);
+      color: var(--white);
       font-size: 30px;
       font-weight: 800;
       letter-spacing: -0.04em;
@@ -192,31 +187,36 @@
       content: "";
       position: absolute;
       left: -45px;
-      top: 18px;
+      top: 50%;
       width: 28px;
       height: 48px;
-      border-left: 2px solid var(--accent);
-      border-top: 2px solid var(--accent);
-      transform: skewX(-28deg);
+      border-left: 2px solid var(--year-color, var(--accent));
+      border-top: 2px solid var(--year-color, var(--accent));
+      transform: translateY(0%) skewX(-28deg);
       opacity: 0.9;
+      transition: border-color 0.25s ease;
     }
 
     .current-year::after {
       content: "";
       position: absolute;
       left: 105%;
-      top: 17px;
+      top: 50%;
+      transform: translateY(-50%);
       width: 70px;
       height: 2px;
-      background: linear-gradient(90deg, var(--accent), transparent);
+      background: linear-gradient(90deg, var(--year-color, var(--accent)), transparent);
+      transition: background 0.25s ease;
     }
 
     .timeline-scroll {
       overflow-x: auto;
       overflow-y: hidden;
       scroll-behavior: smooth;
-      padding: 0 0 26px;
+      padding: 150px 0 26px;
       scrollbar-width: none;
+      -webkit-mask-image: linear-gradient(90deg, transparent 0, black 220px, black calc(100% - 220px), transparent 100%);
+      mask-image: linear-gradient(90deg, transparent 0, black 220px, black calc(100% - 220px), transparent 100%);
     }
 
     .timeline-scroll::-webkit-scrollbar { display: none; }
@@ -231,14 +231,21 @@
 
     .timeline-fixed-line {
       position: absolute;
-      left: 0;
-      right: 0;
       top: 150px;
       height: 3px;
       z-index: 1;
       pointer-events: none;
-      background: linear-gradient(90deg, rgba(var(--accent-rgb),0.1), rgba(var(--accent-rgb),0.95), rgba(var(--accent-rgb),0.1));
-      box-shadow: 0 0 22px rgba(var(--accent-rgb),0.6);
+      /* left/width/background (dégradé par année) sont calculés en JS dans buildTimeline() */
+    }
+
+    .timeline-fixed-line::before {
+      content: "";
+      position: absolute;
+      inset: -6px 0;
+      background: inherit;
+      filter: blur(8px);
+      opacity: 0.35;
+      z-index: -1;
     }
 
     .years {
@@ -267,7 +274,7 @@
       top: 16px;
       width: 172px;
       height: 255px;
-      border: 1px solid var(--border);
+      border: 1px solid rgba(var(--accent-rgb),0.35);
       border-top: 3px solid var(--accent);
       border-radius: 14px;
       background: var(--bg2);
@@ -277,8 +284,9 @@
       box-shadow: 0 0 10px rgba(var(--accent-rgb),.15);
     }
 
-    .project-card[data-color="blue"]   { border-top-color: var(--blue); box-shadow: 0 0 10px rgba(var(--blue-rgb),.15); }
-    .project-card[data-color="orange"] { border-top-color: var(--orange); box-shadow: 0 0 10px rgba(var(--orange-rgb),.15); }
+    .project-card[data-color="blue"]   { border-color: rgba(var(--blue-rgb),0.35); border-top-color: var(--blue); box-shadow: 0 0 10px rgba(var(--blue-rgb),.15); }
+    .project-card[data-color="orange"] { border-color: rgba(var(--orange-rgb),0.35); border-top-color: var(--orange); box-shadow: 0 0 10px rgba(var(--orange-rgb),.15); }
+    .project-card[data-color="pink"]   { border-color: rgba(var(--pink-rgb),0.35); border-top-color: var(--pink); box-shadow: 0 0 10px rgba(var(--pink-rgb),.15); }
 
     .project-card::before {
       content: "";
@@ -287,7 +295,7 @@
       left: 50%;
       width: 1px;
       height: 43px;
-      background: linear-gradient(180deg, rgba(var(--accent-rgb),0.8), rgba(var(--accent-rgb),0.08));
+      background: linear-gradient(180deg, rgba(var(--year-color-rgb, var(--accent-rgb)),0.8), rgba(var(--year-color-rgb, var(--accent-rgb)),0.08));
       transform: translateX(-50%);
       z-index: 2;
       pointer-events: none;
@@ -313,6 +321,13 @@
       border-color: var(--orange);
       border-top-color: var(--orange);
       box-shadow: 0 0 0 1px rgba(var(--orange-rgb),0.28), 0 20px 50px rgba(var(--black-rgb),0.45), 0 0 30px rgba(var(--orange-rgb),0.4);
+    }
+
+    .project-card[data-color="pink"]:hover,
+    .project-card[data-color="pink"].active {
+      border-color: var(--pink);
+      border-top-color: var(--pink);
+      box-shadow: 0 0 0 1px rgba(var(--pink-rgb),0.28), 0 20px 50px rgba(var(--black-rgb),0.45), 0 0 30px rgba(var(--pink-rgb),0.4);
     }
 
     .card-img-wrap {
@@ -364,18 +379,19 @@
       text-transform: uppercase;
       background: rgba(var(--accent-rgb),0.17);
       color: var(--accent2);
+      box-shadow: 0 0 8px rgba(var(--accent-rgb),.4);
     }
 
-    .tag.green  { background: rgba(var(--green-rgb),0.18);   color: var(--green-text);  box-shadow: 0 0 8px rgba(var(--green-rgb),.4); }
+    .tag.green  { background: rgba(var(--perso-rgb),0.18);   color: var(--perso-text);  box-shadow: 0 0 8px rgba(var(--perso-rgb),.4); }
     .tag.blue   { background: rgba(var(--blue-rgb),0.15);    color: var(--blue-text);   box-shadow: 0 0 8px rgba(var(--blue-rgb),.4); }
     .tag.orange { background: rgba(var(--orange-rgb),0.18);  color: var(--orange-text); box-shadow: 0 0 8px rgba(var(--orange-rgb),.4); }
+    .tag.pink   { background: rgba(var(--pink-rgb),0.18);    color: var(--pink-text);   box-shadow: 0 0 8px rgba(var(--pink-rgb),.4); }
 
     .diploma {
       position: absolute;
-      top: -95px;
+      top: -128px;
       transform: translateX(-50%);
       width: 210px;
-      min-height: 150px;
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -384,36 +400,41 @@
       line-height: 1.35;
       z-index: 20;
       pointer-events: none;
+      border: 1px solid transparent;
+      border-radius: 14px;
+      padding: 22px 18px 18px;
+    }
+
+    .diploma::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      border-radius: inherit;
+      padding: 1px;
+      background: radial-gradient(ellipse 140px 90px at 50% 100%, rgba(var(--year-color-rgb, var(--accent-rgb)),0.95) 70%, rgba(var(--year-color-rgb, var(--accent-rgb)),0) 90%);
+      filter: drop-shadow(0 0 6px rgba(var(--year-color-rgb, var(--accent-rgb)),0.5));
+      -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+      -webkit-mask-composite: xor;
+      mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+      mask-composite: exclude;
+      pointer-events: none;
     }
 
     .diploma::after {
       content: "";
       position: absolute;
       left: 50%;
-      transform: translateX(-50%);
-      top: 168px;
-      width: 1px;
-      height: 28px;
-      border-left: 1px dashed rgba(var(--accent-rgb),0.75);
-      opacity: 0.9;
+      top: 100%;
+      margin-top: -8px;
+      width: 16px;
+      height: 16px;
+      background: var(--bg);
+      border-right: 1px solid rgba(var(--year-color-rgb, var(--accent-rgb)),0.9);
+      border-bottom: 1px solid rgba(var(--year-color-rgb, var(--accent-rgb)),0.9);
+      transform: translateX(-50%) rotate(45deg);
     }
 
-    .diploma-icon {
-      width: 60px;
-      height: 60px;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin-bottom: 16px;
-      font-size: 26px;
-      border: 1px solid var(--accent);
-      color: var(--accent2);
-      background: rgba(var(--accent-rgb),0.14);
-      box-shadow: 0 0 25px rgba(var(--accent-rgb),0.35), inset 0 0 18px rgba(var(--accent-rgb),0.08);
-    }
-
-    .diploma-title {
+.diploma-title {
       font-size: 14px;
       font-weight: 800;
       letter-spacing: 0.02em;
@@ -432,7 +453,7 @@
     .diploma-subtitle {
       font-size: 13px;
       font-weight: 700;
-      color: var(--accent2);
+      color: var(--year-color, var(--accent2));
       max-width: 180px;
     }
 
@@ -477,6 +498,11 @@
       box-shadow: 0 28px 70px rgba(var(--black-rgb),0.55), 0 0 60px rgba(var(--orange-rgb),0.22);
     }
 
+    .detail.color-pink {
+      border-color: rgba(var(--pink-rgb),0.35);
+      box-shadow: 0 28px 70px rgba(var(--black-rgb),0.55), 0 0 60px rgba(var(--pink-rgb),0.22);
+    }
+
     .detail::before {
       content: "";
       position: absolute;
@@ -499,6 +525,11 @@
     .detail.color-orange::before {
       border-left-color: rgba(var(--orange-rgb),0.5);
       border-top-color: rgba(var(--orange-rgb),0.5);
+    }
+
+    .detail.color-pink::before {
+      border-left-color: rgba(var(--pink-rgb),0.5);
+      border-top-color: rgba(var(--pink-rgb),0.5);
     }
 
     .detail.no-arrow-transition::before { transition: none; }
@@ -814,6 +845,12 @@
       box-shadow: 0 0 24px rgba(var(--orange-rgb),0.18);
     }
 
+    .side.color-pink {
+      background: rgba(var(--pink-rgb),0.05);
+      border-color: rgba(var(--pink-rgb),0.28);
+      box-shadow: 0 0 24px rgba(var(--pink-rgb),0.18);
+    }
+
     .side-block {
       display: flex;
       flex-direction: column;
@@ -850,6 +887,9 @@
 
     .side.color-orange .side-card { background: var(--orange); box-shadow: 0 0 14px rgba(var(--orange-rgb),.3); }
     .side.color-orange .side-card:hover { background: var(--orange-text); box-shadow: 0 0 20px rgba(var(--orange-rgb),.5); }
+
+    .side.color-pink .side-card { background: var(--pink); box-shadow: 0 0 14px rgba(var(--pink-rgb),.3); }
+    .side.color-pink .side-card:hover { background: var(--pink-text); box-shadow: 0 0 20px rgba(var(--pink-rgb),.5); }
 
     .download {
       display: flex;
@@ -976,7 +1016,7 @@
       .current-year {
         left: 14px;
         font-size: 20px;
-        top: 36px;
+        top: 186px;
       }
       .current-year::before,
       .current-year::after { display: none; }
@@ -1046,7 +1086,7 @@
           <span class="tag-legend-label">Légende —</span>
           <span class="tag blue">Gobelins</span>
           <span class="tag orange">IIM</span>
-          <span class="tag">Personnel</span>
+          <span class="tag pink">Personnel</span>
         </div>
       </div>
       <nav class="year-nav" id="yearNav">
@@ -1061,7 +1101,6 @@
     <div class="timeline-hint">Faites défiler la frise</div>
 
     <section class="timeline-section">
-      <div class="timeline-fixed-line"></div>
       <div class="current-year" id="currentYear">2022</div>
 
       <div class="timeline-scroll" id="timelineScroll" style="touch-action: pan-x;">
@@ -1180,6 +1219,26 @@
       return startX + ((year - startYear) * 12 + month) * monthWidth;
     }
 
+    function hexToRgb(hex) {
+      const m = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+      return m ? [parseInt(m[1], 16), parseInt(m[2], 16), parseInt(m[3], 16)].join(",") : null;
+    }
+
+    // Colore chaque bouton du year-nav avec la couleur de son année (window.COLORS.timeline).
+    function colorYearNavButtons() {
+      const timelineColors = Object.values((window.COLORS && window.COLORS.timeline) || {});
+      if (!timelineColors.length) return;
+      document.querySelectorAll(".year-nav button[data-year]").forEach((btn) => {
+        const year = parseInt(btn.dataset.year, 10);
+        const entry = timelineColors[(year - startYear) % timelineColors.length];
+        if (!entry) return;
+        btn.style.setProperty("--year-color", entry.value);
+        const rgb = hexToRgb(entry.value);
+        if (rgb) btn.style.setProperty("--year-color-rgb", rgb);
+      });
+    }
+    colorYearNavButtons();
+
     // Pour les liens profonds : /pages/projet.html?p=nom-du-projet
     function slugify(str) {
       return (str || "")
@@ -1190,7 +1249,42 @@
         .replace(/^-+|-+$/g, "");
     }
 
+    // La ligne colorée de la frise doit défiler avec les mois/points : on la
+    // construit avec une largeur/position en pixels réels (getX), pas en %
+    // fixe de la section, sinon les couleurs ne correspondent plus aux années
+    // affichées une fois qu'on scroll.
+    function buildYearLine() {
+      const timelineColors = (window.COLORS && window.COLORS.timeline) || {};
+      const yearColors = Object.values(timelineColors).map((entry) => entry.value);
+      // La ligne dépasse le premier/dernier mois pour atteindre le bord de la
+      // piste (0 à gauche, padding droit de .timeline-track à droite) et
+      // s'estompe en fondu sur ces dépassements plutôt que de s'arrêter net.
+      const lineStart = 0;
+      const lineEnd = getX(endYear + 1, 0) + 76;
+      const totalWidth = lineEnd - lineStart;
+      const toPct = (px) => ((px - lineStart) / totalWidth) * 100;
+
+      const stops = ["transparent 0%"];
+      for (let year = startYear; year <= endYear; year += 1) {
+        const color = yearColors[(year - startYear) % yearColors.length];
+        const bandStart = getX(year, 0);
+        const decX = getX(year, 11); // Décembre : la couleur reste pleine jusque-là,
+        stops.push(`${color} ${toPct(bandStart).toFixed(2)}%`); // le dégradé vers l'année suivante
+        stops.push(`${color} ${toPct(decX).toFixed(2)}%`);       // se joue entre décembre et janvier.
+      }
+      stops.push("transparent 100%");
+
+      const line = document.createElement("div");
+      line.className = "timeline-fixed-line";
+      line.style.left = lineStart + "px";
+      line.style.width = totalWidth + "px";
+      line.style.background = `linear-gradient(90deg, ${stops.join(", ")})`;
+      yearsEl.appendChild(line);
+    }
+
     function buildTimeline() {
+      buildYearLine();
+
       for (let year = startYear; year <= endYear; year += 1) {
         months.forEach((month, index) => {
           const x = getX(year, index);
@@ -1203,18 +1297,30 @@
 
           const dot = document.createElement("div");
           dot.className = "dot";
+          if (projects.some((p) => p.year === year && p.month === index)) {
+            dot.classList.add("has-project");
+          }
           dot.style.left = x + "px";
           yearsEl.appendChild(dot);
         });
       }
+
+      const diplomaTimelineColors = Object.values((window.COLORS && window.COLORS.timeline) || {});
 
       diplomas.forEach((diploma) => {
         const x = getX(diploma.year, diploma.month);
         const diplomaEl = document.createElement("div");
         diplomaEl.className = "diploma";
         diplomaEl.style.left = x + "px";
+        if (diplomaTimelineColors.length) {
+          const entry = diplomaTimelineColors[(diploma.year - startYear) % diplomaTimelineColors.length];
+          if (entry) {
+            diplomaEl.style.setProperty("--year-color", entry.value);
+            const rgb = hexToRgb(entry.value);
+            if (rgb) diplomaEl.style.setProperty("--year-color-rgb", rgb);
+          }
+        }
         diplomaEl.innerHTML = `
-          <div class="diploma-icon">🎓</div>
           <div class="diploma-title">${diploma.title}</div>
           <div class="diploma-date">${diploma.date}</div>
           <div class="diploma-subtitle">${diploma.subtitle}</div>
@@ -1230,6 +1336,14 @@
         card.setAttribute("tabindex", "0");
         card.dataset.color = project.color || '';
         card.dataset.slug = slugify(project.id || project.title);
+        if (diplomaTimelineColors.length) {
+          const entry = diplomaTimelineColors[(project.year - startYear) % diplomaTimelineColors.length];
+          if (entry) {
+            card.style.setProperty("--year-color", entry.value);
+            const rgb = hexToRgb(entry.value);
+            if (rgb) card.style.setProperty("--year-color-rgb", rgb);
+          }
+        }
         card.innerHTML = `
           <div class="card-img-wrap">
             <img src="${project.thumb || project.img}" alt="${project.title}" loading="lazy">
@@ -1252,9 +1366,9 @@
       document.querySelectorAll(".project-card").forEach(c => c.classList.remove("active"));
       card.classList.add("active");
       detail.classList.add("visible");
-      detail.classList.remove("color-blue", "color-orange");
-      detailSide.classList.remove("color-blue", "color-orange");
-      if (project.color === "blue" || project.color === "orange") {
+      detail.classList.remove("color-blue", "color-orange", "color-pink");
+      detailSide.classList.remove("color-blue", "color-orange", "color-pink");
+      if (project.color === "blue" || project.color === "orange" || project.color === "pink") {
         detail.classList.add("color-" + project.color);
         detailSide.classList.add("color-" + project.color);
       }
@@ -1265,9 +1379,9 @@
       document.getElementById("detailText").textContent = project.desc;
       document.getElementById("detailDuration").innerHTML = project.duration || "Projet court<br>(" + project.date + ")";
 
-      // Couleurs des tags project.color, définies dans public/data.js (window.COLORS.tags)
+      // Couleurs des tags project.color, définies dans public/data.js (window.COLORS.projet)
       const colorMap = Object.fromEntries(
-        Object.entries((window.COLORS && window.COLORS.tags) || {}).map(([k, v]) => [k, v.value])
+        Object.entries((window.COLORS && window.COLORS.projet) || {}).map(([k, v]) => [k, v.value])
       );
       const dotColor = colorMap[project.color] || getComputedStyle(document.documentElement).getPropertyValue('--accent').trim();
       document.getElementById("detailChips").innerHTML = `
@@ -1328,6 +1442,14 @@
       const currentIndex = Math.floor((timeline.scrollLeft + januaryOffset) / (monthWidth * 12));
       const visibleYear = Math.min(startYear + Math.max(0, currentIndex), endYear);
       currentYearEl.textContent = visibleYear;
+
+      const timelineColors = Object.values((window.COLORS && window.COLORS.timeline) || {});
+      if (timelineColors.length) {
+        const yearColor = timelineColors[(visibleYear - startYear) % timelineColors.length];
+        currentYearEl.style.setProperty("--year-color", yearColor.value);
+        const rgb = hexToRgb(yearColor.value);
+        if (rgb) currentYearEl.style.setProperty("--year-color-rgb", rgb);
+      }
 
       document.querySelectorAll("[data-year]").forEach(btn => {
         btn.classList.toggle("active", parseInt(btn.dataset.year) === visibleYear);

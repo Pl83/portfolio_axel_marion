@@ -155,19 +155,6 @@ window.PROJECTS = [
     link: "#"
   },
   {
-    title: "Photographie",
-    type: "Photographie",
-    tag: "Gobelins", color: "blue",
-    year: 2023, month: 5, date: "Mai 2023",
-    img: "/realisation/photo.jpg",
-    desc: "Photographie d'une camarade de classe dans une ambiance chaleureuse",
-    duration: "1 Semaine",
-    role: ["Direction d'ambiance", "Compositeur", "Photographe"],
-    learned: ["Création d'images", "Traitement d'images", "Colorimétrie"],
-    tools: ["Photoshop", "Lightroom"],
-    link: "#"
-  },
-  {
     title: "Enfain",
     type: "Application",
     tag: "Gobelins", color: "blue",
@@ -657,12 +644,41 @@ window.RESUME = {
 // de src/style.css sont réécrites automatiquement au chargement, voir applyColors()
 // plus bas). Les valeurs dans src/style.css ne servent que de secours si data.js
 // ne se charge pas.
-//   base       : fonds, texte, bordures, blanc/noir purs
-//   accent     : violet/lilas — boutons, liens, hover
-//   tags       : couleur du point/bordure associé à project.color (accueil + détail projet.html)
-//   surfaces   : fonds "presque noirs" des zones média/placeholder/panneaux
-//   school     : palette des cartes/badges de la frise projet.html (Gobelins/IIM + badge non utilisé)
-//   decor      : couleurs décoratives ponctuelles (glow du hero d'accueil)
+//
+// Groupes ci-dessous, et ce que chacun modifie concrètement sur le site :
+//
+//   base     : fond du site (--bg/--bg2/--bg3), texte (--text/--muted/--white),
+//              bordures (--border), noir/blanc purs (--black/--white/--offWhite).
+//              → toutes les pages.
+//
+//   accent   : couleur principale du site (--accent = bleu nuit, --accent2 = bleu
+//              ciel). Boutons, liens, hover, titres en surbrillance, glow du hero.
+//              → toutes les pages.
+//
+//   tags     : couleur du point/badge associé à project.color ("blue"/"orange"/
+//              "pink") sur une carte projet.
+//              → accueil (cartes mises en avant), panneau détail (pages/projet.html).
+//
+//   surfaces : fonds "presque noirs" des zones média, miniatures sans image et
+//              du panneau détail.
+//              → pages/projet.html.
+//
+//   school   : couleur des cartes/badges par établissement sur la frise —
+//              gobelins et iim (bordure de carte + badge école), perso (badge
+//              "Prototype", pas encore lié à un project.color).
+//              → pages/projet.html, pages/jeux.html.
+//
+//   jeux     : couleur des boutons de filtre et badges de type sur la page Jeux —
+//              jeux (jeu/jeu de carte), prototype, blocking.
+//              → pages/jeux.html.
+//
+//   projet   : couleur liée à project.color ("blue"/"orange"/"pink") sur la frise
+//              elle-même — carte, tag, panneau détail + panneau latéral.
+//              → pages/projet.html.
+//
+//   timeline : couleur de la ligne centrale de la frise chronologique, une par
+//              année dans l'ordre (year1 = 2022, year2 = 2023, ...).
+//              → pages/projet.html.
 window.COLORS = {
   base: {
     bg: { value: "#0f0f0f", usage: "Fond principal du site" },
@@ -692,9 +708,31 @@ window.COLORS = {
   // "blue" et "orange" ont la même valeur que tags.blue/tags.orange : une seule couleur
   // pour "Gobelins"/"IIM" (école) et project.color "blue"/"orange" (projets).
   school: {
-    blue: { value: "#3b82f6", text: "#a5c9ff", usage: "Gobelins — bordure de carte + badge (pages/projet.html)" },
-    orange: { value: "#f97316", text: "#ffc48c", usage: "IIM — bordure de carte + badge (pages/projet.html, pages/jeux.html)" },
-    green: { value: "#74d674", text: "#9ef0a0", usage: "Badge \"Prototype\" (pages/jeux.html) — pas de project.color associé actuellement" }
+    gobelins: { value: "#3b82f6", text: "#a5c9ff", usage: "Gobelins — bordure de carte + badge (pages/projet.html)" },
+    iim: { value: "#f97316", text: "#ffc48c", usage: "IIM — bordure de carte + badge (pages/projet.html, pages/jeux.html)" },
+    perso: { value: "#74d674", text: "#9ef0a0", usage: "Badge \"Prototype\" (pages/jeux.html) — pas de project.color associé actuellement" }
+  },
+  // Filtres et badges de type sur pages/jeux.html (boutons "Jeux/Prototype/Blocking"
+  // + badge de type sur chaque carte). "jeux" reprend la couleur de accent.accent.
+  jeux: {
+    jeux: { value: "#24408f", text: "#6ec6ff", usage: "Badge \"Jeux\" / \"Jeu de carte\" — bordure + badge (pages/jeux.html)" },
+    prototype: { value: "#74d674", text: "#9ef0a0", usage: "Badge \"Prototype\" — bordure + badge (pages/jeux.html)" },
+    blocking: { value: "#f97316", text: "#ffc48c", usage: "Badge \"Blocking\" — bordure + badge (pages/jeux.html)" }
+  },
+  // Couleur liée à project.color ("blue"/"orange"/"pink") sur la frise elle-même :
+  // carte, tag, panneau détail + panneau latéral (pages/projet.html). Mêmes valeurs
+  // que "tags" (utilisé à l'accueil), dupliquées ici pour un groupe propre à la page.
+  projet: {
+    blue: { value: "#3b82f6", text: "#a5c9ff", usage: "project.color: \"blue\" — carte, tag, panneau détail (pages/projet.html)" },
+    orange: { value: "#f97316", text: "#ffc48c", usage: "project.color: \"orange\" — carte, tag, panneau détail (pages/projet.html)" },
+    pink: { value: "#ec4899", text: "#f9a8d4", usage: "project.color: \"pink\" — carte, tag, panneau détail (pages/projet.html)" }
+  },
+  timeline: {
+    year1: { value: "#24408f", usage: "1ère année de la frise — même couleur que accent.accent" },
+    year2: { value: "#6ec6ff", usage: "2e année de la frise — même couleur que accent.accent2" },
+    year3: { value: "#3b82f6", usage: "3e année de la frise — même couleur que school.gobelins" },
+    year4: { value: "#74d674", usage: "4e année de la frise — même couleur que school.perso" },
+    year5: { value: "#f97316", usage: "5e année de la frise — même couleur que school.iim" }
   }
 };
 
@@ -744,12 +782,16 @@ window.COLORS = {
   set('--surface-panel', 'surfaces', 'panel');
   setRgb('--surface-media-alt-rgb', 'surfaces', 'mediaAlt');
 
-  // Groupe "school" : chaque entrée a un "value" (couleur pleine) ET un "text" (variante pastel)
-  Object.entries(c.school || {}).forEach(([key, entry]) => {
-    root.setProperty(`--${key}`, entry.value);
-    root.setProperty(`--${key}-text`, entry.text);
-    const rgb = hexToRgb(entry.value);
-    if (rgb) root.setProperty(`--${key}-rgb`, rgb);
+  // Groupes "school", "jeux" et "projet" : chaque entrée a un "value" (couleur
+  // pleine) ET un "text" (variante pastel), appliqués en variables CSS du même
+  // nom que la clé.
+  ["school", "jeux", "projet"].forEach((group) => {
+    Object.entries(c[group] || {}).forEach(([key, entry]) => {
+      root.setProperty(`--${key}`, entry.value);
+      root.setProperty(`--${key}-text`, entry.text);
+      const rgb = hexToRgb(entry.value);
+      if (rgb) root.setProperty(`--${key}-rgb`, rgb);
+    });
   });
 })();
 

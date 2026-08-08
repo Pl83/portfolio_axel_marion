@@ -33,9 +33,17 @@
   --surface-placeholder:   #111111;
   --surface-panel:         #0d0d0d;
 
+  --gobelins:    #3b82f6; --gobelins-text: #a5c9ff; --gobelins-rgb: 59,130,246;
+  --iim:         #f97316; --iim-text:      #ffc48c; --iim-rgb:      249,115,22;
+  --perso:       #74d674; --perso-text:    #9ef0a0; --perso-rgb:    116,214,116;
+
+  --jeux:        #24408f; --jeux-text:      #6ec6ff; --jeux-rgb:      36,64,143;
+  --prototype:   #74d674; --prototype-text: #9ef0a0; --prototype-rgb: 116,214,116;
+  --blocking:    #f97316; --blocking-text:  #ffc48c; --blocking-rgb:  249,115,22;
+
   --blue:        #3b82f6; --blue-text:   #a5c9ff; --blue-rgb:   59,130,246;
   --orange:      #f97316; --orange-text: #ffc48c; --orange-rgb: 249,115,22;
-  --green:       #74d674; --green-text:  #9ef0a0; --green-rgb:  116,214,116;
+  --pink:        #ec4899; --pink-text:   #f9a8d4; --pink-rgb:   236,72,153;
 
   /* Glow du hero — source unique, utilisée par toutes les pages (index.html, a-propos.html,
      memoir.html, jeux.html, projet.html) via var(--hero-glow) pour rester identique partout. */
