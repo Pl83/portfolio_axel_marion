@@ -697,6 +697,13 @@ const SWATCHES = {
 };
 
 window.COLORS = {
+  timeline: {
+    year1: { value: "#24408f", usage: "1ère année de la frise" },
+    year2: { value: "#6ec6ff", usage: "2e année de la frise" },
+    year3: { value: "#3b82f6", usage: "3e année de la frise" },
+    year4: { value: "#74d674", usage: "4e année de la frise" },
+    year5: { value: "#f97316", usage: "5e année de la frise" }
+  },
   base: {
     bg: { value: "#0f0f0f", usage: "Fond principal du site" },
     bg2: { value: "#161616", usage: "Fond des cartes, sections alternées" },
@@ -745,17 +752,10 @@ window.COLORS = {
     blue: { value: SWATCHES.blue, text: SWATCHES.bluePastel, usage: "project.color: \"blue\" — carte, tag, panneau détail (pages/projet.html)" },
     orange: { value: SWATCHES.orange, text: SWATCHES.orangePastel, usage: "project.color: \"orange\" — carte, tag, panneau détail (pages/projet.html)" },
     pink: { value: SWATCHES.pink, text: SWATCHES.pinkPastel, usage: "project.color: \"pink\" — carte, tag, panneau détail (pages/projet.html)" }
-  },
+  }
   // Couleurs indépendantes des SWATCHES ci-dessus — modifiables librement sans
   // affecter les autres groupes (contrairement aux groupes plus haut qui
   // partagent volontairement les mêmes teintes entre eux).
-  timeline: {
-    year1: { value: "#24408f", usage: "1ère année de la frise" },
-    year2: { value: "#6ec6ff", usage: "2e année de la frise" },
-    year3: { value: "#3b82f6", usage: "3e année de la frise" },
-    year4: { value: "#74d674", usage: "4e année de la frise" },
-    year5: { value: "#f97316", usage: "5e année de la frise" }
-  }
 };
 
 // ── Application de window.COLORS aux variables CSS ────────────
