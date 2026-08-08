@@ -932,6 +932,11 @@
       display: none;
     }
 
+    /* ─── Frise verticale simplifiée (mobile, < 768px) ─── */
+    .mobile-timeline {
+      display: none;
+    }
+
     /* ─── 980px ─── */
     @media (max-width: 980px) {
       main.page { padding: 28px 22px 54px; }
@@ -957,42 +962,241 @@
       .detail-body { grid-template-columns: 1fr; }
     }
 
-    /* ─── 768px ─── */
+    /* ─── 768px : frise verticale au lieu du scroll horizontal ─── */
     @media (max-width: 768px) {
-      /* Year nav: scrollable horizontalement au lieu de disparaître */
-      .year-nav {
-        display: flex;
-        overflow-x: auto;
-        scrollbar-width: none;
-        flex-wrap: nowrap;
-        gap: 6px;
-        padding-bottom: 2px;
-      }
-      .year-nav::-webkit-scrollbar { display: none; }
-      .year-nav button {
-        flex-shrink: 0;
-        font-size: .9rem;
-        padding: 6px 14px;
+      .year-nav,
+      .timeline-hint,
+      .timeline-section {
+        display: none;
       }
 
-      /* Hint de scroll horizontal */
-      .timeline-hint {
+      .mobile-timeline {
+        position: relative;
         display: flex;
+        flex-direction: column;
+        gap: 24px;
+        margin-top: 8px;
+        padding: 0 22px;
+      }
+
+      /* Ligne verticale centrale — même dégradé multi-année que la frise desktop */
+      .mobile-timeline-line {
+        position: absolute;
+        top: 4px;
+        bottom: 4px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 3px;
+        border-radius: 2px;
+        background: var(--border);
+      }
+      .mobile-timeline-line::before {
+        content: "";
+        position: absolute;
+        inset: -6px -6px;
+        background: inherit;
+        filter: blur(8px);
+        opacity: 0.6;
+        z-index: -1;
+      }
+
+      /* Repère d'année, inséré avant la première ligne de chaque nouvelle année. */
+      .mobile-timeline-year {
+        position: relative;
+        align-self: center;
+        z-index: 2;
+        padding: 5px 16px;
+        background: var(--bg);
+        border: 1px solid rgba(var(--year-color-rgb, var(--accent2-rgb)), .5);
+        border-radius: 999px;
+        font-family: var(--font-d);
+        font-size: 1.1rem;
+        font-weight: 800;
+        letter-spacing: -0.02em;
+        color: var(--year-color, var(--accent2));
+        box-shadow: 0 0 10px rgba(var(--year-color-rgb, var(--accent2-rgb)), .4);
+      }
+
+      /* Une ligne = un mois. Slot gauche = projet, slot droit = diplôme/expérience,
+         avec un seul point sur la frise au centre de la ligne quand les deux
+         tombent le même mois. */
+      .mobile-timeline-row {
+        position: relative;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
         align-items: center;
-        gap: 6px;
-        font-size: .7rem;
-        letter-spacing: .1em;
-        text-transform: uppercase;
+        gap: 0 40px;
+        min-height: 20px;
+      }
+      .mobile-timeline-row.is-empty::after {
+        width: 5px;
+        height: 5px;
+        opacity: .4;
+        box-shadow: none;
+      }
+      .mtl-slot { display: flex; }
+      .mtl-slot-left { justify-content: flex-end; }
+      .mtl-slot-right { justify-content: flex-start; }
+
+      .mobile-timeline-row::after {
+        content: "";
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: var(--white);
+        box-shadow: 0 0 8px rgba(var(--white-rgb), 0.9), 0 0 16px rgba(var(--white-rgb), 0.5);
+        z-index: 1;
+      }
+
+      .mobile-timeline-item {
+        position: relative;
+        width: 100%;
+        max-width: 240px;
+        background: var(--bg2);
+        border: 1px solid rgba(var(--accent-rgb),0.35);
+        border-top: 3px solid var(--accent);
+        border-radius: 14px;
+        cursor: pointer;
+        box-shadow: 0 0 10px rgba(var(--accent-rgb),.15);
+        transition: box-shadow .2s, border-color .2s, background .2s;
+      }
+      .mobile-timeline-item[data-color="blue"]   { border-color: rgba(var(--blue-rgb),0.35); border-top-color: var(--blue); box-shadow: 0 0 10px rgba(var(--blue-rgb),.15); }
+      .mobile-timeline-item[data-color="orange"] { border-color: rgba(var(--orange-rgb),0.35); border-top-color: var(--orange); box-shadow: 0 0 10px rgba(var(--orange-rgb),.15); }
+      .mobile-timeline-item[data-color="pink"]   { border-color: rgba(var(--pink-rgb),0.35); border-top-color: var(--pink); box-shadow: 0 0 10px rgba(var(--pink-rgb),.15); }
+
+      .mobile-timeline-item:hover,
+      .mobile-timeline-item.active {
+        background: var(--bg3);
+        border-color: var(--accent);
+        box-shadow: 0 0 0 1px rgba(var(--accent-rgb),0.28), 0 0 24px rgba(var(--accent-rgb),0.35);
+      }
+      .mobile-timeline-item[data-color="blue"]:hover,   .mobile-timeline-item[data-color="blue"].active   { border-color: var(--blue);   box-shadow: 0 0 0 1px rgba(var(--blue-rgb),0.28), 0 0 24px rgba(var(--blue-rgb),0.35); }
+      .mobile-timeline-item[data-color="orange"]:hover, .mobile-timeline-item[data-color="orange"].active { border-color: var(--orange); box-shadow: 0 0 0 1px rgba(var(--orange-rgb),0.28), 0 0 24px rgba(var(--orange-rgb),0.35); }
+      .mobile-timeline-item[data-color="pink"]:hover,   .mobile-timeline-item[data-color="pink"].active   { border-color: var(--pink);   box-shadow: 0 0 0 1px rgba(var(--pink-rgb),0.28), 0 0 24px rgba(var(--pink-rgb),0.35); }
+
+      .mtl-img-wrap { aspect-ratio: 16/9; overflow: hidden; border-radius: 13px 13px 0 0; background: var(--surface-media-alt); }
+      .mtl-img-wrap img { width: 100%; height: 100%; object-fit: cover; }
+
+      .mtl-body { padding: 16px 18px 18px; }
+      .mtl-body h3 {
+        font-size: 1rem;
+        font-weight: 600;
+        color: var(--white);
+        line-height: 1.3;
+        margin-bottom: 4px;
+      }
+      .mtl-body p {
+        font-size: .8rem;
         color: var(--muted);
-        padding: 0 22px 10px;
-        opacity: .7;
+        margin-bottom: 12px;
       }
-      .timeline-hint::before,
-      .timeline-hint::after {
-        content: "←";
-        color: var(--accent2);
+
+      /* ── Cartes diplôme / expérience : même langage visuel que .diploma desktop,
+         alignées à droite de la ligne (le point pointe vers la gauche) ── */
+      .mobile-timeline-item.mobile-timeline-diploma {
+        cursor: default;
+        border: 1px solid transparent;
+        border-top: none;
+        background: rgba(var(--year-color-rgb, var(--accent-rgb)), .06);
+        box-shadow: 0 0 20px rgba(var(--year-color-rgb, var(--accent-rgb)), .15);
       }
-      .timeline-hint::after { content: "→"; }
+      .mobile-timeline-item.mobile-timeline-diploma::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        border-radius: inherit;
+        padding: 1px;
+        background: radial-gradient(circle at 0% 0%, rgba(var(--year-color-rgb, var(--accent-rgb)),0.9), rgba(var(--year-color-rgb, var(--accent-rgb)),0.05) 80%);
+        -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+        -webkit-mask-composite: xor;
+        mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+        mask-composite: exclude;
+      }
+      .mobile-timeline-item.mobile-timeline-diploma:hover { background: rgba(var(--year-color-rgb, var(--accent-rgb)), .06); }
+
+      .mtl-diploma-title {
+        font-size: 14px;
+        font-weight: 800;
+        letter-spacing: 0.02em;
+        text-transform: uppercase;
+        margin-bottom: 3px;
+        color: var(--white);
+      }
+      .mtl-diploma-date {
+        font-size: 14px;
+        font-weight: 700;
+        margin-bottom: 2px;
+        color: var(--white);
+      }
+      .mtl-diploma-subtitle {
+        font-size: 13px;
+        font-weight: 700;
+        color: var(--year-color, var(--accent2));
+      }
+
+      /* Espace en haut (pour dégager le bouton fermer) et en bas (pour ne pas
+         couper le dernier contenu en fin de scroll) du panneau détail mobile. */
+      .detail-top { padding: 96px 24px 22px; }
+      .detail-body { padding-bottom: 48px; }
+
+      /* Bouton fermer plus visible sur mobile (pas de hover pour le "révéler"). */
+      .detail-close {
+        top: 20px;
+        right: 20px;
+        width: 38px;
+        height: 38px;
+        font-size: 16px;
+        color: var(--white);
+        background: var(--bg2);
+        border-color: rgba(var(--white-rgb),0.2);
+        box-shadow: 0 4px 12px rgba(var(--black-rgb),0.4);
+      }
+
+      /* ── Panneau détail en tiroir latéral (comme pages/jeux.html) ── */
+      .detail {
+        position: fixed;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        margin: 0;
+        width: 80vw;
+        max-height: none;
+        border-radius: 0;
+        border-top: none;
+        border-right: none;
+        border-bottom: none;
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
+        touch-action: pan-y;
+        overscroll-behavior: contain;
+        transform: translateX(100%);
+        z-index: 600;
+        transition: transform 0.35s cubic-bezier(.22,.61,.36,1);
+      }
+      .detail.visible {
+        margin: 0;
+        transform: translateX(0);
+        overflow-y: auto;
+      }
+      .detail::before { display: none; }
+
+      .detail-overlay {
+        position: fixed;
+        inset: 0;
+        background: rgba(var(--black-rgb),.6);
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.25s ease;
+        z-index: 599;
+      }
+      .detail-overlay.open {
+        opacity: 1;
+        pointer-events: auto;
+      }
     }
 
     /* ─── 580px ─── */
@@ -1021,13 +1225,11 @@
       .current-year::before,
       .current-year::after { display: none; }
 
-      .detail { margin: 8px 0 0; border-radius: 16px; }
+      .detail-top { padding: 96px 24px 16px; }
 
-      .detail-top { padding: 18px 16px 16px; }
+      .detail-body { padding: 10px 10px 48px; gap: 8px; }
 
-      .detail-body { padding: 10px 10px 16px; gap: 8px; }
-
-      .detail h2 { font-size: 1.8rem; }
+      .detail h2 { font-size: 1.8rem; padding-left: 2px; }
 
       .info-grid { grid-template-columns: 1fr; gap: 14px; }
 
@@ -1051,7 +1253,6 @@
       <a href="/pages/memoir.html">Mémoire</a>
       <a href="/pages/a-propos.html">À propos</a>
     </nav>
-    <a href="/realisation/cvaxelmarion.pdf" class="nav-cv" target="_blank">CV ↓</a>
     <button class="burger" id="burgerBtn" aria-label="Menu">
       <span></span><span></span><span></span>
     </button>
@@ -1061,7 +1262,9 @@
     <a href="/index.html">Accueil</a>
     <a href="/pages/projet.html">Projets</a>
     <a href="/pages/jeux.html">Jeux</a>
+    <a href="/pages/memoir.html">Mémoire</a>
     <a href="/pages/a-propos.html">À propos</a>
+    <a href="/realisation/cvaxelmarion.pdf" target="_blank" style="color:var(--accent2)">CV ↓</a>
   </div>
   <div class="drawer-overlay" id="drawerOverlay"></div>
 
@@ -1099,6 +1302,10 @@
     </div>
 
     <div class="timeline-hint">Faites défiler la frise</div>
+
+    <div class="mobile-timeline" id="mobileTimeline">
+      <div class="mobile-timeline-line" id="mobileTimelineLine"></div>
+    </div>
 
     <section class="timeline-section">
       <div class="current-year" id="currentYear">2022</div>
@@ -1172,6 +1379,8 @@
 
       </div>
     </section>
+
+    <div class="detail-overlay" id="detailOverlay"></div>
   </main>
 
   <footer>© 2025 Axel Marion</footer>
@@ -1214,6 +1423,7 @@
 
     const projects = window.PROJECTS;
     const diplomas = window.DIPLOMAS;
+    const diplomaTimelineColors = Object.values((window.COLORS && window.COLORS.timeline) || {});
 
     function getX(year, month) {
       return startX + ((year - startYear) * 12 + month) * monthWidth;
@@ -1305,8 +1515,6 @@
         });
       }
 
-      const diplomaTimelineColors = Object.values((window.COLORS && window.COLORS.timeline) || {});
-
       diplomas.forEach((diploma) => {
         const x = getX(diploma.year, diploma.month);
         const diplomaEl = document.createElement("div");
@@ -1360,12 +1568,138 @@
         });
         cardsEl.appendChild(card);
       });
+
+      buildMobileTimeline();
+    }
+
+    // Version verticale simplifiée de la frise, affichée sous 768px (voir CSS) :
+    // liste chronologique des projets + diplômes, empilés au lieu du scroll horizontal.
+    function buildMobileTimeline() {
+      const container = document.getElementById("mobileTimeline");
+      if (!container) return;
+
+      // On garde la ligne (premier enfant) et on repart du reste.
+      container.querySelectorAll(".mobile-timeline-row, .mobile-timeline-year").forEach((el) => el.remove());
+
+      const line = document.getElementById("mobileTimelineLine");
+      if (line && diplomaTimelineColors.length) {
+        const stops = diplomaTimelineColors.map((entry, i) => {
+          const pct = (i / Math.max(diplomaTimelineColors.length - 1, 1)) * 100;
+          return `${entry.value} ${pct.toFixed(1)}%`;
+        });
+        line.style.background = `linear-gradient(to bottom, ${stops.join(", ")})`;
+      }
+
+      function createProjectCard(p) {
+        const el = document.createElement("div");
+        el.className = "mobile-timeline-item";
+        el.dataset.color = p.color || "";
+        el.innerHTML = `
+          <div class="mtl-img-wrap">
+            <img src="${p.thumb || p.img}" alt="${p.title}" loading="lazy">
+          </div>
+          <div class="mtl-body">
+            <h3>${p.title}</h3>
+            <p>${p.type}</p>
+            <span class="tag ${p.color}">${p.date}</span>
+          </div>
+        `;
+        el.addEventListener("click", () => {
+          document.querySelectorAll(".mobile-timeline-item").forEach((i) => i.classList.remove("active"));
+          el.classList.add("active");
+          selectProject(p, el);
+        });
+        return el;
+      }
+
+      function createDiplomaCard(d) {
+        const el = document.createElement("div");
+        el.className = "mobile-timeline-item mobile-timeline-diploma";
+        if (diplomaTimelineColors.length) {
+          const entry = diplomaTimelineColors[(d.year - startYear) % diplomaTimelineColors.length];
+          if (entry) {
+            el.style.setProperty("--year-color", entry.value);
+            const rgb = hexToRgb(entry.value);
+            if (rgb) el.style.setProperty("--year-color-rgb", rgb);
+          }
+        }
+        el.innerHTML = `
+          <div class="mtl-body">
+            <div class="mtl-diploma-title">${d.title}</div>
+            <div class="mtl-diploma-date">${d.date}</div>
+            <div class="mtl-diploma-subtitle">${d.subtitle || ""}</div>
+          </div>
+        `;
+        return el;
+      }
+
+      // Regroupe par année/mois : un projet et un diplôme du même mois partagent
+      // la même ligne (donc le même point sur la frise) au lieu d'en avoir chacun un.
+      const rows = new Map();
+      const getRow = (year, month) => {
+        const key = `${year}-${month}`;
+        if (!rows.has(key)) rows.set(key, { year, month, projects: [], diplomas: [] });
+        return rows.get(key);
+      };
+      projects.forEach((p) => getRow(p.year, p.month).projects.push(p));
+      diplomas.forEach((d) => getRow(d.year, d.month).diplomas.push(d));
+
+      // Une ligne par mois, même sans projet/diplôme : garde le même espacement
+      // (gap) que les cartes, pour un rythme chronologique régulier.
+      for (let year = startYear; year <= endYear; year += 1) {
+        months.forEach((_, monthIndex) => getRow(year, monthIndex));
+      }
+
+      const sortedRows = [...rows.values()].sort((a, b) => (a.year - b.year) || (a.month - b.month));
+
+      let lastYear = null;
+      sortedRows.forEach((row) => {
+        if (row.year !== lastYear) {
+          lastYear = row.year;
+          const yearEl = document.createElement("div");
+          yearEl.className = "mobile-timeline-year";
+          yearEl.textContent = row.year;
+          if (diplomaTimelineColors.length) {
+            const entry = diplomaTimelineColors[(row.year - startYear) % diplomaTimelineColors.length];
+            if (entry) {
+              yearEl.style.setProperty("--year-color", entry.value);
+              const rgb = hexToRgb(entry.value);
+              if (rgb) yearEl.style.setProperty("--year-color-rgb", rgb);
+            }
+          }
+          container.appendChild(yearEl);
+        }
+
+        const rowEl = document.createElement("div");
+        rowEl.className = "mobile-timeline-row";
+        if (!row.projects.length && !row.diplomas.length) rowEl.classList.add("is-empty");
+
+        const leftSlot = document.createElement("div");
+        leftSlot.className = "mtl-slot mtl-slot-left";
+        row.projects.forEach((p) => leftSlot.appendChild(createProjectCard(p)));
+
+        const rightSlot = document.createElement("div");
+        rightSlot.className = "mtl-slot mtl-slot-right";
+        row.diplomas.forEach((d) => rightSlot.appendChild(createDiplomaCard(d)));
+
+        rowEl.appendChild(leftSlot);
+        rowEl.appendChild(rightSlot);
+        container.appendChild(rowEl);
+      });
+    }
+
+    function isMobileDetail() {
+      return window.innerWidth <= 768;
     }
 
     function selectProject(project, card) {
       document.querySelectorAll(".project-card").forEach(c => c.classList.remove("active"));
       card.classList.add("active");
       detail.classList.add("visible");
+      if (isMobileDetail()) {
+        document.getElementById("detailOverlay").classList.add("open");
+        document.body.style.overflow = "hidden";
+      }
       detail.classList.remove("color-blue", "color-orange", "color-pink");
       detailSide.classList.remove("color-blue", "color-orange", "color-pink");
       if (project.color === "blue" || project.color === "orange" || project.color === "pink") {
@@ -1411,18 +1745,23 @@
 
       updateProjectMedia(project);
 
-      setTimeout(() => {
-        detail.scrollIntoView({ behavior: "smooth", block: window.innerWidth < 768 ? "start" : "nearest" });
-      }, 80);
+      if (!isMobileDetail()) {
+        setTimeout(() => {
+          detail.scrollIntoView({ behavior: "smooth", block: "nearest" });
+        }, 80);
+      }
     }
 
     function closeDetail() {
       detail.classList.remove("visible");
       document.querySelectorAll(".project-card").forEach(c => c.classList.remove("active"));
       document.getElementById("detailVideo").src = "about:blank";
+      document.getElementById("detailOverlay").classList.remove("open");
+      document.body.style.overflow = "";
     }
 
     document.getElementById("detailClose").addEventListener("click", closeDetail);
+    document.getElementById("detailOverlay").addEventListener("click", closeDetail);
 
     document.addEventListener("keydown", e => {
       if (e.key === "Escape" && detail.classList.contains("visible")) closeDetail();

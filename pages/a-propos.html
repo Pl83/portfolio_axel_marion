@@ -239,11 +239,11 @@
       align-items: center;
       padding: 7px 13px;
       background: transparent;
-      border: 1px solid rgba(var(--accent-rgb),.4);
-      box-shadow: 0 0 8px rgba(var(--accent-rgb),.35);
+      border: 1px solid rgba(var(--accent2-rgb),.4);
+      box-shadow: 0 0 8px rgba(var(--accent2-rgb),.35);
       border-radius: 999px;
       font-size: .78rem;
-      color: var(--accent);
+      color: var(--accent2);
     }
     .tag-muted {
       background: var(--bg2);
@@ -307,6 +307,11 @@
       color: var(--muted);
       margin-bottom: 8px;
     }
+    .timeline-area {
+      font-size: .84rem;
+      color: var(--accent2);
+      margin-bottom: 4px;
+    }
     .timeline-desc {
       font-size: .86rem;
       color: var(--muted);
@@ -340,7 +345,6 @@
       <a href="/pages/memoir.html">Mémoire</a>
       <a href="/pages/a-propos.html" class="active">À propos</a>
     </nav>
-    <a href="/realisation/cvaxelmarion.pdf" class="nav-cv" target="_blank">CV ↓</a>
 
     <button class="burger" id="burgerBtn" aria-label="Menu">
       <span></span><span></span><span></span>
@@ -351,14 +355,16 @@
     <a href="/index.html">Accueil</a>
     <a href="/pages/projet.html">Projets</a>
     <a href="/pages/jeux.html">Jeux</a>
+    <a href="/pages/memoir.html">Mémoire</a>
     <a href="/pages/a-propos.html">À propos</a>
+    <a href="/realisation/cvaxelmarion.pdf" target="_blank" style="color:var(--accent2)">CV ↓</a>
   </div>
   <div class="drawer-overlay" id="drawerOverlay"></div>
 
   <!-- ── Hero ─────────────────────────────────────────────────── -->
   <section id="hero" class="hero">
     <div class="hero-content">
-      <p class="hero-eyebrow">Portfolio — Game Design &amp; Dev</p>
+      <p class="hero-eyebrow">curriculum vitæs</p>
       <h1 class="hero-title">
         Axel<br>
         <span class="accent">Marion</span>
@@ -416,8 +422,8 @@
         </summary>
         <div class="ap-faq-content">
           <div class="block-body">
-            <p>Ce qui m'attire dans le jeu vidéo, c'est <span class="highlight">sa capacité à transmettre</span>. Un jeu peut divertir, émouvoir, faire réfléchir — tout à la fois. C'est un médium immersif comme aucun autre.</p>
-            <p>Mes inspirations viennent de partout : un livre, une chanson, un film, un autre jeu. Je m'en nourris pour créer des expériences qui touchent les gens — des univers et des instants qui laissent quelque chose.</p>
+            <p>Ce qui m'attire dans le jeu vidéo, c'est <span class="highlight">sa capacité à transmettre</span>. Un jeu peut divertir, émouvoir, faire réfléchir ou tout à la fois. C'est un médium immersif comme aucun autre.</p>
+            <p>Mes inspirations viennent de partout : un livre, une chanson, un film, un autre jeu. Je m'en nourris pour créer des expériences qui touchent les gens, des univers et des instants qui laissent quelque chose.</p>
           </div>
         </div>
       </details>
@@ -430,7 +436,7 @@
         </summary>
         <div class="ap-faq-content">
           <div class="block-body">
-            <p>Je suis à la recherche d'un stage, d'une alternance ou d'un premier emploi dans un studio de taille moyenne — un environnement où ma polyvalence est un atout, pas une contrainte.</p>
+            <p>Je suis à la recherche d'un stage, d'une alternance ou d'un premier emploi dans un studio de taille moyenne ou un environnement où ma polyvalence est un atout, pas une contrainte.</p>
             <p>Mon objectif : devenir <span class="highlight">level designer</span>. Concevoir des espaces qui racontent une histoire, guident le joueur sans qu'il s'en rende compte, et créent des émotions par la seule architecture du niveau.</p>
           </div>
           <div class="tag-group block-tags">
@@ -449,7 +455,7 @@
         </summary>
         <div class="ap-faq-content">
           <div class="block-body">
-            <p>J'aime <span class="highlight">apprendre de nouvelles choses</span> et <span class="highlight">fabriquer avec mes mains</span> — la randonnée en fait aussi partie, pour décrocher et prendre l'air.</p>
+            <p>J'aime <span class="highlight">apprendre de nouvelles choses</span> et <span class="highlight">fabriquer avec mes mains</span> aussi la randonnée en fait aussi partie, pour décrocher et prendre l'air.</p>
             <p>Côté centres d'intérêt plus posés : la musique et la lecture.</p>
           </div>
         </div>
@@ -464,7 +470,7 @@
         <div class="ap-faq-content">
           <div class="block-body">
             <p><a href="/pages/projet.html?p=autoportrait" class="highlight">Autoportrait</a> et <a href="/pages/projet.html?p=revolte" class="highlight">Revolte</a> sont les deux projets qui me représentent le plus.</p>
-            <p>Revolte en particulier : je l'ai conçu, écrit, illustré et équilibré entièrement seul — et j'ai tenu la comparaison face à des camarades qui travaillaient en groupe sur leur propre jeu.</p>
+            <p>Revolte en particulier : je l'ai conçu, écrit, illustré et équilibré entièrement seul où j'ai tenu la comparaison face à des camarades qui travaillaient en groupe sur leur propre jeu.</p>
           </div>
           <a href="/pages/projet.html?p=autoportrait" class="ap-faq-link">Voir Autoportrait →</a>
           <a href="/pages/projet.html?p=revolte" class="ap-faq-link" style="margin-left:16px;">Voir Revolte →</a>
@@ -533,6 +539,7 @@
         <div class="timeline-item">
           <div class="timeline-date">${formatRange(e.startDate, e.endDate)}</div>
           <div class="timeline-title">${e.studyType}</div>
+          ${e.area ? `<div class="timeline-area">${e.area}</div>` : ''}
           <div class="timeline-place">${e.institution}</div>
         </div>
       `).join('');

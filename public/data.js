@@ -600,6 +600,16 @@ window.RESUME = {
   ],
   education: [
     {
+      institution: "IIM Paris",
+      url: "",
+      area: "Game Design & Level Design",
+      studyType: "Bachelor Jeux Vidéo",
+      startDate: "2025-09",
+      endDate: "2027-07",
+      score: "",
+      courses: []
+    },
+    {
       institution: "Gobelins Paris",
       url: "",
       area: "Métiers d'art et du design",

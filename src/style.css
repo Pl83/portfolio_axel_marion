@@ -842,6 +842,9 @@ footer {
   padding: 34px;
   z-index: 600;
   overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  touch-action: pan-y;
+  overscroll-behavior: contain;
   transform: translateX(100%);
   opacity: 0;
   pointer-events: none;
