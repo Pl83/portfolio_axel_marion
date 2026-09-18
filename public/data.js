@@ -155,19 +155,6 @@ window.PROJECTS = [
     link: "#"
   },
   {
-    title: "Enfain",
-    type: "Application",
-    tag: "Gobelins", color: "blue",
-    year: 2023, month: 11, date: "DEC. 2023",
-    img: "/realisation/enfain.jpg",
-    desc: "Prototype d'une application en cas d'un manque de reapprovisionnement alimentaire dans Paris",
-    duration: "1 Semaine",
-    role: ["User Experience", "User Research", "Prototypage", "Design d'interface"],
-    learned: ["Poser des questions", "Analyse des besoins", "UX", "UI"],
-    tools: ["Figma"],
-    link: "#"
-  },
-  {
     title: "After the Révolte",
     type: "Prototype",
     platform: "PandaSuite",
@@ -216,19 +203,6 @@ window.PROJECTS = [
     role: ["Animateur 3D", "Modélisateur", "Monteur"],
     learned: ["Blender", "Animation 3D"],
     tools: ["Blender", "After Effects"],
-    link: "#"
-  },
-  {
-    title: "Course de la mort",
-    type: "Jeux vidéo",
-    tag: "Gobelins", color: "blue",
-    year: 2024, month: 4, date: "MAI 2024",
-    img: "/realisation/construct.png",
-    desc: "Prototype d'un jeu a deux joueurs, où un joueur conduit le vehicule et l'autre doit protéger la voiture des dangers en tirant dessus",
-    duration: "1 Mois",
-    role: ["Game Designer", "Level Designer", "Codeur"],
-    learned: ["Gestion de projet", "Construct", "Arduino"],
-    tools: ["Construct", "Arduino"],
     link: "#"
   },
   {
@@ -365,7 +339,7 @@ window.PROJECTS = [
     tag: "IIM", color: "orange",
     year: 2025, month: 9, date: "OCT. 2025",
     team: "Solo",
-    img: "/realisation/vinyle/macarron.png",
+    thumb: "/realisation/portal/Portal2Logo.png",
     desc: "Création d'un niveau Portal 2, axé sur une mecanique pour faire des puzzles.",
     duration: "1 Semaine",
     role: ["Level Design", "Blocking", "Puzzle Design"],
@@ -406,7 +380,7 @@ window.PROJECTS = [
     tag: "IIM", color: "orange",
     year: 2025, month: 11, date: "DEC. 2025",
     team: "Solo",
-    img: "/realisation/vinyle/macarron.png",
+    thumb: "/realisation/farcry/FC5Logo.png",
     video: "https://www.youtube.com/watch?v=O8hXSBKPLLQ",
     desc: "Reproduction d'une zone de Far Cry 5 en blocking pour analyser les choix de level design du studio.",
     duration: "1 Mois",
@@ -414,7 +388,7 @@ window.PROJECTS = [
     contributions: [ "Level design"],
     learned: ["Level design de FPS", "Blocking"],
     tools: ["Far Cry 5 editeur"],
-    link: "#",
+    link: "/realisation/farcry/niveaufarcry.pdf",
     jeux: true, mode: "Solo", category: "Blocking"
   },
   {
@@ -427,7 +401,7 @@ window.PROJECTS = [
     team: "Équipe",
     engine: "Unity",
     jeux: true, mode: "Équipe", category: "Jeux",
-    img: "/realisation/longnigth/longnigth.png",
+    thumb: "/realisation/longnigth/longnigth.png",
     gallery: [
       "/realisation/longnigth/ecrantitre.jpg",
       "/realisation/longnigth/ingame.jpg",
@@ -439,15 +413,14 @@ window.PROJECTS = [
     contributions: ["Direction du game design", "Conception des mécaniques", "Itération et tests"],
     learned: ["Direction du game design","Conception des mécaniques de puzzle","Itérations et tests joueurs" ,"Documentation de game design"],
     tools: ["Unity", "Google Docs","Figma"],
-    link: "#"
+    link: "https://play.google.com/store/apps/details?id=com.IIMaxeJV.LongNightAtGrandmas&hl=fr"
   },
-  /* INCOMPLET — à compléter avant de publier
   {
     title: "Golf Unreal Engine",
     type: "Jeux vidéo",
     tag: "IIM", color: "orange",
     year: 2026, month: 3, date: "AVR. 2026",
-    img: "/realisation/vinyle/macarron.png",
+    thumb: "/realisation/UE5logo.jpg",
     desc: "Prototype orienté combat, feedback visuel et sensations de jeu.",
     duration: "1 Mois",
     role: ["Level Design", "Mécanique de jeu", "Tests de sensations", "Blueprint"],
@@ -455,7 +428,6 @@ window.PROJECTS = [
     tools: ["Unreal Engine"],
     link: "#"
   },
-  */
   {
     title: "Level Design Plague Tale",
     type: "Blocking",
@@ -464,7 +436,8 @@ window.PROJECTS = [
     tag: "IIM", color: "orange",
     year: 2026, month: 4, date: "MAI 2026",
     team: "Solo",
-    img: "/realisation/vinyle/macarron.png",
+    thumb: "/realisation/plaguetalelogo.png",
+    video: "https://www.youtube.com/watch?v=7jLs_lC8rA4",
     desc: "Reproduction d'une zone de A Plague Tale Requiem pour analyser la direction artistique et le level design narratif.",
     duration: "1 Mois",
     role: ["Level Design", "Blocking", "Ambiance"],
@@ -479,21 +452,33 @@ window.PROJECTS = [
     link: "#",
     jeux: true, mode: "Solo", category: "Blocking"
   },
-  /* INCOMPLET — à compléter avant de publier
   {
-    title: "Project Unreal Engine",
+    title: "ZeroPaws",
     type: "Jeux vidéo",
     tag: "IIM", color: "orange",
     year: 2026, month: 5, date: "JUIN 2026",
-    img: "/realisation/vinyle/macarron.png",
+    thumb: "/realisation/zeropaws/zeropawslogo.png",
+    video: "https://www.youtube.com/watch?v=1cxjRNqCTfA",
     desc: "Prototype orienté combat, feedback visuel et sensations de jeu.",
     duration: "1 Mois",
-    role: ["Combat Design", "Feedback visuel", "Tests de sensations"],
+    role: ["Feedback visuel", "Tests de sensations", "Level Design", "Blueprint", "technic art"],
     learned: ["Améliorer le ressenti des actions", "Créer des feedbacks lisibles", "Tester rapidement une mécanique"],
     tools: ["Unreal Engine"],
-    link: "#"
+    link: "https://blueprint-trifi.itch.io/zero-paws"
   },
-  */
+  {
+    title: "T.Y.L. Try Your Luck",
+    type: "Jeux vidéo",
+    tag: "IIM", color: "orange",
+    year: 2026, month: 8, date: "SEPT. 2026",
+    thumb: "/realisation/TYL/TYLLogo.png",
+    desc: "Prototype orienté combat, feedback visuel et sensations de jeu.",
+    duration: "1 Semaine",
+    role: ["Game Design"],
+    learned: ["Travail d'equipe"],
+    tools: ["Unreal Engine"],
+    link: "https://arcdragons.itch.io/13event-tyl"
+  },
 ];
 
 // ── Frise diplômes / alternance (page d'accueil) ─────────────
