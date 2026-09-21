@@ -107,13 +107,19 @@
     }
 
     /* ─── Section header extras ─── */
+    .section-header {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+
     .section-header-top {
       display: flex;
-      align-items: center;
-      justify-content: space-between;
+      flex-direction: column;
+      align-items: flex-start;
       flex-wrap: wrap;
       gap: 14px;
       margin-bottom: 20px;
+      width: 100%;
     }
 
     /* ─── Tag legend ─── */
@@ -122,6 +128,22 @@
       gap: 7px;
       align-items: center;
       flex-wrap: wrap;
+    }
+
+    .legend-item {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: .72rem;
+      font-weight: 600;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: var(--legend-color, var(--accent));
+    }
+
+    .legend-item .dot {
+      background: var(--legend-color, var(--accent));
+      box-shadow: 0 0 8px 1px rgba(var(--legend-color-rgb, var(--accent-rgb)), 0.5);
     }
 
     .tag-legend-label {
@@ -142,7 +164,7 @@
 
     .year-nav button {
       background: transparent;
-      border: 1px solid var(--border);
+      border: 1px solid rgba(var(--white-rgb), .5);
       color: var(--muted);
       font-family: var(--font-d);
       font-size: 1.1rem;
@@ -1156,7 +1178,7 @@
         box-shadow: 0 4px 12px rgba(var(--black-rgb),0.4);
       }
 
-      /* ── Panneau détail en tiroir latéral (comme pages/jeux.html) ── */
+      /* ── Panneau détail en tiroir latéral ── */
       .detail {
         position: fixed;
         top: 0;
@@ -1249,7 +1271,6 @@
     <nav class="nav-links">
       <a href="/index.html">Accueil</a>
       <a href="/pages/projet.html" class="active">Projets</a>
-      <a href="/pages/jeux.html">Jeux</a>
       <a href="/pages/memoir.html">Mémoire</a>
       <a href="/pages/a-propos.html">À propos</a>
     </nav>
@@ -1261,7 +1282,6 @@
   <div class="drawer" id="drawer">
     <a href="/index.html">Accueil</a>
     <a href="/pages/projet.html">Projets</a>
-    <a href="/pages/jeux.html">Jeux</a>
     <a href="/pages/memoir.html">Mémoire</a>
     <a href="/pages/a-propos.html">À propos</a>
     <a href="/realisation/cvaxelmarion.pdf" target="_blank" style="color:var(--accent2)">CV ↓</a>
@@ -1287,9 +1307,9 @@
         <h2 class="section-title">Frise chronologique</h2>
         <div class="tag-legend">
           <span class="tag-legend-label">Légende —</span>
-          <span class="tag blue">Gobelins</span>
-          <span class="tag orange">IIM</span>
-          <span class="tag pink">Personnel</span>
+          <span class="legend-item" style="--legend-color:var(--blue); --legend-color-rgb:var(--blue-rgb)"><span class="dot"></span>Gobelins</span>
+          <span class="legend-item" style="--legend-color:var(--orange); --legend-color-rgb:var(--orange-rgb)"><span class="dot"></span>IIM</span>
+          <span class="legend-item" style="--legend-color:var(--pink); --legend-color-rgb:var(--pink-rgb)"><span class="dot"></span>Personnel</span>
         </div>
       </div>
       <nav class="year-nav" id="yearNav">
@@ -1318,6 +1338,11 @@
         </div>
       </div>
     </section>
+
+    <div class="section-header" style="margin-top:64px;">
+      <div class="section-label"><span class="dot"></span>Tous les projets</div>
+    </div>
+    <div class="featured-groups" id="allProjectsGrid"></div>
 
     <section class="detail" id="detail">
       <button class="detail-close" id="detailClose" aria-label="Fermer">✕</button>
@@ -1570,6 +1595,83 @@
       });
 
       buildMobileTimeline();
+      buildAllProjectsGrid();
+    }
+
+    // Regroupement de tous les projets par école (Gobelins / IIM / Personnel),
+    // affiché sous la frise — même gabarit de carte que la page d'accueil.
+    function buildAllProjectsGrid() {
+      const container = document.getElementById("allProjectsGrid");
+      if (!container) return;
+
+      const byTag = {};
+      projects.forEach((p) => {
+        const key = p.tag || "Autre";
+        (byTag[key] = byTag[key] || []).push(p);
+      });
+
+      const tagOrder = ["Gobelins", "IIM", "Personnel"];
+      const tags = tagOrder.filter(t => byTag[t]).concat(Object.keys(byTag).filter(t => !tagOrder.includes(t)));
+
+      container.innerHTML = "";
+      tags.forEach((tag) => {
+        const items = byTag[tag];
+        const groupColorVar = `var(--${items[0].color})`;
+        const groupColorRgbVar = `var(--${items[0].color}-rgb)`;
+
+        const group = document.createElement("div");
+        group.className = "featured-group featured-group-collapsible";
+        group.style.setProperty("--group-color", groupColorVar);
+        group.style.setProperty("--group-color-rgb", groupColorRgbVar);
+
+        const label = document.createElement("div");
+        label.className = "featured-group-label";
+        label.setAttribute("role", "button");
+        label.setAttribute("tabindex", "0");
+        label.style.setProperty("--group-color", groupColorVar);
+        label.style.setProperty("--group-color-rgb", groupColorRgbVar);
+        label.innerHTML = `<span class="dot"></span>${tag}<span class="featured-group-count">${items.length}</span><span class="featured-group-chevron">▾</span>`;
+        const toggleGroup = () => group.classList.toggle("open");
+        label.addEventListener("click", toggleGroup);
+        label.addEventListener("keydown", (e) => {
+          if (e.key === "Enter" || e.key === " ") {
+            e.preventDefault();
+            toggleGroup();
+          }
+        });
+        group.appendChild(label);
+
+        const grid = document.createElement("div");
+        grid.className = "cards-grid";
+
+        items.forEach((p) => {
+          const card = document.createElement("div");
+          card.className = "card-project";
+          card.style.setProperty("--card-color", `var(--${p.color})`);
+          card.style.setProperty("--card-color-rgb", `var(--${p.color}-rgb)`);
+          const imgSrc = p.thumb || p.img;
+          const imgHtml = imgSrc
+            ? `<img src="${imgSrc}" alt="${p.title}" loading="lazy">`
+            : `<div class="card-placeholder">${p.title}</div>`;
+          card.innerHTML = `
+            <div class="card-img-wrap">${imgHtml}</div>
+            <div class="card-info">
+              <span class="card-cat">${p.type || ""}</span>
+              <h3>${p.title}</h3>
+              <p class="card-desc-clamp">${p.desc || ""}</p>
+              <span class="card-arrow">↗</span>
+            </div>
+          `;
+          card.addEventListener("click", () => {
+            const timelineCard = document.querySelector(`.project-card[data-slug="${slugify(p.id || p.title)}"]`);
+            selectProject(p, timelineCard || card);
+          });
+          grid.appendChild(card);
+        });
+
+        group.appendChild(grid);
+        container.appendChild(group);
+      });
     }
 
     // Version verticale simplifiée de la frise, affichée sous 768px (voir CSS) :

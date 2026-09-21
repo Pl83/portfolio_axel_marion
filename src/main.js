@@ -80,30 +80,73 @@ const TAG_COLORS = Object.fromEntries(
   Object.entries((window.COLORS && window.COLORS.tags) || {}).map(([k, v]) => [k, v.value])
 );
 
-const FEATURED_IDS = ['dotmusic', 'infinitydot', 'floatland', 'longnigth'];
+function hexToRgb(hex) {
+  const m = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex || '');
+  return m ? [parseInt(m[1], 16), parseInt(m[2], 16), parseInt(m[3], 16)].join(',') : null;
+}
+
+const FEATURED_PER_TAG = 2;
+
+// Mélange une liste (Fisher-Yates) sans muter l'originale.
+function shuffle(list) {
+  const arr = list.slice();
+  for (let j = arr.length - 1; j > 0; j -= 1) {
+    const k = Math.floor(Math.random() * (j + 1));
+    [arr[j], arr[k]] = [arr[k], arr[j]];
+  }
+  return arr;
+}
+
+const TAG_ORDER = ['Gobelins', 'IIM', 'Personnel'];
+
+// Tire "perTag" projets au hasard pour chaque tag (Gobelins / IIM / Personnel),
+// regroupés par tag, en gardant l'index d'origine de chacun pour que
+// openProjectByIndex() reste juste.
+function pickBalancedFeatured(perTag) {
+  const byTag = {};
+  window.PROJECTS.forEach((p, i) => {
+    const key = p.tag || 'Autre';
+    (byTag[key] = byTag[key] || []).push({ p, i });
+  });
+
+  const tags = TAG_ORDER.filter(t => byTag[t])
+    .concat(Object.keys(byTag).filter(t => !TAG_ORDER.includes(t)));
+
+  return tags.map(tag => ({ tag, items: shuffle(byTag[tag]).slice(0, perTag) }));
+}
 
 function renderProjectsGallery() {
   const grid = document.getElementById('projects-grid');
   if (!grid || !window.PROJECTS) return;
 
-  const featured = window.PROJECTS
-    .map((p, i) => ({ p, i }))
-    .filter(({ p }) => FEATURED_IDS.includes(p.id) || FEATURED_IDS.includes(p.title));
+  const groups = pickBalancedFeatured(FEATURED_PER_TAG);
 
-  grid.innerHTML = featured.map(({ p, i }) => {
-    const border = TAG_COLORS[p.color] || getComputedStyle(document.documentElement).getPropertyValue('--accent').trim();
-    const imgHtml = p.img
-      ? `<img src="${p.thumb || p.img}" alt="${p.title}" loading="lazy">`
-      : `<div class="card-placeholder">${p.title}</div>`;
+  grid.innerHTML = groups.map(({ tag, items }) => {
+    const groupColor = TAG_COLORS[items[0].p.color] || getComputedStyle(document.documentElement).getPropertyValue('--accent').trim();
+    const groupColorRgb = hexToRgb(groupColor) || getComputedStyle(document.documentElement).getPropertyValue('--accent-rgb').trim();
+    const cardsHtml = items.map(({ p, i }) => {
+      const border = TAG_COLORS[p.color] || getComputedStyle(document.documentElement).getPropertyValue('--accent').trim();
+      const borderRgb = hexToRgb(border) || getComputedStyle(document.documentElement).getPropertyValue('--accent-rgb').trim();
+      const imgSrc = p.thumb || p.img;
+      const imgHtml = imgSrc
+        ? `<img src="${imgSrc}" alt="${p.title}" loading="lazy">`
+        : `<div class="card-placeholder">${p.title}</div>`;
+      return `
+        <div class="card-project" style="--card-color:${border}; --card-color-rgb:${borderRgb}" onclick="openProjectByIndex(${i})">
+          <div class="card-img-wrap">${imgHtml}</div>
+          <div class="card-info">
+            <span class="card-cat">${p.type || ''}</span>
+            <h3>${p.title}</h3>
+            <p class="card-desc-clamp">${p.desc || ''}</p>
+            <span class="card-arrow">↗</span>
+          </div>
+        </div>`;
+    }).join('');
+
     return `
-      <div class="card-project" style="border-top:3px solid ${border}; box-shadow: 0 -8px 16px -4px ${border}" onclick="openProjectByIndex(${i})">
-        <div class="card-img-wrap">${imgHtml}</div>
-        <div class="card-info">
-          <span class="card-cat">${p.type || ''}</span>
-          <h3>${p.title}</h3>
-          <p class="card-desc-clamp">${p.desc || ''}</p>
-          <span class="card-arrow">↗</span>
-        </div>
+      <div class="featured-group">
+        <div class="featured-group-label" style="--group-color:${groupColor}; --group-color-rgb:${groupColorRgb}"><span class="dot"></span>${tag}</div>
+        <div class="cards-grid">${cardsHtml}</div>
       </div>`;
   }).join('');
 }

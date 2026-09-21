@@ -12,7 +12,6 @@ export default defineConfig({
         music: resolve(__dirname, 'pages/dotmusic.html'),
         infinity: resolve(__dirname, 'pages/infinitydot.html'),
         about: resolve(__dirname, 'pages/a-propos.html'),
-        game: resolve(__dirname, 'pages/jeux.html'),
         projet: resolve(__dirname, 'pages/projet.html'),
         memoire: resolve(__dirname, 'pages/memoir.html'),
       },

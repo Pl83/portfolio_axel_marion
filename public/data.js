@@ -1,6 +1,6 @@
 // ── Projets du portfolio ──────────────────────────────────────
 // Chaque entrée du tableau est un projet. Modifier ce fichier met à jour
-// toutes les pages qui l'utilisent (accueil, pages/projet.html, pages/jeux.html).
+// toutes les pages qui l'utilisent (accueil, pages/projet.html).
 //
 // Champs communs à tous les projets :
 //   title    : titre du projet
@@ -33,11 +33,6 @@
 //     { src: "/realisation/img.png", caption: "Texte" }          ← image avec légende
 //     { src: "/realisation/gdd.docx", type: "doc", label: "GDD" }        ← document Word
 //     { src: "/realisation/balance.xlsx", type: "doc", label: "Balance" } ← document Excel
-//
-// Champs utilisés uniquement par la page Jeux (pages/jeux.html) :
-//   jeux     : true pour faire apparaître le projet sur la page Jeux
-//   mode     : "Solo" ou "Équipe" (déduit de "team" si absent)
-//   category : catégorie utilisée pour les filtres de la page Jeux (ex: "Jeux", "Blocking", "Prototype")
 
 window.PROJECTS = [
   {
@@ -116,8 +111,7 @@ window.PROJECTS = [
     ],
     learned: ["Concevoir des niveaux immersifs et cohérents", "Travailler en équipe avec une bonne organisation", "Itérer grâce aux tests joueurs"],
     tools: ["InDesign", "Illustrator"],
-    link: "#",
-    jeux: true, mode: "Solo", category: "Jeux"
+    link: "#"
   },
   {
     title: "Decoration",
@@ -174,8 +168,7 @@ window.PROJECTS = [
     ],
     learned: ["Narration interactive", "UX", "Prototypage"],
     tools: ["PandaSuite"],
-    link: "#",
-    jeux: true, mode: "Solo", category: "Prototype"
+    link: "#"
   },
   {
     title: "Whellcome To Hell",
@@ -214,7 +207,6 @@ window.PROJECTS = [
     year: 2024, month: 5, date: "JUIN. 2024",
     team: "3 personnes",
     engine: "Unity",
-    jeux: true, mode: "Équipe", category: "Jeux",
     img: "/realisation/floatland/floatland.png",
     video: "https://www.youtube.com/watch?v=p1svvKTsktk",
     desc: "Jeux de relaxation en VR, où le joueur va sur une ile flottante avec une identitév visuelle propre avec un mini jeu dessus",
@@ -234,7 +226,6 @@ window.PROJECTS = [
     year: 2024, month: 9, date: "OCT. 2024",
     team: "Solo",
     engine: "Three.js",
-    jeux: true, mode: "Solo", category: "Jeux",
     img: "/realisation/infinitydot.png",
     desc: "Representé la fin de toute chose",
     duration: "1 semaine",
@@ -253,7 +244,6 @@ window.PROJECTS = [
     year: 2024, month: 10, date: "NOV. 2024",
     team: "Solo",
     engine: "Vue.js",
-    jeux: true, mode: "Solo", category: "Jeux",
     img: "/realisation/dotmusic.png",
     desc: "Representé l'effet du son sur les particules",
     duration: "1 semaine",
@@ -289,7 +279,7 @@ window.PROJECTS = [
     role: ["Rédaction", "Chercheur", "Analyste"],
     learned: ["Rédiger un texte en fonction d'analyse", "Rechercher sur un sujet"],
     tools: ["Google Docs"],
-    link: "#"
+    link: "/realisation/memoir/memoir-level-design.pdf"
   },
   {
     title: "Fragment",
@@ -310,8 +300,7 @@ window.PROJECTS = [
     ],
     learned: ["Améliorer le ressenti des actions", "Créer des feedbacks lisibles", "Tester rapidement une mécanique"],
     tools: ["Unity", "Blender"],
-    link: "#",
-    jeux: true, mode: "Solo", category: "Jeux"
+    link: "#"
   },
   {
     title: "Game Designer - So'Briquet",
@@ -328,8 +317,7 @@ window.PROJECTS = [
     contributions: [ "Conception du gameplay", "equilibrage", "tests"],
     learned: ["Améliorer le ressenti des actions", "Créer des feedbacks lisibles", "Tester rapidement une mécanique"],
     tools: ["Unity", "Blender"],
-    link: "https://anatole13.itch.io/team-10-sobriquet#",
-    jeux: true, mode: "Solo", category: "Jeux"
+    link: "https://anatole13.itch.io/team-10-sobriquet#"
   },
   {
     title: "Level Design Portal 2",
@@ -350,8 +338,7 @@ window.PROJECTS = [
     ],
     learned: ["Améliorer le ressenti des actions", "Créer des feedbacks lisibles", "Tester rapidement une mécanique"],
     tools: ["Portal 2 Editeur"],
-    link: "#",
-    jeux: true, mode: "Solo", category: "Blocking"
+    link: "#"
   },
   {
     title: "Modvember",
@@ -388,8 +375,7 @@ window.PROJECTS = [
     contributions: [ "Level design"],
     learned: ["Level design de FPS", "Blocking"],
     tools: ["Far Cry 5 editeur"],
-    link: "/realisation/farcry/niveaufarcry.pdf",
-    jeux: true, mode: "Solo", category: "Blocking"
+    link: "/realisation/farcry/niveaufarcry.pdf"
   },
   {
     id: "longnigth",
@@ -400,7 +386,6 @@ window.PROJECTS = [
     year: 2026, month: 1, date: "FEV. 2026",
     team: "Équipe",
     engine: "Unity",
-    jeux: true, mode: "Équipe", category: "Jeux",
     thumb: "/realisation/longnigth/longnigth.png",
     gallery: [
       "/realisation/longnigth/ecrantitre.jpg",
@@ -449,8 +434,7 @@ window.PROJECTS = [
     ],
     learned: ["Améliorer le ressenti des actions", "Créer des feedbacks lisibles", "Tester rapidement une mécanique"],
     tools: ["Unreal Engine"],
-    link: "#",
-    jeux: true, mode: "Solo", category: "Blocking"
+    link: "#"
   },
   {
     title: "ZeroPaws",
@@ -660,12 +644,9 @@ window.RESUME = {
 //
 //   school   : couleur des cartes/badges par établissement sur la frise —
 //              gobelins et iim (bordure de carte + badge école), perso (badge
-//              "Prototype", pas encore lié à un project.color).
-//              → pages/projet.html, pages/jeux.html.
-//
-//   jeux     : couleur des boutons de filtre et badges de type sur la page Jeux —
-//              jeux (jeu/jeu de carte), prototype, blocking.
-//              → pages/jeux.html.
+//              "Prototype", pas encore lié à un project.color — page Jeux
+//              supprimée, ce badge n'est plus affiché nulle part).
+//              → pages/projet.html.
 //
 //   projet   : couleur liée à project.color ("blue"/"orange"/"pink") sur la frise
 //              elle-même — carte, tag, panneau détail + panneau latéral.
@@ -728,17 +709,8 @@ window.COLORS = {
   // seule couleur pour "Gobelins"/"IIM" (école) et project.color (projets).
   school: {
     gobelins: { value: SWATCHES.blue, text: SWATCHES.bluePastel, usage: "Gobelins — bordure de carte + badge (pages/projet.html)" },
-    iim: { value: SWATCHES.orange, text: SWATCHES.orangePastel, usage: "IIM — bordure de carte + badge (pages/projet.html, pages/jeux.html)" },
-    perso: { value: SWATCHES.green, text: SWATCHES.greenPastel, usage: "Badge \"Prototype\" (pages/jeux.html) — pas de project.color associé actuellement" }
-  },
-  // Filtres et badges de type sur pages/jeux.html (boutons "Jeux/Prototype/Blocking"
-  // + badge de type sur chaque carte). "jeux" partage SWATCHES.navy avec accent.accent,
-  // "prototype" partage SWATCHES.green avec school.perso, "blocking" partage
-  // SWATCHES.orange avec school.iim/tags.orange.
-  jeux: {
-    jeux: { value: SWATCHES.navy, text: SWATCHES.sky, usage: "Badge \"Jeux\" / \"Jeu de carte\" — bordure + badge (pages/jeux.html)" },
-    prototype: { value: SWATCHES.green, text: SWATCHES.greenPastel, usage: "Badge \"Prototype\" — bordure + badge (pages/jeux.html)" },
-    blocking: { value: SWATCHES.orange, text: SWATCHES.orangePastel, usage: "Badge \"Blocking\" — bordure + badge (pages/jeux.html)" }
+    iim: { value: SWATCHES.orange, text: SWATCHES.orangePastel, usage: "IIM — bordure de carte + badge (pages/projet.html)" },
+    perso: { value: SWATCHES.green, text: SWATCHES.greenPastel, usage: "Non utilisé actuellement (ancien badge \"Prototype\" de la page Jeux, supprimée)" }
   },
   // Couleur liée à project.color ("blue"/"orange"/"pink") sur la frise elle-même :
   // carte, tag, panneau détail + panneau latéral (pages/projet.html). Mêmes SWATCHES
@@ -799,10 +771,10 @@ window.COLORS = {
   set('--surface-panel', 'surfaces', 'panel');
   setRgb('--surface-media-alt-rgb', 'surfaces', 'mediaAlt');
 
-  // Groupes "school", "jeux" et "projet" : chaque entrée a un "value" (couleur
-  // pleine) ET un "text" (variante pastel), appliqués en variables CSS du même
-  // nom que la clé.
-  ["school", "jeux", "projet"].forEach((group) => {
+  // Groupes "school" et "projet" : chaque entrée a un "value" (couleur pleine)
+  // ET un "text" (variante pastel), appliqués en variables CSS du même nom que
+  // la clé.
+  ["school", "projet"].forEach((group) => {
     Object.entries(c[group] || {}).forEach(([key, entry]) => {
       root.setProperty(`--${key}`, entry.value);
       root.setProperty(`--${key}-text`, entry.text);
