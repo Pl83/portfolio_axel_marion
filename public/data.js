@@ -537,78 +537,68 @@ window.RESUME = {
   },
   work: [
     {
+      name: "Couch Game",
+      position: "Employé polyvalent",
+      url: "",
+      location: "IIM Paris",
+      startDate: "2026-10",
+      endDate: "2026-12",
+      summary: "",
+      highlights: ["Level Design", "Game Design", "Equilibrage", "Documentation"]
+    },
+    {
+      name: "ZeroPaws",
+      position: "Lead Game Designer",
+      url: "",
+      location: "IIM Paris",
+      startDate: "2026-05",
+      endDate: "2026-06",
+      summary: "",
+      highlights: ["Travail en équipe", "Documentation", "Level Design", "Game Design","Unreal Engine","technic art"]
+    },
+    {
       name: "Collectif Scale",
       position: "Employé polyvalent",
       url: "",
       location: "Montereau-Fault-Yonne",
-      startDate: "2023-11-27",
-      endDate: "2025-07-31",
+      startDate: "2023-11",
+      endDate: "2025-07",
       summary: "",
       highlights: ["Création d'œuvres", "Entretien des œuvres", "Montage des œuvres"]
     },
-    {
-      name: "Scol'Art Rex",
-      position: "Graphiste",
-      url: "",
-      location: "Avèze — stage en télétravail",
-      startDate: "2023-05-09",
-      endDate: "2023-07-07",
-      summary: "",
-      highlights: ["Conception d'atelier artistique", "Réalisation de vidéo", "Montage"]
-    },
-    {
-      name: "Stokomani",
-      position: "Employé polyvalent",
-      url: "",
-      location: "Saint-Ouen-l'Aumône",
-      startDate: "2022-07-01",
-      endDate: "2022-08-30",
-      summary: "",
-      highlights: ["Agent de caisse", "Gestion de rayon"]
-    }
   ],
   education: [
     {
       institution: "IIM Paris",
       url: "",
       area: "Game Design & Level Design",
-      studyType: "Bachelor Jeux Vidéo",
+      studyType: "Bachelor 3 Game Design",
       startDate: "2025-09",
       endDate: "2027-07",
       score: "",
-      courses: []
+      courses: ["unity", "unreal engine", "mantis", "documentation", "travail d'équipe", "game feel", "escape game", 
+                "blocking", "narrative design", "mission design", "gameplay", "game jam", "prototypage rapide","mise en scene","Schematisation design" ]
     },
     {
       institution: "Gobelins Paris",
       url: "",
-      area: "Métiers d'art et du design",
+      area: "Coder sa créativité",
       studyType: "Diplôme national des métiers d'art et du design (DN MADe)",
       startDate: "2022-09",
       endDate: "2025-07",
       score: "",
       courses: []
     },
-    {
-      institution: "Lycée Edmond Rostand",
-      url: "",
-      area: "Physique-chimie & SVT",
-      studyType: "Baccalauréat général",
-      startDate: "2019-09",
-      endDate: "2021-07",
-      score: "",
-      courses: []
-    }
   ],
   skills: [
-    { name: "Design", level: "", keywords: ["Illustrator", "Photoshop", "InDesign", "Canva", "Premiere Pro", "After Effects", "Blender", "Unity"] },
-    { name: "Programmation", level: "", keywords: ["HTML", "CSS", "JavaScript", "Three.js", "C#"] }
+    { name: "Compétences", level: "", keywords: ["Créative", "Canva", "Unreal Engine", "Unity", "Blender","HTML 5", "CSS", "JavaScript", "Three.js"] },
   ],
   languages: [
-    { language: "Français", fluency: "Langue maternelle" },
-    { language: "Anglais", fluency: "" }
+    { language: "Français (natif)", fluency: "Langue maternelle" },
+    { language: "Anglais (B2) ", fluency: "" }
   ],
   interests: [
-    { name: "Qualités personnelles", keywords: ["Calme", "Attentionné", "Discret", "Patient", "Altruiste", "Travail d'équipe", "Sérieux"] }
+    { name: "Qualités personnelles", keywords: ["Calme", "Travail d'équipe", "Sérieux"] }
   ],
   meta: {
     canonical: "",

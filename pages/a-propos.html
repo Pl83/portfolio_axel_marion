@@ -307,11 +307,6 @@
       color: var(--muted);
       margin-bottom: 8px;
     }
-    .timeline-area {
-      font-size: .84rem;
-      color: var(--accent2);
-      margin-bottom: 4px;
-    }
     .timeline-desc {
       font-size: .86rem;
       color: var(--muted);
@@ -390,8 +385,8 @@
               <div id="cv-skills"></div>
             </div>
             <div>
-              <div class="cv-sub-label">Diplômes</div>
-              <div class="timeline" id="cv-education"></div>
+              <div class="cv-sub-label">Expériences</div>
+              <div class="timeline" id="cv-work"></div>
             </div>
           </div>
 
@@ -403,8 +398,8 @@
               <div class="tag-group" id="cv-interests"></div>
             </div>
             <div>
-              <div class="cv-sub-label">Expériences</div>
-              <div class="timeline" id="cv-work"></div>
+              <div class="cv-sub-label">Diplômes</div>
+              <div class="timeline" id="cv-education"></div>
             </div>
           </div>
         </div>
@@ -533,23 +528,33 @@
       document.getElementById('cv-interests').innerHTML = (r.interests || [])
         .flatMap(i => i.keywords).map(k => `<span class="tag tag-soft">${k}</span>`).join('');
 
-      document.getElementById('cv-education').innerHTML = (r.education || []).map(e => `
-        <div class="timeline-item">
-          <div class="timeline-date">${formatRange(e.startDate, e.endDate)}</div>
-          <div class="timeline-title">${e.studyType}</div>
-          ${e.area ? `<div class="timeline-area">${e.area}</div>` : ''}
-          <div class="timeline-place">${e.institution}</div>
-        </div>
-      `).join('');
+      // Rendu commun pour Expériences et Diplômes : date / titre / lieu / description,
+      // même si les champs JSON Resume sous-jacents diffèrent (position/name/highlights
+      // pour work, studyType/institution/area+courses pour education).
+      function renderTimelineItem({ date, title, place, desc }) {
+        return `
+          <div class="timeline-item">
+            <div class="timeline-date">${date}</div>
+            <div class="timeline-title">${title}</div>
+            <div class="timeline-place">${place}</div>
+            ${desc ? `<div class="timeline-desc">${desc}</div>` : ''}
+          </div>
+        `;
+      }
 
-      document.getElementById('cv-work').innerHTML = (r.work || []).map(w => `
-        <div class="timeline-item">
-          <div class="timeline-date">${formatRange(w.startDate, w.endDate)}</div>
-          <div class="timeline-title">${w.position}</div>
-          <div class="timeline-place">${w.name}${w.location ? ' — ' + w.location : ''}</div>
-          ${w.highlights && w.highlights.length ? `<div class="timeline-desc">${w.highlights.join(', ')}.</div>` : ''}
-        </div>
-      `).join('');
+      document.getElementById('cv-education').innerHTML = (r.education || []).map(e => renderTimelineItem({
+        date: formatRange(e.startDate, e.endDate),
+        title: e.area ? `${e.studyType} — ${e.area}` : e.studyType,
+        place: e.institution,
+        desc: e.courses && e.courses.length ? `${e.courses.join(', ')}.` : '',
+      })).join('');
+
+      document.getElementById('cv-work').innerHTML = (r.work || []).map(w => renderTimelineItem({
+        date: formatRange(w.startDate, w.endDate),
+        title: w.position,
+        place: w.name + (w.location ? ' — ' + w.location : ''),
+        desc: w.highlights && w.highlights.length ? `${w.highlights.join(', ')}.` : '',
+      })).join('');
     }
 
     renderResume();
