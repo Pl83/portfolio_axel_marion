@@ -1,3 +1,28 @@
+// ── Langue (FR/EN) ─────────────────────────────────────────────
+// window.LANG / window.setLang / window.STRINGS sont définis dans data.js.
+// Applique les textes fixes marqués data-i18n="clé" et câble le bouton de
+// bascule FR/EN (id="langToggle", présent dans le header de chaque page).
+(function initLangUI() {
+  const strings = (window.STRINGS && window.STRINGS[window.LANG]) || {};
+
+  document.querySelectorAll('[data-i18n]').forEach((el) => {
+    const value = strings[el.dataset.i18n];
+    if (value != null) el.textContent = value;
+  });
+
+  document.querySelectorAll('[data-i18n-html]').forEach((el) => {
+    const value = strings[el.dataset.i18nHtml];
+    if (value != null) el.innerHTML = value;
+  });
+
+  document.querySelectorAll('.lang-toggle').forEach((btn) => {
+    btn.textContent = strings.langToggleLabel || '';
+    btn.addEventListener('click', () => {
+      window.setLang(window.LANG === 'fr' ? 'en' : 'fr');
+    });
+  });
+})();
+
 // ── Drawer mobile ────────────────────────────────────────────
 function toggleDrawer() {
   const drawer = document.getElementById('drawer');
@@ -128,16 +153,17 @@ function renderProjectsGallery() {
       const border = TAG_COLORS[p.color] || getComputedStyle(document.documentElement).getPropertyValue('--accent').trim();
       const borderRgb = hexToRgb(border) || getComputedStyle(document.documentElement).getPropertyValue('--accent-rgb').trim();
       const imgSrc = p.thumb || p.img;
+      const title = window.t(p.title);
       const imgHtml = imgSrc
-        ? `<img src="${imgSrc}" alt="${p.title}" loading="lazy">`
-        : `<div class="card-placeholder">${p.title}</div>`;
+        ? `<img src="${imgSrc}" alt="${title}" loading="lazy">`
+        : `<div class="card-placeholder">${title}</div>`;
       return `
         <div class="card-project" style="--card-color:${border}; --card-color-rgb:${borderRgb}" onclick="openProjectByIndex(${i})">
           <div class="card-img-wrap">${imgHtml}</div>
           <div class="card-info">
-            <span class="card-cat">${p.type || ''}</span>
-            <h3>${p.title}</h3>
-            <p class="card-desc-clamp">${p.desc || ''}</p>
+            <span class="card-cat">${window.t(p.type) || ''}</span>
+            <h3>${title}</h3>
+            <p class="card-desc-clamp">${window.t(p.desc) || ''}</p>
             <span class="card-arrow">↗</span>
           </div>
         </div>`;
@@ -145,7 +171,7 @@ function renderProjectsGallery() {
 
     return `
       <div class="featured-group">
-        <div class="featured-group-label" style="--group-color:${groupColor}; --group-color-rgb:${groupColorRgb}"><span class="dot"></span>${tag}</div>
+        <div class="featured-group-label" style="--group-color:${groupColor}; --group-color-rgb:${groupColorRgb}"><span class="dot"></span>${window.translateTag(tag)}</div>
         <div class="cards-grid">${cardsHtml}</div>
       </div>`;
   }).join('');
@@ -170,9 +196,9 @@ function openProjectByIndex(i) {
   const p = (window.PROJECTS || [])[i];
   if (!p) return;
 
-  document.getElementById('dp-title').textContent = p.title;
-  document.getElementById('dp-meta').textContent = [p.type, p.platform, p.year].filter(Boolean).join(' · ');
-  document.getElementById('dp-desc').textContent = p.desc || '';
+  document.getElementById('dp-title').textContent = window.t(p.title);
+  document.getElementById('dp-meta').textContent = [window.t(p.type), window.t(p.platform), p.year].filter(Boolean).join(' · ');
+  document.getElementById('dp-desc').textContent = window.t(p.desc) || '';
 
   // Normalise gallery items: string → { src, caption: '', type: 'image' }
   const toItem = g => {
@@ -193,6 +219,7 @@ function openProjectByIndex(i) {
   const thumbsEl = document.getElementById('dp-thumbs');
 
   const captionEl = document.getElementById('dp-caption');
+  const strings = (window.STRINGS && window.STRINGS[window.LANG]) || {};
 
   function showMedia(idx) {
     const item = mediaList[idx];
@@ -211,12 +238,12 @@ function openProjectByIndex(i) {
             <div class="doc-card-icon">${icon}</div>
             <div class="doc-card-name">${item.label || ext}</div>
             <div class="doc-card-ext">${ext}</div>
-            <a href="${item.src}" target="_blank" class="doc-card-btn">Ouvrir le document ↗</a>
-            <a href="${item.src}" download class="doc-card-dl">↓ Télécharger</a>
+            <a href="${item.src}" target="_blank" class="doc-card-btn">${strings.openDocument || 'Ouvrir le document ↗'}</a>
+            <a href="${item.src}" download class="doc-card-dl">${strings.download || '↓ Télécharger'}</a>
           </div>`;
       }
     } else {
-      mediaEl.innerHTML = `<img src="${item.src}" alt="${p.title}">`;
+      mediaEl.innerHTML = `<img src="${item.src}" alt="${window.t(p.title)}">`;
     }
     if (captionEl) captionEl.textContent = item.caption || '';
     thumbsEl.querySelectorAll('.dp-thumb').forEach((t, k) => t.classList.toggle('active', k === idx));
@@ -246,13 +273,13 @@ function openProjectByIndex(i) {
   showMedia(0);
 
   document.getElementById('dp-infos').innerHTML = `
-    <div class="detail-info"><strong>Mon rôle</strong><span>${(p.role || []).join(', ')}</span></div>
-    <div class="detail-info"><strong>Durée</strong><span>${p.duration || '—'}</span></div>
-    <div class="detail-info"><strong>École</strong><span>${p.tag || '—'}</span></div>
-    <div class="detail-info"><strong>Outils</strong><span>${(p.tools || []).join(', ') || '—'}</span></div>
+    <div class="detail-info"><strong>${strings.myRole || 'Mon rôle'}</strong><span>${window.t(p.role || []).join(', ')}</span></div>
+    <div class="detail-info"><strong>${strings.duration || 'Durée'}</strong><span>${window.t(p.duration) || '—'}</span></div>
+    <div class="detail-info"><strong>${strings.school || 'École'}</strong><span>${window.translateTag(p.tag) || '—'}</span></div>
+    <div class="detail-info"><strong>${strings.toolsUsed || 'Outils'}</strong><span>${window.t(p.tools || []).join(', ') || '—'}</span></div>
   `;
 
-  document.getElementById('dp-contrib').innerHTML = (p.role || []).map(c => `<li>${c}</li>`).join('');
+  document.getElementById('dp-contrib').innerHTML = window.t(p.role || []).map(c => `<li>${c}</li>`).join('');
 
   const link = document.getElementById('dp-link');
   link.href = p.link || '#';

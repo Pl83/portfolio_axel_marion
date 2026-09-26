@@ -510,6 +510,79 @@
       overflow: visible;
     }
 
+    /* ── Panneau détail en tiroir latéral, quel que soit l'écran (utilisé
+       pour "Tous les projets", trop loin de la frise pour un accordéon) ── */
+    .detail.side-panel {
+      position: fixed;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: auto;
+      margin: 0;
+      width: min(480px, 92vw);
+      max-height: none;
+      border-radius: 0;
+      border-top: none;
+      border-right: none;
+      border-bottom: none;
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
+      touch-action: pan-y;
+      overscroll-behavior: contain;
+      transform: translateX(100%);
+      z-index: 600;
+      transition: transform 0.35s cubic-bezier(.22,.61,.36,1);
+    }
+
+    .detail.side-panel.visible {
+      margin: 0;
+      transform: translateX(0);
+      overflow-y: auto;
+    }
+
+    .detail.side-panel::before { display: none; }
+
+    /* Le tiroir est étroit (480px max) quelle que soit la largeur de l'écran :
+       on force la mise en page une colonne, comme sur mobile. */
+    .detail.side-panel .detail-top {
+      grid-template-columns: 1fr;
+      gap: 10px;
+      padding: 60px 24px 20px;
+    }
+
+    .detail.side-panel .detail-body {
+      grid-template-columns: 1fr;
+      padding: 10px 16px 32px;
+      gap: 16px;
+    }
+
+    .detail.side-panel .detail-close {
+      top: 20px;
+      right: 20px;
+      width: 38px;
+      height: 38px;
+      font-size: 16px;
+      color: var(--white);
+      background: var(--bg2);
+      border-color: rgba(var(--white-rgb),0.2);
+      box-shadow: 0 4px 12px rgba(var(--black-rgb),0.4);
+    }
+
+    .detail-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(var(--black-rgb),.6);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.25s ease;
+      z-index: 599;
+    }
+
+    .detail-overlay.open {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
     .detail.color-blue {
       border-color: rgba(var(--blue-rgb),0.35);
       box-shadow: 0 28px 70px rgba(var(--black-rgb),0.55), 0 0 60px rgba(var(--blue-rgb),0.22);
@@ -1205,20 +1278,6 @@
         overflow-y: auto;
       }
       .detail::before { display: none; }
-
-      .detail-overlay {
-        position: fixed;
-        inset: 0;
-        background: rgba(var(--black-rgb),.6);
-        opacity: 0;
-        pointer-events: none;
-        transition: opacity 0.25s ease;
-        z-index: 599;
-      }
-      .detail-overlay.open {
-        opacity: 1;
-        pointer-events: auto;
-      }
     }
 
     /* ─── 580px ─── */
@@ -1268,34 +1327,37 @@
 <body>
   <header id="header">
     <a href="/index.html" class="logo">A<span>M</span></a>
-    <nav class="nav-links">
-      <a href="/index.html">Accueil</a>
-      <a href="/pages/projet.html" class="active">Projets</a>
-      <a href="/pages/memoir.html">Mémoire</a>
-      <a href="/pages/a-propos.html">À propos</a>
-    </nav>
+    <div class="nav-group">
+      <nav class="nav-links">
+        <a href="/index.html" data-i18n="navHome">Accueil</a>
+        <a href="/pages/projet.html" class="active" data-i18n="navProjects">Projets</a>
+        <a href="/pages/memoir.html" data-i18n="navMemoir">Mémoire</a>
+        <a href="/pages/a-propos.html" data-i18n="navAbout">À propos</a>
+      </nav>
+      <button class="lang-toggle" id="langToggle">EN</button>
+    </div>
     <button class="burger" id="burgerBtn" aria-label="Menu">
       <span></span><span></span><span></span>
     </button>
   </header>
 
   <div class="drawer" id="drawer">
-    <a href="/index.html">Accueil</a>
-    <a href="/pages/projet.html">Projets</a>
-    <a href="/pages/memoir.html">Mémoire</a>
-    <a href="/pages/a-propos.html">À propos</a>
-    <a href="/realisation/cvaxelmarion.pdf" target="_blank" style="color:var(--accent2)">CV ↓</a>
+    <a href="/index.html" data-i18n="navHome">Accueil</a>
+    <a href="/pages/projet.html" data-i18n="navProjects">Projets</a>
+    <a href="/pages/memoir.html" data-i18n="navMemoir">Mémoire</a>
+    <a href="/pages/a-propos.html" data-i18n="navAbout">À propos</a>
+    <a href="/realisation/cvaxelmarion.pdf" target="_blank" style="color:var(--accent2)" data-i18n="cvDownload">CV ↓</a>
   </div>
   <div class="drawer-overlay" id="drawerOverlay"></div>
 
   <section id="hero" class="hero">
     <div class="hero-content">
-      <p class="hero-sub">Portfolio jeu vidéo</p>
-      <h1 class="hero-title">
+      <p class="hero-sub" data-i18n="projetHeroSub">Portfolio jeu vidéo</p>
+      <h1 class="hero-title" data-i18n-html="projetHeroTitle">
         Projets<br>
         <span class="hero-accent">Expériences</span>
       </h1>
-      <p class="hero-desc">
+      <p class="hero-desc" data-i18n="projetHeroDesc">
         Mon parcours de 2022 à aujourd'hui — projets, formations et expériences.
       </p>
     </div>
@@ -1304,12 +1366,12 @@
   <main class="page">
     <div class="section-header">
       <div class="section-header-top">
-        <h2 class="section-title">Frise chronologique</h2>
+        <h2 class="section-title" data-i18n="timelineTitle">Frise chronologique</h2>
         <div class="tag-legend">
-          <span class="tag-legend-label">Légende —</span>
+          <span class="tag-legend-label" data-i18n="legendLabel">Légende —</span>
           <span class="legend-item" style="--legend-color:var(--blue); --legend-color-rgb:var(--blue-rgb)"><span class="dot"></span>Gobelins</span>
           <span class="legend-item" style="--legend-color:var(--orange); --legend-color-rgb:var(--orange-rgb)"><span class="dot"></span>IIM</span>
-          <span class="legend-item" style="--legend-color:var(--pink); --legend-color-rgb:var(--pink-rgb)"><span class="dot"></span>Personnel</span>
+          <span class="legend-item" style="--legend-color:var(--pink); --legend-color-rgb:var(--pink-rgb)"><span class="dot"></span><span data-i18n="legendPersonnel">Personnel</span></span>
         </div>
       </div>
       <nav class="year-nav" id="yearNav">
@@ -1321,7 +1383,7 @@
       </nav>
     </div>
 
-    <div class="timeline-hint">Faites défiler la frise</div>
+    <div class="timeline-hint" data-i18n="timelineHint">Faites défiler la frise</div>
 
     <div class="mobile-timeline" id="mobileTimeline">
       <div class="mobile-timeline-line" id="mobileTimelineLine"></div>
@@ -1338,11 +1400,6 @@
         </div>
       </div>
     </section>
-
-    <div class="section-header" style="margin-top:64px;">
-      <div class="section-label"><span class="dot"></span>Tous les projets</div>
-    </div>
-    <div class="featured-groups" id="allProjectsGrid"></div>
 
     <section class="detail" id="detail">
       <button class="detail-close" id="detailClose" aria-label="Fermer">✕</button>
@@ -1375,11 +1432,11 @@
         <div class="detail-center">
           <div class="info-grid">
             <div class="info-block">
-              <h4>Mon rôle</h4>
+              <h4 data-i18n="myRoleLabel">Mon rôle</h4>
               <ul id="roleList"></ul>
             </div>
             <div class="info-block">
-              <h4>Outils utilisés</h4>
+              <h4 data-i18n="toolsUsedLabel">Outils utilisés</h4>
               <div class="tools" id="toolsList"></div>
             </div>
           </div>
@@ -1387,17 +1444,17 @@
 
         <aside class="side" id="detailSide">
           <div class="side-block">
-            <h4>Durée</h4>
+            <h4 data-i18n="durationLabel">Durée</h4>
             <p id="detailDuration"></p>
           </div>
           <div class="side-block">
-            <h4>Ce que j'ai appris</h4>
+            <h4 data-i18n="whatILearnedLabel">Ce que j'ai appris</h4>
             <ul id="learnedList"></ul>
           </div>
           <a class="side-card download-link" id="downloadLink" href="#" target="_blank" rel="noopener noreferrer" style="display:none;">
             <div class="download">
               <span class="download-icon">↗</span>
-              <span>Voir le projet</span>
+              <span data-i18n="seeProjectLabel">Voir le projet</span>
             </div>
           </a>
         </aside>
@@ -1406,6 +1463,11 @@
     </section>
 
     <div class="detail-overlay" id="detailOverlay"></div>
+
+    <div class="section-header" style="margin-top:64px;">
+      <div class="section-label"><span class="dot"></span><span data-i18n="allProjectsTitle">Tous les projets</span></div>
+    </div>
+    <div class="featured-groups" id="allProjectsGrid"></div>
   </main>
 
   <footer>© 2025 Axel Marion</footer>
@@ -1434,7 +1496,7 @@
     const monthWidth = 190;
     const startX = 90;
 
-    const months = ["JANV.", "FÉV.", "MARS", "AVR.", "MAI", "JUIN", "JUIL.", "AOÛT", "SEPT.", "OCT.", "NOV.", "DÉC."];
+    const months = window.MONTH_ABBR[window.LANG] || window.MONTH_ABBR.fr;
 
     const toolNames = {
       "Il": "Illustrator",
@@ -1449,6 +1511,7 @@
     const projects = window.PROJECTS;
     const diplomas = window.DIPLOMAS;
     const diplomaTimelineColors = Object.values((window.COLORS && window.COLORS.timeline) || {});
+    const strings = (window.STRINGS && window.STRINGS[window.LANG]) || {};
 
     function getX(year, month) {
       return startX + ((year - startYear) * 12 + month) * monthWidth;
@@ -1554,9 +1617,9 @@
           }
         }
         diplomaEl.innerHTML = `
-          <div class="diploma-title">${diploma.title}</div>
-          <div class="diploma-date">${diploma.date}</div>
-          <div class="diploma-subtitle">${diploma.subtitle}</div>
+          <div class="diploma-title">${window.t(diploma.title)}</div>
+          <div class="diploma-date">${window.t(diploma.date)}</div>
+          <div class="diploma-subtitle">${window.t(diploma.subtitle)}</div>
         `;
         yearsEl.appendChild(diplomaEl);
       });
@@ -1579,12 +1642,12 @@
         }
         card.innerHTML = `
           <div class="card-img-wrap">
-            <img src="${project.thumb || project.img}" alt="${project.title}" loading="lazy">
+            <img src="${project.thumb || project.img}" alt="${window.t(project.title)}" loading="lazy">
           </div>
           <div class="body">
-            <h3>${project.title}</h3>
-            <p>${project.type}</p>
-            <span class="tag ${project.color}">${project.date}</span>
+            <h3>${window.t(project.title)}</h3>
+            <p>${window.t(project.type)}</p>
+            <span class="tag ${project.color}">${window.formatProjectDate(project.year, project.month)}</span>
           </div>
         `;
         card.addEventListener("click", () => selectProject(project, card));
@@ -1630,7 +1693,7 @@
         label.setAttribute("tabindex", "0");
         label.style.setProperty("--group-color", groupColorVar);
         label.style.setProperty("--group-color-rgb", groupColorRgbVar);
-        label.innerHTML = `<span class="dot"></span>${tag}<span class="featured-group-count">${items.length}</span><span class="featured-group-chevron">▾</span>`;
+        label.innerHTML = `<span class="dot"></span>${window.translateTag(tag)}<span class="featured-group-count">${items.length}</span><span class="featured-group-chevron">▾</span>`;
         const toggleGroup = () => group.classList.toggle("open");
         label.addEventListener("click", toggleGroup);
         label.addEventListener("keydown", (e) => {
@@ -1650,21 +1713,22 @@
           card.style.setProperty("--card-color", `var(--${p.color})`);
           card.style.setProperty("--card-color-rgb", `var(--${p.color}-rgb)`);
           const imgSrc = p.thumb || p.img;
+          const title = window.t(p.title);
           const imgHtml = imgSrc
-            ? `<img src="${imgSrc}" alt="${p.title}" loading="lazy">`
-            : `<div class="card-placeholder">${p.title}</div>`;
+            ? `<img src="${imgSrc}" alt="${title}" loading="lazy">`
+            : `<div class="card-placeholder">${title}</div>`;
           card.innerHTML = `
             <div class="card-img-wrap">${imgHtml}</div>
             <div class="card-info">
-              <span class="card-cat">${p.type || ""}</span>
-              <h3>${p.title}</h3>
-              <p class="card-desc-clamp">${p.desc || ""}</p>
+              <span class="card-cat">${window.t(p.type) || ""}</span>
+              <h3>${title}</h3>
+              <p class="card-desc-clamp">${window.t(p.desc) || ""}</p>
               <span class="card-arrow">↗</span>
             </div>
           `;
           card.addEventListener("click", () => {
             const timelineCard = document.querySelector(`.project-card[data-slug="${slugify(p.id || p.title)}"]`);
-            selectProject(p, timelineCard || card);
+            selectProject(p, timelineCard || card, true);
           });
           grid.appendChild(card);
         });
@@ -1696,14 +1760,15 @@
         const el = document.createElement("div");
         el.className = "mobile-timeline-item";
         el.dataset.color = p.color || "";
+        const title = window.t(p.title);
         el.innerHTML = `
           <div class="mtl-img-wrap">
-            <img src="${p.thumb || p.img}" alt="${p.title}" loading="lazy">
+            <img src="${p.thumb || p.img}" alt="${title}" loading="lazy">
           </div>
           <div class="mtl-body">
-            <h3>${p.title}</h3>
-            <p>${p.type}</p>
-            <span class="tag ${p.color}">${p.date}</span>
+            <h3>${title}</h3>
+            <p>${window.t(p.type)}</p>
+            <span class="tag ${p.color}">${window.formatProjectDate(p.year, p.month)}</span>
           </div>
         `;
         el.addEventListener("click", () => {
@@ -1727,9 +1792,9 @@
         }
         el.innerHTML = `
           <div class="mtl-body">
-            <div class="mtl-diploma-title">${d.title}</div>
-            <div class="mtl-diploma-date">${d.date}</div>
-            <div class="mtl-diploma-subtitle">${d.subtitle || ""}</div>
+            <div class="mtl-diploma-title">${window.t(d.title)}</div>
+            <div class="mtl-diploma-date">${window.t(d.date)}</div>
+            <div class="mtl-diploma-subtitle">${window.t(d.subtitle) || ""}</div>
           </div>
         `;
         return el;
@@ -1794,11 +1859,12 @@
       return window.innerWidth <= 768;
     }
 
-    function selectProject(project, card) {
+    function selectProject(project, card, forceSide) {
       document.querySelectorAll(".project-card").forEach(c => c.classList.remove("active"));
       card.classList.add("active");
       detail.classList.add("visible");
-      if (isMobileDetail()) {
+      detail.classList.toggle("side-panel", !!forceSide);
+      if (isMobileDetail() || forceSide) {
         document.getElementById("detailOverlay").classList.add("open");
         document.body.style.overflow = "hidden";
       }
@@ -1809,11 +1875,11 @@
         detailSide.classList.add("color-" + project.color);
       }
 
-      requestAnimationFrame(() => moveDetailArrow(card));
+      if (!forceSide) requestAnimationFrame(() => moveDetailArrow(card));
 
-      document.getElementById("detailTitle").textContent = project.title;
-      document.getElementById("detailText").textContent = project.desc;
-      document.getElementById("detailDuration").innerHTML = project.duration || "Projet court<br>(" + project.date + ")";
+      document.getElementById("detailTitle").textContent = window.t(project.title);
+      document.getElementById("detailText").textContent = window.t(project.desc);
+      document.getElementById("detailDuration").innerHTML = window.t(project.duration) || (strings.shortProject || "Projet court") + "<br>(" + window.formatProjectDate(project.year, project.month) + ")";
 
       // Couleurs des tags project.color, définies dans public/data.js (window.COLORS.projet)
       const colorMap = Object.fromEntries(
@@ -1822,18 +1888,19 @@
       const dotColor = colorMap[project.color] || getComputedStyle(document.documentElement).getPropertyValue('--accent').trim();
       document.getElementById("detailChips").innerHTML = `
         <span class="chip-dot" style="background:${dotColor}; box-shadow: 0 0 8px ${dotColor}"></span>
-        <span class="chip">${project.tag}</span>
+        <span class="chip">${window.translateTag(project.tag)}</span>
         <span class="chip-sep">·</span>
-        <span class="chip">${project.type}</span>
+        <span class="chip">${window.t(project.type)}</span>
         <span class="chip-sep">·</span>
         <span class="chip">${project.year}</span>
       `;
 
-      document.getElementById("roleList").innerHTML = (project.role || []).map(item => `<li>${item}</li>`).join("");
-      document.getElementById("learnedList").innerHTML = (project.learned || []).map(item => `<li>${item}</li>`).join("");
+      document.getElementById("roleList").innerHTML = window.t(project.role || []).map(item => `<li>${item}</li>`).join("");
+      document.getElementById("learnedList").innerHTML = window.t(project.learned || []).map(item => `<li>${item}</li>`).join("");
 
       document.getElementById("toolsList").innerHTML = (project.tools || []).map(tool => {
-        const label = toolNames[tool] || tool;
+        const t = window.t(tool);
+        const label = toolNames[t] || t;
         return `<span class="tool">${label}</span>`;
       }).join("");
 
@@ -1847,7 +1914,7 @@
 
       updateProjectMedia(project);
 
-      if (!isMobileDetail()) {
+      if (!isMobileDetail() && !forceSide) {
         setTimeout(() => {
           detail.scrollIntoView({ behavior: "smooth", block: "nearest" });
         }, 80);
@@ -1855,7 +1922,7 @@
     }
 
     function closeDetail() {
-      detail.classList.remove("visible");
+      detail.classList.remove("visible", "side-panel");
       document.querySelectorAll(".project-card").forEach(c => c.classList.remove("active"));
       document.getElementById("detailVideo").src = "about:blank";
       document.getElementById("detailOverlay").classList.remove("open");
@@ -1925,6 +1992,20 @@
         detail.classList.remove("no-arrow-transition");
         if (activeCard) moveDetailArrow(activeCard);
       }, 120);
+    });
+
+    // Une fois le défilement (molette, trackpad ou glissement) terminé, on
+    // aligne la frise sur le mois le plus proche au lieu de la laisser
+    // s'arrêter n'importe où entre deux mois.
+    let monthSnapTimer;
+    timeline.addEventListener("scroll", () => {
+      clearTimeout(monthSnapTimer);
+      monthSnapTimer = setTimeout(() => {
+        const snapped = Math.round(timeline.scrollLeft / monthWidth) * monthWidth;
+        if (Math.abs(snapped - timeline.scrollLeft) > 1) {
+          timeline.scrollTo({ left: snapped, behavior: "smooth" });
+        }
+      }, 140);
     });
 
     window.addEventListener("resize", () => {
@@ -2092,14 +2173,14 @@
               <div class="doc-card-icon">${icon}</div>
               <div class="doc-card-name">${first.label || ext}</div>
               <div class="doc-card-ext">${ext}</div>
-              <a href="${first.src}" target="_blank" class="doc-card-btn">Ouvrir le document ↗</a>
-              <a href="${first.src}" download class="doc-card-dl">↓ Télécharger</a>`;
+              <a href="${first.src}" target="_blank" class="doc-card-btn">${strings.openDocument || 'Ouvrir le document ↗'}</a>
+              <a href="${first.src}" download class="doc-card-dl">${strings.download || '↓ Télécharger'}</a>`;
             dc.style.display = 'flex';
           }
         }
       } else if (first) {
         detailImage.src = first.src;
-        detailImage.alt = project.title;
+        detailImage.alt = window.t(project.title);
         detailImage.classList.add("active");
       } else if (firstVideo) {
         detailVideo.src = toEmbedUrl(firstVideo);
@@ -2112,7 +2193,7 @@
           <button class="media-thumb video-thumb" type="button" data-type="video" data-src="${toEmbedUrl(url)}"
             style="background-image:url('${getYoutubeThumb(url) || project.img}')">
             <span class="play-icon">▶</span>
-            <span>${videoList.length > 1 ? `Vidéo ${i + 1}` : 'Vidéo'}</span>
+            <span>${videoList.length > 1 ? `${strings.videoLabel || 'Vidéo'} ${i + 1}` : (strings.videoLabel || 'Vidéo')}</span>
           </button>
         `).join("")}
         ${gallery.map(({ src, caption, type, label }, index) => {
@@ -2125,7 +2206,7 @@
             </button>`;
           }
           return `<img class="media-thumb ${index === 0 ? "active" : ""}"
-              src="${src}" alt="${project.title} — image ${index + 1}"
+              src="${src}" alt="${window.t(project.title)} — image ${index + 1}"
               data-type="image" data-caption="${caption || ''}">`;
         }).join("")}
       `;
@@ -2183,8 +2264,8 @@
                   <div class="doc-card-icon">${icon}</div>
                   <div class="doc-card-name">${label}</div>
                   <div class="doc-card-ext">${ext}</div>
-                  <a href="${src}" target="_blank" class="doc-card-btn">Ouvrir le document ↗</a>
-                  <a href="${src}" download class="doc-card-dl">↓ Télécharger</a>`;
+                  <a href="${src}" target="_blank" class="doc-card-btn">${strings.openDocument || 'Ouvrir le document ↗'}</a>
+                  <a href="${src}" download class="doc-card-dl">${strings.download || '↓ Télécharger'}</a>`;
                 dc.style.display = 'flex';
               }
             }
@@ -2216,10 +2297,37 @@
       const project = projects.find(p => slugify(p.id || p.title) === deepLinkSlug);
       timeline.scrollLeft = Math.max(0, getX(project.year, project.month) - startX);
       selectProject(project, deepLinkCard);
+    } else if (projects.length) {
+      // Par défaut, la frise démarre sur le tout premier projet chronologique
+      // plutôt que sur janvier de la première année (souvent vide).
+      const firstProject = projects.reduce((earliest, p) => {
+        if (p.year < earliest.year) return p;
+        if (p.year === earliest.year && p.month < earliest.month) return p;
+        return earliest;
+      });
+      timeline.scrollLeft = Math.max(0, getX(firstProject.year, firstProject.month) - startX);
     } else {
       timeline.scrollLeft = 0;
     }
     updateCurrentYear();
+  </script>
+
+  <script>
+    // ── Langue (FR/EN) — cette page ne charge pas src/main.js, donc on
+    // câble ici ce que initLangUI() fait ailleurs (data-i18n + bouton).
+    (function() {
+      const strings = (window.STRINGS && window.STRINGS[window.LANG]) || {};
+      document.querySelectorAll('[data-i18n]').forEach((el) => {
+        const value = strings[el.dataset.i18n];
+        if (value != null) el.textContent = value;
+      });
+      document.querySelectorAll('.lang-toggle').forEach((btn) => {
+        btn.textContent = strings.langToggleLabel || '';
+        btn.addEventListener('click', () => {
+          window.setLang(window.LANG === 'fr' ? 'en' : 'fr');
+        });
+      });
+    })();
   </script>
 
   <script>
