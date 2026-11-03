@@ -5,6 +5,11 @@ window.formatProjectDate = function (year, month) {
   return `${MONTH_ABBR[month]} ${year}`;
 };
 
+// Plage d'années affichée par la frise radiale (pages/projet.html) : une
+// branche par année, de start à end inclus. À modifier ici uniquement
+// quand de nouvelles années de projets s'ajoutent.
+window.FRISE_YEARS = { start: 2022, end: 2026 };
+
 // ── Projets du portfolio ──────────────────────────────────────
 // Chaque entrée du tableau est un projet. Modifier ce fichier met à jour
 // toutes les pages qui l'utilisent (accueil, pages/projet.html).

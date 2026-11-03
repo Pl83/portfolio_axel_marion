@@ -98,6 +98,41 @@
       align-items: flex-start;
     }
 
+    .frise-header {
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+    }
+
+    .frise-mode-toggle {
+      display: flex;
+      gap: 4px;
+      padding: 4px;
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: 999px;
+    }
+
+    .frise-mode-btn {
+      padding: 7px 16px;
+      border-radius: 999px;
+      border: none;
+      background: transparent;
+      color: var(--muted);
+      font-size: 0.82rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background .2s, color .2s;
+    }
+
+    .frise-mode-btn:hover { color: var(--text); }
+
+    .frise-mode-btn.active {
+      background: var(--accent);
+      color: var(--white);
+    }
+
     .card-img-wrap {
       overflow: hidden;
       border-radius: 11px 11px 0 0;
@@ -143,10 +178,19 @@
     }
 
     /* ─── Frise radiale : sphère "Axel Marion" → années → projets ─── */
+    /* La frise peut avoir beaucoup de projets à afficher : sa hauteur est
+       plafonnée à l'écran (calculée en JS) et elle ne défile pas elle-même —
+       seule .radial-leaves (la colonne des projets) défile en interne, la
+       sphère et les années restant fixes. */
     .radial-frise {
       position: relative;
-      height: 760px;
       margin: 24px -42px 0;
+      overflow: hidden;
+    }
+
+    .radial-frise-inner {
+      position: relative;
+      height: 100%;
     }
 
     .radial-svg {
@@ -202,12 +246,44 @@
     /* pointer-events:none ici, sinon ce conteneur transparent plein cadre
        intercepte les clics destinés aux éléments en dessous (années, sphère) —
        .radial-year-node/.radial-leaf se le réactivent eux-mêmes (auto). */
-    .radial-years, .radial-leaves {
+    .radial-years {
       position: absolute;
       inset: 0;
       z-index: 3;
       pointer-events: none;
     }
+
+    /* Colonne des projets : ne couvre que sa propre portion de la frise
+       (left posé en JS, à hauteur de leafX), pas toute la largeur — sinon
+       elle intercepterait les clics sur la sphère/les années malgré elle.
+       Défile en interne (contenu plus haut que la frise elle-même). */
+    .radial-leaves {
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      padding: 10px 16px;
+      box-sizing: border-box;
+      z-index: 3;
+      overflow-y: auto;
+      overflow-x: hidden;
+      pointer-events: auto;
+      scrollbar-width: thin;
+      scrollbar-color: rgba(var(--accent-rgb),0.4) transparent;
+      /* Fondu doux en haut/bas de la colonne, pour que les cartes
+         apparaissent/disparaissent en douceur plutôt que d'être coupées net. */
+      mask-image: linear-gradient(to bottom, transparent 0, black 28px, black calc(100% - 28px), transparent 100%);
+      -webkit-mask-image: linear-gradient(to bottom, transparent 0, black 28px, black calc(100% - 28px), transparent 100%);
+    }
+
+    .radial-leaves::-webkit-scrollbar { width: 8px; }
+    .radial-leaves::-webkit-scrollbar-track { background: transparent; }
+    .radial-leaves::-webkit-scrollbar-thumb {
+      background: rgba(var(--accent-rgb),0.35);
+      border-radius: 999px;
+    }
+    .radial-leaves::-webkit-scrollbar-thumb:hover { background: rgba(var(--accent-rgb),0.55); }
 
     .radial-year-node {
       position: absolute;
@@ -233,6 +309,16 @@
       border-color: var(--year-color, var(--accent));
       box-shadow: 0 0 0 1px rgba(var(--year-color-rgb, var(--accent-rgb)), .3), 0 0 24px rgba(var(--year-color-rgb, var(--accent-rgb)), .4);
       background: rgba(var(--year-color-rgb, var(--accent-rgb)), .08);
+      transition: box-shadow .25s, border-color .25s, background .2s, opacity .25s;
+    }
+
+    /* Année dépliée mais dont aucun projet n'est actuellement visible dans
+       la colonne (scrollée hors champ) : surlignage atténué, comme désélectionnée. */
+    .radial-year-node.active.out-of-view {
+      box-shadow: none;
+      border-color: rgba(var(--year-color-rgb, var(--accent-rgb)), .18);
+      background: transparent;
+      opacity: .55;
     }
 
     .radial-year-number {
@@ -252,8 +338,12 @@
 
     .radial-leaf {
       position: absolute;
-      max-width: 190px;
-      padding: 8px 14px;
+      width: 200px;
+      height: 64px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 8px 10px;
       border-radius: 9px;
       background: var(--bg2);
       border: 1px solid rgba(var(--year-color-rgb, var(--accent-rgb)), .3);
@@ -262,6 +352,34 @@
       opacity: 0;
       transform: translate(-8px, -50%);
       transition: opacity .3s ease, transform .3s ease, border-color .2s, background .2s;
+    }
+
+    .radial-leaf-thumb {
+      width: 44px;
+      height: 44px;
+      border-radius: 6px;
+      object-fit: cover;
+      flex-shrink: 0;
+      background: rgba(var(--white-rgb),.05);
+    }
+
+    .radial-leaf-placeholder {
+      width: 44px;
+      height: 44px;
+      border-radius: 6px;
+      flex-shrink: 0;
+      background: rgba(var(--year-color-rgb, var(--accent-rgb)), .18);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-d);
+      font-size: .8rem;
+      color: var(--year-color, var(--accent));
+    }
+
+    .radial-leaf-text {
+      min-width: 0;
+      flex: 1;
     }
 
     .radial-leaf.visible {
@@ -360,9 +478,9 @@
     .detail.side-panel::before { display: none; }
 
     /* ── Panneau détail à côté du projet cliqué dans la frise (desktop
-       uniquement, la frise étant masquée sous 768px) : une simple div fixée
-       sur le côté de l'écran, pas une popup — pas de fond sombre, pas
-       d'animation de tiroir, juste une apparition/disparition discrète.
+       uniquement, la frise étant masquée sous 768px) : une carte d'information
+       flottante, pas un tiroir plein écran ni une popup — pas de fond sombre,
+       pas d'animation de tiroir, juste une apparition/disparition discrète.
        top/height sont recalculés en JS pour rester cantonnés à la zone de
        la frise chronologique (pas visible au niveau de "Diplômes" ou
        "Tous les projets" plus bas sur la page). ── */
@@ -374,14 +492,11 @@
       left: var(--anchor-left, auto);
       right: auto;
       margin: 0;
-      width: min(420px, 38vw);
+      width: var(--anchor-width, min(420px, 38vw));
       max-height: none;
-      border-radius: 0;
-      border-top: none;
-      border-right: none;
-      border-bottom: none;
-      border-left: 1px solid rgba(var(--white-rgb),0.08);
-      box-shadow: none;
+      border-radius: 20px;
+      border: 1px solid rgba(var(--accent-rgb),0.26);
+      box-shadow: 0 20px 50px rgba(var(--black-rgb),0.5), 0 0 40px rgba(var(--accent-rgb),0.12);
       overflow-y: auto;
       -webkit-overflow-scrolling: touch;
       touch-action: pan-y;
@@ -492,12 +607,16 @@
       box-shadow: 0 28px 70px rgba(var(--black-rgb),0.55), 0 0 60px rgba(var(--pink-rgb),0.22);
     }
 
-    /* La div ancrée reste sobre, même colorée par projet : pas l'ombre
-       portée façon popup des autres modes. */
-    .detail.anchored.color-blue,
-    .detail.anchored.color-orange,
+    /* La carte garde un léger halo coloré par projet, plus doux que
+       l'ombre portée façon popup des autres modes. */
+    .detail.anchored.color-blue {
+      box-shadow: 0 20px 50px rgba(var(--black-rgb),0.5), 0 0 40px rgba(var(--blue-rgb),0.16);
+    }
+    .detail.anchored.color-orange {
+      box-shadow: 0 20px 50px rgba(var(--black-rgb),0.5), 0 0 40px rgba(var(--orange-rgb),0.16);
+    }
     .detail.anchored.color-pink {
-      box-shadow: none;
+      box-shadow: 0 20px 50px rgba(var(--black-rgb),0.5), 0 0 40px rgba(var(--pink-rgb),0.16);
     }
 
     .detail::before {
@@ -694,18 +813,22 @@
       box-shadow: 0 0 0 1px rgba(var(--accent-rgb),0.25);
     }
 
+    /* position:fixed + coordonnées calculées en JS (voir moveZoom) : la carte
+       détail a overflow-y:auto (donc overflow-x:auto aussi, par la spec CSS),
+       une loupe positionnée en absolu dedans serait coupée dès qu'elle
+       dépasse la largeur étroite de la carte. */
     .zoom-result {
       display: none;
-      position: absolute;
+      position: fixed;
       top: 0;
-      left: calc(100% + 12px);
+      left: 0;
       width: 320px;
       height: 320px;
       border: 1px solid rgba(var(--accent-rgb),0.3);
       border-radius: 12px;
       overflow: hidden;
       background: var(--black) no-repeat center/cover;
-      z-index: 100;
+      z-index: 650;
       box-shadow: 0 20px 50px rgba(var(--black-rgb),0.6), 0 0 30px rgba(var(--accent-rgb),0.08);
       pointer-events: none;
     }
@@ -807,6 +930,12 @@
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 12px;
+    }
+
+    /* Carte ancrée très rétrécie (petit écran desktop) : les 4 tuiles
+       passent en une colonne plutôt que de s'écraser à 2. */
+    .detail.anchored.narrow .info-grid {
+      grid-template-columns: 1fr;
     }
 
     .info-block {
@@ -1093,17 +1222,23 @@
 
   <main class="page">
     <div class="section-header frise-header">
-      <h2 class="section-title">Frise chronologique</h2>
+      <h2 class="section-title" id="friseTitle">Frise chronologique</h2>
+      <div class="frise-mode-toggle" id="friseModeToggle" role="group" aria-label="Regrouper par">
+        <button type="button" class="frise-mode-btn" data-mode="school">École</button>
+        <button type="button" class="frise-mode-btn active" data-mode="year">Année</button>
+      </div>
     </div>
 
     <div class="radial-frise" id="radialFrise">
-      <svg class="radial-svg" id="radialSvg"></svg>
-      <div class="radial-center">
-        <div class="radial-sphere"></div>
-        <div class="radial-center-name">Axel Marion</div>
+      <div class="radial-frise-inner" id="radialFriseInner">
+        <svg class="radial-svg" id="radialSvg"></svg>
+        <div class="radial-center">
+          <div class="radial-sphere"></div>
+          <div class="radial-center-name">Axel Marion</div>
+        </div>
+        <div class="radial-years" id="radialYears"></div>
+        <div class="radial-leaves" id="radialLeaves"></div>
       </div>
-      <div class="radial-years" id="radialYears"></div>
-      <div class="radial-leaves" id="radialLeaves"></div>
     </div>
 
     <div class="section-header" style="margin-top:64px;">
@@ -1155,7 +1290,6 @@
             <div class="zoom-lens" id="zoomLens"></div>
             <button class="media-expand" id="mediaExpand" aria-label="Agrandir l'image" title="Agrandir">⤢</button>
           </div>
-          <div class="zoom-result" id="zoomResult"></div>
           <div class="thumbs" id="thumbsContainer"></div>
           <p id="mediaCaption" class="media-caption"></p>
         </div>
@@ -1194,6 +1328,11 @@
 
   <div class="detail-overlay" id="detailOverlay"></div>
 
+  <!-- En dehors de la carte détail (overflow:auto) : une loupe positionnée en
+       pixels viewport ne serait sinon pas visible, coupée par le scroll de
+       la carte comme #detail l'était par main.page plus haut dans ce fichier. -->
+  <div class="zoom-result" id="zoomResult"></div>
+
   <footer>© 2025 Axel Marion</footer>
 
   <script>
@@ -1210,8 +1349,9 @@
   <script>
     const detail = document.getElementById("detail");
 
-    const startYear = 2022;
-    const endYear = 2026;
+    // Plage d'années modifiable dans public/data.js (window.FRISE_YEARS).
+    const startYear = (window.FRISE_YEARS && window.FRISE_YEARS.start) || 2022;
+    const endYear = (window.FRISE_YEARS && window.FRISE_YEARS.end) || 2026;
 
     const toolNames = {
       "Il": "Illustrator",
@@ -1243,36 +1383,74 @@
     }
 
     // ── Frise radiale ──────────────────────────────────────────
-    // Sphère centrale "Axel Marion" → une branche par année → au clic sur une
-    // année, ses projets (et diplômes) se déploient en éventail à droite.
+    // Sphère centrale "Axel Marion" → une branche par école OU par année
+    // (bouton de bascule) → au clic sur une branche, ses projets se
+    // déploient en éventail à droite.
+    const RADIAL_TAGS = ["Gobelins", "IIM", "Personnel"];
+    const TAG_COLOR_KEY = { Gobelins: "blue", IIM: "orange", Personnel: "pink" };
     const RADIAL_YEARS = [];
     for (let y = startYear; y <= endYear; y += 1) RADIAL_YEARS.push(y);
 
     const radialFrise = document.getElementById("radialFrise");
+    const radialFriseInner = document.getElementById("radialFriseInner");
     const radialSvg = document.getElementById("radialSvg");
     const radialYearsEl = document.getElementById("radialYears");
     const radialLeavesEl = document.getElementById("radialLeaves");
+    const friseTitleEl = document.getElementById("friseTitle");
+    const friseModeToggleEl = document.getElementById("friseModeToggle");
 
-    const activeRadialYears = new Set();
+    // "school" (Gobelins/IIM/Personnel) ou "year" (2022-2026) — bascule via
+    // le bouton #friseModeToggle (voir setFriseMode).
+    let friseMode = "year";
+    const activeRadialBranches = new Set();
     // Bord droit (coordonnées écran) de la colonne de projets de la frise,
     // recalculé à chaque layout — sert à placer la div détail juste après,
     // sans jamais recouvrir les cartes cliquables.
     let leafColumnRightEdge = null;
+    // Courbes SVG branche → feuille actuellement affichées, redessinées au
+    // scroll de .radial-leaves (voir redrawLeafCurvesOnScroll).
+    let activeLeafCurves = [];
+    // Hauteur visible de la frise (H), utilisée pour masquer les courbes
+    // dont la feuille est actuellement scrollée hors champ.
+    let leafVisibleH = 0;
 
+    // Couleur de branche d'une école, alignée sur project.color (même
+    // mapping que les cartes et le panneau détail — voir window.COLORS.projet).
+    function tagColor(tag) {
+      const key = TAG_COLOR_KEY[tag];
+      const entry = key && window.COLORS && window.COLORS.projet && window.COLORS.projet[key];
+      return entry ? entry.value : null;
+    }
+
+    // Couleur d'une branche année — réutilisée aussi par les diplômes dans
+    // leur propre section (buildDiplomasSection), indépendante de la frise.
     function yearColor(year) {
       if (!diplomaTimelineColors.length) return null;
       const entry = diplomaTimelineColors[(year - startYear) % diplomaTimelineColors.length];
       return entry ? entry.value : null;
     }
 
-    // Projets de l'année, triés par mois, pour l'éventail de la frise radiale.
-    // Les diplômes ont leur propre section, affichée séparément (voir buildDiplomasSection).
+    // Projets de l'école, triés par année puis par mois.
+    function itemsForTag(tag) {
+      return projects
+        .filter((p) => p.tag === tag)
+        .map((p) => ({ type: "project", month: p.month, data: p }))
+        .sort((a, b) => a.data.year - b.data.year || a.month - b.month);
+    }
+
+    // Projets de l'année, triés par mois.
     function itemsForYear(year) {
       return projects
         .filter((p) => p.year === year)
         .map((p) => ({ type: "project", month: p.month, data: p }))
         .sort((a, b) => a.month - b.month);
     }
+
+    // Accesseurs génériques selon le mode actif (school/year), pour ne pas
+    // dupliquer la logique de layout entre les deux regroupements.
+    function currentBranches() { return friseMode === "year" ? RADIAL_YEARS : RADIAL_TAGS; }
+    function branchColor(branch) { return friseMode === "year" ? yearColor(branch) : tagColor(branch); }
+    function itemsForBranch(branch) { return friseMode === "year" ? itemsForYear(branch) : itemsForTag(branch); }
 
     // Courbe en S (comme un câble qui part à l'horizontale puis rejoint sa cible).
     function curvePath(x1, y1, x2, y2) {
@@ -1288,23 +1466,102 @@
       return path;
     }
 
-    function toggleRadialYear(year) {
-      if (activeRadialYears.has(year)) activeRadialYears.delete(year);
-      else activeRadialYears.add(year);
+    function toggleRadialBranch(branch) {
+      if (activeRadialBranches.has(branch)) activeRadialBranches.delete(branch);
+      else activeRadialBranches.add(branch);
       layoutRadialFrise();
+    }
+
+    // Bascule le regroupement de la frise et rouvre toutes les branches du
+    // nouveau mode par défaut, comme au premier chargement de la page.
+    function setFriseMode(mode) {
+      if (mode === friseMode) return;
+      friseMode = mode;
+      activeRadialBranches.clear();
+      currentBranches().forEach((b) => activeRadialBranches.add(b));
+      friseTitleEl.textContent = mode === "year" ? "Frise chronologique" : "Projets par école";
+      [...friseModeToggleEl.children].forEach((btn) => {
+        btn.classList.toggle("active", btn.dataset.mode === mode);
+      });
+      layoutRadialFrise();
+      initAnchoredDefault();
+    }
+
+    friseModeToggleEl.addEventListener("click", (e) => {
+      const btn = e.target.closest(".frise-mode-btn");
+      if (btn) setFriseMode(btn.dataset.mode);
+    });
+
+    // Entrées "année|école" actuellement dépliées en mode "year", dans le
+    // Crée la courbe + la carte d'un projet dans la colonne de droite.
+    function appendLeafCard(item, x1, y1, leafX, ly, originIdx) {
+      const path = svgPath(curvePath(x1, y1, leafX, ly), item.color, "radial-path-leaf");
+      radialSvg.appendChild(path);
+      activeLeafCurves.push({ path, x1, y1, x2: leafX, baseY: ly, yearIdx: originIdx });
+
+      const p = item.data;
+      const leaf = document.createElement("div");
+      leaf.className = "radial-leaf";
+      leaf.style.left = "0";
+      leaf.style.top = ly + "px";
+      leaf.style.setProperty("--year-color", item.color);
+      if (item.rgb) leaf.style.setProperty("--year-color-rgb", item.rgb);
+      leaf.dataset.color = p.color || "";
+      leaf.dataset.slug = slugify(p.id || p.title);
+      leaf.setAttribute("tabindex", "0");
+      const thumbSrc = p.thumb || p.img;
+      const thumbHtml = thumbSrc
+        ? `<img class="radial-leaf-thumb" src="${thumbSrc}" alt="" loading="lazy">`
+        : `<span class="radial-leaf-placeholder">${(p.title || "?").charAt(0)}</span>`;
+      leaf.innerHTML = `
+        ${thumbHtml}
+        <span class="radial-leaf-text">
+          <span class="radial-leaf-title">${p.title}</span>
+          <span class="radial-leaf-meta">${p.type || ""}</span>
+        </span>
+      `;
+      leaf.addEventListener("click", () => selectProject(p, leaf));
+      leaf.addEventListener("keydown", (e) => {
+        if (e.key === "Enter" || e.key === " ") { e.preventDefault(); selectProject(p, leaf); }
+      });
+      radialLeavesEl.appendChild(leaf);
+      requestAnimationFrame(() => leaf.classList.add("visible"));
+    }
+
+    // Répartit allItems dans la colonne de droite (hauteur de contenu propre,
+    // scrollable) à partir de leur point d'origine respectif (x1Of/y1Of).
+    function layoutLeafColumn(allItems, startX, minLeafX, H, x1Of, y1Of) {
+      activeLeafCurves = [];
+      if (!allItems.length) return;
+
+      const leafX = Math.max(startX + 260, minLeafX);
+      const leafMarginY = 20;
+      const leafContentH = Math.max(H, allItems.length * 76);
+      const leafUsableH = Math.max(leafContentH - leafMarginY * 2, 1);
+      leafColumnRightEdge = radialFrise.getBoundingClientRect().left + leafX + 200;
+
+      // .radial-leaves ne couvre que la colonne des projets (pas toute la
+      // frise), pour ne pas intercepter les clics sur la sphère/les branches.
+      radialLeavesEl.style.left = leafX + "px";
+
+      allItems.forEach((item, i) => {
+        const ly = allItems.length > 1 ? leafMarginY + (leafUsableH * i) / (allItems.length - 1) : leafContentH / 2;
+        appendLeafCard(item, x1Of(item), y1Of(item), leafX, ly, item.originIdx);
+      });
     }
 
     function layoutRadialFrise() {
       if (!radialFrise) return;
 
-      // Plus d'années ouvertes à la fois = plus de feuilles à afficher :
-      // on agrandit la frise verticalement pour leur laisser de la place.
-      const activeYears = RADIAL_YEARS.filter((y) => activeRadialYears.has(y));
-      const totalActiveItems = activeYears.reduce((sum, y) => sum + itemsForYear(y).length, 0);
-      radialFrise.style.height = Math.max(760, totalActiveItems * 54) + "px";
+      // La sphère et les branches restent fixes ; seule la colonne des
+      // projets défile (dans .radial-leaves), sur sa propre hauteur de
+      // contenu — voir plus bas et le listener "scroll" qui redessine ses courbes.
+      const headerH = parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--header-h")) || 64;
+      const availableH = Math.max(500, window.innerHeight - headerH - 140);
+      radialFrise.style.height = availableH + "px";
 
-      const W = radialFrise.clientWidth;
-      const H = radialFrise.clientHeight;
+      const W = radialFriseInner.clientWidth;
+      const H = radialFriseInner.clientHeight;
       if (!W || !H) return;
 
       radialSvg.setAttribute("viewBox", `0 0 ${W} ${H}`);
@@ -1312,81 +1569,102 @@
       radialYearsEl.innerHTML = "";
       radialLeavesEl.innerHTML = "";
 
+      const branches = currentBranches();
+      const activeBranches = branches.filter((b) => activeRadialBranches.has(b));
+
       const centerX = 94;
       const centerY = H / 2;
       const yearX = Math.min(320, W * 0.32);
       const marginY = 64;
       const usableH = Math.max(H - marginY * 2, 1);
-      const yearYs = RADIAL_YEARS.map((y, i) =>
-        RADIAL_YEARS.length > 1 ? marginY + (usableH * i) / (RADIAL_YEARS.length - 1) : centerY
+      const branchYs = branches.map((b, i) =>
+        branches.length > 1 ? marginY + (usableH * i) / (branches.length - 1) : centerY
       );
 
-      RADIAL_YEARS.forEach((year, i) => {
-        const color = yearColor(year) || "var(--accent)";
-        radialSvg.appendChild(svgPath(curvePath(centerX + 48, centerY, yearX, yearYs[i]), color));
+      // Bord droit réel (mesuré, pas estimé) de chaque case branche : les
+      // courbes vers les projets doivent en sortir visiblement, pas d'un
+      // point flottant à l'intérieur de la case.
+      const branchNodeRightX = [];
 
-        const items = itemsForYear(year);
+      branches.forEach((branch, i) => {
+        const color = branchColor(branch) || "var(--accent)";
+        radialSvg.appendChild(svgPath(curvePath(centerX + 48, centerY, yearX, branchYs[i]), color));
+
+        const items = itemsForBranch(branch);
         const node = document.createElement("div");
-        node.className = "radial-year-node" + (activeRadialYears.has(year) ? " active" : "");
+        node.className = "radial-year-node" + (activeRadialBranches.has(branch) ? " active" : "");
         node.style.left = yearX + "px";
-        node.style.top = yearYs[i] + "px";
+        node.style.top = branchYs[i] + "px";
         node.style.setProperty("--year-color", color);
-        const rgb = hexToRgb(yearColor(year));
+        const rgb = hexToRgb(branchColor(branch));
         if (rgb) node.style.setProperty("--year-color-rgb", rgb);
         node.setAttribute("tabindex", "0");
-        node.innerHTML = `<span class="radial-year-number">${year}</span><span class="radial-year-count">${items.length}</span>`;
-        node.addEventListener("click", () => toggleRadialYear(year));
+        node.innerHTML = `<span class="radial-year-number">${branch}</span><span class="radial-year-count">${items.length}</span>`;
+        node.addEventListener("click", () => toggleRadialBranch(branch));
         node.addEventListener("keydown", (e) => {
-          if (e.key === "Enter" || e.key === " ") { e.preventDefault(); toggleRadialYear(year); }
+          if (e.key === "Enter" || e.key === " ") { e.preventDefault(); toggleRadialBranch(branch); }
         });
         radialYearsEl.appendChild(node);
+        branchNodeRightX[i] = yearX + node.offsetWidth;
       });
 
-      // Toutes les feuilles des années ouvertes partagent une seule colonne,
-      // répartie sur toute la hauteur — chaque courbe part du point de son
-      // année d'origine (yearYs[yearIdx]), pas d'un point unique partagé.
+      // Toutes les feuilles des branches ouvertes partagent une seule colonne,
+      // chaque courbe part du point de sa branche d'origine, fixe.
       const allItems = [];
-      activeYears.forEach((year) => {
-        const yearIdx = RADIAL_YEARS.indexOf(year);
-        const color = yearColor(year) || "var(--accent)";
-        const rgb = hexToRgb(yearColor(year));
-        itemsForYear(year).forEach((item) => allItems.push({ ...item, yearIdx, color, rgb }));
+      activeBranches.forEach((branch) => {
+        const branchIdx = branches.indexOf(branch);
+        const color = branchColor(branch) || "var(--accent)";
+        const rgb = hexToRgb(branchColor(branch));
+        itemsForBranch(branch).forEach((item) => allItems.push({ ...item, originIdx: branchIdx, color, rgb }));
       });
 
-      if (allItems.length) {
-        const leafX = Math.max(yearX + 210, W * 0.5);
-        const leafMarginY = 20;
-        const leafUsableH = Math.max(H - leafMarginY * 2, 1);
-        leafColumnRightEdge = radialFrise.getBoundingClientRect().left + leafX + 190;
+      layoutLeafColumn(
+        allItems,
+        yearX,
+        W * 0.5,
+        H,
+        (item) => branchNodeRightX[item.originIdx],
+        (item) => branchYs[item.originIdx]
+      );
 
-        allItems.forEach((item, i) => {
-          const ly = allItems.length > 1 ? leafMarginY + (leafUsableH * i) / (allItems.length - 1) : centerY;
-          radialSvg.appendChild(svgPath(curvePath(yearX + 64, yearYs[item.yearIdx], leafX, ly), item.color, "radial-path-leaf"));
-
-          const p = item.data;
-          const leaf = document.createElement("div");
-          leaf.className = "radial-leaf";
-          leaf.style.left = leafX + "px";
-          leaf.style.top = ly + "px";
-          leaf.style.setProperty("--year-color", item.color);
-          if (item.rgb) leaf.style.setProperty("--year-color-rgb", item.rgb);
-          leaf.dataset.color = p.color || "";
-          leaf.dataset.slug = slugify(p.id || p.title);
-          leaf.setAttribute("tabindex", "0");
-          leaf.innerHTML = `<span class="radial-leaf-title">${p.title}</span><span class="radial-leaf-meta">${p.type || ""}</span>`;
-          leaf.addEventListener("click", () => selectProject(p, leaf));
-          leaf.addEventListener("keydown", (e) => {
-            if (e.key === "Enter" || e.key === " ") { e.preventDefault(); selectProject(p, leaf); }
-          });
-          radialLeavesEl.appendChild(leaf);
-          requestAnimationFrame(() => leaf.classList.add("visible"));
-        });
-      }
+      leafVisibleH = H;
+      radialLeavesEl.scrollTop = 0;
+      updateLeafCurvesVisibility(0);
     }
 
-    function buildRadialFrise(initialYears) {
-      if (initialYears != null) {
-        (Array.isArray(initialYears) ? initialYears : [initialYears]).forEach((y) => activeRadialYears.add(y));
+    // Les courbes vers les feuilles vivent dans le calque SVG fixe (pas dans
+    // .radial-leaves qui défile) : on les redessine à la main au scroll pour
+    // qu'elles restent attachées à la branche (fixe) et à la feuille
+    // (mobile), et on masque celles dont la feuille est actuellement hors
+    // champ — sinon le trait resterait affiché, pointant vers rien de visible.
+    function updateLeafCurvesVisibility(offset) {
+      const margin = 24;
+      const branchesInView = new Set();
+      activeLeafCurves.forEach(({ path, x1, y1, x2, baseY, yearIdx }) => {
+        const y = baseY - offset;
+        const visible = y >= -margin && y <= leafVisibleH + margin;
+        path.style.display = visible ? "" : "none";
+        if (visible) {
+          path.setAttribute("d", curvePath(x1, y1, x2, y));
+          branchesInView.add(yearIdx);
+        }
+      });
+
+      // Une branche dont aucun projet n'est actuellement visible (scrollé
+      // hors champ) perd son surlignage "actif", même si elle reste dépliée.
+      [...radialYearsEl.children].forEach((node, i) => {
+        node.classList.toggle("out-of-view", node.classList.contains("active") && !branchesInView.has(i));
+      });
+    }
+
+    function redrawLeafCurvesOnScroll() {
+      updateLeafCurvesVisibility(radialLeavesEl.scrollTop);
+    }
+    radialLeavesEl.addEventListener("scroll", redrawLeafCurvesOnScroll, { passive: true });
+
+    function buildRadialFrise(initialBranches) {
+      if (initialBranches != null) {
+        (Array.isArray(initialBranches) ? initialBranches : [initialBranches]).forEach((b) => activeRadialBranches.add(b));
       }
       layoutRadialFrise();
       buildDiplomasSection();
@@ -1418,9 +1696,15 @@
       });
     }
 
+    // En dessous de cette largeur, la carte ancrée à côté de la frise n'a
+    // plus la place de cohabiter avec la colonne de projets (200px + 420px
+    // + marges ne tiennent plus) : on repasse sur le tiroir plein écran,
+    // déjà responsive à n'importe quelle largeur desktop.
+    const ANCHOR_MIN_WIDTH = 1050;
+
     window.addEventListener("resize", () => {
       layoutRadialFrise();
-      if (window.innerWidth <= 768) {
+      if (window.innerWidth <= 768 || window.innerWidth < ANCHOR_MIN_WIDTH) {
         if (detail.classList.contains("anchored")) {
           detail.classList.remove("visible", "anchored");
           document.body.style.overflow = "";
@@ -1515,7 +1799,7 @@
       card.classList.add("active");
 
       detail.classList.remove("side-panel", "anchored", "empty");
-      const isFriseLeaf = card.classList.contains("radial-leaf");
+      const isFriseLeaf = card.classList.contains("radial-leaf") && window.innerWidth >= ANCHOR_MIN_WIDTH;
       if (isFriseLeaf) {
         detail.classList.add("anchored");
         positionAnchoredDetail(card);
@@ -1576,17 +1860,18 @@
     // si on en précise une, sinon sur la colonne des projets par défaut — pour
     // qu'il reste toujours au même endroit, "dans la partie de la frise".
     function positionAnchoredDetail(leafEl) {
-      const width = Math.min(420, window.innerWidth * 0.38);
-      let left;
-      if (leafEl) {
-        left = leafEl.getBoundingClientRect().right + 24;
-      } else if (leafColumnRightEdge != null) {
-        left = leafColumnRightEdge + 24;
-      } else {
-        left = window.innerWidth - width - 16;
-      }
+      // La carte se rétrécit (260px min) sur les écrans moins larges, plutôt
+      // que de se faire repousser par-dessus la colonne de projets.
+      const minGap = 24;
+      const startX = leafEl ? leafEl.getBoundingClientRect().right : (leafColumnRightEdge != null ? leafColumnRightEdge : null);
+      const availableWidth = startX != null ? window.innerWidth - 16 - (startX + minGap) : window.innerWidth - 32;
+      const width = Math.max(260, Math.min(420, availableWidth));
+      detail.style.setProperty("--anchor-width", width + "px");
+
+      let left = startX != null ? startX + minGap : window.innerWidth - width - 16;
       if (left + width > window.innerWidth - 16) left = Math.max(16, window.innerWidth - width - 16);
       detail.style.setProperty("--anchor-left", left + "px");
+      detail.classList.toggle("narrow", width < 320);
       updateAnchoredFriseScope();
     }
 
@@ -1596,9 +1881,10 @@
     function updateAnchoredFriseScope() {
       if (!detail.classList.contains("anchored") || !radialFrise) return;
       const headerH = parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--header-h")) || 64;
+      const inset = 20; // marge pour que la carte flotte, au lieu de coller aux bords de la frise
       const friseRect = radialFrise.getBoundingClientRect();
-      const top = Math.max(headerH, friseRect.top);
-      const bottom = Math.min(window.innerHeight, friseRect.bottom);
+      const top = Math.max(headerH + inset, friseRect.top + inset);
+      const bottom = Math.min(window.innerHeight - inset, friseRect.bottom - inset);
       const height = bottom - top;
       detail.style.setProperty("--anchor-top", top + "px");
       detail.style.setProperty("--anchor-height", Math.max(0, height) + "px");
@@ -1612,7 +1898,7 @@
     // La div ancrée à côté de la frise reste toujours présente (desktop) :
     // fermer ne la fait pas disparaître, ça revient juste à l'état vide.
     function initAnchoredDefault() {
-      if (window.innerWidth <= 768) return;
+      if (window.innerWidth < ANCHOR_MIN_WIDTH) return;
       detail.classList.remove("side-panel");
       detail.classList.add("anchored", "visible", "empty");
       positionAnchoredDetail();
@@ -1690,15 +1976,7 @@
         const area = getRenderedArea();
         if (!area) return;
 
-        const rect    = img.getBoundingClientRect();
-        const lensW   = lens.offsetWidth;
-        const lensH   = lens.offsetHeight;
-        const resultW = result.offsetWidth;
-        const resultH = result.offsetHeight;
-
-        /* Position relative à la zone réelle de l'image */
-        let x = e.clientX - rect.left - area.x - lensW / 2;
-        let y = e.clientY - rect.top  - area.y - lensH / 2;
+        const rect = img.getBoundingClientRect();
 
         /* Masquer si hors de l'image (zone noire letterbox) */
         const curX = e.clientX - rect.left - area.x;
@@ -1707,8 +1985,20 @@
           hideZoom(); return;
         }
 
+        // display:block avant de lire offsetWidth/offsetHeight ci-dessous :
+        // un élément display:none renvoie toujours 0, ce qui fausserait tous
+        // les calculs de la toute première frame (lens/result mal dimensionnés).
         lens.style.display   = 'block';
         result.style.display = 'block';
+
+        const lensW   = lens.offsetWidth;
+        const lensH   = lens.offsetHeight;
+        const resultW = result.offsetWidth;
+        const resultH = result.offsetHeight;
+
+        /* Position relative à la zone réelle de l'image */
+        let x = e.clientX - rect.left - area.x - lensW / 2;
+        let y = e.clientY - rect.top  - area.y - lensH / 2;
 
         x = Math.max(0, Math.min(x, area.w - lensW));
         y = Math.max(0, Math.min(y, area.h - lensH));
@@ -1721,6 +2011,15 @@
         result.style.backgroundImage    = `url('${img.src}')`;
         result.style.backgroundSize     = `${area.w * cx}px ${area.h * cy}px`;
         result.style.backgroundPosition = `-${x * cx}px -${y * cy}px`;
+
+        // Coordonnées écran (position:fixed) : la loupe s'ouvre à gauche de
+        // l'image par défaut (la carte détail flotte à droite de l'écran),
+        // et bascule à droite si jamais il n'y a pas la place.
+        let resultLeft = rect.left - resultW - 12;
+        if (resultLeft < 16) resultLeft = Math.min(rect.right + 12, window.innerWidth - resultW - 16);
+        let resultTop = Math.min(rect.top, window.innerHeight - resultH - 16);
+        result.style.left = resultLeft + 'px';
+        result.style.top = Math.max(16, resultTop) + 'px';
       }
 
       img.addEventListener('mouseleave', hideZoom);
@@ -1929,9 +2228,16 @@
 
     initZoom();
 
-    // Toutes les années sont dépliées par défaut, pour voir tous les projets
-    // dès le chargement de la page.
-    buildRadialFrise(RADIAL_YEARS);
+    // Toutes les branches du mode par défaut sont dépliées, pour voir tous
+    // les projets dès le chargement de la page.
+    buildRadialFrise(currentBranches());
+
+    // Si la police custom charge après ce premier layout, les cases branche
+    // mesurées entre-temps (branchNodeRightX) sont fausses : on relayout une
+    // fois les polices prêtes pour que les courbes sortent bien de leur case.
+    if (document.fonts && document.fonts.ready) {
+      document.fonts.ready.then(() => layoutRadialFrise());
+    }
 
     // La div détail reste toujours présente à côté de la frise (desktop),
     // vide tant qu'aucun projet n'est cliqué.
