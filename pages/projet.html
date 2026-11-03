@@ -265,16 +265,20 @@
       left: 0;
       padding: 10px 16px;
       box-sizing: border-box;
-      z-index: 3;
+      /* En dessous de la sphère/des branches (z-index 2-3) : une carte en
+         train de s'estomper au bord de la colonne ne doit jamais passer
+         par-dessus, même translucide. */
+      z-index: 1;
       overflow-y: auto;
       overflow-x: hidden;
       pointer-events: auto;
       scrollbar-width: thin;
       scrollbar-color: rgba(var(--accent-rgb),0.4) transparent;
       /* Fondu doux en haut/bas de la colonne, pour que les cartes
-         apparaissent/disparaissent en douceur plutôt que d'être coupées net. */
-      mask-image: linear-gradient(to bottom, transparent 0, black 28px, black calc(100% - 28px), transparent 100%);
-      -webkit-mask-image: linear-gradient(to bottom, transparent 0, black 28px, black calc(100% - 28px), transparent 100%);
+         apparaissent/disparaissent en douceur plutôt que d'être coupées net —
+         seulement du côté où il reste du contenu à découvrir (voir
+         updateLeavesMask en JS : sinon la dernière carte semble coupée même
+         quand le scroll est déjà au maximum). */
     }
 
     .radial-leaves::-webkit-scrollbar { width: 8px; }
@@ -339,7 +343,7 @@
     .radial-leaf {
       position: absolute;
       width: 200px;
-      height: 64px;
+      height: 80px;
       display: flex;
       align-items: center;
       gap: 10px;
@@ -351,7 +355,9 @@
       pointer-events: auto;
       opacity: 0;
       transform: translate(-8px, -50%);
-      transition: opacity .3s ease, transform .3s ease, border-color .2s, background .2s;
+      /* --arc-x (mis à jour en JS au scroll) courbe légèrement la colonne,
+         comme si elle suivait un cercle plutôt qu'une ligne droite. */
+      transition: opacity .3s ease, transform .2s ease-out, border-color .2s, background .2s;
     }
 
     .radial-leaf-thumb {
@@ -384,7 +390,7 @@
 
     .radial-leaf.visible {
       opacity: 1;
-      transform: translate(0, -50%);
+      transform: translate(var(--arc-x, 0px), -50%);
     }
 
     .radial-leaf:hover,
@@ -396,13 +402,15 @@
 
 
     .radial-leaf-title {
-      display: block;
+      display: -webkit-box;
+      -webkit-box-orient: vertical;
+      -webkit-line-clamp: 2;
+      line-clamp: 2;
+      overflow: hidden;
       font-size: .82rem;
       font-weight: 600;
+      line-height: 1.25;
       color: var(--white);
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
     }
 
     .radial-leaf-meta {
@@ -1413,6 +1421,9 @@
     // Hauteur visible de la frise (H), utilisée pour masquer les courbes
     // dont la feuille est actuellement scrollée hors champ.
     let leafVisibleH = 0;
+    // Cartes projet actuellement affichées, avec leur position de base —
+    // sert à courber légèrement la colonne au scroll (voir updateLeavesArc).
+    let activeLeafNodes = [];
 
     // Couleur de branche d'une école, alignée sur project.color (même
     // mapping que les cartes et le panneau détail — voir window.COLORS.projet).
@@ -1466,10 +1477,29 @@
       return path;
     }
 
+    // Cliquer une branche l'ouvre (si besoin) et y amène la vue en un seul
+    // clic — elle ne se ferme plus au clic, pour ne pas avoir à cliquer deux
+    // fois (une pour rouvrir, une pour y aller) sur une branche déjà ouverte.
     function toggleRadialBranch(branch) {
-      if (activeRadialBranches.has(branch)) activeRadialBranches.delete(branch);
-      else activeRadialBranches.add(branch);
-      layoutRadialFrise();
+      const wasOpen = activeRadialBranches.has(branch);
+      activeRadialBranches.add(branch);
+      if (!wasOpen) layoutRadialFrise();
+      scrollToBranch(branch);
+    }
+
+    // Amène la colonne de projets jusqu'au premier projet de la branche
+    // cliquée, en douceur — .radial-leaves gère déjà le redessin des
+    // courbes/du fondu/de la courbure pendant le scroll (voir
+    // redrawLeafCurvesOnScroll), inutile de les répéter ici.
+    function scrollToBranch(branch) {
+      const idx = currentBranches().indexOf(branch);
+      const entries = activeLeafCurves.filter((c) => c.yearIdx === idx);
+      if (!entries.length) return;
+      // -60 (pas -20) : laisse la première carte passer sous la zone de
+      // fondu du haut (28px), sinon elle retombe juste dedans et reste
+      // visuellement estompée une fois le scroll terminé.
+      const target = Math.max(0, Math.min(...entries.map((e) => e.baseY)) - 60);
+      radialLeavesEl.scrollTo({ top: target, behavior: "smooth" });
     }
 
     // Bascule le regroupement de la frise et rouvre toutes les branches du
@@ -1492,7 +1522,6 @@
       if (btn) setFriseMode(btn.dataset.mode);
     });
 
-    // Entrées "année|école" actuellement dépliées en mode "year", dans le
     // Crée la courbe + la carte d'un projet dans la colonne de droite.
     function appendLeafCard(item, x1, y1, leafX, ly, originIdx) {
       const path = svgPath(curvePath(x1, y1, leafX, ly), item.color, "radial-path-leaf");
@@ -1502,7 +1531,10 @@
       const p = item.data;
       const leaf = document.createElement("div");
       leaf.className = "radial-leaf";
-      leaf.style.left = "0";
+      // Décalé à droite de LEAF_ARC_AMPLITUDE+10 pour compenser le décalage
+      // à gauche de .radial-leaves (voir layoutLeafColumn) : la position au
+      // repos (--arc-x: 0) retombe exactement sur leafX, comme avant.
+      leaf.style.left = (LEAF_ARC_AMPLITUDE + 10) + "px";
       leaf.style.top = ly + "px";
       leaf.style.setProperty("--year-color", item.color);
       if (item.rgb) leaf.style.setProperty("--year-color-rgb", item.rgb);
@@ -1525,6 +1557,7 @@
         if (e.key === "Enter" || e.key === " ") { e.preventDefault(); selectProject(p, leaf); }
       });
       radialLeavesEl.appendChild(leaf);
+      activeLeafNodes.push({ el: leaf, baseY: ly });
       requestAnimationFrame(() => leaf.classList.add("visible"));
     }
 
@@ -1532,17 +1565,28 @@
     // scrollable) à partir de leur point d'origine respectif (x1Of/y1Of).
     function layoutLeafColumn(allItems, startX, minLeafX, H, x1Of, y1Of) {
       activeLeafCurves = [];
+      activeLeafNodes = [];
       if (!allItems.length) return;
 
       const leafX = Math.max(startX + 260, minLeafX);
-      const leafMarginY = 20;
-      const leafContentH = Math.max(H, allItems.length * 76);
+      // >= moitié de la hauteur d'une carte (80px) + marge, sinon la
+      // première/dernière carte (centrée sur son point ly) dépasse du haut/
+      // bas de la colonne et se fait couper net par son overflow:hidden.
+      const leafMarginY = 48;
+      const leafContentH = Math.max(H, allItems.length * 92);
       const leafUsableH = Math.max(leafContentH - leafMarginY * 2, 1);
       leafColumnRightEdge = radialFrise.getBoundingClientRect().left + leafX + 200;
 
       // .radial-leaves ne couvre que la colonne des projets (pas toute la
       // frise), pour ne pas intercepter les clics sur la sphère/les branches.
-      radialLeavesEl.style.left = leafX + "px";
+      // Décalé de LEAF_ARC_AMPLITUDE (+marge) vers la gauche : réserve la
+      // place pour que les cartes puissent courber vers la gauche au scroll
+      // (updateLeavesArc) sans jamais se faire couper par l'overflow du
+      // conteneur. Chaque carte part avec le même décalage à droite (voir
+      // appendLeafCard, leaf.style.left) pour que sa position "repos" (arc=0)
+      // reste inchangée — la place prise vient de la marge déjà laissée avec
+      // la colonne des branches (>= 260px), jamais de leur zone cliquable.
+      radialLeavesEl.style.left = (leafX - LEAF_ARC_AMPLITUDE - 10) + "px";
 
       allItems.forEach((item, i) => {
         const ly = allItems.length > 1 ? leafMarginY + (leafUsableH * i) / (allItems.length - 1) : leafContentH / 2;
@@ -1630,6 +1674,8 @@
       leafVisibleH = H;
       radialLeavesEl.scrollTop = 0;
       updateLeafCurvesVisibility(0);
+      updateLeavesMask();
+      updateLeavesArc(0);
     }
 
     // Les courbes vers les feuilles vivent dans le calque SVG fixe (pas dans
@@ -1657,8 +1703,42 @@
       });
     }
 
+    // Le fondu haut/bas ne s'applique que du côté où il reste du contenu à
+    // découvrir : sinon la dernière carte semble coupée/buguée alors que le
+    // scroll est déjà au maximum (ou minimum).
+    function updateLeavesMask() {
+      const el = radialLeavesEl;
+      const max = el.scrollHeight - el.clientHeight;
+      const atTop = el.scrollTop <= 1;
+      const atBottom = max <= 1 || el.scrollTop >= max - 1;
+      const top = atTop ? "black 0" : "transparent 0, black 28px";
+      const bottom = atBottom ? "black 100%" : "black calc(100% - 28px), transparent 100%";
+      const mask = (atTop && atBottom) ? "none" : `linear-gradient(to bottom, ${top}, ${bottom})`;
+      el.style.maskImage = mask;
+      el.style.webkitMaskImage = mask;
+    }
+
+    // Courbe légèrement la colonne au scroll (comme si elle suivait un
+    // cercle) : les cartes proches du centre vertical restent alignées,
+    // celles qui s'en éloignent (haut/bas) glissent vers la sphère (gauche).
+    // .radial-leaves réserve la place nécessaire (left + padding-left décalés
+    // de LEAF_ARC_AMPLITUDE, voir layoutLeafColumn) pour que rien ne se fasse
+    // jamais couper par son overflow, ni chevaucher la colonne des branches.
+    const LEAF_ARC_AMPLITUDE = 60;
+    function updateLeavesArc(offset) {
+      const centerY = leafVisibleH / 2;
+      activeLeafNodes.forEach(({ el, baseY }) => {
+        const y = baseY - offset;
+        const t = Math.max(-1, Math.min(1, (y - centerY) / (centerY || 1)));
+        const arcX = -LEAF_ARC_AMPLITUDE * (1 - Math.cos((t * Math.PI) / 2));
+        el.style.setProperty("--arc-x", arcX.toFixed(1) + "px");
+      });
+    }
+
     function redrawLeafCurvesOnScroll() {
       updateLeafCurvesVisibility(radialLeavesEl.scrollTop);
+      updateLeavesMask();
+      updateLeavesArc(radialLeavesEl.scrollTop);
     }
     radialLeavesEl.addEventListener("scroll", redrawLeafCurvesOnScroll, { passive: true });
 
@@ -1700,7 +1780,7 @@
     // plus la place de cohabiter avec la colonne de projets (200px + 420px
     // + marges ne tiennent plus) : on repasse sur le tiroir plein écran,
     // déjà responsive à n'importe quelle largeur desktop.
-    const ANCHOR_MIN_WIDTH = 1050;
+    const ANCHOR_MIN_WIDTH = 1070;
 
     window.addEventListener("resize", () => {
       layoutRadialFrise();
@@ -1863,7 +1943,11 @@
       // La carte se rétrécit (260px min) sur les écrans moins larges, plutôt
       // que de se faire repousser par-dessus la colonne de projets.
       const minGap = 24;
-      const startX = leafEl ? leafEl.getBoundingClientRect().right : (leafColumnRightEdge != null ? leafColumnRightEdge : null);
+      // Même en ciblant la carte cliquée, on ne descend jamais sous
+      // leafColumnRightEdge : d'autres cartes de la colonne peuvent courber
+      // plus loin vers la droite qu'elle au scroll (voir updateLeavesArc).
+      let startX = leafEl ? leafEl.getBoundingClientRect().right : leafColumnRightEdge;
+      if (leafEl && leafColumnRightEdge != null) startX = Math.max(startX, leafColumnRightEdge);
       const availableWidth = startX != null ? window.innerWidth - 16 - (startX + minGap) : window.innerWidth - 32;
       const width = Math.max(260, Math.min(420, availableWidth));
       detail.style.setProperty("--anchor-width", width + "px");
