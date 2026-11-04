@@ -213,7 +213,10 @@
       position: absolute;
       left: 42px;
       top: 50%;
-      transform: translateY(-50%);
+      /* Centre la sphère elle-même (pas le bloc nom compris) sur l'axe
+         vertical, pour qu'elle reste au même niveau que le centre de masse
+         des années/écoles calculé en JS (demi-hauteur de .radial-sphere). */
+      transform: translateY(-46px);
       text-align: center;
       z-index: 2;
       width: 110px;
@@ -291,7 +294,9 @@
 
     .radial-year-node {
       position: absolute;
-      transform: translate(0, -50%);
+      /* --arc-x (updateBranchesArc) : courbe douce comme les projets.
+         --scroll-y (updateBranchesScroll) : défile verticalement avec eux. */
+      transform: translate(var(--arc-x, 0px), calc(-50% - var(--scroll-y, 0px)));
       display: flex;
       align-items: center;
       gap: 10px;
@@ -301,7 +306,7 @@
       border: 1px solid rgba(var(--year-color-rgb, var(--accent-rgb)), .35);
       cursor: pointer;
       pointer-events: auto;
-      transition: box-shadow .25s, border-color .25s, background .2s;
+      transition: box-shadow .25s, border-color .25s, background .2s, transform .2s ease-out, opacity .2s ease;
     }
 
     .radial-year-node:hover {
@@ -1373,11 +1378,23 @@
 
     const projects = window.PROJECTS;
     const diplomas = window.DIPLOMAS;
-    const diplomaTimelineColors = Object.values((window.COLORS && window.COLORS.timeline) || {});
 
     function hexToRgb(hex) {
       const m = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
       return m ? [parseInt(m[1], 16), parseInt(m[2], 16), parseInt(m[3], 16)].join(",") : null;
+    }
+
+    // Dégradé linéaire (espace RGB) entre deux couleurs hex, t de 0 à 1.
+    function lerpHexColor(hexA, hexB, t) {
+      const a = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hexA);
+      const b = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hexB);
+      if (!a || !b) return hexA;
+      const mix = (i) => {
+        const va = parseInt(a[i], 16);
+        const vb = parseInt(b[i], 16);
+        return Math.round(va + (vb - va) * t);
+      };
+      return "#" + [mix(1), mix(2), mix(3)].map((v) => v.toString(16).padStart(2, "0")).join("");
     }
 
     // Pour les liens profonds : /pages/projet.html?p=nom-du-projet
@@ -1424,6 +1441,20 @@
     // Cartes projet actuellement affichées, avec leur position de base —
     // sert à courber légèrement la colonne au scroll (voir updateLeavesArc).
     let activeLeafNodes = [];
+    // Cases année/école affichées, avec leur position de base — elles
+    // défilent maintenant avec les projets (voir updateBranchesScroll).
+    let activeBranchNodes = [];
+    // Courbes SVG sphère → branche, redessinées en même temps (même défilement).
+    let activeBranchSphereCurves = [];
+    // Position Y actuelle (bornée, jamais hors écran) de chaque branche,
+    // indexée comme ses enfants — lue par updateLeafCurvesVisibility pour
+    // que les courbes année→feuille restent attachées au même point.
+    let branchCurrentY = [];
+    // Décalage horizontal actuel (--arc-x) de chaque case année/école,
+    // calculé par updateBranchesArc — lu par updateBranchesScroll et
+    // updateLeafCurvesVisibility pour que les courbes sphère→branche et
+    // branche→feuille restent accrochées à la case même quand elle courbe.
+    let branchCurrentArcX = [];
 
     // Couleur de branche d'une école, alignée sur project.color (même
     // mapping que les cartes et le panneau détail — voir window.COLORS.projet).
@@ -1433,12 +1464,17 @@
       return entry ? entry.value : null;
     }
 
-    // Couleur d'une branche année — réutilisée aussi par les diplômes dans
-    // leur propre section (buildDiplomasSection), indépendante de la frise.
+    // Couleur d'une branche année, en dégradé entre les deux couleurs de
+    // base du site (window.COLORS.accent : accent → accent2) plutôt qu'une
+    // teinte fixe par année — réutilisée aussi par les diplômes dans leur
+    // propre section (buildDiplomasSection), indépendante de la frise.
     function yearColor(year) {
-      if (!diplomaTimelineColors.length) return null;
-      const entry = diplomaTimelineColors[(year - startYear) % diplomaTimelineColors.length];
-      return entry ? entry.value : null;
+      const accent = window.COLORS && window.COLORS.accent;
+      const colorStart = (accent && accent.accent && accent.accent.value) || "#24408f";
+      const colorEnd = (accent && accent.accent2 && accent.accent2.value) || "#6ec6ff";
+      const span = endYear - startYear;
+      const t = span > 0 ? Math.max(0, Math.min(1, (year - startYear) / span)) : 0;
+      return lerpHexColor(colorStart, colorEnd, t);
     }
 
     // Projets de l'école, triés par année puis par mois.
@@ -1621,18 +1657,42 @@
       const yearX = Math.min(320, W * 0.32);
       const marginY = 64;
       const usableH = Math.max(H - marginY * 2, 1);
+      // Chaque branche occupe une portion de la hauteur disponible
+      // proportionnelle à son nombre de projets : une année avec plus de
+      // projets prend plus de place verticale, le nœud reste centré
+      // dans sa portion. Le bloc entier est ensuite décalé pour que son
+      // centre de masse (pondéré par le nombre de projets) tombe
+      // exactement sur le centre vertical de la sphère — pas juste la
+      // position médiane de la liste.
+      const branchItemCounts = branches.map((b) => Math.max(1, itemsForBranch(b).length));
+      const branchItemTotal = branchItemCounts.reduce((sum, n) => sum + n, 0);
+      let branchCursor = 0;
+      const branchRelativeYs = branchItemCounts.map((count) => {
+        const slice = (count / branchItemTotal) * usableH;
+        const y = branchCursor + slice / 2;
+        branchCursor += slice;
+        return y;
+      });
+      const branchWeightedCenter = branches.length > 1
+        ? branchRelativeYs.reduce((sum, y, i) => sum + y * branchItemCounts[i], 0) / branchItemTotal
+        : 0;
+      const branchStartY = centerY - branchWeightedCenter;
       const branchYs = branches.map((b, i) =>
-        branches.length > 1 ? marginY + (usableH * i) / (branches.length - 1) : centerY
+        branches.length > 1 ? branchStartY + branchRelativeYs[i] : centerY
       );
 
       // Bord droit réel (mesuré, pas estimé) de chaque case branche : les
       // courbes vers les projets doivent en sortir visiblement, pas d'un
       // point flottant à l'intérieur de la case.
       const branchNodeRightX = [];
+      activeBranchNodes = [];
+      activeBranchSphereCurves = [];
 
       branches.forEach((branch, i) => {
         const color = branchColor(branch) || "var(--accent)";
-        radialSvg.appendChild(svgPath(curvePath(centerX + 48, centerY, yearX, branchYs[i]), color));
+        const spherePath = svgPath(curvePath(centerX + 48, centerY, yearX, branchYs[i]), color);
+        radialSvg.appendChild(spherePath);
+        activeBranchSphereCurves.push({ path: spherePath, x1: centerX + 48, y1: centerY, x2: yearX, baseY: branchYs[i] });
 
         const items = itemsForBranch(branch);
         const node = document.createElement("div");
@@ -1650,6 +1710,7 @@
         });
         radialYearsEl.appendChild(node);
         branchNodeRightX[i] = yearX + node.offsetWidth;
+        activeBranchNodes.push({ node, baseY: branchYs[i] });
       });
 
       // Toutes les feuilles des branches ouvertes partagent une seule colonne,
@@ -1673,6 +1734,11 @@
 
       leafVisibleH = H;
       radialLeavesEl.scrollTop = 0;
+      // updateBranchesArc doit tourner avant les deux autres : elles lisent
+      // branchCurrentArcX pour accrocher leurs courbes au bon endroit
+      // horizontal (voir les commentaires sur branchCurrentArcX plus haut).
+      updateBranchesArc(0);
+      updateBranchesScroll(0);
       updateLeafCurvesVisibility(0);
       updateLeavesMask();
       updateLeavesArc(0);
@@ -1688,10 +1754,14 @@
       const branchesInView = new Set();
       activeLeafCurves.forEach(({ path, x1, y1, x2, baseY, yearIdx }) => {
         const y = baseY - offset;
+        // Position Y réelle (bornée) de la branche d'origine, calculée par
+        // updateBranchesScroll (appelée juste avant, voir redrawLeafCurvesOnScroll)
+        // — le point de départ de la courbe doit rester collé à cette même case.
+        const startY = branchCurrentY[yearIdx] ?? y1;
         const visible = y >= -margin && y <= leafVisibleH + margin;
         path.style.display = visible ? "" : "none";
         if (visible) {
-          path.setAttribute("d", curvePath(x1, y1, x2, y));
+          path.setAttribute("d", curvePath(x1 + (branchCurrentArcX[yearIdx] || 0), startY, x2, y));
           branchesInView.add(yearIdx);
         }
       });
@@ -1735,12 +1805,168 @@
       });
     }
 
+    // Les cases année/école suivent le même arrondi circulaire que les
+    // projets au scroll (amplitude un peu plus faible pour rester bien
+    // visible sans déborder vers la sphère) — purement horizontal,
+    // indépendant du défilement vertical (voir updateBranchesScroll juste
+    // en dessous).
+    const BRANCH_ARC_AMPLITUDE = 40;
+    function updateBranchesArc(offset) {
+      const centerY = leafVisibleH / 2;
+      [...radialYearsEl.children].forEach((node, i) => {
+        const items = activeLeafCurves.filter((c) => c.yearIdx === i);
+        if (!items.length) {
+          node.style.setProperty("--arc-x", "0px");
+          branchCurrentArcX[i] = 0;
+          return;
+        }
+        const avgY = items.reduce((sum, c) => sum + (c.baseY - offset), 0) / items.length;
+        const t = Math.max(-1, Math.min(1, (avgY - centerY) / (centerY || 1)));
+        const arcX = -BRANCH_ARC_AMPLITUDE * (1 - Math.cos((t * Math.PI) / 2));
+        node.style.setProperty("--arc-x", arcX.toFixed(1) + "px");
+        branchCurrentArcX[i] = arcX;
+      });
+    }
+
+    // Chaque case année/école suit la position moyenne de SES PROPRES
+    // projets dans la colonne (et non plus un facteur de parallaxe global) :
+    // quand les cartes d'une année sont centrées dans la frise, sa case se
+    // retrouve exactement alignée sur la sphère ; une année dont aucune
+    // carte n'est encore visible reste bloquée au bord jusqu'à ce que son
+    // tour arrive. Toujours bornée à l'écran — elle ne sort jamais de la
+    // frise, elle se contente de "buter" sur ses bords haut/bas.
+    const BRANCH_EDGE_CLAMP = 40;
+    // Hauteur approx. d'une case (padding + contenu) + marge minimale entre
+    // deux cases — quand plusieurs branches butent sur le même bord, ça les
+    // empêche de s'empiler les unes sur les autres.
+    const BRANCH_MIN_SPACING = 54;
+    function updateBranchesScroll(offset) {
+      const minY = BRANCH_EDGE_CLAMP;
+      const maxY = Math.max(minY, leafVisibleH - BRANCH_EDGE_CLAMP);
+      branchCurrentY = activeBranchNodes.map(({ baseY }, i) => {
+        const items = activeLeafCurves.filter((c) => c.yearIdx === i);
+        if (!items.length) return Math.max(minY, Math.min(maxY, baseY));
+        const avgY = items.reduce((sum, c) => sum + (c.baseY - offset), 0) / items.length;
+        return Math.max(minY, Math.min(maxY, avgY));
+      });
+      // L'espacement minimal entre deux branches voisines est pondéré par
+      // leur nombre de projets combiné (comme la taille de leur portion au
+      // repos, voir branchRelativeYs) : une année avec beaucoup de projets
+      // pousse davantage ses voisines qu'une année qui en a peu, pour garder
+      // le même sens de poids visuel même une fois que ça défile.
+      const branchesForWeight = currentBranches();
+      const branchItemCountsForWeight = branchesForWeight.map((b) => Math.max(1, itemsForBranch(b).length));
+      const avgItemCount =
+        branchItemCountsForWeight.reduce((sum, n) => sum + n, 0) / (branchItemCountsForWeight.length || 1);
+      // BRANCH_MIN_SPACING reste un plancher dur (c'est déjà tout juste la
+      // hauteur d'une case) : le poids ne fait qu'agrandir l'écart pour les
+      // paires au-dessus de la moyenne, jamais le réduire en dessous pour
+      // les paires plus légères — sinon les cases se chevaucheraient.
+      const gapSpacing = (i) =>
+        BRANCH_MIN_SPACING *
+        Math.max(1, (branchItemCountsForWeight[i - 1] + branchItemCountsForWeight[i]) / (2 * avgItemCount));
+      // Garde l'ordre (année 1 toujours au-dessus de l'année 2, etc.) tout en
+      // forçant cet espacement minimal. Une seule passe aller (vers le bas)
+      // gère bien l'empilement en haut (s'éloigner de minY ne peut jamais
+      // repasser sous minY), mais pas l'empilement en bas (s'éloigner de
+      // maxY peut dépasser maxY, et un clamp final les recollerait toutes
+      // au même point) : on répète donc aller+retour jusqu'à stabilisation.
+      for (let pass = 0; pass < branchCurrentY.length + 2; pass++) {
+        let changed = false;
+        for (let i = 1; i < branchCurrentY.length; i++) {
+          const spacing = gapSpacing(i);
+          if (branchCurrentY[i] - branchCurrentY[i - 1] < spacing) {
+            branchCurrentY[i] = branchCurrentY[i - 1] + spacing;
+            changed = true;
+          }
+        }
+        for (let i = branchCurrentY.length - 2; i >= 0; i--) {
+          const spacing = gapSpacing(i + 1);
+          if (branchCurrentY[i + 1] - branchCurrentY[i] < spacing) {
+            branchCurrentY[i] = branchCurrentY[i + 1] - spacing;
+            changed = true;
+          }
+        }
+        if (!changed) break;
+      }
+      // L'espacement minimal ci-dessus peut repousser les branches du bout
+      // (première ou dernière) hors des bornes haut/bas quand il y en a
+      // beaucoup serrées au même endroit. Une seule formule continue, pas un
+      // choix binaire entre deux régimes différents (ça créait un saut
+      // visible pile au moment où l'un bascule sur l'autre) : on ne
+      // comprime que la marge au-dessus du minimum, jamais le minimum
+      // lui-même, et la compression vaut pile 0 tant qu'il y a assez de
+      // place — donc aucune discontinuité au seuil.
+      if (branchCurrentY.length > 1) {
+        const available = maxY - minY;
+        const naturalGaps = [];
+        for (let i = 1; i < branchCurrentY.length; i++) {
+          naturalGaps.push(branchCurrentY[i] - branchCurrentY[i - 1]);
+        }
+        const minGaps = naturalGaps.map((_, idx) => gapSpacing(idx + 1));
+        const totalNatural = naturalGaps.reduce((sum, g) => sum + g, 0);
+        const totalMin = minGaps.reduce((sum, g) => sum + g, 0);
+        let finalGaps;
+        if (totalNatural <= available) {
+          finalGaps = naturalGaps;
+        } else if (totalMin >= available) {
+          // Même les écarts minimaux ne tiennent pas (cas extrême très
+          // rare) : dernier recours, on les réduit tous proportionnellement.
+          const scale = totalMin > 0 ? available / totalMin : 1;
+          finalGaps = minGaps.map((g) => g * scale);
+        } else {
+          const totalSlack = totalNatural - totalMin;
+          const factor = (available - totalMin) / totalSlack;
+          finalGaps = naturalGaps.map((g, idx) => minGaps[idx] + (g - minGaps[idx]) * factor);
+        }
+        const positions = [branchCurrentY[0]];
+        for (let i = 0; i < finalGaps.length; i++) positions.push(positions[i] + finalGaps[i]);
+        let shift = 0;
+        if (positions[positions.length - 1] > maxY) {
+          shift = maxY - positions[positions.length - 1];
+        } else if (positions[0] < minY) {
+          shift = minY - positions[0];
+        }
+        for (let i = 0; i < positions.length; i++) branchCurrentY[i] = positions[i] + shift;
+      } else if (branchCurrentY.length === 1) {
+        branchCurrentY[0] = Math.max(minY, Math.min(maxY, branchCurrentY[0]));
+      }
+      activeBranchNodes.forEach(({ node, baseY }, i) => {
+        node.style.setProperty("--scroll-y", (baseY - branchCurrentY[i]) + "px");
+      });
+      activeBranchSphereCurves.forEach(({ path, x1, y1, x2 }, i) => {
+        path.setAttribute("d", curvePath(x1, y1, x2 + (branchCurrentArcX[i] || 0), branchCurrentY[i]));
+      });
+    }
+
     function redrawLeafCurvesOnScroll() {
+      // updateBranchesArc doit tourner en premier : elle recalcule
+      // branchCurrentArcX, que les deux suivantes lisent pour accrocher
+      // leurs courbes à la case même quand elle courbe horizontalement.
+      // updateBranchesScroll doit ensuite tourner avant
+      // updateLeafCurvesVisibility : elle recalcule branchCurrentY, que
+      // celle-ci lit pour accrocher les courbes année→feuille au bon endroit.
+      updateBranchesArc(radialLeavesEl.scrollTop);
+      updateBranchesScroll(radialLeavesEl.scrollTop);
       updateLeafCurvesVisibility(radialLeavesEl.scrollTop);
       updateLeavesMask();
       updateLeavesArc(radialLeavesEl.scrollTop);
     }
     radialLeavesEl.addEventListener("scroll", redrawLeafCurvesOnScroll, { passive: true });
+
+    // La colonne des projets (.radial-leaves) est la seule à défiler
+    // nativement. Si la molette est utilisée au-dessus de la sphère ou des
+    // années (zone sans overflow propre), on relaie le scroll vers elle pour
+    // que tout le cadre de la frise réagisse, pas juste la colonne de droite.
+    radialFriseInner.addEventListener(
+      "wheel",
+      (e) => {
+        if (radialLeavesEl.contains(e.target)) return;
+        e.preventDefault();
+        radialLeavesEl.scrollTop += e.deltaY;
+      },
+      { passive: false }
+    );
 
     function buildRadialFrise(initialBranches) {
       if (initialBranches != null) {
