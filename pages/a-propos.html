@@ -307,10 +307,48 @@
       color: var(--muted);
       margin-bottom: 8px;
     }
-    .timeline-desc {
-      font-size: .86rem;
+    .timeline-header {
+      position: relative;
+      padding-right: 26px;
+    }
+
+    .timeline-item.has-details .timeline-header {
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .timeline-chevron {
+      position: absolute;
+      top: 2px;
+      right: 0;
       color: var(--muted);
-      line-height: 1.7;
+      font-size: .8rem;
+      transition: transform .2s ease;
+    }
+
+    .timeline-item.open .timeline-chevron { transform: rotate(180deg); }
+
+    .timeline-details {
+      display: none;
+      flex-direction: column;
+      gap: 14px;
+      margin-top: 14px;
+      padding-top: 14px;
+      border-top: 1px solid var(--border);
+    }
+
+    .timeline-item.open .timeline-details { display: flex; }
+
+    .timeline-detail-group .cv-sub-label {
+      margin-bottom: 8px;
+      color: var(--accent);
+    }
+
+    .timeline-accomplishments {
+      padding-left: 18px;
+      color: var(--muted);
+      line-height: 1.8;
+      font-size: .86rem;
     }
 
 
@@ -448,7 +486,7 @@
         </summary>
         <div class="ap-faq-content">
           <div class="block-body">
-            <p>J'aime <span class="highlight">apprendre de nouvelles choses</span> et <span class="highlight">fabriquer avec mes mains</span> aussi la randonnée en fait aussi partie, pour décrocher et prendre l'air.</p>
+            <p>J'aime <span class="highlight">apprendre de nouvelles choses</span> et <span class="highlight">fabriquer avec mes mains</span>. La randonnée en fait aussi partie, pour décrocher et prendre l'air.</p>
             <p>Côté centres d'intérêt plus posés : la musique et la lecture.</p>
           </div>
         </div>
@@ -528,16 +566,40 @@
       document.getElementById('cv-interests').innerHTML = (r.interests || [])
         .flatMap(i => i.keywords).map(k => `<span class="tag tag-soft">${k}</span>`).join('');
 
-      // Rendu commun pour Expériences et Diplômes : date / titre / lieu / description,
-      // même si les champs JSON Resume sous-jacents diffèrent (position/name/highlights
-      // pour work, studyType/institution/area+courses pour education).
-      function renderTimelineItem({ date, title, place, desc }) {
+      // Rendu commun pour Expériences et Diplômes : date / titre / lieu, avec un
+      // détail dépliable en 3 sous-catégories (hard skills / soft skills / ce que
+      // j'ai fait) — même si les champs JSON Resume sous-jacents diffèrent
+      // (position/name pour work, studyType/institution pour education).
+      // hardSkills, softSkills et accomplishments sont des extensions hors
+      // schéma JSON Resume, à remplir à la main sur chaque entrée de data.js.
+      function renderTimelineItem({ date, title, place, hardSkills, softSkills, accomplishments }) {
+        const groups = [
+          { label: 'Hard skills', items: hardSkills },
+          { label: 'Soft skills', items: softSkills },
+          { label: "Ce que j'ai fait", items: accomplishments },
+        ].filter(g => g.items && g.items.length);
+        const hasDetails = groups.length > 0;
+
+        const detailsHtml = hasDetails ? `
+          <div class="timeline-details">
+            ${groups.map(g => `
+              <div class="timeline-detail-group">
+                <div class="cv-sub-label">${g.label}</div>
+                <ul class="timeline-accomplishments">${g.items.map(i => `<li>${i}</li>`).join('')}</ul>
+              </div>
+            `).join('')}
+          </div>
+        ` : '';
+
         return `
-          <div class="timeline-item">
-            <div class="timeline-date">${date}</div>
-            <div class="timeline-title">${title}</div>
-            <div class="timeline-place">${place}</div>
-            ${desc ? `<div class="timeline-desc">${desc}</div>` : ''}
+          <div class="timeline-item${hasDetails ? ' has-details' : ''}">
+            <div class="timeline-header"${hasDetails ? ' role="button" tabindex="0" aria-expanded="false"' : ''}>
+              <div class="timeline-date">${date}</div>
+              <div class="timeline-title">${title}</div>
+              <div class="timeline-place">${place}</div>
+              ${hasDetails ? '<span class="timeline-chevron">▾</span>' : ''}
+            </div>
+            ${detailsHtml}
           </div>
         `;
       }
@@ -546,15 +608,35 @@
         date: formatRange(e.startDate, e.endDate),
         title: e.area ? `${e.studyType} — ${e.area}` : e.studyType,
         place: e.institution,
-        desc: e.courses && e.courses.length ? `${e.courses.join(', ')}.` : '',
+        hardSkills: e.hardSkills,
+        softSkills: e.softSkills,
+        accomplishments: e.accomplishments,
       })).join('');
 
       document.getElementById('cv-work').innerHTML = (r.work || []).map(w => renderTimelineItem({
         date: formatRange(w.startDate, w.endDate),
         title: w.position,
         place: w.name + (w.location ? ' — ' + w.location : ''),
-        desc: w.highlights && w.highlights.length ? `${w.highlights.join(', ')}.` : '',
+        hardSkills: w.hardSkills,
+        softSkills: w.softSkills,
+        accomplishments: w.accomplishments,
       })).join('');
+
+      // Déplie/replie une expérience ou une formation au clic sur son en-tête.
+      document.querySelectorAll('.timeline-header[role="button"]').forEach(header => {
+        const toggle = () => {
+          const item = header.closest('.timeline-item');
+          const open = item.classList.toggle('open');
+          header.setAttribute('aria-expanded', String(open));
+        };
+        header.addEventListener('click', toggle);
+        header.addEventListener('keydown', e => {
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            toggle();
+          }
+        });
+      });
     }
 
     renderResume();

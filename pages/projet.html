@@ -13,20 +13,6 @@
     /* --perso est fournie par window.COLORS.school ; --blue/--orange/--pink par
        window.COLORS.projet (public/data.js) */
 
-    /* Override .dot (style.css = 8px inline indicator; here = 12px absolute timeline dot) */
-    #years .dot {
-      position: absolute;
-      top: 148px;
-      width: 8px;
-      height: 8px;
-      border-radius: 50%;
-      background: var(--white);
-      transform: translateX(-50%);
-      box-shadow: 0 0 8px rgba(var(--white-rgb), 0.9), 0 0 16px rgba(var(--white-rgb), 0.5);
-      z-index: 10;
-      flex-shrink: unset;
-    }
-
     /* ─── Sticky hero ─── */
     .hero {
       position: sticky;
@@ -112,244 +98,39 @@
       align-items: flex-start;
     }
 
-    .section-header-top {
-      display: flex;
-      flex-direction: column;
-      align-items: flex-start;
-      flex-wrap: wrap;
-      gap: 14px;
-      margin-bottom: 20px;
-      width: 100%;
-    }
-
-    /* ─── Tag legend ─── */
-    .tag-legend {
-      display: flex;
-      gap: 7px;
+    .frise-header {
+      flex-direction: row;
       align-items: center;
+      justify-content: space-between;
       flex-wrap: wrap;
     }
 
-    .legend-item {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      font-size: .72rem;
-      font-weight: 600;
-      letter-spacing: .1em;
-      text-transform: uppercase;
-      color: var(--legend-color, var(--accent));
-    }
-
-    .legend-item .dot {
-      background: var(--legend-color, var(--accent));
-      box-shadow: 0 0 8px 1px rgba(var(--legend-color-rgb, var(--accent-rgb)), 0.5);
-    }
-
-    .tag-legend-label {
-      font-size: .7rem;
-      letter-spacing: .11em;
-      text-transform: uppercase;
-      color: var(--muted);
-      margin-right: 2px;
-    }
-
-    /* ─── Year navigation ─── */
-    .year-nav {
+    .frise-mode-toggle {
       display: flex;
-      gap: 6px;
-      flex-wrap: wrap;
-      margin-bottom: 0;
-    }
-
-    .year-nav button {
-      background: transparent;
-      border: 1px solid rgba(var(--white-rgb), .5);
-      color: var(--muted);
-      font-family: var(--font-d);
-      font-size: 1.1rem;
-      letter-spacing: .04em;
-      padding: 7px 18px;
-      border-radius: 4px;
-      cursor: pointer;
-      transition: .18s;
-      line-height: 1;
-    }
-
-    .year-nav button:hover,
-    .year-nav button.active {
-      color: var(--year-color, var(--accent));
-      border-color: var(--year-color, var(--accent));
-      background: rgba(var(--year-color-rgb, var(--accent-rgb)),.12);
-      box-shadow: 0 0 10px rgba(var(--year-color-rgb, var(--accent-rgb)),.4);
-    }
-
-    /* ─── Timeline ─── */
-    .timeline-section {
-      position: relative;
-      margin-top: 20px;
-      margin-left: -42px;
-      margin-right: -42px;
-      overflow: visible;
-    }
-
-    .current-year {
-      position: absolute;
-      left: 230px;
-      top: 200px;
-      z-index: 25;
-      color: var(--white);
-      font-size: 30px;
-      font-weight: 800;
-      letter-spacing: -0.04em;
-      pointer-events: none;
-    }
-
-    .current-year::before {
-      content: "";
-      position: absolute;
-      left: -45px;
-      top: 50%;
-      width: 28px;
-      height: 48px;
-      border-left: 2px solid var(--year-color, var(--accent));
-      border-top: 2px solid var(--year-color, var(--accent));
-      transform: translateY(0%) skewX(-28deg);
-      opacity: 0.9;
-      transition: border-color 0.25s ease;
-    }
-
-    .current-year::after {
-      content: "";
-      position: absolute;
-      left: 105%;
-      top: 50%;
-      transform: translateY(-50%);
-      width: 70px;
-      height: 2px;
-      background: linear-gradient(90deg, var(--year-color, var(--accent)), transparent);
-      transition: background 0.25s ease;
-    }
-
-    .timeline-scroll {
-      overflow-x: auto;
-      overflow-y: hidden;
-      scroll-behavior: smooth;
-      padding: 150px 0 26px;
-      scrollbar-width: none;
-      -webkit-mask-image: linear-gradient(90deg, transparent 0, black 220px, black calc(100% - 220px), transparent 100%);
-      mask-image: linear-gradient(90deg, transparent 0, black 220px, black calc(100% - 220px), transparent 100%);
-    }
-
-    .timeline-scroll::-webkit-scrollbar { display: none; }
-
-    .timeline-track {
-      min-width: 1800px;
-      padding: 0 76px;
-      position: relative;
-    }
-
-    .line { display: none; }
-
-    .timeline-fixed-line {
-      position: absolute;
-      top: 150px;
-      height: 3px;
-      z-index: 1;
-      pointer-events: none;
-      /* left/width/background (dégradé par année) sont calculés en JS dans buildTimeline() */
-    }
-
-    .timeline-fixed-line::before {
-      content: "";
-      position: absolute;
-      inset: -6px 0;
-      background: inherit;
-      filter: blur(8px);
-      opacity: 0.35;
-      z-index: -1;
-    }
-
-    .years {
-      position: relative;
-      height: 190px;
-    }
-
-    .month {
-      position: absolute;
-      top: 120px;
-      transform: translateX(-50%);
-      color: var(--muted);
-      font-size: 13px;
-      font-weight: 700;
-      text-transform: uppercase;
-      white-space: nowrap;
-    }
-
-    .cards-row {
-      position: relative;
-      height: 300px;
-    }
-
-    .project-card {
-      position: absolute;
-      top: 16px;
-      width: 172px;
-      height: 255px;
-      border: 1px solid rgba(var(--accent-rgb),0.35);
-      border-top: 3px solid var(--accent);
-      border-radius: 14px;
+      gap: 4px;
+      padding: 4px;
       background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: 999px;
+    }
+
+    .frise-mode-btn {
+      padding: 7px 16px;
+      border-radius: 999px;
+      border: none;
+      background: transparent;
+      color: var(--muted);
+      font-size: 0.82rem;
+      font-weight: 600;
       cursor: pointer;
-      transition: transform 0.28s cubic-bezier(0.22,1,0.36,1), border-color 0.2s, box-shadow 0.2s;
-      transform: translateX(-50%);
-      box-shadow: 0 0 10px rgba(var(--accent-rgb),.15);
+      transition: background .2s, color .2s;
     }
 
-    .project-card[data-color="blue"]   { border-color: rgba(var(--blue-rgb),0.35); border-top-color: var(--blue); box-shadow: 0 0 10px rgba(var(--blue-rgb),.15); }
-    .project-card[data-color="orange"] { border-color: rgba(var(--orange-rgb),0.35); border-top-color: var(--orange); box-shadow: 0 0 10px rgba(var(--orange-rgb),.15); }
-    .project-card[data-color="pink"]   { border-color: rgba(var(--pink-rgb),0.35); border-top-color: var(--pink); box-shadow: 0 0 10px rgba(var(--pink-rgb),.15); }
+    .frise-mode-btn:hover { color: var(--text); }
 
-    .project-card::before {
-      content: "";
-      position: absolute;
-      top: -44px;
-      left: 50%;
-      width: 1px;
-      height: 43px;
-      background: linear-gradient(180deg, rgba(var(--year-color-rgb, var(--accent-rgb)),0.8), rgba(var(--year-color-rgb, var(--accent-rgb)),0.08));
-      transform: translateX(-50%);
-      z-index: 2;
-      pointer-events: none;
-    }
-
-    .project-card:hover,
-    .project-card.active {
-      border-color: var(--accent);
-      border-top-color: var(--accent);
-      box-shadow: 0 0 0 1px rgba(var(--accent-rgb),0.28), 0 20px 50px rgba(var(--black-rgb),0.45), 0 0 30px rgba(var(--accent-rgb),0.4);
-      transform: translateX(-50%) translateY(-10px);
-    }
-
-    .project-card[data-color="blue"]:hover,
-    .project-card[data-color="blue"].active {
-      border-color: var(--blue);
-      border-top-color: var(--blue);
-      box-shadow: 0 0 0 1px rgba(var(--blue-rgb),0.28), 0 20px 50px rgba(var(--black-rgb),0.45), 0 0 30px rgba(var(--blue-rgb),0.4);
-    }
-
-    .project-card[data-color="orange"]:hover,
-    .project-card[data-color="orange"].active {
-      border-color: var(--orange);
-      border-top-color: var(--orange);
-      box-shadow: 0 0 0 1px rgba(var(--orange-rgb),0.28), 0 20px 50px rgba(var(--black-rgb),0.45), 0 0 30px rgba(var(--orange-rgb),0.4);
-    }
-
-    .project-card[data-color="pink"]:hover,
-    .project-card[data-color="pink"].active {
-      border-color: var(--pink);
-      border-top-color: var(--pink);
-      box-shadow: 0 0 0 1px rgba(var(--pink-rgb),0.28), 0 20px 50px rgba(var(--black-rgb),0.45), 0 0 30px rgba(var(--pink-rgb),0.4);
+    .frise-mode-btn.active {
+      background: var(--accent);
+      color: var(--white);
     }
 
     .card-img-wrap {
@@ -358,125 +139,292 @@
       height: 128px;
     }
 
-    .project-card img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      display: block;
-      transition: transform 0.35s ease;
+    /* ─── Diplômes : section à part, distincte de la frise des projets ─── */
+    .diplomas-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 18px;
     }
 
-    .project-card:hover img { transform: scale(1.06); }
-
-    .project-card .body {
-      padding: 11px 13px;
+    .diploma-card {
+      background: var(--bg2);
+      border: 1px solid rgba(var(--card-color-rgb, var(--accent-rgb)), 0.35);
+      border-top: 3px solid var(--card-color, var(--accent));
+      border-radius: 14px;
+      padding: 20px 22px;
       display: flex;
       flex-direction: column;
-      gap: 7px;
+      gap: 6px;
     }
 
-    .project-card h3 {
-      margin: 0;
-      font-size: 13.5px;
+    .diploma-card-year {
+      font-size: 0.68rem;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--card-color, var(--accent2));
+    }
+
+    .diploma-card h3 {
+      font-family: var(--font-b);
+      font-size: 1rem;
+      color: var(--white);
+    }
+
+    .diploma-card p {
+      font-size: 0.85rem;
+      color: var(--muted);
+      line-height: 1.5;
+    }
+
+    /* ─── Frise radiale : sphère "Axel Marion" → années → projets ─── */
+    /* La frise peut avoir beaucoup de projets à afficher : sa hauteur est
+       plafonnée à l'écran (calculée en JS) et elle ne défile pas elle-même —
+       seule .radial-leaves (la colonne des projets) défile en interne, la
+       sphère et les années restant fixes. */
+    .radial-frise {
+      position: relative;
+      margin: 24px -42px 0;
+      overflow: hidden;
+    }
+
+    .radial-frise-inner {
+      position: relative;
+      height: 100%;
+    }
+
+    .radial-svg {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+    }
+
+    .radial-path {
+      fill: none;
+      stroke-width: 1.5px;
+      stroke-opacity: .45;
+    }
+
+    .radial-path-leaf { stroke-width: 1.3px; stroke-opacity: .55; }
+
+    .radial-center {
+      position: absolute;
+      left: 42px;
+      top: 50%;
+      /* Centre la sphère elle-même (pas le bloc nom compris) sur l'axe
+         vertical, pour qu'elle reste au même niveau que le centre de masse
+         des années/écoles calculé en JS (demi-hauteur de .radial-sphere). */
+      transform: translateY(-46px);
+      text-align: center;
+      z-index: 2;
+      width: 110px;
+    }
+
+    .radial-sphere {
+      width: 92px;
+      height: 92px;
+      margin: 0 auto;
+      border-radius: 50%;
+      background: radial-gradient(circle at 35% 30%, var(--accent2), var(--accent) 55%, #050505 100%);
+      box-shadow: 0 0 10px 2px rgba(var(--accent-rgb),.6), 0 0 50px 14px rgba(var(--accent-rgb),.3), inset 0 0 22px rgba(0,0,0,.45);
+      animation: radial-sphere-pulse 5s ease-in-out infinite;
+    }
+
+    @keyframes radial-sphere-pulse {
+      0%, 100% { box-shadow: 0 0 10px 2px rgba(var(--accent-rgb),.6), 0 0 50px 14px rgba(var(--accent-rgb),.3), inset 0 0 22px rgba(0,0,0,.45); }
+      50% { box-shadow: 0 0 14px 4px rgba(var(--accent-rgb),.75), 0 0 64px 20px rgba(var(--accent-rgb),.42), inset 0 0 22px rgba(0,0,0,.45); }
+    }
+
+    .radial-center-name {
+      margin-top: 16px;
+      font-family: var(--font-d);
+      font-size: 1.05rem;
+      letter-spacing: .02em;
+      color: var(--white);
+      white-space: nowrap;
+    }
+
+    /* pointer-events:none ici, sinon ce conteneur transparent plein cadre
+       intercepte les clics destinés aux éléments en dessous (années, sphère) —
+       .radial-year-node/.radial-leaf se le réactivent eux-mêmes (auto). */
+    .radial-years {
+      position: absolute;
+      inset: 0;
+      z-index: 3;
+      pointer-events: none;
+    }
+
+    /* Colonne des projets : ne couvre que sa propre portion de la frise
+       (left posé en JS, à hauteur de leafX), pas toute la largeur — sinon
+       elle intercepterait les clics sur la sphère/les années malgré elle.
+       Défile en interne (contenu plus haut que la frise elle-même). */
+    .radial-leaves {
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      padding: 10px 16px;
+      box-sizing: border-box;
+      /* En dessous de la sphère/des branches (z-index 2-3) : une carte en
+         train de s'estomper au bord de la colonne ne doit jamais passer
+         par-dessus, même translucide. */
+      z-index: 1;
+      overflow-y: auto;
+      overflow-x: hidden;
+      pointer-events: auto;
+      scrollbar-width: thin;
+      scrollbar-color: rgba(var(--accent-rgb),0.4) transparent;
+      /* Fondu doux en haut/bas de la colonne, pour que les cartes
+         apparaissent/disparaissent en douceur plutôt que d'être coupées net —
+         seulement du côté où il reste du contenu à découvrir (voir
+         updateLeavesMask en JS : sinon la dernière carte semble coupée même
+         quand le scroll est déjà au maximum). */
+    }
+
+    .radial-leaves::-webkit-scrollbar { width: 8px; }
+    .radial-leaves::-webkit-scrollbar-track { background: transparent; }
+    .radial-leaves::-webkit-scrollbar-thumb {
+      background: rgba(var(--accent-rgb),0.35);
+      border-radius: 999px;
+    }
+    .radial-leaves::-webkit-scrollbar-thumb:hover { background: rgba(var(--accent-rgb),0.55); }
+
+    .radial-year-node {
+      position: absolute;
+      /* --arc-x (updateBranchesArc) : courbe douce comme les projets.
+         --scroll-y (updateBranchesScroll) : défile verticalement avec eux. */
+      transform: translate(var(--arc-x, 0px), calc(-50% - var(--scroll-y, 0px)));
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 18px;
+      border-radius: 12px;
+      background: var(--bg2);
+      border: 1px solid rgba(var(--year-color-rgb, var(--accent-rgb)), .35);
+      cursor: pointer;
+      pointer-events: auto;
+      transition: box-shadow .25s, border-color .25s, background .2s, transform .2s ease-out, opacity .2s ease;
+    }
+
+    .radial-year-node:hover {
+      border-color: var(--year-color, var(--accent));
+      background: var(--bg3);
+    }
+
+    .radial-year-node.active {
+      border-color: var(--year-color, var(--accent));
+      box-shadow: 0 0 0 1px rgba(var(--year-color-rgb, var(--accent-rgb)), .3), 0 0 24px rgba(var(--year-color-rgb, var(--accent-rgb)), .4);
+      background: rgba(var(--year-color-rgb, var(--accent-rgb)), .08);
+      transition: box-shadow .25s, border-color .25s, background .2s, opacity .25s;
+    }
+
+    /* Année dépliée mais dont aucun projet n'est actuellement visible dans
+       la colonne (scrollée hors champ) : surlignage atténué, comme désélectionnée. */
+    .radial-year-node.active.out-of-view {
+      box-shadow: none;
+      border-color: rgba(var(--year-color-rgb, var(--accent-rgb)), .18);
+      background: transparent;
+      opacity: .55;
+    }
+
+    .radial-year-number {
+      font-family: var(--font-d);
+      font-size: 1.15rem;
+      color: var(--year-color, var(--accent));
+    }
+
+    .radial-year-count {
+      font-size: .72rem;
+      font-weight: 600;
+      color: var(--muted);
+      background: rgba(var(--white-rgb), .06);
+      border-radius: 999px;
+      padding: 2px 8px;
+    }
+
+    .radial-leaf {
+      position: absolute;
+      width: 200px;
+      height: 80px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 8px 10px;
+      border-radius: 9px;
+      background: var(--bg2);
+      border: 1px solid rgba(var(--year-color-rgb, var(--accent-rgb)), .3);
+      cursor: pointer;
+      pointer-events: auto;
+      opacity: 0;
+      transform: translate(-8px, -50%);
+      /* --arc-x (mis à jour en JS au scroll) courbe légèrement la colonne,
+         comme si elle suivait un cercle plutôt qu'une ligne droite. */
+      transition: opacity .3s ease, transform .2s ease-out, border-color .2s, background .2s;
+    }
+
+    .radial-leaf-thumb {
+      width: 44px;
+      height: 44px;
+      border-radius: 6px;
+      object-fit: cover;
+      flex-shrink: 0;
+      background: rgba(var(--white-rgb),.05);
+    }
+
+    .radial-leaf-placeholder {
+      width: 44px;
+      height: 44px;
+      border-radius: 6px;
+      flex-shrink: 0;
+      background: rgba(var(--year-color-rgb, var(--accent-rgb)), .18);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-d);
+      font-size: .8rem;
+      color: var(--year-color, var(--accent));
+    }
+
+    .radial-leaf-text {
+      min-width: 0;
+      flex: 1;
+    }
+
+    .radial-leaf.visible {
+      opacity: 1;
+      transform: translate(var(--arc-x, 0px), -50%);
+    }
+
+    .radial-leaf:hover,
+    .radial-leaf.active {
+      border-color: var(--year-color, var(--accent));
+      background: rgba(var(--year-color-rgb, var(--accent-rgb)), .1);
+      box-shadow: 0 0 16px rgba(var(--year-color-rgb, var(--accent-rgb)), .3);
+    }
+
+
+    .radial-leaf-title {
+      display: -webkit-box;
+      -webkit-box-orient: vertical;
+      -webkit-line-clamp: 2;
+      line-clamp: 2;
+      overflow: hidden;
+      font-size: .82rem;
       font-weight: 600;
       line-height: 1.25;
       color: var(--white);
     }
 
-    .project-card p {
-      margin: 0;
+    .radial-leaf-meta {
+      display: block;
+      font-size: .68rem;
       color: var(--muted);
-      font-size: 10.5px;
-      letter-spacing: 0.04em;
       text-transform: uppercase;
-    }
-
-    .tag {
-      display: inline-flex;
-      align-items: center;
-      border-radius: 7px;
-      padding: 5px 8px;
-      font-size: 10px;
-      font-weight: 800;
-      text-transform: uppercase;
-      background: rgba(var(--accent-rgb),0.17);
-      color: var(--accent2);
-      box-shadow: 0 0 8px rgba(var(--accent-rgb),.4);
-    }
-
-    .tag.green  { background: rgba(var(--perso-rgb),0.18);   color: var(--perso-text);  box-shadow: 0 0 8px rgba(var(--perso-rgb),.4); }
-    .tag.blue   { background: rgba(var(--blue-rgb),0.15);    color: var(--blue-text);   box-shadow: 0 0 8px rgba(var(--blue-rgb),.4); }
-    .tag.orange { background: rgba(var(--orange-rgb),0.18);  color: var(--orange-text); box-shadow: 0 0 8px rgba(var(--orange-rgb),.4); }
-    .tag.pink   { background: rgba(var(--pink-rgb),0.18);    color: var(--pink-text);   box-shadow: 0 0 8px rgba(var(--pink-rgb),.4); }
-
-    .diploma {
-      position: absolute;
-      top: -128px;
-      transform: translateX(-50%);
-      width: 210px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      text-align: center;
-      color: var(--off-white);
-      line-height: 1.35;
-      z-index: 20;
-      pointer-events: none;
-      border: 1px solid transparent;
-      border-radius: 14px;
-      padding: 22px 18px 18px;
-    }
-
-    .diploma::before {
-      content: "";
-      position: absolute;
-      inset: 0;
-      border-radius: inherit;
-      padding: 1px;
-      background: radial-gradient(ellipse 140px 90px at 50% 100%, rgba(var(--year-color-rgb, var(--accent-rgb)),0.95) 70%, rgba(var(--year-color-rgb, var(--accent-rgb)),0) 90%);
-      filter: drop-shadow(0 0 6px rgba(var(--year-color-rgb, var(--accent-rgb)),0.5));
-      -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-      -webkit-mask-composite: xor;
-      mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-      mask-composite: exclude;
-      pointer-events: none;
-    }
-
-    .diploma::after {
-      content: "";
-      position: absolute;
-      left: 50%;
-      top: 100%;
-      margin-top: -8px;
-      width: 16px;
-      height: 16px;
-      background: var(--bg);
-      border-right: 1px solid rgba(var(--year-color-rgb, var(--accent-rgb)),0.9);
-      border-bottom: 1px solid rgba(var(--year-color-rgb, var(--accent-rgb)),0.9);
-      transform: translateX(-50%) rotate(45deg);
-    }
-
-.diploma-title {
-      font-size: 14px;
-      font-weight: 800;
-      letter-spacing: 0.02em;
-      text-transform: uppercase;
-      margin-bottom: 3px;
-      color: var(--white);
-    }
-
-    .diploma-date {
-      font-size: 14px;
-      font-weight: 700;
-      margin-bottom: 2px;
-      color: var(--white);
-    }
-
-    .diploma-subtitle {
-      font-size: 13px;
-      font-weight: 700;
-      color: var(--year-color, var(--accent2));
-      max-width: 180px;
+      letter-spacing: .04em;
+      margin-top: 2px;
     }
 
     /* ─── Detail panel ─── */
@@ -510,6 +458,153 @@
       overflow: visible;
     }
 
+    /* ── Panneau détail en tiroir latéral, quel que soit l'écran (utilisé
+       pour "Tous les projets", trop loin de la frise pour un accordéon) ── */
+    .detail.side-panel {
+      position: fixed;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: auto;
+      margin: 0;
+      width: min(480px, 92vw);
+      max-height: none;
+      border-radius: 0;
+      border-top: none;
+      border-right: none;
+      border-bottom: none;
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
+      touch-action: pan-y;
+      overscroll-behavior: contain;
+      transform: translateX(100%);
+      z-index: 600;
+      transition: transform 0.35s cubic-bezier(.22,.61,.36,1);
+    }
+
+    .detail.side-panel.visible {
+      margin: 0;
+      transform: translateX(0);
+      overflow-y: auto;
+    }
+
+    .detail.side-panel::before { display: none; }
+
+    /* ── Panneau détail à côté du projet cliqué dans la frise (desktop
+       uniquement, la frise étant masquée sous 768px) : une carte d'information
+       flottante, pas un tiroir plein écran ni une popup — pas de fond sombre,
+       pas d'animation de tiroir, juste une apparition/disparition discrète.
+       top/height sont recalculés en JS pour rester cantonnés à la zone de
+       la frise chronologique (pas visible au niveau de "Diplômes" ou
+       "Tous les projets" plus bas sur la page). ── */
+    .detail.anchored {
+      position: fixed;
+      top: var(--anchor-top, var(--header-h, 64px));
+      height: var(--anchor-height, calc(100vh - var(--header-h, 64px)));
+      bottom: auto;
+      left: var(--anchor-left, auto);
+      right: auto;
+      margin: 0;
+      width: var(--anchor-width, min(420px, 38vw));
+      max-height: none;
+      border-radius: 20px;
+      border: 1px solid rgba(var(--accent-rgb),0.26);
+      box-shadow: 0 20px 50px rgba(var(--black-rgb),0.5), 0 0 40px rgba(var(--accent-rgb),0.12);
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
+      touch-action: pan-y;
+      overscroll-behavior: contain;
+      transform: none;
+      opacity: 0;
+      pointer-events: none;
+      z-index: 600;
+      transition: opacity 0.2s ease;
+    }
+
+    .detail.anchored.visible {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .detail.anchored.visible.out-of-view {
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .detail.anchored::before { display: none; }
+
+    /* État par défaut de la div ancrée, avant tout clic sur un projet. */
+    .detail-empty {
+      display: none;
+      align-items: center;
+      justify-content: center;
+      height: 100%;
+      min-height: 320px;
+      padding: 40px 32px;
+      text-align: center;
+      color: var(--muted);
+      font-size: 0.92rem;
+      line-height: 1.7;
+    }
+
+    .detail.empty .detail-empty { display: flex; }
+    .detail.empty .detail-content { display: none; }
+    .detail.empty .detail-close { display: none; }
+
+    /* Le tiroir/panneau ancré est étroit (480px max) quelle que soit la largeur
+       de l'écran : on force la mise en page une colonne, comme sur mobile. */
+    .detail.side-panel .detail-top,
+    .detail.anchored .detail-top {
+      grid-template-columns: 1fr;
+      gap: 10px;
+      padding: 60px 24px 20px;
+    }
+
+    .detail.side-panel .detail-body,
+    .detail.anchored .detail-body {
+      grid-template-columns: 1fr;
+      padding: 10px 16px 32px;
+      gap: 16px;
+    }
+
+    /* Le visuel occupe les deux premiers tiers du tiroir, les infos
+       (rôle, outils, durée, appris) ne commencent qu'au dernier tiers. */
+    .detail.side-panel .media-main,
+    .detail.anchored .media-main {
+      min-height: 60vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .detail.side-panel .detail-close,
+    .detail.anchored .detail-close {
+      top: 20px;
+      right: 20px;
+      width: 38px;
+      height: 38px;
+      font-size: 16px;
+      color: var(--white);
+      background: var(--bg2);
+      border-color: rgba(var(--white-rgb),0.2);
+      box-shadow: 0 4px 12px rgba(var(--black-rgb),0.4);
+    }
+
+    .detail-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(var(--black-rgb),.6);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.25s ease;
+      z-index: 599;
+    }
+
+    .detail-overlay.open {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
     .detail.color-blue {
       border-color: rgba(var(--blue-rgb),0.35);
       box-shadow: 0 28px 70px rgba(var(--black-rgb),0.55), 0 0 60px rgba(var(--blue-rgb),0.22);
@@ -523,6 +618,18 @@
     .detail.color-pink {
       border-color: rgba(var(--pink-rgb),0.35);
       box-shadow: 0 28px 70px rgba(var(--black-rgb),0.55), 0 0 60px rgba(var(--pink-rgb),0.22);
+    }
+
+    /* La carte garde un léger halo coloré par projet, plus doux que
+       l'ombre portée façon popup des autres modes. */
+    .detail.anchored.color-blue {
+      box-shadow: 0 20px 50px rgba(var(--black-rgb),0.5), 0 0 40px rgba(var(--blue-rgb),0.16);
+    }
+    .detail.anchored.color-orange {
+      box-shadow: 0 20px 50px rgba(var(--black-rgb),0.5), 0 0 40px rgba(var(--orange-rgb),0.16);
+    }
+    .detail.anchored.color-pink {
+      box-shadow: 0 20px 50px rgba(var(--black-rgb),0.5), 0 0 40px rgba(var(--pink-rgb),0.16);
     }
 
     .detail::before {
@@ -564,6 +671,27 @@
       padding: 26px 28px 22px;
       border-bottom: 1px solid rgba(var(--white-rgb),0.06);
       align-items: center;
+    }
+
+    .detail-category {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin: 0 0 10px;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    .detail-category-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--accent);
+      box-shadow: 0 0 8px var(--accent);
+      flex-shrink: 0;
     }
 
     .detail h2 {
@@ -635,6 +763,31 @@
       background: var(--black);
     }
 
+    .media-expand {
+      position: absolute;
+      right: 10px;
+      bottom: 10px;
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      border: none;
+      background: rgba(var(--white-rgb),0.12);
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
+      color: var(--white);
+      font-size: 14px;
+      cursor: pointer;
+      display: grid;
+      place-items: center;
+      z-index: 5;
+      transition: background 0.2s, transform 0.2s;
+    }
+
+    .media-expand:hover {
+      background: var(--accent);
+      transform: scale(1.08);
+    }
+
     .video-wrap {
       display: none;
       width: 100%;
@@ -673,18 +826,22 @@
       box-shadow: 0 0 0 1px rgba(var(--accent-rgb),0.25);
     }
 
+    /* position:fixed + coordonnées calculées en JS (voir moveZoom) : la carte
+       détail a overflow-y:auto (donc overflow-x:auto aussi, par la spec CSS),
+       une loupe positionnée en absolu dedans serait coupée dès qu'elle
+       dépasse la largeur étroite de la carte. */
     .zoom-result {
       display: none;
-      position: absolute;
+      position: fixed;
       top: 0;
-      left: calc(100% + 12px);
+      left: 0;
       width: 320px;
       height: 320px;
       border: 1px solid rgba(var(--accent-rgb),0.3);
       border-radius: 12px;
       overflow: hidden;
       background: var(--black) no-repeat center/cover;
-      z-index: 100;
+      z-index: 650;
       box-shadow: 0 20px 50px rgba(var(--black-rgb),0.6), 0 0 30px rgba(var(--accent-rgb),0.08);
       pointer-events: none;
     }
@@ -774,21 +931,54 @@
       font-size: 10px;
     }
 
-    /* Centre: rôle + outils */
+    /* Centre : rôle, outils, durée, appris — une grille de tuiles arrondies,
+       chacune avec son badge icône, façon carte de présentation. */
     .detail-center {
       display: flex;
       flex-direction: column;
-      gap: 18px;
+      gap: 14px;
     }
 
     .info-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 16px;
+      gap: 12px;
     }
 
-    .info-block h4,
-    .side h4 {
+    /* Carte ancrée très rétrécie (petit écran desktop) : les 4 tuiles
+       passent en une colonne plutôt que de s'écraser à 2. */
+    .detail.anchored.narrow .info-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .info-block {
+      background: rgba(var(--accent-rgb),0.04);
+      border: 1px solid rgba(var(--accent-rgb),0.14);
+      border-radius: 14px;
+      padding: 16px;
+      box-shadow: 0 0 24px rgba(var(--accent-rgb),0.1);
+      transition: border-color 0.25s ease, box-shadow 0.25s ease, background 0.25s ease;
+    }
+
+    .detail.color-blue .info-block {
+      background: rgba(var(--blue-rgb),0.05);
+      border-color: rgba(var(--blue-rgb),0.28);
+      box-shadow: 0 0 24px rgba(var(--blue-rgb),0.18);
+    }
+
+    .detail.color-orange .info-block {
+      background: rgba(var(--orange-rgb),0.05);
+      border-color: rgba(var(--orange-rgb),0.28);
+      box-shadow: 0 0 24px rgba(var(--orange-rgb),0.18);
+    }
+
+    .detail.color-pink .info-block {
+      background: rgba(var(--pink-rgb),0.05);
+      border-color: rgba(var(--pink-rgb),0.28);
+      box-shadow: 0 0 24px rgba(var(--pink-rgb),0.18);
+    }
+
+    .info-block h4 {
       margin: 0 0 10px;
       font-size: 10px;
       font-weight: 600;
@@ -800,15 +990,22 @@
       gap: 8px;
     }
 
-    .info-block h4::before,
-    .side h4::before {
-      content: '';
-      display: block;
-      width: 12px;
-      height: 1px;
-      background: currentColor;
+    .info-icon {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: rgba(var(--accent-rgb),0.16);
+      color: var(--accent);
+      font-size: 11px;
       flex-shrink: 0;
     }
+
+    .detail.color-blue .info-icon { background: rgba(var(--blue-rgb),0.2); color: var(--blue); }
+    .detail.color-orange .info-icon { background: rgba(var(--orange-rgb),0.2); color: var(--orange); }
+    .detail.color-pink .info-icon { background: rgba(var(--pink-rgb),0.2); color: var(--pink); }
 
     ul {
       margin: 0;
@@ -842,43 +1039,6 @@
       border-color: rgba(var(--accent-rgb),.38);
     }
 
-    /* Panneau latéral */
-    .side {
-      background: rgba(var(--accent-rgb),0.04);
-      border: 1px solid rgba(var(--accent-rgb),0.14);
-      border-radius: 12px;
-      padding: 18px 16px;
-      display: flex;
-      flex-direction: column;
-      gap: 18px;
-      box-shadow: 0 0 24px rgba(var(--accent-rgb),0.1);
-      transition: border-color 0.25s ease, box-shadow 0.25s ease, background 0.25s ease;
-    }
-
-    .side.color-blue {
-      background: rgba(var(--blue-rgb),0.05);
-      border-color: rgba(var(--blue-rgb),0.28);
-      box-shadow: 0 0 24px rgba(var(--blue-rgb),0.18);
-    }
-
-    .side.color-orange {
-      background: rgba(var(--orange-rgb),0.05);
-      border-color: rgba(var(--orange-rgb),0.28);
-      box-shadow: 0 0 24px rgba(var(--orange-rgb),0.18);
-    }
-
-    .side.color-pink {
-      background: rgba(var(--pink-rgb),0.05);
-      border-color: rgba(var(--pink-rgb),0.28);
-      box-shadow: 0 0 24px rgba(var(--pink-rgb),0.18);
-    }
-
-    .side-block {
-      display: flex;
-      flex-direction: column;
-      gap: 6px;
-    }
-
     #detailDuration {
       font-size: 1rem;
       font-weight: 600;
@@ -890,11 +1050,11 @@
       display: block;
       cursor: pointer;
       text-decoration: none;
-      padding: 11px 16px;
+      padding: 13px 16px;
       background: var(--accent);
-      border-radius: 9px;
+      border-radius: 12px;
+      text-align: center;
       transition: background .2s, transform .15s, box-shadow .2s;
-      margin-top: auto;
       box-shadow: 0 0 14px rgba(var(--accent-rgb),.3);
     }
 
@@ -904,19 +1064,20 @@
       box-shadow: 0 0 20px rgba(var(--accent2-rgb),.5);
     }
 
-    .side.color-blue .side-card { background: var(--blue); box-shadow: 0 0 14px rgba(var(--blue-rgb),.3); }
-    .side.color-blue .side-card:hover { background: var(--blue-text); box-shadow: 0 0 20px rgba(var(--blue-rgb),.5); }
+    .detail.color-blue .side-card { background: var(--blue); box-shadow: 0 0 14px rgba(var(--blue-rgb),.3); }
+    .detail.color-blue .side-card:hover { background: var(--blue-text); box-shadow: 0 0 20px rgba(var(--blue-rgb),.5); }
 
-    .side.color-orange .side-card { background: var(--orange); box-shadow: 0 0 14px rgba(var(--orange-rgb),.3); }
-    .side.color-orange .side-card:hover { background: var(--orange-text); box-shadow: 0 0 20px rgba(var(--orange-rgb),.5); }
+    .detail.color-orange .side-card { background: var(--orange); box-shadow: 0 0 14px rgba(var(--orange-rgb),.3); }
+    .detail.color-orange .side-card:hover { background: var(--orange-text); box-shadow: 0 0 20px rgba(var(--orange-rgb),.5); }
 
-    .side.color-pink .side-card { background: var(--pink); box-shadow: 0 0 14px rgba(var(--pink-rgb),.3); }
-    .side.color-pink .side-card:hover { background: var(--pink-text); box-shadow: 0 0 20px rgba(var(--pink-rgb),.5); }
+    .detail.color-pink .side-card { background: var(--pink); box-shadow: 0 0 14px rgba(var(--pink-rgb),.3); }
+    .detail.color-pink .side-card:hover { background: var(--pink-text); box-shadow: 0 0 20px rgba(var(--pink-rgb),.5); }
 
     .download {
       display: flex;
       gap: 8px;
       align-items: center;
+      justify-content: center;
       color: var(--white);
       font-weight: 600;
       font-size: 13px;
@@ -949,33 +1110,9 @@
       color: var(--white);
     }
 
-    /* ─── Scroll hint (mobile) ─── */
-    .timeline-hint {
-      display: none;
-    }
-
-    /* ─── Frise verticale simplifiée (mobile, < 768px) ─── */
-    .mobile-timeline {
-      display: none;
-    }
-
     /* ─── 980px ─── */
     @media (max-width: 980px) {
       main.page { padding: 28px 22px 54px; }
-
-      .section-header-top { gap: 10px; }
-
-      .timeline-section {
-        margin-left: -22px;
-        margin-right: -22px;
-      }
-
-      .current-year { left: 22px; }
-
-      .timeline-track {
-        min-width: 1800px;
-        padding: 0 54px;
-      }
 
       .detail { margin: 8px 22px 0; }
 
@@ -984,180 +1121,12 @@
       .detail-body { grid-template-columns: 1fr; }
     }
 
-    /* ─── 768px : frise verticale au lieu du scroll horizontal ─── */
+    /* ─── 768px : la frise radiale est retirée sur mobile (trop de branches
+       pour un petit écran), seul "Tous les projets" reste affiché. ─── */
     @media (max-width: 768px) {
-      .year-nav,
-      .timeline-hint,
-      .timeline-section {
+      .frise-header,
+      .radial-frise {
         display: none;
-      }
-
-      .mobile-timeline {
-        position: relative;
-        display: flex;
-        flex-direction: column;
-        gap: 24px;
-        margin-top: 8px;
-        padding: 0 22px;
-      }
-
-      /* Ligne verticale centrale — même dégradé multi-année que la frise desktop */
-      .mobile-timeline-line {
-        position: absolute;
-        top: 4px;
-        bottom: 4px;
-        left: 50%;
-        transform: translateX(-50%);
-        width: 3px;
-        border-radius: 2px;
-        background: var(--border);
-      }
-      .mobile-timeline-line::before {
-        content: "";
-        position: absolute;
-        inset: -6px -6px;
-        background: inherit;
-        filter: blur(8px);
-        opacity: 0.6;
-        z-index: -1;
-      }
-
-      /* Repère d'année, inséré avant la première ligne de chaque nouvelle année. */
-      .mobile-timeline-year {
-        position: relative;
-        align-self: center;
-        z-index: 2;
-        padding: 5px 16px;
-        background: var(--bg);
-        border: 1px solid rgba(var(--year-color-rgb, var(--accent2-rgb)), .5);
-        border-radius: 999px;
-        font-family: var(--font-d);
-        font-size: 1.1rem;
-        font-weight: 800;
-        letter-spacing: -0.02em;
-        color: var(--year-color, var(--accent2));
-        box-shadow: 0 0 10px rgba(var(--year-color-rgb, var(--accent2-rgb)), .4);
-      }
-
-      /* Une ligne = un mois. Slot gauche = projet, slot droit = diplôme/expérience,
-         avec un seul point sur la frise au centre de la ligne quand les deux
-         tombent le même mois. */
-      .mobile-timeline-row {
-        position: relative;
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        align-items: center;
-        gap: 0 40px;
-        min-height: 20px;
-      }
-      .mobile-timeline-row.is-empty::after {
-        width: 5px;
-        height: 5px;
-        opacity: .4;
-        box-shadow: none;
-      }
-      .mtl-slot { display: flex; }
-      .mtl-slot-left { justify-content: flex-end; }
-      .mtl-slot-right { justify-content: flex-start; }
-
-      .mobile-timeline-row::after {
-        content: "";
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        width: 8px;
-        height: 8px;
-        border-radius: 50%;
-        background: var(--white);
-        box-shadow: 0 0 8px rgba(var(--white-rgb), 0.9), 0 0 16px rgba(var(--white-rgb), 0.5);
-        z-index: 1;
-      }
-
-      .mobile-timeline-item {
-        position: relative;
-        width: 100%;
-        max-width: 240px;
-        background: var(--bg2);
-        border: 1px solid rgba(var(--accent-rgb),0.35);
-        border-top: 3px solid var(--accent);
-        border-radius: 14px;
-        cursor: pointer;
-        box-shadow: 0 0 10px rgba(var(--accent-rgb),.15);
-        transition: box-shadow .2s, border-color .2s, background .2s;
-      }
-      .mobile-timeline-item[data-color="blue"]   { border-color: rgba(var(--blue-rgb),0.35); border-top-color: var(--blue); box-shadow: 0 0 10px rgba(var(--blue-rgb),.15); }
-      .mobile-timeline-item[data-color="orange"] { border-color: rgba(var(--orange-rgb),0.35); border-top-color: var(--orange); box-shadow: 0 0 10px rgba(var(--orange-rgb),.15); }
-      .mobile-timeline-item[data-color="pink"]   { border-color: rgba(var(--pink-rgb),0.35); border-top-color: var(--pink); box-shadow: 0 0 10px rgba(var(--pink-rgb),.15); }
-
-      .mobile-timeline-item:hover,
-      .mobile-timeline-item.active {
-        background: var(--bg3);
-        border-color: var(--accent);
-        box-shadow: 0 0 0 1px rgba(var(--accent-rgb),0.28), 0 0 24px rgba(var(--accent-rgb),0.35);
-      }
-      .mobile-timeline-item[data-color="blue"]:hover,   .mobile-timeline-item[data-color="blue"].active   { border-color: var(--blue);   box-shadow: 0 0 0 1px rgba(var(--blue-rgb),0.28), 0 0 24px rgba(var(--blue-rgb),0.35); }
-      .mobile-timeline-item[data-color="orange"]:hover, .mobile-timeline-item[data-color="orange"].active { border-color: var(--orange); box-shadow: 0 0 0 1px rgba(var(--orange-rgb),0.28), 0 0 24px rgba(var(--orange-rgb),0.35); }
-      .mobile-timeline-item[data-color="pink"]:hover,   .mobile-timeline-item[data-color="pink"].active   { border-color: var(--pink);   box-shadow: 0 0 0 1px rgba(var(--pink-rgb),0.28), 0 0 24px rgba(var(--pink-rgb),0.35); }
-
-      .mtl-img-wrap { aspect-ratio: 16/9; overflow: hidden; border-radius: 13px 13px 0 0; background: var(--surface-media-alt); }
-      .mtl-img-wrap img { width: 100%; height: 100%; object-fit: cover; }
-
-      .mtl-body { padding: 16px 18px 18px; }
-      .mtl-body h3 {
-        font-size: 1rem;
-        font-weight: 600;
-        color: var(--white);
-        line-height: 1.3;
-        margin-bottom: 4px;
-      }
-      .mtl-body p {
-        font-size: .8rem;
-        color: var(--muted);
-        margin-bottom: 12px;
-      }
-
-      /* ── Cartes diplôme / expérience : même langage visuel que .diploma desktop,
-         alignées à droite de la ligne (le point pointe vers la gauche) ── */
-      .mobile-timeline-item.mobile-timeline-diploma {
-        cursor: default;
-        border: 1px solid transparent;
-        border-top: none;
-        background: rgba(var(--year-color-rgb, var(--accent-rgb)), .06);
-        box-shadow: 0 0 20px rgba(var(--year-color-rgb, var(--accent-rgb)), .15);
-      }
-      .mobile-timeline-item.mobile-timeline-diploma::before {
-        content: "";
-        position: absolute;
-        inset: 0;
-        border-radius: inherit;
-        padding: 1px;
-        background: radial-gradient(circle at 0% 0%, rgba(var(--year-color-rgb, var(--accent-rgb)),0.9), rgba(var(--year-color-rgb, var(--accent-rgb)),0.05) 80%);
-        -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-        -webkit-mask-composite: xor;
-        mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-        mask-composite: exclude;
-      }
-      .mobile-timeline-item.mobile-timeline-diploma:hover { background: rgba(var(--year-color-rgb, var(--accent-rgb)), .06); }
-
-      .mtl-diploma-title {
-        font-size: 14px;
-        font-weight: 800;
-        letter-spacing: 0.02em;
-        text-transform: uppercase;
-        margin-bottom: 3px;
-        color: var(--white);
-      }
-      .mtl-diploma-date {
-        font-size: 14px;
-        font-weight: 700;
-        margin-bottom: 2px;
-        color: var(--white);
-      }
-      .mtl-diploma-subtitle {
-        font-size: 13px;
-        font-weight: 700;
-        color: var(--year-color, var(--accent2));
       }
 
       /* Espace en haut (pour dégager le bouton fermer) et en bas (pour ne pas
@@ -1205,47 +1174,11 @@
         overflow-y: auto;
       }
       .detail::before { display: none; }
-
-      .detail-overlay {
-        position: fixed;
-        inset: 0;
-        background: rgba(var(--black-rgb),.6);
-        opacity: 0;
-        pointer-events: none;
-        transition: opacity 0.25s ease;
-        z-index: 599;
-      }
-      .detail-overlay.open {
-        opacity: 1;
-        pointer-events: auto;
-      }
     }
 
     /* ─── 580px ─── */
     @media (max-width: 580px) {
       main.page { padding: 20px 14px 54px; }
-
-      .section-header-top {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 10px;
-        margin-bottom: 12px;
-      }
-
-      .section-title { font-size: clamp(1.4rem, 6vw, 2rem); }
-
-      .timeline-section {
-        margin-left: -14px;
-        margin-right: -14px;
-      }
-
-      .current-year {
-        left: 14px;
-        font-size: 20px;
-        top: 186px;
-      }
-      .current-year::before,
-      .current-year::after { display: none; }
 
       .detail-top { padding: 96px 24px 16px; }
 
@@ -1260,7 +1193,6 @@
 
     /* ─── 400px ─── */
     @media (max-width: 400px) {
-      .tag-legend { display: none; }
       .thumbs { grid-template-columns: repeat(2, 1fr); }
     }
   </style>
@@ -1302,54 +1234,57 @@
   </section>
 
   <main class="page">
-    <div class="section-header">
-      <div class="section-header-top">
-        <h2 class="section-title">Frise chronologique</h2>
-        <div class="tag-legend">
-          <span class="tag-legend-label">Légende —</span>
-          <span class="legend-item" style="--legend-color:var(--blue); --legend-color-rgb:var(--blue-rgb)"><span class="dot"></span>Gobelins</span>
-          <span class="legend-item" style="--legend-color:var(--orange); --legend-color-rgb:var(--orange-rgb)"><span class="dot"></span>IIM</span>
-          <span class="legend-item" style="--legend-color:var(--pink); --legend-color-rgb:var(--pink-rgb)"><span class="dot"></span>Personnel</span>
-        </div>
+    <div class="section-header frise-header">
+      <h2 class="section-title" id="friseTitle">Frise chronologique</h2>
+      <div class="frise-mode-toggle" id="friseModeToggle" role="group" aria-label="Regrouper par">
+        <button type="button" class="frise-mode-btn" data-mode="school">École</button>
+        <button type="button" class="frise-mode-btn active" data-mode="year">Année</button>
       </div>
-      <nav class="year-nav" id="yearNav">
-        <button data-year="2022" class="active">2022</button>
-        <button data-year="2023">2023</button>
-        <button data-year="2024">2024</button>
-        <button data-year="2025">2025</button>
-        <button data-year="2026">2026</button>
-      </nav>
     </div>
 
-    <div class="timeline-hint">Faites défiler la frise</div>
-
-    <div class="mobile-timeline" id="mobileTimeline">
-      <div class="mobile-timeline-line" id="mobileTimelineLine"></div>
+    <div class="radial-frise" id="radialFrise">
+      <div class="radial-frise-inner" id="radialFriseInner">
+        <svg class="radial-svg" id="radialSvg"></svg>
+        <div class="radial-center">
+          <div class="radial-sphere"></div>
+          <div class="radial-center-name">Axel Marion</div>
+        </div>
+        <div class="radial-years" id="radialYears"></div>
+        <div class="radial-leaves" id="radialLeaves"></div>
+      </div>
     </div>
 
-    <section class="timeline-section">
-      <div class="current-year" id="currentYear">2022</div>
-
-      <div class="timeline-scroll" id="timelineScroll" style="touch-action: pan-x;">
-        <div class="timeline-track" id="track">
-          <div class="line"></div>
-          <div class="years" id="years"></div>
-          <div class="cards-row" id="cardsRow"></div>
-        </div>
-      </div>
-    </section>
+    <div class="section-header" style="margin-top:64px;">
+      <div class="section-label"><span class="dot"></span>Diplômes</div>
+    </div>
+    <div class="diplomas-grid" id="diplomasGrid"></div>
 
     <div class="section-header" style="margin-top:64px;">
       <div class="section-label"><span class="dot"></span>Tous les projets</div>
     </div>
     <div class="featured-groups" id="allProjectsGrid"></div>
+  </main>
 
-    <section class="detail" id="detail">
-      <button class="detail-close" id="detailClose" aria-label="Fermer">✕</button>
+  <!-- En dehors de <main> : main.page a son propre stacking context
+       (position:relative + z-index:2) qui piège un .detail en position:fixed
+       derrière le header (z-index:500) même avec un z-index plus élevé — un
+       enfant fixed n'échappe jamais au stacking context d'un ancêtre positionné. -->
+  <section class="detail" id="detail">
+    <button class="detail-close" id="detailClose" aria-label="Désélectionner">✕</button>
 
+    <!-- État par défaut : affiché tant qu'aucun projet n'est cliqué dans la frise. -->
+    <div class="detail-empty" id="detailEmpty">
+      <p>Sélectionne un projet dans la frise pour voir ses détails.</p>
+    </div>
+
+    <div class="detail-content" id="detailContent">
       <!-- En-tête pleine largeur -->
       <div class="detail-top">
         <div>
+          <div class="detail-category" id="detailCategory">
+            <span class="detail-category-dot" id="detailCategoryDot"></span>
+            <span id="detailCategoryLabel"></span>
+          </div>
           <h2 id="detailTitle"></h2>
           <div class="chips" id="detailChips"></div>
         </div>
@@ -1366,8 +1301,8 @@
             </div>
             <img id="detailImage" class="main-image" src="" alt="Projet sélectionné">
             <div class="zoom-lens" id="zoomLens"></div>
+            <button class="media-expand" id="mediaExpand" aria-label="Agrandir l'image" title="Agrandir">⤢</button>
           </div>
-          <div class="zoom-result" id="zoomResult"></div>
           <div class="thumbs" id="thumbsContainer"></div>
           <p id="mediaCaption" class="media-caption"></p>
         </div>
@@ -1375,38 +1310,41 @@
         <div class="detail-center">
           <div class="info-grid">
             <div class="info-block">
-              <h4>Mon rôle</h4>
+              <h4><span class="info-icon">◎</span>Mon rôle</h4>
               <ul id="roleList"></ul>
             </div>
             <div class="info-block">
-              <h4>Outils utilisés</h4>
+              <h4><span class="info-icon">✦</span>Outils utilisés</h4>
               <div class="tools" id="toolsList"></div>
             </div>
+            <div class="info-block">
+              <h4><span class="info-icon">◷</span>Durée</h4>
+              <p id="detailDuration"></p>
+            </div>
+            <div class="info-block">
+              <h4><span class="info-icon">✓</span>Ce que j'ai appris</h4>
+              <ul id="learnedList"></ul>
+            </div>
           </div>
-        </div>
 
-        <aside class="side" id="detailSide">
-          <div class="side-block">
-            <h4>Durée</h4>
-            <p id="detailDuration"></p>
-          </div>
-          <div class="side-block">
-            <h4>Ce que j'ai appris</h4>
-            <ul id="learnedList"></ul>
-          </div>
           <a class="side-card download-link" id="downloadLink" href="#" target="_blank" rel="noopener noreferrer" style="display:none;">
             <div class="download">
               <span class="download-icon">↗</span>
               <span>Voir le projet</span>
             </div>
           </a>
-        </aside>
+        </div>
 
       </div>
-    </section>
+    </div>
+  </section>
 
-    <div class="detail-overlay" id="detailOverlay"></div>
-  </main>
+  <div class="detail-overlay" id="detailOverlay"></div>
+
+  <!-- En dehors de la carte détail (overflow:auto) : une loupe positionnée en
+       pixels viewport ne serait sinon pas visible, coupée par le scroll de
+       la carte comme #detail l'était par main.page plus haut dans ce fichier. -->
+  <div class="zoom-result" id="zoomResult"></div>
 
   <footer>© 2025 Axel Marion</footer>
 
@@ -1422,19 +1360,11 @@
   </script>
 
   <script>
-    const timeline = document.getElementById("timelineScroll");
-    const yearsEl = document.getElementById("years");
-    const cardsEl = document.getElementById("cardsRow");
-    const currentYearEl = document.getElementById("currentYear");
     const detail = document.getElementById("detail");
-    const detailSide = document.getElementById("detailSide");
 
-    const startYear = 2022;
-    const endYear = 2026;
-    const monthWidth = 190;
-    const startX = 90;
-
-    const months = ["JANV.", "FÉV.", "MARS", "AVR.", "MAI", "JUIN", "JUIL.", "AOÛT", "SEPT.", "OCT.", "NOV.", "DÉC."];
+    // Plage d'années modifiable dans public/data.js (window.FRISE_YEARS).
+    const startYear = (window.FRISE_YEARS && window.FRISE_YEARS.start) || 2022;
+    const endYear = (window.FRISE_YEARS && window.FRISE_YEARS.end) || 2026;
 
     const toolNames = {
       "Il": "Illustrator",
@@ -1448,31 +1378,24 @@
 
     const projects = window.PROJECTS;
     const diplomas = window.DIPLOMAS;
-    const diplomaTimelineColors = Object.values((window.COLORS && window.COLORS.timeline) || {});
-
-    function getX(year, month) {
-      return startX + ((year - startYear) * 12 + month) * monthWidth;
-    }
 
     function hexToRgb(hex) {
       const m = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
       return m ? [parseInt(m[1], 16), parseInt(m[2], 16), parseInt(m[3], 16)].join(",") : null;
     }
 
-    // Colore chaque bouton du year-nav avec la couleur de son année (window.COLORS.timeline).
-    function colorYearNavButtons() {
-      const timelineColors = Object.values((window.COLORS && window.COLORS.timeline) || {});
-      if (!timelineColors.length) return;
-      document.querySelectorAll(".year-nav button[data-year]").forEach((btn) => {
-        const year = parseInt(btn.dataset.year, 10);
-        const entry = timelineColors[(year - startYear) % timelineColors.length];
-        if (!entry) return;
-        btn.style.setProperty("--year-color", entry.value);
-        const rgb = hexToRgb(entry.value);
-        if (rgb) btn.style.setProperty("--year-color-rgb", rgb);
-      });
+    // Dégradé linéaire (espace RGB) entre deux couleurs hex, t de 0 à 1.
+    function lerpHexColor(hexA, hexB, t) {
+      const a = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hexA);
+      const b = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hexB);
+      if (!a || !b) return hexA;
+      const mix = (i) => {
+        const va = parseInt(a[i], 16);
+        const vb = parseInt(b[i], 16);
+        return Math.round(va + (vb - va) * t);
+      };
+      return "#" + [mix(1), mix(2), mix(3)].map((v) => v.toString(16).padStart(2, "0")).join("");
     }
-    colorYearNavButtons();
 
     // Pour les liens profonds : /pages/projet.html?p=nom-du-projet
     function slugify(str) {
@@ -1484,119 +1407,623 @@
         .replace(/^-+|-+$/g, "");
     }
 
-    // La ligne colorée de la frise doit défiler avec les mois/points : on la
-    // construit avec une largeur/position en pixels réels (getX), pas en %
-    // fixe de la section, sinon les couleurs ne correspondent plus aux années
-    // affichées une fois qu'on scroll.
-    function buildYearLine() {
-      const timelineColors = (window.COLORS && window.COLORS.timeline) || {};
-      const yearColors = Object.values(timelineColors).map((entry) => entry.value);
-      // La ligne dépasse le premier/dernier mois pour atteindre le bord de la
-      // piste (0 à gauche, padding droit de .timeline-track à droite) et
-      // s'estompe en fondu sur ces dépassements plutôt que de s'arrêter net.
-      const lineStart = 0;
-      const lineEnd = getX(endYear + 1, 0) + 76;
-      const totalWidth = lineEnd - lineStart;
-      const toPct = (px) => ((px - lineStart) / totalWidth) * 100;
+    // ── Frise radiale ──────────────────────────────────────────
+    // Sphère centrale "Axel Marion" → une branche par école OU par année
+    // (bouton de bascule) → au clic sur une branche, ses projets se
+    // déploient en éventail à droite.
+    const RADIAL_TAGS = ["Gobelins", "IIM", "Personnel"];
+    const TAG_COLOR_KEY = { Gobelins: "blue", IIM: "orange", Personnel: "pink" };
+    const RADIAL_YEARS = [];
+    for (let y = startYear; y <= endYear; y += 1) RADIAL_YEARS.push(y);
 
-      const stops = ["transparent 0%"];
-      for (let year = startYear; year <= endYear; year += 1) {
-        const color = yearColors[(year - startYear) % yearColors.length];
-        const bandStart = getX(year, 0);
-        const decX = getX(year, 11); // Décembre : la couleur reste pleine jusque-là,
-        stops.push(`${color} ${toPct(bandStart).toFixed(2)}%`); // le dégradé vers l'année suivante
-        stops.push(`${color} ${toPct(decX).toFixed(2)}%`);       // se joue entre décembre et janvier.
-      }
-      stops.push("transparent 100%");
+    const radialFrise = document.getElementById("radialFrise");
+    const radialFriseInner = document.getElementById("radialFriseInner");
+    const radialSvg = document.getElementById("radialSvg");
+    const radialYearsEl = document.getElementById("radialYears");
+    const radialLeavesEl = document.getElementById("radialLeaves");
+    const friseTitleEl = document.getElementById("friseTitle");
+    const friseModeToggleEl = document.getElementById("friseModeToggle");
 
-      const line = document.createElement("div");
-      line.className = "timeline-fixed-line";
-      line.style.left = lineStart + "px";
-      line.style.width = totalWidth + "px";
-      line.style.background = `linear-gradient(90deg, ${stops.join(", ")})`;
-      yearsEl.appendChild(line);
+    // "school" (Gobelins/IIM/Personnel) ou "year" (2022-2026) — bascule via
+    // le bouton #friseModeToggle (voir setFriseMode).
+    let friseMode = "year";
+    const activeRadialBranches = new Set();
+    // Bord droit (coordonnées écran) de la colonne de projets de la frise,
+    // recalculé à chaque layout — sert à placer la div détail juste après,
+    // sans jamais recouvrir les cartes cliquables.
+    let leafColumnRightEdge = null;
+    // Courbes SVG branche → feuille actuellement affichées, redessinées au
+    // scroll de .radial-leaves (voir redrawLeafCurvesOnScroll).
+    let activeLeafCurves = [];
+    // Hauteur visible de la frise (H), utilisée pour masquer les courbes
+    // dont la feuille est actuellement scrollée hors champ.
+    let leafVisibleH = 0;
+    // Cartes projet actuellement affichées, avec leur position de base —
+    // sert à courber légèrement la colonne au scroll (voir updateLeavesArc).
+    let activeLeafNodes = [];
+    // Cases année/école affichées, avec leur position de base — elles
+    // défilent maintenant avec les projets (voir updateBranchesScroll).
+    let activeBranchNodes = [];
+    // Courbes SVG sphère → branche, redessinées en même temps (même défilement).
+    let activeBranchSphereCurves = [];
+    // Position Y actuelle (bornée, jamais hors écran) de chaque branche,
+    // indexée comme ses enfants — lue par updateLeafCurvesVisibility pour
+    // que les courbes année→feuille restent attachées au même point.
+    let branchCurrentY = [];
+    // Décalage horizontal actuel (--arc-x) de chaque case année/école,
+    // calculé par updateBranchesArc — lu par updateBranchesScroll et
+    // updateLeafCurvesVisibility pour que les courbes sphère→branche et
+    // branche→feuille restent accrochées à la case même quand elle courbe.
+    let branchCurrentArcX = [];
+
+    // Couleur de branche d'une école, alignée sur project.color (même
+    // mapping que les cartes et le panneau détail — voir window.COLORS.projet).
+    function tagColor(tag) {
+      const key = TAG_COLOR_KEY[tag];
+      const entry = key && window.COLORS && window.COLORS.projet && window.COLORS.projet[key];
+      return entry ? entry.value : null;
     }
 
-    function buildTimeline() {
-      buildYearLine();
+    // Couleur d'une branche année, en dégradé entre les deux couleurs de
+    // base du site (window.COLORS.accent : accent → accent2) plutôt qu'une
+    // teinte fixe par année — réutilisée aussi par les diplômes dans leur
+    // propre section (buildDiplomasSection), indépendante de la frise.
+    function yearColor(year) {
+      const accent = window.COLORS && window.COLORS.accent;
+      const colorStart = (accent && accent.accent && accent.accent.value) || "#24408f";
+      const colorEnd = (accent && accent.accent2 && accent.accent2.value) || "#6ec6ff";
+      const span = endYear - startYear;
+      const t = span > 0 ? Math.max(0, Math.min(1, (year - startYear) / span)) : 0;
+      return lerpHexColor(colorStart, colorEnd, t);
+    }
 
-      for (let year = startYear; year <= endYear; year += 1) {
-        months.forEach((month, index) => {
-          const x = getX(year, index);
+    // Projets de l'école, triés par année puis par mois.
+    function itemsForTag(tag) {
+      return projects
+        .filter((p) => p.tag === tag)
+        .map((p) => ({ type: "project", month: p.month, data: p }))
+        .sort((a, b) => a.data.year - b.data.year || a.month - b.month);
+    }
 
-          const monthEl = document.createElement("div");
-          monthEl.className = "month";
-          monthEl.style.left = x + "px";
-          monthEl.textContent = month;
-          yearsEl.appendChild(monthEl);
+    // Projets de l'année, triés par mois.
+    function itemsForYear(year) {
+      return projects
+        .filter((p) => p.year === year)
+        .map((p) => ({ type: "project", month: p.month, data: p }))
+        .sort((a, b) => a.month - b.month);
+    }
 
-          const dot = document.createElement("div");
-          dot.className = "dot";
-          if (projects.some((p) => p.year === year && p.month === index)) {
-            dot.classList.add("has-project");
-          }
-          dot.style.left = x + "px";
-          yearsEl.appendChild(dot);
+    // Accesseurs génériques selon le mode actif (school/year), pour ne pas
+    // dupliquer la logique de layout entre les deux regroupements.
+    function currentBranches() { return friseMode === "year" ? RADIAL_YEARS : RADIAL_TAGS; }
+    function branchColor(branch) { return friseMode === "year" ? yearColor(branch) : tagColor(branch); }
+    function itemsForBranch(branch) { return friseMode === "year" ? itemsForYear(branch) : itemsForTag(branch); }
+
+    // Courbe en S (comme un câble qui part à l'horizontale puis rejoint sa cible).
+    function curvePath(x1, y1, x2, y2) {
+      const dx = Math.max(40, (x2 - x1) * 0.5);
+      return `M ${x1} ${y1} C ${x1 + dx} ${y1}, ${x2 - dx} ${y2}, ${x2} ${y2}`;
+    }
+
+    function svgPath(d, color, extraClass) {
+      const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
+      path.setAttribute("d", d);
+      path.setAttribute("class", "radial-path" + (extraClass ? " " + extraClass : ""));
+      if (color) path.style.stroke = color;
+      return path;
+    }
+
+    // Cliquer une branche l'ouvre (si besoin) et y amène la vue en un seul
+    // clic — elle ne se ferme plus au clic, pour ne pas avoir à cliquer deux
+    // fois (une pour rouvrir, une pour y aller) sur une branche déjà ouverte.
+    function toggleRadialBranch(branch) {
+      const wasOpen = activeRadialBranches.has(branch);
+      activeRadialBranches.add(branch);
+      if (!wasOpen) layoutRadialFrise();
+      scrollToBranch(branch);
+    }
+
+    // Amène la colonne de projets jusqu'au premier projet de la branche
+    // cliquée, en douceur — .radial-leaves gère déjà le redessin des
+    // courbes/du fondu/de la courbure pendant le scroll (voir
+    // redrawLeafCurvesOnScroll), inutile de les répéter ici.
+    function scrollToBranch(branch) {
+      const idx = currentBranches().indexOf(branch);
+      const entries = activeLeafCurves.filter((c) => c.yearIdx === idx);
+      if (!entries.length) return;
+      // -60 (pas -20) : laisse la première carte passer sous la zone de
+      // fondu du haut (28px), sinon elle retombe juste dedans et reste
+      // visuellement estompée une fois le scroll terminé.
+      const target = Math.max(0, Math.min(...entries.map((e) => e.baseY)) - 60);
+      radialLeavesEl.scrollTo({ top: target, behavior: "smooth" });
+    }
+
+    // Bascule le regroupement de la frise et rouvre toutes les branches du
+    // nouveau mode par défaut, comme au premier chargement de la page.
+    function setFriseMode(mode) {
+      if (mode === friseMode) return;
+      friseMode = mode;
+      activeRadialBranches.clear();
+      currentBranches().forEach((b) => activeRadialBranches.add(b));
+      friseTitleEl.textContent = mode === "year" ? "Frise chronologique" : "Projets par école";
+      [...friseModeToggleEl.children].forEach((btn) => {
+        btn.classList.toggle("active", btn.dataset.mode === mode);
+      });
+      layoutRadialFrise();
+      initAnchoredDefault();
+    }
+
+    friseModeToggleEl.addEventListener("click", (e) => {
+      const btn = e.target.closest(".frise-mode-btn");
+      if (btn) setFriseMode(btn.dataset.mode);
+    });
+
+    // Crée la courbe + la carte d'un projet dans la colonne de droite.
+    function appendLeafCard(item, x1, y1, leafX, ly, originIdx) {
+      const path = svgPath(curvePath(x1, y1, leafX, ly), item.color, "radial-path-leaf");
+      radialSvg.appendChild(path);
+      activeLeafCurves.push({ path, x1, y1, x2: leafX, baseY: ly, yearIdx: originIdx });
+
+      const p = item.data;
+      const leaf = document.createElement("div");
+      leaf.className = "radial-leaf";
+      // Décalé à droite de LEAF_ARC_AMPLITUDE+10 pour compenser le décalage
+      // à gauche de .radial-leaves (voir layoutLeafColumn) : la position au
+      // repos (--arc-x: 0) retombe exactement sur leafX, comme avant.
+      leaf.style.left = (LEAF_ARC_AMPLITUDE + 10) + "px";
+      leaf.style.top = ly + "px";
+      leaf.style.setProperty("--year-color", item.color);
+      if (item.rgb) leaf.style.setProperty("--year-color-rgb", item.rgb);
+      leaf.dataset.color = p.color || "";
+      leaf.dataset.slug = slugify(p.id || p.title);
+      leaf.setAttribute("tabindex", "0");
+      const thumbSrc = p.thumb || p.img;
+      const thumbHtml = thumbSrc
+        ? `<img class="radial-leaf-thumb" src="${thumbSrc}" alt="" loading="lazy">`
+        : `<span class="radial-leaf-placeholder">${(p.title || "?").charAt(0)}</span>`;
+      leaf.innerHTML = `
+        ${thumbHtml}
+        <span class="radial-leaf-text">
+          <span class="radial-leaf-title">${p.title}</span>
+          <span class="radial-leaf-meta">${p.type || ""}</span>
+        </span>
+      `;
+      leaf.addEventListener("click", () => selectProject(p, leaf));
+      leaf.addEventListener("keydown", (e) => {
+        if (e.key === "Enter" || e.key === " ") { e.preventDefault(); selectProject(p, leaf); }
+      });
+      radialLeavesEl.appendChild(leaf);
+      activeLeafNodes.push({ el: leaf, baseY: ly });
+      requestAnimationFrame(() => leaf.classList.add("visible"));
+    }
+
+    // Répartit allItems dans la colonne de droite (hauteur de contenu propre,
+    // scrollable) à partir de leur point d'origine respectif (x1Of/y1Of).
+    function layoutLeafColumn(allItems, startX, minLeafX, H, x1Of, y1Of) {
+      activeLeafCurves = [];
+      activeLeafNodes = [];
+      if (!allItems.length) return;
+
+      const leafX = Math.max(startX + 260, minLeafX);
+      // >= moitié de la hauteur d'une carte (80px) + marge, sinon la
+      // première/dernière carte (centrée sur son point ly) dépasse du haut/
+      // bas de la colonne et se fait couper net par son overflow:hidden.
+      const leafMarginY = 48;
+      const leafContentH = Math.max(H, allItems.length * 92);
+      const leafUsableH = Math.max(leafContentH - leafMarginY * 2, 1);
+      leafColumnRightEdge = radialFrise.getBoundingClientRect().left + leafX + 200;
+
+      // .radial-leaves ne couvre que la colonne des projets (pas toute la
+      // frise), pour ne pas intercepter les clics sur la sphère/les branches.
+      // Décalé de LEAF_ARC_AMPLITUDE (+marge) vers la gauche : réserve la
+      // place pour que les cartes puissent courber vers la gauche au scroll
+      // (updateLeavesArc) sans jamais se faire couper par l'overflow du
+      // conteneur. Chaque carte part avec le même décalage à droite (voir
+      // appendLeafCard, leaf.style.left) pour que sa position "repos" (arc=0)
+      // reste inchangée — la place prise vient de la marge déjà laissée avec
+      // la colonne des branches (>= 260px), jamais de leur zone cliquable.
+      radialLeavesEl.style.left = (leafX - LEAF_ARC_AMPLITUDE - 10) + "px";
+
+      allItems.forEach((item, i) => {
+        const ly = allItems.length > 1 ? leafMarginY + (leafUsableH * i) / (allItems.length - 1) : leafContentH / 2;
+        appendLeafCard(item, x1Of(item), y1Of(item), leafX, ly, item.originIdx);
+      });
+    }
+
+    function layoutRadialFrise() {
+      if (!radialFrise) return;
+
+      // La sphère et les branches restent fixes ; seule la colonne des
+      // projets défile (dans .radial-leaves), sur sa propre hauteur de
+      // contenu — voir plus bas et le listener "scroll" qui redessine ses courbes.
+      const headerH = parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--header-h")) || 64;
+      const availableH = Math.max(500, window.innerHeight - headerH - 140);
+      radialFrise.style.height = availableH + "px";
+
+      const W = radialFriseInner.clientWidth;
+      const H = radialFriseInner.clientHeight;
+      if (!W || !H) return;
+
+      radialSvg.setAttribute("viewBox", `0 0 ${W} ${H}`);
+      radialSvg.innerHTML = "";
+      radialYearsEl.innerHTML = "";
+      radialLeavesEl.innerHTML = "";
+
+      const branches = currentBranches();
+      const activeBranches = branches.filter((b) => activeRadialBranches.has(b));
+
+      const centerX = 94;
+      const centerY = H / 2;
+      const yearX = Math.min(320, W * 0.32);
+      const marginY = 64;
+      const usableH = Math.max(H - marginY * 2, 1);
+      // Chaque branche occupe une portion de la hauteur disponible
+      // proportionnelle à son nombre de projets : une année avec plus de
+      // projets prend plus de place verticale, le nœud reste centré
+      // dans sa portion. Le bloc entier est ensuite décalé pour que son
+      // centre de masse (pondéré par le nombre de projets) tombe
+      // exactement sur le centre vertical de la sphère — pas juste la
+      // position médiane de la liste.
+      const branchItemCounts = branches.map((b) => Math.max(1, itemsForBranch(b).length));
+      const branchItemTotal = branchItemCounts.reduce((sum, n) => sum + n, 0);
+      let branchCursor = 0;
+      const branchRelativeYs = branchItemCounts.map((count) => {
+        const slice = (count / branchItemTotal) * usableH;
+        const y = branchCursor + slice / 2;
+        branchCursor += slice;
+        return y;
+      });
+      const branchWeightedCenter = branches.length > 1
+        ? branchRelativeYs.reduce((sum, y, i) => sum + y * branchItemCounts[i], 0) / branchItemTotal
+        : 0;
+      const branchStartY = centerY - branchWeightedCenter;
+      const branchYs = branches.map((b, i) =>
+        branches.length > 1 ? branchStartY + branchRelativeYs[i] : centerY
+      );
+
+      // Bord droit réel (mesuré, pas estimé) de chaque case branche : les
+      // courbes vers les projets doivent en sortir visiblement, pas d'un
+      // point flottant à l'intérieur de la case.
+      const branchNodeRightX = [];
+      activeBranchNodes = [];
+      activeBranchSphereCurves = [];
+
+      branches.forEach((branch, i) => {
+        const color = branchColor(branch) || "var(--accent)";
+        const spherePath = svgPath(curvePath(centerX + 48, centerY, yearX, branchYs[i]), color);
+        radialSvg.appendChild(spherePath);
+        activeBranchSphereCurves.push({ path: spherePath, x1: centerX + 48, y1: centerY, x2: yearX, baseY: branchYs[i] });
+
+        const items = itemsForBranch(branch);
+        const node = document.createElement("div");
+        node.className = "radial-year-node" + (activeRadialBranches.has(branch) ? " active" : "");
+        node.style.left = yearX + "px";
+        node.style.top = branchYs[i] + "px";
+        node.style.setProperty("--year-color", color);
+        const rgb = hexToRgb(branchColor(branch));
+        if (rgb) node.style.setProperty("--year-color-rgb", rgb);
+        node.setAttribute("tabindex", "0");
+        node.innerHTML = `<span class="radial-year-number">${branch}</span><span class="radial-year-count">${items.length}</span>`;
+        node.addEventListener("click", () => toggleRadialBranch(branch));
+        node.addEventListener("keydown", (e) => {
+          if (e.key === "Enter" || e.key === " ") { e.preventDefault(); toggleRadialBranch(branch); }
         });
+        radialYearsEl.appendChild(node);
+        branchNodeRightX[i] = yearX + node.offsetWidth;
+        activeBranchNodes.push({ node, baseY: branchYs[i] });
+      });
+
+      // Toutes les feuilles des branches ouvertes partagent une seule colonne,
+      // chaque courbe part du point de sa branche d'origine, fixe.
+      const allItems = [];
+      activeBranches.forEach((branch) => {
+        const branchIdx = branches.indexOf(branch);
+        const color = branchColor(branch) || "var(--accent)";
+        const rgb = hexToRgb(branchColor(branch));
+        itemsForBranch(branch).forEach((item) => allItems.push({ ...item, originIdx: branchIdx, color, rgb }));
+      });
+
+      layoutLeafColumn(
+        allItems,
+        yearX,
+        W * 0.5,
+        H,
+        (item) => branchNodeRightX[item.originIdx],
+        (item) => branchYs[item.originIdx]
+      );
+
+      leafVisibleH = H;
+      radialLeavesEl.scrollTop = 0;
+      // updateBranchesArc doit tourner avant les deux autres : elles lisent
+      // branchCurrentArcX pour accrocher leurs courbes au bon endroit
+      // horizontal (voir les commentaires sur branchCurrentArcX plus haut).
+      updateBranchesArc(0);
+      updateBranchesScroll(0);
+      updateLeafCurvesVisibility(0);
+      updateLeavesMask();
+      updateLeavesArc(0);
+    }
+
+    // Les courbes vers les feuilles vivent dans le calque SVG fixe (pas dans
+    // .radial-leaves qui défile) : on les redessine à la main au scroll pour
+    // qu'elles restent attachées à la branche (fixe) et à la feuille
+    // (mobile), et on masque celles dont la feuille est actuellement hors
+    // champ — sinon le trait resterait affiché, pointant vers rien de visible.
+    function updateLeafCurvesVisibility(offset) {
+      const margin = 24;
+      const branchesInView = new Set();
+      activeLeafCurves.forEach(({ path, x1, y1, x2, baseY, yearIdx }) => {
+        const y = baseY - offset;
+        // Position Y réelle (bornée) de la branche d'origine, calculée par
+        // updateBranchesScroll (appelée juste avant, voir redrawLeafCurvesOnScroll)
+        // — le point de départ de la courbe doit rester collé à cette même case.
+        const startY = branchCurrentY[yearIdx] ?? y1;
+        const visible = y >= -margin && y <= leafVisibleH + margin;
+        path.style.display = visible ? "" : "none";
+        if (visible) {
+          path.setAttribute("d", curvePath(x1 + (branchCurrentArcX[yearIdx] || 0), startY, x2, y));
+          branchesInView.add(yearIdx);
+        }
+      });
+
+      // Une branche dont aucun projet n'est actuellement visible (scrollé
+      // hors champ) perd son surlignage "actif", même si elle reste dépliée.
+      [...radialYearsEl.children].forEach((node, i) => {
+        node.classList.toggle("out-of-view", node.classList.contains("active") && !branchesInView.has(i));
+      });
+    }
+
+    // Le fondu haut/bas ne s'applique que du côté où il reste du contenu à
+    // découvrir : sinon la dernière carte semble coupée/buguée alors que le
+    // scroll est déjà au maximum (ou minimum).
+    function updateLeavesMask() {
+      const el = radialLeavesEl;
+      const max = el.scrollHeight - el.clientHeight;
+      const atTop = el.scrollTop <= 1;
+      const atBottom = max <= 1 || el.scrollTop >= max - 1;
+      const top = atTop ? "black 0" : "transparent 0, black 28px";
+      const bottom = atBottom ? "black 100%" : "black calc(100% - 28px), transparent 100%";
+      const mask = (atTop && atBottom) ? "none" : `linear-gradient(to bottom, ${top}, ${bottom})`;
+      el.style.maskImage = mask;
+      el.style.webkitMaskImage = mask;
+    }
+
+    // Courbe légèrement la colonne au scroll (comme si elle suivait un
+    // cercle) : les cartes proches du centre vertical restent alignées,
+    // celles qui s'en éloignent (haut/bas) glissent vers la sphère (gauche).
+    // .radial-leaves réserve la place nécessaire (left + padding-left décalés
+    // de LEAF_ARC_AMPLITUDE, voir layoutLeafColumn) pour que rien ne se fasse
+    // jamais couper par son overflow, ni chevaucher la colonne des branches.
+    const LEAF_ARC_AMPLITUDE = 60;
+    function updateLeavesArc(offset) {
+      const centerY = leafVisibleH / 2;
+      activeLeafNodes.forEach(({ el, baseY }) => {
+        const y = baseY - offset;
+        const t = Math.max(-1, Math.min(1, (y - centerY) / (centerY || 1)));
+        const arcX = -LEAF_ARC_AMPLITUDE * (1 - Math.cos((t * Math.PI) / 2));
+        el.style.setProperty("--arc-x", arcX.toFixed(1) + "px");
+      });
+    }
+
+    // Les cases année/école suivent le même arrondi circulaire que les
+    // projets au scroll (amplitude un peu plus faible pour rester bien
+    // visible sans déborder vers la sphère) — purement horizontal,
+    // indépendant du défilement vertical (voir updateBranchesScroll juste
+    // en dessous).
+    const BRANCH_ARC_AMPLITUDE = 40;
+    function updateBranchesArc(offset) {
+      const centerY = leafVisibleH / 2;
+      [...radialYearsEl.children].forEach((node, i) => {
+        const items = activeLeafCurves.filter((c) => c.yearIdx === i);
+        if (!items.length) {
+          node.style.setProperty("--arc-x", "0px");
+          branchCurrentArcX[i] = 0;
+          return;
+        }
+        const avgY = items.reduce((sum, c) => sum + (c.baseY - offset), 0) / items.length;
+        const t = Math.max(-1, Math.min(1, (avgY - centerY) / (centerY || 1)));
+        const arcX = -BRANCH_ARC_AMPLITUDE * (1 - Math.cos((t * Math.PI) / 2));
+        node.style.setProperty("--arc-x", arcX.toFixed(1) + "px");
+        branchCurrentArcX[i] = arcX;
+      });
+    }
+
+    // Chaque case année/école suit la position moyenne de SES PROPRES
+    // projets dans la colonne (et non plus un facteur de parallaxe global) :
+    // quand les cartes d'une année sont centrées dans la frise, sa case se
+    // retrouve exactement alignée sur la sphère ; une année dont aucune
+    // carte n'est encore visible reste bloquée au bord jusqu'à ce que son
+    // tour arrive. Toujours bornée à l'écran — elle ne sort jamais de la
+    // frise, elle se contente de "buter" sur ses bords haut/bas.
+    const BRANCH_EDGE_CLAMP = 40;
+    // Hauteur approx. d'une case (padding + contenu) + marge minimale entre
+    // deux cases — quand plusieurs branches butent sur le même bord, ça les
+    // empêche de s'empiler les unes sur les autres.
+    const BRANCH_MIN_SPACING = 54;
+    function updateBranchesScroll(offset) {
+      const minY = BRANCH_EDGE_CLAMP;
+      const maxY = Math.max(minY, leafVisibleH - BRANCH_EDGE_CLAMP);
+      branchCurrentY = activeBranchNodes.map(({ baseY }, i) => {
+        const items = activeLeafCurves.filter((c) => c.yearIdx === i);
+        if (!items.length) return Math.max(minY, Math.min(maxY, baseY));
+        const avgY = items.reduce((sum, c) => sum + (c.baseY - offset), 0) / items.length;
+        return Math.max(minY, Math.min(maxY, avgY));
+      });
+      // L'espacement minimal entre deux branches voisines est pondéré par
+      // leur nombre de projets combiné (comme la taille de leur portion au
+      // repos, voir branchRelativeYs) : une année avec beaucoup de projets
+      // pousse davantage ses voisines qu'une année qui en a peu, pour garder
+      // le même sens de poids visuel même une fois que ça défile.
+      const branchesForWeight = currentBranches();
+      const branchItemCountsForWeight = branchesForWeight.map((b) => Math.max(1, itemsForBranch(b).length));
+      const avgItemCount =
+        branchItemCountsForWeight.reduce((sum, n) => sum + n, 0) / (branchItemCountsForWeight.length || 1);
+      // BRANCH_MIN_SPACING reste un plancher dur (c'est déjà tout juste la
+      // hauteur d'une case) : le poids ne fait qu'agrandir l'écart pour les
+      // paires au-dessus de la moyenne, jamais le réduire en dessous pour
+      // les paires plus légères — sinon les cases se chevaucheraient.
+      const gapSpacing = (i) =>
+        BRANCH_MIN_SPACING *
+        Math.max(1, (branchItemCountsForWeight[i - 1] + branchItemCountsForWeight[i]) / (2 * avgItemCount));
+      // Garde l'ordre (année 1 toujours au-dessus de l'année 2, etc.) tout en
+      // forçant cet espacement minimal. Une seule passe aller (vers le bas)
+      // gère bien l'empilement en haut (s'éloigner de minY ne peut jamais
+      // repasser sous minY), mais pas l'empilement en bas (s'éloigner de
+      // maxY peut dépasser maxY, et un clamp final les recollerait toutes
+      // au même point) : on répète donc aller+retour jusqu'à stabilisation.
+      for (let pass = 0; pass < branchCurrentY.length + 2; pass++) {
+        let changed = false;
+        for (let i = 1; i < branchCurrentY.length; i++) {
+          const spacing = gapSpacing(i);
+          if (branchCurrentY[i] - branchCurrentY[i - 1] < spacing) {
+            branchCurrentY[i] = branchCurrentY[i - 1] + spacing;
+            changed = true;
+          }
+        }
+        for (let i = branchCurrentY.length - 2; i >= 0; i--) {
+          const spacing = gapSpacing(i + 1);
+          if (branchCurrentY[i + 1] - branchCurrentY[i] < spacing) {
+            branchCurrentY[i] = branchCurrentY[i + 1] - spacing;
+            changed = true;
+          }
+        }
+        if (!changed) break;
       }
-
-      diplomas.forEach((diploma) => {
-        const x = getX(diploma.year, diploma.month);
-        const diplomaEl = document.createElement("div");
-        diplomaEl.className = "diploma";
-        diplomaEl.style.left = x + "px";
-        if (diplomaTimelineColors.length) {
-          const entry = diplomaTimelineColors[(diploma.year - startYear) % diplomaTimelineColors.length];
-          if (entry) {
-            diplomaEl.style.setProperty("--year-color", entry.value);
-            const rgb = hexToRgb(entry.value);
-            if (rgb) diplomaEl.style.setProperty("--year-color-rgb", rgb);
-          }
+      // L'espacement minimal ci-dessus peut repousser les branches du bout
+      // (première ou dernière) hors des bornes haut/bas quand il y en a
+      // beaucoup serrées au même endroit. Une seule formule continue, pas un
+      // choix binaire entre deux régimes différents (ça créait un saut
+      // visible pile au moment où l'un bascule sur l'autre) : on ne
+      // comprime que la marge au-dessus du minimum, jamais le minimum
+      // lui-même, et la compression vaut pile 0 tant qu'il y a assez de
+      // place — donc aucune discontinuité au seuil.
+      if (branchCurrentY.length > 1) {
+        const available = maxY - minY;
+        const naturalGaps = [];
+        for (let i = 1; i < branchCurrentY.length; i++) {
+          naturalGaps.push(branchCurrentY[i] - branchCurrentY[i - 1]);
         }
-        diplomaEl.innerHTML = `
-          <div class="diploma-title">${diploma.title}</div>
-          <div class="diploma-date">${diploma.date}</div>
-          <div class="diploma-subtitle">${diploma.subtitle}</div>
-        `;
-        yearsEl.appendChild(diplomaEl);
-      });
-
-      projects.forEach((project) => {
-        const x = getX(project.year, project.month);
-        const card = document.createElement("article");
-        card.className = "project-card";
-        card.style.left = x + "px";
-        card.setAttribute("tabindex", "0");
-        card.dataset.color = project.color || '';
-        card.dataset.slug = slugify(project.id || project.title);
-        if (diplomaTimelineColors.length) {
-          const entry = diplomaTimelineColors[(project.year - startYear) % diplomaTimelineColors.length];
-          if (entry) {
-            card.style.setProperty("--year-color", entry.value);
-            const rgb = hexToRgb(entry.value);
-            if (rgb) card.style.setProperty("--year-color-rgb", rgb);
-          }
+        const minGaps = naturalGaps.map((_, idx) => gapSpacing(idx + 1));
+        const totalNatural = naturalGaps.reduce((sum, g) => sum + g, 0);
+        const totalMin = minGaps.reduce((sum, g) => sum + g, 0);
+        let finalGaps;
+        if (totalNatural <= available) {
+          finalGaps = naturalGaps;
+        } else if (totalMin >= available) {
+          // Même les écarts minimaux ne tiennent pas (cas extrême très
+          // rare) : dernier recours, on les réduit tous proportionnellement.
+          const scale = totalMin > 0 ? available / totalMin : 1;
+          finalGaps = minGaps.map((g) => g * scale);
+        } else {
+          const totalSlack = totalNatural - totalMin;
+          const factor = (available - totalMin) / totalSlack;
+          finalGaps = naturalGaps.map((g, idx) => minGaps[idx] + (g - minGaps[idx]) * factor);
         }
-        card.innerHTML = `
-          <div class="card-img-wrap">
-            <img src="${project.thumb || project.img}" alt="${project.title}" loading="lazy">
-          </div>
-          <div class="body">
-            <h3>${project.title}</h3>
-            <p>${project.type}</p>
-            <span class="tag ${project.color}">${project.date}</span>
-          </div>
-        `;
-        card.addEventListener("click", () => selectProject(project, card));
-        card.addEventListener("keydown", e => {
-          if (e.key === "Enter" || e.key === " ") selectProject(project, card);
-        });
-        cardsEl.appendChild(card);
+        const positions = [branchCurrentY[0]];
+        for (let i = 0; i < finalGaps.length; i++) positions.push(positions[i] + finalGaps[i]);
+        let shift = 0;
+        if (positions[positions.length - 1] > maxY) {
+          shift = maxY - positions[positions.length - 1];
+        } else if (positions[0] < minY) {
+          shift = minY - positions[0];
+        }
+        for (let i = 0; i < positions.length; i++) branchCurrentY[i] = positions[i] + shift;
+      } else if (branchCurrentY.length === 1) {
+        branchCurrentY[0] = Math.max(minY, Math.min(maxY, branchCurrentY[0]));
+      }
+      activeBranchNodes.forEach(({ node, baseY }, i) => {
+        node.style.setProperty("--scroll-y", (baseY - branchCurrentY[i]) + "px");
       });
+      activeBranchSphereCurves.forEach(({ path, x1, y1, x2 }, i) => {
+        path.setAttribute("d", curvePath(x1, y1, x2 + (branchCurrentArcX[i] || 0), branchCurrentY[i]));
+      });
+    }
 
-      buildMobileTimeline();
+    function redrawLeafCurvesOnScroll() {
+      // updateBranchesArc doit tourner en premier : elle recalcule
+      // branchCurrentArcX, que les deux suivantes lisent pour accrocher
+      // leurs courbes à la case même quand elle courbe horizontalement.
+      // updateBranchesScroll doit ensuite tourner avant
+      // updateLeafCurvesVisibility : elle recalcule branchCurrentY, que
+      // celle-ci lit pour accrocher les courbes année→feuille au bon endroit.
+      updateBranchesArc(radialLeavesEl.scrollTop);
+      updateBranchesScroll(radialLeavesEl.scrollTop);
+      updateLeafCurvesVisibility(radialLeavesEl.scrollTop);
+      updateLeavesMask();
+      updateLeavesArc(radialLeavesEl.scrollTop);
+    }
+    radialLeavesEl.addEventListener("scroll", redrawLeafCurvesOnScroll, { passive: true });
+
+    // La colonne des projets (.radial-leaves) est la seule à défiler
+    // nativement. Si la molette est utilisée au-dessus de la sphère ou des
+    // années (zone sans overflow propre), on relaie le scroll vers elle pour
+    // que tout le cadre de la frise réagisse, pas juste la colonne de droite.
+    radialFriseInner.addEventListener(
+      "wheel",
+      (e) => {
+        if (radialLeavesEl.contains(e.target)) return;
+        e.preventDefault();
+        radialLeavesEl.scrollTop += e.deltaY;
+      },
+      { passive: false }
+    );
+
+    function buildRadialFrise(initialBranches) {
+      if (initialBranches != null) {
+        (Array.isArray(initialBranches) ? initialBranches : [initialBranches]).forEach((b) => activeRadialBranches.add(b));
+      }
+      layoutRadialFrise();
+      buildDiplomasSection();
       buildAllProjectsGrid();
     }
+
+    // Diplômes et formations, affichés dans leur propre section (plus mêlés
+    // aux projets dans l'éventail de la frise).
+    function buildDiplomasSection() {
+      const container = document.getElementById("diplomasGrid");
+      if (!container) return;
+
+      const sorted = [...diplomas].sort((a, b) => a.year - b.year || a.month - b.month);
+
+      container.innerHTML = "";
+      sorted.forEach((d) => {
+        const color = yearColor(d.year) || "var(--accent)";
+        const rgb = hexToRgb(yearColor(d.year));
+        const card = document.createElement("div");
+        card.className = "diploma-card";
+        card.style.setProperty("--card-color", color);
+        if (rgb) card.style.setProperty("--card-color-rgb", rgb);
+        card.innerHTML = `
+          <span class="diploma-card-year">${d.date || d.year}</span>
+          <h3>${d.title}</h3>
+          <p>${d.subtitle || ""}</p>
+        `;
+        container.appendChild(card);
+      });
+    }
+
+    // En dessous de cette largeur, la carte ancrée à côté de la frise n'a
+    // plus la place de cohabiter avec la colonne de projets (200px + 420px
+    // + marges ne tiennent plus) : on repasse sur le tiroir plein écran,
+    // déjà responsive à n'importe quelle largeur desktop.
+    const ANCHOR_MIN_WIDTH = 1070;
+
+    window.addEventListener("resize", () => {
+      layoutRadialFrise();
+      if (window.innerWidth <= 768 || window.innerWidth < ANCHOR_MIN_WIDTH) {
+        if (detail.classList.contains("anchored")) {
+          detail.classList.remove("visible", "anchored");
+          document.body.style.overflow = "";
+        }
+        return;
+      }
+      if (detail.classList.contains("anchored") && detail.classList.contains("visible")) {
+        const activeLeaf = document.querySelector(".radial-leaf.active");
+        positionAnchoredDetail(activeLeaf || null);
+      } else if (!detail.classList.contains("side-panel") && !detail.classList.contains("visible")) {
+        initAnchoredDefault();
+      }
+    });
 
     // Regroupement de tous les projets par école (Gobelins / IIM / Personnel),
     // affiché sous la frise — même gabarit de carte que la page d'accueil.
@@ -1662,10 +2089,7 @@
               <span class="card-arrow">↗</span>
             </div>
           `;
-          card.addEventListener("click", () => {
-            const timelineCard = document.querySelector(`.project-card[data-slug="${slugify(p.id || p.title)}"]`);
-            selectProject(p, timelineCard || card);
-          });
+          card.addEventListener("click", () => selectProject(p, card));
           grid.appendChild(card);
         });
 
@@ -1676,154 +2100,44 @@
 
     // Version verticale simplifiée de la frise, affichée sous 768px (voir CSS) :
     // liste chronologique des projets + diplômes, empilés au lieu du scroll horizontal.
-    function buildMobileTimeline() {
-      const container = document.getElementById("mobileTimeline");
-      if (!container) return;
-
-      // On garde la ligne (premier enfant) et on repart du reste.
-      container.querySelectorAll(".mobile-timeline-row, .mobile-timeline-year").forEach((el) => el.remove());
-
-      const line = document.getElementById("mobileTimelineLine");
-      if (line && diplomaTimelineColors.length) {
-        const stops = diplomaTimelineColors.map((entry, i) => {
-          const pct = (i / Math.max(diplomaTimelineColors.length - 1, 1)) * 100;
-          return `${entry.value} ${pct.toFixed(1)}%`;
-        });
-        line.style.background = `linear-gradient(to bottom, ${stops.join(", ")})`;
-      }
-
-      function createProjectCard(p) {
-        const el = document.createElement("div");
-        el.className = "mobile-timeline-item";
-        el.dataset.color = p.color || "";
-        el.innerHTML = `
-          <div class="mtl-img-wrap">
-            <img src="${p.thumb || p.img}" alt="${p.title}" loading="lazy">
-          </div>
-          <div class="mtl-body">
-            <h3>${p.title}</h3>
-            <p>${p.type}</p>
-            <span class="tag ${p.color}">${p.date}</span>
-          </div>
-        `;
-        el.addEventListener("click", () => {
-          document.querySelectorAll(".mobile-timeline-item").forEach((i) => i.classList.remove("active"));
-          el.classList.add("active");
-          selectProject(p, el);
-        });
-        return el;
-      }
-
-      function createDiplomaCard(d) {
-        const el = document.createElement("div");
-        el.className = "mobile-timeline-item mobile-timeline-diploma";
-        if (diplomaTimelineColors.length) {
-          const entry = diplomaTimelineColors[(d.year - startYear) % diplomaTimelineColors.length];
-          if (entry) {
-            el.style.setProperty("--year-color", entry.value);
-            const rgb = hexToRgb(entry.value);
-            if (rgb) el.style.setProperty("--year-color-rgb", rgb);
-          }
-        }
-        el.innerHTML = `
-          <div class="mtl-body">
-            <div class="mtl-diploma-title">${d.title}</div>
-            <div class="mtl-diploma-date">${d.date}</div>
-            <div class="mtl-diploma-subtitle">${d.subtitle || ""}</div>
-          </div>
-        `;
-        return el;
-      }
-
-      // Regroupe par année/mois : un projet et un diplôme du même mois partagent
-      // la même ligne (donc le même point sur la frise) au lieu d'en avoir chacun un.
-      const rows = new Map();
-      const getRow = (year, month) => {
-        const key = `${year}-${month}`;
-        if (!rows.has(key)) rows.set(key, { year, month, projects: [], diplomas: [] });
-        return rows.get(key);
-      };
-      projects.forEach((p) => getRow(p.year, p.month).projects.push(p));
-      diplomas.forEach((d) => getRow(d.year, d.month).diplomas.push(d));
-
-      // Une ligne par mois, même sans projet/diplôme : garde le même espacement
-      // (gap) que les cartes, pour un rythme chronologique régulier.
-      for (let year = startYear; year <= endYear; year += 1) {
-        months.forEach((_, monthIndex) => getRow(year, monthIndex));
-      }
-
-      const sortedRows = [...rows.values()].sort((a, b) => (a.year - b.year) || (a.month - b.month));
-
-      let lastYear = null;
-      sortedRows.forEach((row) => {
-        if (row.year !== lastYear) {
-          lastYear = row.year;
-          const yearEl = document.createElement("div");
-          yearEl.className = "mobile-timeline-year";
-          yearEl.textContent = row.year;
-          if (diplomaTimelineColors.length) {
-            const entry = diplomaTimelineColors[(row.year - startYear) % diplomaTimelineColors.length];
-            if (entry) {
-              yearEl.style.setProperty("--year-color", entry.value);
-              const rgb = hexToRgb(entry.value);
-              if (rgb) yearEl.style.setProperty("--year-color-rgb", rgb);
-            }
-          }
-          container.appendChild(yearEl);
-        }
-
-        const rowEl = document.createElement("div");
-        rowEl.className = "mobile-timeline-row";
-        if (!row.projects.length && !row.diplomas.length) rowEl.classList.add("is-empty");
-
-        const leftSlot = document.createElement("div");
-        leftSlot.className = "mtl-slot mtl-slot-left";
-        row.projects.forEach((p) => leftSlot.appendChild(createProjectCard(p)));
-
-        const rightSlot = document.createElement("div");
-        rightSlot.className = "mtl-slot mtl-slot-right";
-        row.diplomas.forEach((d) => rightSlot.appendChild(createDiplomaCard(d)));
-
-        rowEl.appendChild(leftSlot);
-        rowEl.appendChild(rightSlot);
-        container.appendChild(rowEl);
-      });
-    }
-
-    function isMobileDetail() {
-      return window.innerWidth <= 768;
-    }
-
     function selectProject(project, card) {
-      document.querySelectorAll(".project-card").forEach(c => c.classList.remove("active"));
+      document.querySelectorAll(".radial-leaf").forEach(c => c.classList.remove("active"));
       card.classList.add("active");
-      detail.classList.add("visible");
-      if (isMobileDetail()) {
+
+      detail.classList.remove("side-panel", "anchored", "empty");
+      const isFriseLeaf = card.classList.contains("radial-leaf") && window.innerWidth >= ANCHOR_MIN_WIDTH;
+      if (isFriseLeaf) {
+        detail.classList.add("anchored");
+        positionAnchoredDetail(card);
+      } else {
+        detail.classList.add("side-panel");
+        // Le fond sombre et le blocage du scroll ne servent qu'au tiroir
+        // plein écran : la div ancrée, toujours présente à côté de la frise,
+        // laisse la page défiler normalement.
         document.getElementById("detailOverlay").classList.add("open");
         document.body.style.overflow = "hidden";
       }
+      detail.classList.add("visible");
       detail.classList.remove("color-blue", "color-orange", "color-pink");
-      detailSide.classList.remove("color-blue", "color-orange", "color-pink");
       if (project.color === "blue" || project.color === "orange" || project.color === "pink") {
         detail.classList.add("color-" + project.color);
-        detailSide.classList.add("color-" + project.color);
       }
-
-      requestAnimationFrame(() => moveDetailArrow(card));
 
       document.getElementById("detailTitle").textContent = project.title;
       document.getElementById("detailText").textContent = project.desc;
-      document.getElementById("detailDuration").innerHTML = project.duration || "Projet court<br>(" + project.date + ")";
+      document.getElementById("detailDuration").innerHTML = project.duration || "Projet court<br>(" + window.formatProjectDate(project.year, project.month) + ")";
 
       // Couleurs des tags project.color, définies dans public/data.js (window.COLORS.projet)
       const colorMap = Object.fromEntries(
         Object.entries((window.COLORS && window.COLORS.projet) || {}).map(([k, v]) => [k, v.value])
       );
       const dotColor = colorMap[project.color] || getComputedStyle(document.documentElement).getPropertyValue('--accent').trim();
+
+      document.getElementById("detailCategoryDot").style.background = dotColor;
+      document.getElementById("detailCategoryDot").style.boxShadow = `0 0 8px ${dotColor}`;
+      document.getElementById("detailCategoryLabel").textContent = project.tag;
+
       document.getElementById("detailChips").innerHTML = `
-        <span class="chip-dot" style="background:${dotColor}; box-shadow: 0 0 8px ${dotColor}"></span>
-        <span class="chip">${project.tag}</span>
-        <span class="chip-sep">·</span>
         <span class="chip">${project.type}</span>
         <span class="chip-sep">·</span>
         <span class="chip">${project.year}</span>
@@ -1846,18 +2160,73 @@
       }
 
       updateProjectMedia(project);
+    }
 
-      if (!isMobileDetail()) {
-        setTimeout(() => {
-          detail.scrollIntoView({ behavior: "smooth", block: "nearest" });
-        }, 80);
-      }
+    // Place le panneau ancré à côté de la frise : aligné sur la carte cliquée
+    // si on en précise une, sinon sur la colonne des projets par défaut — pour
+    // qu'il reste toujours au même endroit, "dans la partie de la frise".
+    function positionAnchoredDetail(leafEl) {
+      // La carte se rétrécit (260px min) sur les écrans moins larges, plutôt
+      // que de se faire repousser par-dessus la colonne de projets.
+      const minGap = 24;
+      // Même en ciblant la carte cliquée, on ne descend jamais sous
+      // leafColumnRightEdge : d'autres cartes de la colonne peuvent courber
+      // plus loin vers la droite qu'elle au scroll (voir updateLeavesArc).
+      let startX = leafEl ? leafEl.getBoundingClientRect().right : leafColumnRightEdge;
+      if (leafEl && leafColumnRightEdge != null) startX = Math.max(startX, leafColumnRightEdge);
+      const availableWidth = startX != null ? window.innerWidth - 16 - (startX + minGap) : window.innerWidth - 32;
+      const width = Math.max(260, Math.min(420, availableWidth));
+      detail.style.setProperty("--anchor-width", width + "px");
+
+      let left = startX != null ? startX + minGap : window.innerWidth - width - 16;
+      if (left + width > window.innerWidth - 16) left = Math.max(16, window.innerWidth - width - 16);
+      detail.style.setProperty("--anchor-left", left + "px");
+      detail.classList.toggle("narrow", width < 320);
+      updateAnchoredFriseScope();
+    }
+
+    // Cantonne verticalement la div ancrée à la zone de la frise chronologique
+    // telle qu'elle est affichée à l'écran : elle disparaît une fois qu'on a
+    // scrollé jusqu'à "Diplômes" / "Tous les projets", plus bas sur la page.
+    function updateAnchoredFriseScope() {
+      if (!detail.classList.contains("anchored") || !radialFrise) return;
+      const headerH = parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--header-h")) || 64;
+      const inset = 20; // marge pour que la carte flotte, au lieu de coller aux bords de la frise
+      const friseRect = radialFrise.getBoundingClientRect();
+      const top = Math.max(headerH + inset, friseRect.top + inset);
+      const bottom = Math.min(window.innerHeight - inset, friseRect.bottom - inset);
+      const height = bottom - top;
+      detail.style.setProperty("--anchor-top", top + "px");
+      detail.style.setProperty("--anchor-height", Math.max(0, height) + "px");
+      detail.classList.toggle("out-of-view", height < 60);
+    }
+
+    window.addEventListener("scroll", () => {
+      if (detail.classList.contains("anchored")) updateAnchoredFriseScope();
+    }, { passive: true });
+
+    // La div ancrée à côté de la frise reste toujours présente (desktop) :
+    // fermer ne la fait pas disparaître, ça revient juste à l'état vide.
+    function initAnchoredDefault() {
+      if (window.innerWidth < ANCHOR_MIN_WIDTH) return;
+      detail.classList.remove("side-panel");
+      detail.classList.add("anchored", "visible", "empty");
+      positionAnchoredDetail();
     }
 
     function closeDetail() {
-      detail.classList.remove("visible");
-      document.querySelectorAll(".project-card").forEach(c => c.classList.remove("active"));
+      document.querySelectorAll(".radial-leaf").forEach(c => c.classList.remove("active"));
       document.getElementById("detailVideo").src = "about:blank";
+
+      if (detail.classList.contains("anchored")) {
+        // Panneau de la frise : on revient à l'état vide, il reste affiché.
+        detail.classList.add("empty");
+        positionAnchoredDetail();
+        document.body.style.overflow = "";
+        return;
+      }
+
+      detail.classList.remove("visible", "side-panel");
       document.getElementById("detailOverlay").classList.remove("open");
       document.body.style.overflow = "";
     }
@@ -1865,72 +2234,20 @@
     document.getElementById("detailClose").addEventListener("click", closeDetail);
     document.getElementById("detailOverlay").addEventListener("click", closeDetail);
 
+    // Agrandit le média affiché (image ou vidéo) dans un nouvel onglet.
+    document.getElementById("mediaExpand").addEventListener("click", () => {
+      const videoWrap = document.getElementById("videoWrap");
+      const detailImage = document.getElementById("detailImage");
+      if (videoWrap.classList.contains("active")) {
+        const src = document.getElementById("detailVideo").src;
+        if (src && src !== "about:blank") window.open(src, "_blank", "noopener");
+      } else if (detailImage.src) {
+        window.open(detailImage.src, "_blank", "noopener");
+      }
+    });
+
     document.addEventListener("keydown", e => {
-      if (e.key === "Escape" && detail.classList.contains("visible")) closeDetail();
-    });
-
-    function moveDetailArrow(card) {
-      const cardRect = card.getBoundingClientRect();
-      const detailRect = detail.getBoundingClientRect();
-      const cardCenter = cardRect.left + cardRect.width / 2;
-      const arrowX = cardCenter - detailRect.left;
-      const safeX = Math.max(28, Math.min(arrowX, detailRect.width - 28));
-      detail.style.setProperty("--arrow-left", safeX + "px");
-    }
-
-    function updateCurrentYear() {
-      const januaryOffset = monthWidth * 1;
-      const currentIndex = Math.floor((timeline.scrollLeft + januaryOffset) / (monthWidth * 12));
-      const visibleYear = Math.min(startYear + Math.max(0, currentIndex), endYear);
-      currentYearEl.textContent = visibleYear;
-
-      const timelineColors = Object.values((window.COLORS && window.COLORS.timeline) || {});
-      if (timelineColors.length) {
-        const yearColor = timelineColors[(visibleYear - startYear) % timelineColors.length];
-        currentYearEl.style.setProperty("--year-color", yearColor.value);
-        const rgb = hexToRgb(yearColor.value);
-        if (rgb) currentYearEl.style.setProperty("--year-color-rgb", rgb);
-      }
-
-      document.querySelectorAll("[data-year]").forEach(btn => {
-        btn.classList.toggle("active", parseInt(btn.dataset.year) === visibleYear);
-      });
-    }
-
-    // ── Year nav ────────────────────────────────────────────────
-    document.querySelectorAll("[data-year]").forEach(btn => {
-      btn.addEventListener("click", () => {
-        const year = parseInt(btn.dataset.year);
-        const targetScroll = (year - startYear) * 12 * monthWidth;
-        timeline.scrollTo({ left: targetScroll, behavior: "smooth" });
-      });
-    });
-
-    // ── Timeline scroll events ───────────────────────────────────
-    timeline.addEventListener("wheel", (event) => {
-      if (Math.abs(event.deltaY) > Math.abs(event.deltaX)) {
-        event.preventDefault();
-        timeline.scrollLeft += event.deltaY;
-      }
-    }, { passive: false });
-
-    let scrollTimer;
-    timeline.addEventListener("scroll", () => {
-      const activeCard = document.querySelector(".project-card.active");
-      updateCurrentYear();
-      detail.classList.add("no-arrow-transition");
-      if (activeCard) moveDetailArrow(activeCard);
-      clearTimeout(scrollTimer);
-      scrollTimer = setTimeout(() => {
-        detail.classList.remove("no-arrow-transition");
-        if (activeCard) moveDetailArrow(activeCard);
-      }, 120);
-    });
-
-    window.addEventListener("resize", () => {
-      const activeCard = document.querySelector(".project-card.active");
-      updateCurrentYear();
-      if (activeCard) moveDetailArrow(activeCard);
+      if (e.key === "Escape" && detail.classList.contains("visible") && !detail.classList.contains("empty")) closeDetail();
     });
 
     function initZoom() {
@@ -1969,15 +2286,7 @@
         const area = getRenderedArea();
         if (!area) return;
 
-        const rect    = img.getBoundingClientRect();
-        const lensW   = lens.offsetWidth;
-        const lensH   = lens.offsetHeight;
-        const resultW = result.offsetWidth;
-        const resultH = result.offsetHeight;
-
-        /* Position relative à la zone réelle de l'image */
-        let x = e.clientX - rect.left - area.x - lensW / 2;
-        let y = e.clientY - rect.top  - area.y - lensH / 2;
+        const rect = img.getBoundingClientRect();
 
         /* Masquer si hors de l'image (zone noire letterbox) */
         const curX = e.clientX - rect.left - area.x;
@@ -1986,8 +2295,20 @@
           hideZoom(); return;
         }
 
+        // display:block avant de lire offsetWidth/offsetHeight ci-dessous :
+        // un élément display:none renvoie toujours 0, ce qui fausserait tous
+        // les calculs de la toute première frame (lens/result mal dimensionnés).
         lens.style.display   = 'block';
         result.style.display = 'block';
+
+        const lensW   = lens.offsetWidth;
+        const lensH   = lens.offsetHeight;
+        const resultW = result.offsetWidth;
+        const resultH = result.offsetHeight;
+
+        /* Position relative à la zone réelle de l'image */
+        let x = e.clientX - rect.left - area.x - lensW / 2;
+        let y = e.clientY - rect.top  - area.y - lensH / 2;
 
         x = Math.max(0, Math.min(x, area.w - lensW));
         y = Math.max(0, Math.min(y, area.h - lensH));
@@ -2000,6 +2321,15 @@
         result.style.backgroundImage    = `url('${img.src}')`;
         result.style.backgroundSize     = `${area.w * cx}px ${area.h * cy}px`;
         result.style.backgroundPosition = `-${x * cx}px -${y * cy}px`;
+
+        // Coordonnées écran (position:fixed) : la loupe s'ouvre à gauche de
+        // l'image par défaut (la carte détail flotte à droite de l'écran),
+        // et bascule à droite si jamais il n'y a pas la place.
+        let resultLeft = rect.left - resultW - 12;
+        if (resultLeft < 16) resultLeft = Math.min(rect.right + 12, window.innerWidth - resultW - 16);
+        let resultTop = Math.min(rect.top, window.innerHeight - resultH - 16);
+        result.style.left = resultLeft + 'px';
+        result.style.top = Math.max(16, resultTop) + 'px';
       }
 
       img.addEventListener('mouseleave', hideZoom);
@@ -2206,20 +2536,30 @@
       });
     }
 
-    buildTimeline();
     initZoom();
 
-    // Lien profond : /pages/projet.html?p=nom-du-projet ouvre directement ce projet
-    const deepLinkSlug = new URLSearchParams(location.search).get("p");
-    const deepLinkCard = deepLinkSlug && document.querySelector(`.project-card[data-slug="${deepLinkSlug}"]`);
-    if (deepLinkCard) {
-      const project = projects.find(p => slugify(p.id || p.title) === deepLinkSlug);
-      timeline.scrollLeft = Math.max(0, getX(project.year, project.month) - startX);
-      selectProject(project, deepLinkCard);
-    } else {
-      timeline.scrollLeft = 0;
+    // Toutes les branches du mode par défaut sont dépliées, pour voir tous
+    // les projets dès le chargement de la page.
+    buildRadialFrise(currentBranches());
+
+    // Si la police custom charge après ce premier layout, les cases branche
+    // mesurées entre-temps (branchNodeRightX) sont fausses : on relayout une
+    // fois les polices prêtes pour que les courbes sortent bien de leur case.
+    if (document.fonts && document.fonts.ready) {
+      document.fonts.ready.then(() => layoutRadialFrise());
     }
-    updateCurrentYear();
+
+    // La div détail reste toujours présente à côté de la frise (desktop),
+    // vide tant qu'aucun projet n'est cliqué.
+    initAnchoredDefault();
+
+    // Lien profond : /pages/projet.html?p=nom-du-projet ouvre directement ce projet.
+    const deepLinkSlug = new URLSearchParams(location.search).get("p");
+    const deepLinkProject = deepLinkSlug && projects.find(p => slugify(p.id || p.title) === deepLinkSlug);
+    if (deepLinkProject) {
+      const leaf = document.querySelector(`.radial-leaf[data-slug="${deepLinkSlug}"]`);
+      if (leaf) selectProject(deepLinkProject, leaf);
+    }
   </script>
 
   <script>

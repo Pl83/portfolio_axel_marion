@@ -1,3 +1,15 @@
+// Abréviations de mois pour l'affichage des dates de projet (calculées à
+// partir de year/month, jamais stockées en dur — voir window.formatProjectDate).
+const MONTH_ABBR = ["JANV.", "FÉV.", "MARS", "AVR.", "MAI", "JUIN", "JUIL.", "AOÛT", "SEPT.", "OCT.", "NOV.", "DÉC."];
+window.formatProjectDate = function (year, month) {
+  return `${MONTH_ABBR[month]} ${year}`;
+};
+
+// Plage d'années affichée par la frise radiale (pages/projet.html) : une
+// branche par année, de start à end inclus. À modifier ici uniquement
+// quand de nouvelles années de projets s'ajoutent.
+window.FRISE_YEARS = { start: 2022, end: 2026 };
+
 // ── Projets du portfolio ──────────────────────────────────────
 // Chaque entrée du tableau est un projet. Modifier ce fichier met à jour
 // toutes les pages qui l'utilisent (accueil, pages/projet.html).
@@ -7,8 +19,8 @@
 //   type     : sous-titre affiché sous le titre (ex: "Jeux vidéo", "Illustrator")
 //   tag      : école/contexte affiché sur la carte (ex: "Gobelins", "IIM", "Personnel")
 //   color    : couleur de la carte — "blue", "orange" ou "pink"
-//   year, month, date : year/month servent à trier les projets (month: 0 = janvier ... 11 = décembre)
-//                        date est le texte affiché sur la carte (ex: "SEPT. 2022")
+//   year, month : servent à trier les projets ET à générer la date affichée sur la carte
+//                 (month: 0 = janvier ... 11 = décembre) via window.formatProjectDate(year, month)
 //   desc     : description courte, affichée sur la carte et en tête du panneau détail
 //   duration : durée du projet, affichée dans le détail (ex: "2 semaines")
 //   role     : liste des rôles tenus sur le projet
@@ -16,7 +28,7 @@
 //   link     : lien externe ("#" si aucun lien : masque le bouton "Voir le projet")
 //
 // Champs optionnels :
-//   id            : identifiant utilisé pour ouvrir le détail depuis l'accueil (openProject) et pour les projets mis en avant
+//   id            : identifiant utilisé pour les liens profonds (?p=id) et pour retrouver la bonne carte
 //   contributions : liste détaillée des contributions ; remplace "role" dans le panneau détail si présent
 //   learned       : liste de ce qui a été appris, affichée dans "Ce que j'ai appris" (pages/projet.html)
 //   team          : composition de l'équipe (ex: "Solo", "3 personnes", "Équipe")
@@ -34,25 +46,44 @@
 //     { src: "/realisation/gdd.docx", type: "doc", label: "GDD" }        ← document Word
 //     { src: "/realisation/balance.xlsx", type: "doc", label: "Balance" } ← document Excel
 
+// Trois learned/contributions revenant sur plusieurs projets Blocking/Prototype —
+// définis une fois pour garder un texte cohérent partout où ils apparaissent.
+const FEEL_FEEDBACK_TEST = [
+  "Améliorer le ressenti des actions",
+  "Créer des feedbacks lisibles",
+  "Tester rapidement une mécanique",
+];
+const COMBAT_PROTOTYPE_DESC = "Prototype orienté combat, feedback visuel et sensations de jeu.";
+
 window.PROJECTS = [
   {
+    id: "autoportrait",
     title: "Autoportrait",
     type: "Papier & Crayon",
     tag: "Gobelins", color: "blue",
-    year: 2022, month: 8, date: "SEPT. 2022",
+    year: 2022, month: 8,
     img: "/realisation/autoportart.jpg",
     desc: "Réalisation d'un autoportrait où je devais me représenter par ce que j'aime",
     duration: "1 semaine",
-    role: ["Dessinateur", "Concepteur de l'image", "Choix des éléments visuels"],
-    learned: ["Croquis", "dessin", "composition visuelle"],
+    role: [
+      "Dessinateur",
+      "Concepteur de l'image",
+      "Choix des éléments visuels",
+    ],
+    learned: [
+      "Croquis",
+      "dessin",
+      "composition visuelle",
+    ],
     tools: ["Crayon", "Papier"],
     link: "#"
   },
   {
+    id: "montre-vectorisee",
     title: "Montre vectorisée",
     type: "Illustrator",
     tag: "Gobelins", color: "blue",
-    year: 2022, month: 9, date: "OCT. 2022",
+    year: 2022, month: 9,
     img: "/realisation/montre/montre-realise.png",
     gallery: ["/realisation/montre/montre-realise.png", "/realisation/montre/montre-de-base.png"],
     desc: "Vectorisation d'une montre à partir d'une image de référence",
@@ -63,10 +94,11 @@ window.PROJECTS = [
     link: "#"
   },
   {
+    id: "vinyle",
     title: "Vinyle",
     type: "Illustrator & Photoshop",
     tag: "Gobelins", color: "blue",
-    year: 2022, month: 10, date: "NOV. 2022",
+    year: 2022, month: 10,
     img: "/realisation/vinyle/recto.png",
     gallery: ["/realisation/vinyle/recto.png", "/realisation/vinyle/macarron.png", "/realisation/vinyle/verso.png", "/realisation/vinyle/macarron-2.png"],
     desc: "Création d'un visuel de pochette de vinyle, avec recto et verso, avec les macarons, puis de l'imprimer pour un vrai vinyle",
@@ -77,10 +109,11 @@ window.PROJECTS = [
     link: "#"
   },
   {
+    id: "carte-de-visite",
     title: "Carte de visite",
     type: "InDesign",
     tag: "Gobelins", color: "blue",
-    year: 2023, month: 0, date: "JAV. 2023",
+    year: 2023, month: 0,
     img: "/realisation/cartedevisite/logo.png",
     gallery: ["/realisation/cartedevisite/logo.png", "/realisation/cartedevisite/texte.png"],
     desc: "Création d'une carte de visite avec notre identité visuelle.",
@@ -91,12 +124,13 @@ window.PROJECTS = [
     link: "#"
   },
   {
+    id: "revolte",
     title: "Revolte",
     type: "Jeu De Carte",
     platform: "Physique",
     engine: "Prototype papier",
     tag: "Gobelins", color: "blue",
-    year: 2023, month: 1, date: "FEV. 2023",
+    year: 2023, month: 1,
     team: "Solo",
     img: "/realisation/carte/dos.png",
     gallery: ["/realisation/carte/dos.png", "/realisation/carte/blanc/onjn.png", "/realisation/carte/blanc/revolution.png", "/realisation/carte/jeuechec.png"],
@@ -107,17 +141,22 @@ window.PROJECTS = [
       "Création des règles de jeu",
       "Conception des cartes et de leurs effets",
       "Direction graphique du jeu",
-      "Prototype interactif sur le portfolio"
+      "Prototype interactif sur le portfolio",
     ],
-    learned: ["Concevoir des niveaux immersifs et cohérents", "Travailler en équipe avec une bonne organisation", "Itérer grâce aux tests joueurs"],
+    learned: [
+      "Concevoir des niveaux immersifs et cohérents",
+      "Travailler en équipe avec une bonne organisation",
+      "Itérer grâce aux tests joueurs",
+    ],
     tools: ["InDesign", "Illustrator"],
     link: "#"
   },
   {
-    title: "Decoration",
-    type: "Decoupeuse laser",
+    id: "decoration",
+    title: "Décoration",
+    type: "Découpeuse laser",
     tag: "Personnel", color: "pink",
-    year: 2023, month: 4, date: "MAI 2023",
+    year: 2023, month: 4,
     img: "/realisation/decoration.png",
     desc: "Création d'une décoration en bois avec gravure à la découpeuse laser",
     duration: "1 semaine",
@@ -127,10 +166,11 @@ window.PROJECTS = [
     link: "#"
   },
   {
+    id: "around-the-rock",
     title: "Around The Rock",
-    type: "création d'identité visuelle",
+    type: "Création d'identité visuelle",
     tag: "Gobelins", color: "blue",
-    year: 2023, month: 5, date: "JUIN 2023",
+    year: 2023, month: 5,
     img: "/realisation/festival/mindmapping.png",
     gallery: [
       "/realisation/festival/mindmapping.png",
@@ -149,12 +189,13 @@ window.PROJECTS = [
     link: "#"
   },
   {
+    id: "after-the-revolte",
     title: "After the Révolte",
     type: "Prototype",
     platform: "PandaSuite",
     engine: "PandaSuite",
     tag: "Gobelins", color: "blue",
-    year: 2024, month: 1, date: "MARS 2024",
+    year: 2024, month: 1,
     team: "Solo",
     img: "/realisation/afterrevolt/moyen.png",
     desc: "Prototype narratif inspiré de Reigns, où le joueur avance par décisions successives et conséquences immédiates.",
@@ -164,20 +205,21 @@ window.PROJECTS = [
       "Structure de l'expérience interactive",
       "Création du système de décisions",
       "Écriture des situations",
-      "Intégration sur PandaSuite"
+      "Intégration sur PandaSuite",
     ],
     learned: ["Narration interactive", "UX", "Prototypage"],
     tools: ["PandaSuite"],
     link: "#"
   },
   {
+    id: "whellcome-to-hell",
     title: "Whellcome To Hell",
     type: "Vidéo IA",
     tag: "Gobelins", color: "blue",
-    year: 2024, month: 2, date: "MARS. 2024",
+    year: 2024, month: 2,
     img: "/realisation/whellcome.png",
     video: "https://www.youtube.com/embed/mYO2WOaA8CU?si=jT7o28wQXJ149gHN",
-    desc: "Vidéo humoristique sous forme d'une vidéo de presentation d'enterprise firctive, avec des images générées par l'IA",
+    desc: "Vidéo humoristique sous forme d'une vidéo de présentation d'entreprise fictive, avec des images générées par l'IA",
     duration: "1 Semaine",
     role: ["Monteur", "Concepteur de l'image", "Choix des éléments visuels"],
     learned: ["Utiliser les outils d'IA pour créer du contenu visuel", "Storybord", "Montage vidéo"],
@@ -185,13 +227,14 @@ window.PROJECTS = [
     link: "#"
   },
   {
+    id: "animation-3d",
     title: "Animation 3D",
     type: "Vidéo",
     tag: "Gobelins", color: "blue",
-    year: 2024, month: 3, date: "AVR. 2024",
+    year: 2024, month: 3,
     img: "/realisation/Pokeball.png",
     video: "https://www.youtube.com/embed/sAeUvNG19OA?si=KS0gEqwmWWne0eha",
-    desc: "Animation 3D d'une pokeball et s'un combat de pokemon",
+    desc: "Animation 3D d'une pokeball et d'un combat de pokemon",
     duration: "1 Semaine",
     role: ["Animateur 3D", "Modélisateur", "Monteur"],
     learned: ["Blender", "Animation 3D"],
@@ -204,12 +247,12 @@ window.PROJECTS = [
     type: "Jeux vidéo VR",
     platform: "VR / PC",
     tag: "Gobelins", color: "blue",
-    year: 2024, month: 5, date: "JUIN. 2024",
+    year: 2024, month: 5,
     team: "3 personnes",
     engine: "Unity",
     img: "/realisation/floatland/floatland.png",
     video: "https://www.youtube.com/watch?v=p1svvKTsktk",
-    desc: "Jeux de relaxation en VR, où le joueur va sur une ile flottante avec une identitév visuelle propre avec un mini jeu dessus",
+    desc: "Jeu de relaxation en VR, où le joueur va sur une île flottante avec une identité visuelle propre avec un mini jeu dessus",
     duration: "Projet fin d'année",
     role: ["Game Designer", "Level Designer", "Développeur"],
     contributions: ["Conception du level design", "Mécaniques de gameplay", "Développement Unity"],
@@ -223,11 +266,11 @@ window.PROJECTS = [
     type: "Site Three.js",
     platform: "Web",
     tag: "Gobelins", color: "blue",
-    year: 2024, month: 9, date: "OCT. 2024",
+    year: 2024, month: 9,
     team: "Solo",
     engine: "Three.js",
     img: "/realisation/infinitydot.png",
-    desc: "Representé la fin de toute chose",
+    desc: "Représenter la fin de toute chose",
     duration: "1 semaine",
     role: ["Développeur", "Designer"],
     contributions: ["Création de la scène Three.js", "Animation des particules", "Design et intégration"],
@@ -241,38 +284,40 @@ window.PROJECTS = [
     type: "Site Vue.js",
     platform: "Web",
     tag: "Gobelins", color: "blue",
-    year: 2024, month: 10, date: "NOV. 2024",
+    year: 2024, month: 10,
     team: "Solo",
     engine: "Vue.js",
     img: "/realisation/dotmusic.png",
-    desc: "Representé l'effet du son sur les particules",
+    desc: "Représenter l'effet du son sur les particules",
     duration: "1 semaine",
     role: ["Développeur", "Designer"],
     contributions: ["Visualisation audio réactive", "Lien entre son et animation", "Interface interactive"],
-    learned: ["Améliorer un ancien concept", "Rendre une DA plus cohérente",],
+    learned: ["Améliorer un ancien concept", "Rendre une DA plus cohérente"],
     tools: ["Vue.js"],
     link: "/pages/dotmusic.html"
   },
   {
+    id: "mac-s-story",
     title: "Mac's Story",
     type: "Vidéo",
     tag: "Gobelins", color: "blue",
-    year: 2024, month: 11, date: "DEC. 2024",
+    year: 2024, month: 11,
     img: "/realisation/macstory.png",
     gallery: ["/realisation/macstory.png", "/realisation/macstory1.png"],
     video: "https://www.youtube.com/embed/jl-DCLoXv2w?si=Si-nQJpyGj4MTeXj",
-    desc: "Vidéo de deux ordinateurs qui discutent sans interation directe",
+    desc: "Vidéo de deux ordinateurs qui discutent sans interaction directe",
     duration: "2 semaines",
     role: ["Monteur", "Animation", "Doublage", "Conception de l'image"],
-    learned: ["Améliorer le ressenti des actions", "Créer des feedbacks lisibles", "Tester rapidement une mécanique"],
+    learned: FEEL_FEEDBACK_TEST,
     tools: ["Chataigne", "After Effects", "Photoshop"],
     link: "#"
   },
   {
+    id: "memoir-level-design",
     title: "Memoir Level Design",
-    type: "Memoir",
+    type: "Mémoire",
     tag: "Gobelins", color: "blue",
-    year: 2025, month: 1, date: "JAV. 2025",
+    year: 2025, month: 1,
     img: "/realisation/memoir/abstract.png",
     desc: "Comment le joueur est guidé par le Level Design dans un jeu vidéo, plus particulièrement dans les jeux à la première personne ?",
     duration: "6 Mois",
@@ -282,12 +327,13 @@ window.PROJECTS = [
     link: "/realisation/memoir/memoir-level-design.pdf"
   },
   {
+    id: "fragment",
     title: "Fragment",
     type: "Jeux vidéo",
     platform: "PC",
     engine: "Unity",
     tag: "Gobelins", color: "blue",
-    year: 2025, month: 5, date: "JUIN 2025",
+    year: 2025, month: 5,
     team: "Solo",
     img: "/realisation/fragment/fragment.png",
     desc: "Exprimer des émotions par l'environnement et guider le joueur sans interface directe.",
@@ -296,39 +342,41 @@ window.PROJECTS = [
     contributions: [
       "Création d'un gameplay expressif",
       "Expression des émotions par l'ambiance",
-      "Réflexion sur le guidage joueur"
+      "Réflexion sur le guidage joueur",
     ],
-    learned: ["Améliorer le ressenti des actions", "Créer des feedbacks lisibles", "Tester rapidement une mécanique"],
+    learned: FEEL_FEEDBACK_TEST,
     tools: ["Unity", "Blender"],
     link: "#"
   },
   {
+    id: "game-designer-so-briquet",
     title: "Game Designer - So'Briquet",
     type: "Jeux vidéo",
     platform: "PC",
     engine: "Unity",
     tag: "IIM", color: "orange",
-    year: 2025, month: 8, date: "SEPT. 2025",
+    year: 2025, month: 8,
     team: "Solo",
     img: "/realisation/sobriquet/sobriquet.png",
-    desc: "Jeux de dexterité où le joueur doit faire brulé des lianes et de faire attention a toujours avoir du feu",
+    desc: "Jeu de dextérité où le joueur doit faire brûler des lianes et faire attention à toujours avoir du feu",
     duration: "1 Mois",
     role: ["Game Design"],
-    contributions: [ "Conception du gameplay", "equilibrage", "tests"],
-    learned: ["Améliorer le ressenti des actions", "Créer des feedbacks lisibles", "Tester rapidement une mécanique"],
+    contributions: ["Conception du gameplay", "équilibrage", "tests"],
+    learned: FEEL_FEEDBACK_TEST,
     tools: ["Unity", "Blender"],
     link: "https://anatole13.itch.io/team-10-sobriquet#"
   },
   {
+    id: "level-design-portal-2",
     title: "Level Design Portal 2",
     type: "Blocking",
     platform: "PC",
     engine: "Hammer Editor",
     tag: "IIM", color: "orange",
-    year: 2025, month: 9, date: "OCT. 2025",
+    year: 2025, month: 9,
     team: "Solo",
     thumb: "/realisation/portal/Portal2Logo.png",
-    desc: "Création d'un niveau Portal 2, axé sur une mecanique pour faire des puzzles.",
+    desc: "Création d'un niveau Portal 2, axé sur une mécanique pour faire des puzzles.",
     duration: "1 Semaine",
     role: ["Level Design", "Blocking", "Puzzle Design"],
     contributions: [
@@ -336,15 +384,16 @@ window.PROJECTS = [
       "Blocking et itérations",
       "Étude des signes visuels de Portal 2",
     ],
-    learned: ["Améliorer le ressenti des actions", "Créer des feedbacks lisibles", "Tester rapidement une mécanique"],
-    tools: ["Portal 2 Editeur"],
+    learned: FEEL_FEEDBACK_TEST,
+    tools: ["Portal 2 Éditeur"],
     link: "#"
   },
   {
+    id: "modvember",
     title: "Modvember",
     type: "Jeux vidéo",
     tag: "Personnel", color: "pink",
-    year: 2025, month: 10, date: "NOV. 2025",
+    year: 2025, month: 10,
     thumb: "/realisation/Trackmania.avif",
     videos: [
       "https://www.youtube.com/watch?v=0dp348jROX4",
@@ -352,20 +401,21 @@ window.PROJECTS = [
       "https://www.youtube.com/watch?v=kJqhrHaqJn8",
       "https://www.youtube.com/watch?v=VpzC4WX6iJA",
     ],
-    desc: "Map trackmania sur différent type de course trackmania",
+    desc: "Map trackmania sur différents types de course trackmania",
     duration: "1 Mois",
     role: ["Level Design"],
     learned: ["Level design de course"],
-    tools: ["Trackmania Editeur"],
+    tools: ["Trackmania Éditeur"],
     link: "#"
   },
   {
+    id: "level-design-far-cry-5",
     title: "Level Design Far Cry 5",
     type: "Blocking",
     platform: "PC",
     engine: "Far Cry Arcade",
     tag: "IIM", color: "orange",
-    year: 2025, month: 11, date: "DEC. 2025",
+    year: 2025, month: 11,
     team: "Solo",
     thumb: "/realisation/farcry/FC5Logo.png",
     video: "https://www.youtube.com/watch?v=O8hXSBKPLLQ",
@@ -374,7 +424,7 @@ window.PROJECTS = [
     role: ["Level Design", "Blocking"],
     contributions: [ "Level design"],
     learned: ["Level design de FPS", "Blocking"],
-    tools: ["Far Cry 5 editeur"],
+    tools: ["Far Cry 5 Éditeur"],
     link: "/realisation/farcry/niveaufarcry.pdf"
   },
   {
@@ -383,7 +433,7 @@ window.PROJECTS = [
     type: "Jeux vidéo",
     platform: "Mobile",
     tag: "IIM", color: "orange",
-    year: 2026, month: 1, date: "FEV. 2026",
+    year: 2026, month: 1,
     team: "Équipe",
     engine: "Unity",
     thumb: "/realisation/longnigth/longnigth.png",
@@ -392,34 +442,45 @@ window.PROJECTS = [
       "/realisation/longnigth/ingame.jpg",
       { src: "https://docs.google.com/document/d/1fDn_6eyT4rtfno3CSW_KH2T5ynaEfMe871f1WIkwWqE/edit?usp=sharing", type: "doc", label: "GDD" },
     ],
-    desc: "Jeu de reflexion sur mobile, où le joueur doit deffendre son manoir contre des vagues d'ennemis",
+    desc: "Jeu de réflexion sur mobile, où le joueur doit défendre son manoir contre des vagues d'ennemis",
     duration: "1 Mois",
     role: ["Lead Game Designer"],
-    contributions: ["Direction du game design", "Conception des mécaniques", "Itération et tests"],
-    learned: ["Direction du game design","Conception des mécaniques de puzzle","Itérations et tests joueurs" ,"Documentation de game design"],
-    tools: ["Unity", "Google Docs","Figma"],
+    contributions: [
+      "Direction du game design",
+      "Conception des mécaniques",
+      "Itération et tests",
+    ],
+    learned: [
+      "Direction du game design",
+      "Conception des mécaniques de puzzle",
+      "Itérations et tests joueurs",
+      "Documentation de game design",
+    ],
+    tools: ["Unity", "Google Docs", "Figma"],
     link: "https://play.google.com/store/apps/details?id=com.IIMaxeJV.LongNightAtGrandmas&hl=fr"
   },
   {
+    id: "golf-unreal-engine",
     title: "Golf Unreal Engine",
     type: "Jeux vidéo",
     tag: "IIM", color: "orange",
-    year: 2026, month: 3, date: "AVR. 2026",
+    year: 2026, month: 3,
     thumb: "/realisation/UE5logo.jpg",
-    desc: "Prototype orienté combat, feedback visuel et sensations de jeu.",
+    desc: COMBAT_PROTOTYPE_DESC,
     duration: "1 Mois",
     role: ["Level Design", "Mécanique de jeu", "Tests de sensations", "Blueprint"],
-    learned: ["Améliorer le ressenti des actions", "Créer des feedbacks lisibles", "Tester rapidement une mécanique"],
+    learned: FEEL_FEEDBACK_TEST,
     tools: ["Unreal Engine"],
     link: "#"
   },
   {
+    id: "level-design-plague-tale",
     title: "Level Design Plague Tale",
     type: "Blocking",
     platform: "PC",
     engine: "Unreal Engine",
     tag: "IIM", color: "orange",
-    year: 2026, month: 4, date: "MAI 2026",
+    year: 2026, month: 4,
     team: "Solo",
     thumb: "/realisation/plaguetalelogo.png",
     video: "https://www.youtube.com/watch?v=7jLs_lC8rA4",
@@ -430,52 +491,56 @@ window.PROJECTS = [
       "Analyse du level design de référence",
       "Blocking fidèle à la scène originale",
       "Étude de la narration environnementale",
-      "Rapport d'analyse"
+      "Rapport d'analyse",
     ],
-    learned: ["Améliorer le ressenti des actions", "Créer des feedbacks lisibles", "Tester rapidement une mécanique"],
+    learned: FEEL_FEEDBACK_TEST,
     tools: ["Unreal Engine"],
     link: "#"
   },
   {
+    id: "zeropaws",
     title: "ZeroPaws",
     type: "Jeux vidéo",
     tag: "IIM", color: "orange",
-    year: 2026, month: 5, date: "JUIN 2026",
+    year: 2026, month: 5,
     thumb: "/realisation/zeropaws/zeropawslogo.png",
     video: "https://www.youtube.com/watch?v=1cxjRNqCTfA",
-    desc: "Prototype orienté combat, feedback visuel et sensations de jeu.",
+    desc: COMBAT_PROTOTYPE_DESC,
     duration: "1 Mois",
     role: ["Feedback visuel", "Tests de sensations", "Level Design", "Blueprint", "technic art"],
-    learned: ["Améliorer le ressenti des actions", "Créer des feedbacks lisibles", "Tester rapidement une mécanique"],
+    learned: FEEL_FEEDBACK_TEST,
     tools: ["Unreal Engine"],
     link: "https://blueprint-trifi.itch.io/zero-paws"
   },
   {
+    id: "t-y-l-try-your-luck",
     title: "T.Y.L. Try Your Luck",
     type: "Jeux vidéo",
     tag: "IIM", color: "orange",
-    year: 2026, month: 8, date: "SEPT. 2026",
+    year: 2026, month: 8,
     thumb: "/realisation/TYL/TYLLogo.png",
-    desc: "Prototype orienté combat, feedback visuel et sensations de jeu.",
+    desc: COMBAT_PROTOTYPE_DESC,
     duration: "1 Semaine",
     role: ["Game Design"],
-    learned: ["Travail d'equipe"],
+    learned: ["Travail d'équipe"],
     tools: ["Unreal Engine"],
     link: "https://arcdragons.itch.io/13event-tyl"
   },
 ];
 
-// ── Frise diplômes / alternance (page d'accueil) ─────────────
+// ── Frise diplômes / alternance (pages/projet.html) ──────────
 // Chaque entrée est une étape affichée sur la frise chronologique.
 //   title    : titre court affiché en avant (ex: "DIPLÔME OBTENU")
 //   subtitle : détail sous le titre, peut contenir "<br>" pour aller à la ligne
 //   date     : texte affiché en dessous (ex: nom du diplôme, intitulé du poste...)
 //   year, month : servent à trier/positionner l'étape sur la frise (month: 0 = janvier ... 11 = décembre)
+const START_OF_STUDIES = "Début de formation";
+
 window.DIPLOMAS = [
   {
-    title: "Debut de formation",
-    subtitle: "Coder sa créativité <br> DNMADe Mention Numerique",
-    date: "Debut de formation",
+    title: START_OF_STUDIES,
+    subtitle: "Coder sa créativité <br> DN MADe Mention Numérique",
+    date: START_OF_STUDIES,
     year: 2022, month: 8
   },
   {
@@ -487,13 +552,13 @@ window.DIPLOMAS = [
   {
     title: "DIPLÔME OBTENU",
     subtitle: "Coder sa créativité",
-    date: "DNMADe Mention Numerique",
+    date: "DN MADe Mention Numérique",
     year: 2025, month: 5
   },
   {
-    title: "Debut de formation",
+    title: START_OF_STUDIES,
     subtitle: "Game Design & Level Design <br> Bachelor IIM",
-    date: "Debut de formation",
+    date: START_OF_STUDIES,
     year: 2025, month: 8
   },
 ];
@@ -504,7 +569,11 @@ window.DIPLOMAS = [
 //   basics.profiles : liens externes affichés en chips/cartes (LinkedIn, Itch.io, book InDesign...)
 //   work, education  : listes affichées en frise, dans l'ordre où elles sont écrites ici
 //     dates au format "AAAA-MM-JJ" (ou "AAAA-MM" si le jour n'est pas connu)
-//     highlights : liste de points affichés sous chaque expérience
+//     highlights (work) / courses (education) : champs JSON Resume standard, non
+//       affichés sur le site (gardés pour référence/export)
+//     hardSkills, softSkills, accomplishments : extensions hors schéma JSON Resume —
+//       affichées dans le menu déroulant de chaque expérience/formation (pages/a-propos.html).
+//       Une entrée sans aucun de ces 3 champs rempli n'affiche pas de menu déroulant.
 //   skills, languages, interests : affichés sous forme de tags dans la colonne de gauche
 window.RESUME = {
   basics: {
@@ -544,7 +613,10 @@ window.RESUME = {
       startDate: "2026-10",
       endDate: "2026-12",
       summary: "",
-      highlights: ["Level Design", "Game Design", "Equilibrage", "Documentation"]
+      highlights: ["Level Design", "Game Design", "Equilibrage", "Documentation"],
+      hardSkills: ["Level Design", "Game Design", "Équilibrage", "Documentation"],
+      softSkills: [],
+      accomplishments: []
     },
     {
       name: "ZeroPaws",
@@ -554,7 +626,10 @@ window.RESUME = {
       startDate: "2026-05",
       endDate: "2026-06",
       summary: "",
-      highlights: ["Travail en équipe", "Documentation", "Level Design", "Game Design","Unreal Engine","technic art"]
+      highlights: ["Travail en équipe", "Documentation", "Level Design", "Game Design","Unreal Engine","technic art"],
+      hardSkills: ["Documentation", "Level Design", "Game Design", "Unreal Engine", "Technical Art"],
+      softSkills: ["Travail en équipe"],
+      accomplishments: []
     },
     {
       name: "Collectif Scale",
@@ -564,7 +639,14 @@ window.RESUME = {
       startDate: "2023-11",
       endDate: "2025-07",
       summary: "",
-      highlights: ["Création d'œuvres", "Entretien des œuvres", "Montage des œuvres"]
+      highlights: ["Création d'œuvres", "Entretien des œuvres", "Montage des œuvres"],
+      hardSkills: [],
+      softSkills: [],
+      accomplishments: [
+        "Création d'œuvres",
+        "Entretien des œuvres",
+        "Montage des œuvres",
+      ]
     },
   ],
   education: [
@@ -576,8 +658,15 @@ window.RESUME = {
       startDate: "2025-09",
       endDate: "2027-07",
       score: "",
-      courses: ["unity", "unreal engine", "mantis", "documentation", "travail d'équipe", "game feel", "escape game", 
-                "blocking", "narrative design", "mission design", "gameplay", "game jam", "prototypage rapide","mise en scene","Schematisation design" ]
+      courses: ["unity", "unreal engine", "mantis", "documentation", "travail d'équipe", "game feel", "escape game",
+                "blocking", "narrative design", "mission design", "gameplay", "game jam", "prototypage rapide","mise en scène","schématisation design" ],
+      hardSkills: ["Unity", "Unreal Engine", "Mantis", "Documentation",
+                   "Game feel", "Escape game", "Blocking",
+                   "Narrative design", "Mission design",
+                   "Gameplay", "Game jam", "Prototypage rapide",
+                   "Mise en scène", "Schématisation design"],
+      softSkills: ["Travail d'équipe"],
+      accomplishments: []
     },
     {
       institution: "Gobelins Paris",
@@ -587,15 +676,18 @@ window.RESUME = {
       startDate: "2022-09",
       endDate: "2025-07",
       score: "",
-      courses: []
+      courses: [],
+      hardSkills: [],
+      softSkills: [],
+      accomplishments: []
     },
   ],
   skills: [
-    { name: "Compétences", level: "", keywords: ["Créative", "Canva", "Unreal Engine", "Unity", "Blender","HTML 5", "CSS", "JavaScript", "Three.js"] },
+    { name: "Compétences", level: "", keywords: ["Créative", "Canva", "Unreal Engine", "Unity", "Blender", "HTML 5", "CSS", "JavaScript", "Three.js"] },
   ],
   languages: [
     { language: "Français (natif)", fluency: "Langue maternelle" },
-    { language: "Anglais (B2) ", fluency: "" }
+    { language: "Anglais (B2)", fluency: "" }
   ],
   interests: [
     { name: "Qualités personnelles", keywords: ["Calme", "Travail d'équipe", "Sérieux"] }
