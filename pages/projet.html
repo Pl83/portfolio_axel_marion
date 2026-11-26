@@ -90,6 +90,11 @@
       min-height: 100vh;
       padding: 40px 42px 54px;
       border-top: 1px solid var(--border);
+      /* display:flex uniquement pour permettre l'inversion d'ordre de
+         .diplomas-section / .all-projects-section sous 768px (voir plus
+         bas) — l'ordre par défaut (desktop) reste celui du DOM. */
+      display: flex;
+      flex-direction: column;
     }
 
     /* ─── Section header extras ─── */
@@ -222,19 +227,23 @@
       width: 110px;
     }
 
+    /* Disque plat + bordure néon : même langage visuel que .radial-year-node
+       (fond plat, bordure colorée, glow externe) plutôt que l'ancien rendu
+       "bille en verre 3D" qui tranchait avec le reste de la frise. */
     .radial-sphere {
       width: 92px;
       height: 92px;
       margin: 0 auto;
       border-radius: 50%;
-      background: radial-gradient(circle at 35% 30%, var(--accent2), var(--accent) 55%, #050505 100%);
-      box-shadow: 0 0 10px 2px rgba(var(--accent-rgb),.6), 0 0 50px 14px rgba(var(--accent-rgb),.3), inset 0 0 22px rgba(0,0,0,.45);
+      background: radial-gradient(circle at 50% 50%, rgba(var(--accent-rgb),.16), var(--bg2) 70%);
+      border: 2px solid var(--accent);
+      box-shadow: 0 0 0 1px rgba(var(--accent-rgb),.3), 0 0 30px rgba(var(--accent-rgb),.45);
       animation: radial-sphere-pulse 5s ease-in-out infinite;
     }
 
     @keyframes radial-sphere-pulse {
-      0%, 100% { box-shadow: 0 0 10px 2px rgba(var(--accent-rgb),.6), 0 0 50px 14px rgba(var(--accent-rgb),.3), inset 0 0 22px rgba(0,0,0,.45); }
-      50% { box-shadow: 0 0 14px 4px rgba(var(--accent-rgb),.75), 0 0 64px 20px rgba(var(--accent-rgb),.42), inset 0 0 22px rgba(0,0,0,.45); }
+      0%, 100% { box-shadow: 0 0 0 1px rgba(var(--accent-rgb),.3), 0 0 30px rgba(var(--accent-rgb),.45); }
+      50% { box-shadow: 0 0 0 1px rgba(var(--accent-rgb),.42), 0 0 42px rgba(var(--accent-rgb),.6); }
     }
 
     .radial-center-name {
@@ -1121,12 +1130,27 @@
       .detail-body { grid-template-columns: 1fr; }
     }
 
+    /* "Tous les projets" fait double emploi avec la frise radiale en
+       desktop (même projets, juste groupés par école) : masqué par défaut,
+       réaffiché uniquement sur mobile (voir media query 768px) où la frise
+       est elle-même masquée et où cette section devient la façon
+       principale de parcourir les projets. */
+    .all-projects-section { display: none; }
+
     /* ─── 768px : la frise radiale est retirée sur mobile (trop de branches
        pour un petit écran), seul "Tous les projets" reste affiché. ─── */
     @media (max-width: 768px) {
       .frise-header,
       .radial-frise {
         display: none;
+      }
+
+      /* Sans la frise, "Tous les projets" devient la façon principale de
+         parcourir les projets sur mobile : on le remonte au-dessus de
+         "Diplômes" (l'ordre dans le DOM, utilisé en desktop, ne change pas). */
+      .all-projects-section {
+        display: block;
+        order: -1;
       }
 
       /* Espace en haut (pour dégager le bouton fermer) et en bas (pour ne pas
@@ -1216,7 +1240,6 @@
     <a href="/pages/projet.html">Projets</a>
     <a href="/pages/memoir.html">Mémoire</a>
     <a href="/pages/a-propos.html">À propos</a>
-    <a href="/realisation/cvaxelmarion.pdf" target="_blank" style="color:var(--accent2)">CV ↓</a>
   </div>
   <div class="drawer-overlay" id="drawerOverlay"></div>
 
@@ -1254,15 +1277,19 @@
       </div>
     </div>
 
-    <div class="section-header" style="margin-top:64px;">
-      <div class="section-label"><span class="dot"></span>Diplômes</div>
+    <div class="diplomas-section">
+      <div class="section-header" style="margin-top:64px;">
+        <div class="section-label"><span class="dot"></span>Diplômes</div>
+      </div>
+      <div class="diplomas-grid" id="diplomasGrid"></div>
     </div>
-    <div class="diplomas-grid" id="diplomasGrid"></div>
 
-    <div class="section-header" style="margin-top:64px;">
-      <div class="section-label"><span class="dot"></span>Tous les projets</div>
+    <div class="all-projects-section">
+      <div class="section-header" style="margin-top:64px;">
+        <div class="section-label"><span class="dot"></span>Tous les projets</div>
+      </div>
+      <div class="featured-groups" id="allProjectsGrid"></div>
     </div>
-    <div class="featured-groups" id="allProjectsGrid"></div>
   </main>
 
   <!-- En dehors de <main> : main.page a son propre stacking context
@@ -1962,6 +1989,14 @@
       "wheel",
       (e) => {
         if (radialLeavesEl.contains(e.target)) return;
+        // Ne capture que s'il reste effectivement de la place à faire
+        // défiler dans ce sens — sinon on laisse le scroll par défaut
+        // continuer vers la section suivante de la page, au lieu de
+        // bloquer la molette indéfiniment sur la frise.
+        const max = radialLeavesEl.scrollHeight - radialLeavesEl.clientHeight;
+        const atTop = radialLeavesEl.scrollTop <= 0;
+        const atBottom = radialLeavesEl.scrollTop >= max - 1;
+        if ((e.deltaY < 0 && atTop) || (e.deltaY > 0 && atBottom)) return;
         e.preventDefault();
         radialLeavesEl.scrollTop += e.deltaY;
       },
@@ -2025,27 +2060,48 @@
       }
     });
 
-    // Regroupement de tous les projets par école (Gobelins / IIM / Personnel),
-    // affiché sous la frise — même gabarit de carte que la page d'accueil.
+    // Regroupement de tous les projets, affiché sous la frise — même gabarit
+    // de carte que la page d'accueil. Par école (Gobelins / IIM / Personnel)
+    // en desktop, comme la frise radiale par défaut ; par année sur mobile
+    // (≤768px, voir CSS) où la frise elle-même est masquée et où "Tous les
+    // projets" devient la façon principale de parcourir les projets — sans
+    // le toggle École/Année (lui aussi masqué sous 768px), l'année est le
+    // classement le plus utile sans lui.
     function buildAllProjectsGrid() {
       const container = document.getElementById("allProjectsGrid");
       if (!container) return;
 
-      const byTag = {};
-      projects.forEach((p) => {
-        const key = p.tag || "Autre";
-        (byTag[key] = byTag[key] || []).push(p);
-      });
-
-      const tagOrder = ["Gobelins", "IIM", "Personnel"];
-      const tags = tagOrder.filter(t => byTag[t]).concat(Object.keys(byTag).filter(t => !tagOrder.includes(t)));
+      const isMobile = window.innerWidth <= 768;
+      let groups;
+      if (isMobile) {
+        groups = RADIAL_YEARS
+          .map((year) => ({
+            key: String(year),
+            items: projects.filter((p) => p.year === year).sort((a, b) => a.month - b.month),
+          }))
+          .filter((g) => g.items.length)
+          .map((g) => {
+            const color = yearColor(Number(g.key)) || "var(--accent)";
+            return { ...g, colorVar: color, colorRgbVar: hexToRgb(color) || "var(--accent-rgb)" };
+          });
+      } else {
+        const byTag = {};
+        projects.forEach((p) => {
+          const key = p.tag || "Autre";
+          (byTag[key] = byTag[key] || []).push(p);
+        });
+        const tagOrder = ["Gobelins", "IIM", "Personnel"];
+        const tags = tagOrder.filter(t => byTag[t]).concat(Object.keys(byTag).filter(t => !tagOrder.includes(t)));
+        groups = tags.map((tag) => ({
+          key: tag,
+          items: byTag[tag],
+          colorVar: `var(--${byTag[tag][0].color})`,
+          colorRgbVar: `var(--${byTag[tag][0].color}-rgb)`,
+        }));
+      }
 
       container.innerHTML = "";
-      tags.forEach((tag) => {
-        const items = byTag[tag];
-        const groupColorVar = `var(--${items[0].color})`;
-        const groupColorRgbVar = `var(--${items[0].color}-rgb)`;
-
+      groups.forEach(({ key, items, colorVar: groupColorVar, colorRgbVar: groupColorRgbVar }) => {
         const group = document.createElement("div");
         group.className = "featured-group featured-group-collapsible";
         group.style.setProperty("--group-color", groupColorVar);
@@ -2057,8 +2113,23 @@
         label.setAttribute("tabindex", "0");
         label.style.setProperty("--group-color", groupColorVar);
         label.style.setProperty("--group-color-rgb", groupColorRgbVar);
-        label.innerHTML = `<span class="dot"></span>${tag}<span class="featured-group-count">${items.length}</span><span class="featured-group-chevron">▾</span>`;
-        const toggleGroup = () => group.classList.toggle("open");
+        label.innerHTML = `<span class="dot"></span>${key}<span class="featured-group-count">${items.length}</span><span class="featured-group-chevron">▾</span>`;
+        const toggleGroup = () => {
+          const willOpen = !group.classList.contains("open");
+          group.classList.toggle("open", willOpen);
+          // Le panneau s'ouvre vers le bas : sans ça, l'utilisateur resterait
+          // scrollé sur l'en-tête (potentiellement tout en bas de l'écran)
+          // sans voir les projets qui viennent d'apparaître en dessous.
+          // scrollIntoView seul cale le haut de l'en-tête pile sur le haut de
+          // l'écran, donc sous le header fixe du site (--header-h) qui le
+          // recouvre : on calcule la cible nous-mêmes pour laisser un peu
+          // d'air sous ce header et garder l'intitulé bien visible.
+          if (willOpen) {
+            const headerH = parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--header-h")) || 64;
+            const targetY = label.getBoundingClientRect().top + window.scrollY - headerH - 16;
+            window.scrollTo({ top: targetY, behavior: "smooth" });
+          }
+        };
         label.addEventListener("click", toggleGroup);
         label.addEventListener("keydown", (e) => {
           if (e.key === "Enter" || e.key === " ") {
@@ -2074,6 +2145,10 @@
         items.forEach((p) => {
           const card = document.createElement("div");
           card.className = "card-project";
+          // Même schéma de slug que .radial-leaf : permet au lien profond
+          // (?p=...) de retrouver cette carte quand la frise radiale est
+          // masquée (mobile, voir plus bas).
+          card.dataset.slug = slugify(p.id || p.title);
           card.style.setProperty("--card-color", `var(--${p.color})`);
           card.style.setProperty("--card-color-rgb", `var(--${p.color}-rgb)`);
           const imgSrc = p.thumb || p.img;
@@ -2558,7 +2633,19 @@
     const deepLinkProject = deepLinkSlug && projects.find(p => slugify(p.id || p.title) === deepLinkSlug);
     if (deepLinkProject) {
       const leaf = document.querySelector(`.radial-leaf[data-slug="${deepLinkSlug}"]`);
-      if (leaf) selectProject(deepLinkProject, leaf);
+      if (leaf) {
+        selectProject(deepLinkProject, leaf);
+      } else {
+        // La frise radiale n'a pas construit ses cartes (masquée en CSS sous
+        // 768px : son conteneur a une largeur de 0, layoutRadialFrise()
+        // s'arrête avant de créer les .radial-leaf) — on retombe sur la
+        // carte équivalente de "Tous les projets", toujours présente.
+        const card = document.querySelector(`.card-project[data-slug="${deepLinkSlug}"]`);
+        if (card) {
+          card.closest(".featured-group")?.classList.add("open");
+          selectProject(deepLinkProject, card);
+        }
+      }
     }
   </script>
 

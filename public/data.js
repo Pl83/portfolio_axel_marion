@@ -23,21 +23,29 @@ window.FRISE_YEARS = { start: 2022, end: 2026 };
 //                 (month: 0 = janvier ... 11 = décembre) via window.formatProjectDate(year, month)
 //   desc     : description courte, affichée sur la carte et en tête du panneau détail
 //   duration : durée du projet, affichée dans le détail (ex: "2 semaines")
-//   role     : liste des rôles tenus sur le projet
+//   role     : liste des rôles tenus sur le projet — toujours affichée telle quelle dans
+//              le panneau détail de pages/projet.html (voir "contributions" ci-dessous
+//              pour le comportement différent de l'accueil)
 //   tools    : liste des outils/logiciels utilisés
 //   link     : lien externe ("#" si aucun lien : masque le bouton "Voir le projet")
 //
 // Champs optionnels :
 //   id            : identifiant utilisé pour les liens profonds (?p=id) et pour retrouver la bonne carte
-//   contributions : liste détaillée des contributions ; remplace "role" dans le panneau détail si présent
+//   contributions : liste détaillée des contributions, affichée à la place de "role" dans le
+//                   panneau détail de l'accueil (src/main.js) si présent — n'a AUCUN effet sur
+//                   pages/projet.html, qui affiche toujours "role"
 //   learned       : liste de ce qui a été appris, affichée dans "Ce que j'ai appris" (pages/projet.html)
-//   team          : composition de l'équipe (ex: "Solo", "3 personnes", "Équipe")
-//   engine        : moteur/outil principal (ex: "Unity", "Unreal Engine")
-//   platform      : plateforme (ex: "PC", "VR / PC", "Mobile")
+//   team          : composition de l'équipe (ex: "Solo", "3 personnes", "Équipe") — panneau
+//                   détail de l'accueil uniquement (src/main.js), pas affiché sur pages/projet.html
+//   engine        : moteur/outil principal (ex: "Unity", "Unreal Engine") — idem, accueil uniquement
+//   platform      : plateforme (ex: "PC", "VR / PC", "Mobile") — idem, accueil uniquement
 //
 // Champs image / vidéo :
-//   img     : image principale (carte + première image du détail)
-//   thumb   : miniature spécifique à la carte, si différente de "img" (n'apparaît PAS dans la galerie)
+//   img     : image principale (première image de la galerie du détail, fond des boutons
+//             vidéo) ; sert aussi de miniature de carte/frise si "thumb" n'est pas précisé
+//   thumb   : miniature de carte/frise (pages/projet.html), prioritaire sur "img" ; si "img"
+//             est absent et qu'aucune "gallery" n'est précisée, le panneau détail n'affiche
+//             aucune image (le projet doit alors avoir une vidéo — cas le plus courant)
 //   video   : une seule vidéo, URL YouTube (rétrocompatible)
 //   videos  : plusieurs vidéos — ex: ["url1", "url2", ...]
 //   gallery : galerie enrichie, chaque élément peut être :
@@ -564,28 +572,21 @@ window.DIPLOMAS = [
 ];
 
 // ── CV / Résumé — format JSON Resume (jsonresume.org) ────────
-// Affiché dynamiquement sur pages/cv.html (le script y lit window.RESUME).
+// Affiché dynamiquement sur pages/a-propos.html (le script y lit window.RESUME).
 // Pour modifier le CV visible sur le site, éditer uniquement ce bloc.
 //   basics.profiles : liens externes affichés en chips/cartes (LinkedIn, Itch.io, book InDesign...)
 //   work, education  : listes affichées en frise, dans l'ordre où elles sont écrites ici
 //     dates au format "AAAA-MM-JJ" (ou "AAAA-MM" si le jour n'est pas connu)
-//     highlights (work) / courses (education) : champs JSON Resume standard, non
-//       affichés sur le site (gardés pour référence/export)
+//     courses (education) : champ JSON Resume standard, non affiché sur le
+//       site (gardé pour référence/export)
 //     hardSkills, softSkills, accomplishments : extensions hors schéma JSON Resume —
 //       affichées dans le menu déroulant de chaque expérience/formation (pages/a-propos.html).
 //       Une entrée sans aucun de ces 3 champs rempli n'affiche pas de menu déroulant.
 //   skills, languages, interests : affichés sous forme de tags dans la colonne de gauche
 window.RESUME = {
   basics: {
-    name: "Axel Marion",
-    label: "Game Designer — Design Web & Dev",
-    image: "",
     email: "axelmarion6@gmail.com",
-    phone: "+33 7 83 63 35 88",
-    url: "",
-    summary: "Diplômé DN MADe (Gobelins), polyvalent entre web design, UI/UX, game design, level design et développement. À la recherche d'une alternance, d'un stage ou d'un premier poste dans un studio de taille moyenne.",
     location: {
-      address: "",
       postalCode: "95540",
       city: "Méry-sur-Oise",
       countryCode: "FR",
@@ -593,53 +594,53 @@ window.RESUME = {
     },
     // Extension hors schéma JSON Resume : second domicile, affiché en plus de "location"
     location2: {
-      address: "",
       postalCode: "75017",
       city: "Paris",
       countryCode: "FR",
       region: "Île-de-France"
     },
     profiles: [
-      { network: "LinkedIn", username: "axel-marion-763034259", url: "https://www.linkedin.com/in/axel-marion-763034259" },
-      { network: "Itch.io", username: "axelmar", url: "https://axelmar.itch.io" }
+      { network: "LinkedIn", url: "https://www.linkedin.com/in/axel-marion-763034259" },
+      { network: "Itch.io", url: "https://axelmar.itch.io" }
     ]
   },
   work: [
     {
       name: "Couch Game",
-      position: "Employé polyvalent",
-      url: "",
+      position: "Lead Level Designer",
       location: "IIM Paris",
       startDate: "2026-10",
       endDate: "2026-12",
-      summary: "",
-      highlights: ["Level Design", "Game Design", "Equilibrage", "Documentation"],
-      hardSkills: ["Level Design", "Game Design", "Équilibrage", "Documentation"],
-      softSkills: [],
+      hardSkills: ["Documentation", "Level Design", "Game Design", "Unreal Engine", "Technical Art"],
+      softSkills: ["Travail en équipe","Communication"],
       accomplishments: []
     },
     {
       name: "ZeroPaws",
       position: "Lead Game Designer",
-      url: "",
       location: "IIM Paris",
       startDate: "2026-05",
       endDate: "2026-06",
-      summary: "",
-      highlights: ["Travail en équipe", "Documentation", "Level Design", "Game Design","Unreal Engine","technic art"],
       hardSkills: ["Documentation", "Level Design", "Game Design", "Unreal Engine", "Technical Art"],
-      softSkills: ["Travail en équipe"],
+      softSkills: ["Travail en équipe", "Communication"],
+      accomplishments: []
+    },
+    {
+      name: "Long Night At Grandma's",
+      position: "Game Designer",
+      location: "IIM Paris",
+      startDate: "2026-01",
+      endDate: "2026-03",
+      hardSkills: ["Documentation", "Level Design", "Game Design", "Unreal Engine", "Technical Art"],
+      softSkills: ["Travail en équipe", "Communication"],
       accomplishments: []
     },
     {
       name: "Collectif Scale",
       position: "Employé polyvalent",
-      url: "",
       location: "Montereau-Fault-Yonne",
       startDate: "2023-11",
       endDate: "2025-07",
-      summary: "",
-      highlights: ["Création d'œuvres", "Entretien des œuvres", "Montage des œuvres"],
       hardSkills: [],
       softSkills: [],
       accomplishments: [
@@ -652,12 +653,10 @@ window.RESUME = {
   education: [
     {
       institution: "IIM Paris",
-      url: "",
       area: "Game Design & Level Design",
       studyType: "Bachelor 3 Game Design",
       startDate: "2025-09",
       endDate: "2027-07",
-      score: "",
       courses: ["unity", "unreal engine", "mantis", "documentation", "travail d'équipe", "game feel", "escape game",
                 "blocking", "narrative design", "mission design", "gameplay", "game jam", "prototypage rapide","mise en scène","schématisation design" ],
       hardSkills: ["Unity", "Unreal Engine", "Mantis", "Documentation",
@@ -670,15 +669,13 @@ window.RESUME = {
     },
     {
       institution: "Gobelins Paris",
-      url: "",
       area: "Coder sa créativité",
       studyType: "Diplôme national des métiers d'art et du design (DN MADe)",
       startDate: "2022-09",
       endDate: "2025-07",
-      score: "",
-      courses: [],
-      hardSkills: [],
-      softSkills: [],
+      courses: ["3D", "UI", "UX", "Web design", "Développement web", "Illustration", "Motion design","photographie"],
+      hardSkills: ["Unity","figma","photoshop","illustrator","indesign","after effects","blender","html 5","css","javascript"],
+      softSkills: ["autonomie", "travail d'équipe"],
       accomplishments: []
     },
   ],
@@ -691,12 +688,7 @@ window.RESUME = {
   ],
   interests: [
     { name: "Qualités personnelles", keywords: ["Calme", "Travail d'équipe", "Sérieux"] }
-  ],
-  meta: {
-    canonical: "",
-    version: "v1.0.0",
-    lastModified: "2026-08-06"
-  }
+  ]
 };
 
 // ── Palette de couleurs du site (source des variables CSS) ────
@@ -713,12 +705,17 @@ window.RESUME = {
 //              → toutes les pages.
 //
 //   accent   : couleur principale du site (--accent = bleu nuit, --accent2 = bleu
-//              ciel). Boutons, liens, hover, titres en surbrillance, glow du hero.
+//              ciel). Boutons, liens, hover, titres en surbrillance, glow du hero ;
+//              aussi les deux couleurs extrêmes du dégradé des années/écoles sur la
+//              frise chronologique (yearColor(), pages/projet.html).
 //              → toutes les pages.
 //
 //   tags     : couleur du point/badge associé à project.color ("blue"/"orange"/
-//              "pink") sur une carte projet.
-//              → accueil (cartes mises en avant), panneau détail (pages/projet.html).
+//              "pink") sur une carte projet. Lu directement en JS (pas de variable
+//              CSS), voir window.COLORS.tags dans src/main.js.
+//              → accueil (cartes mises en avant) uniquement — pages/projet.html a
+//              les mêmes teintes mais via le groupe "projet" ci-dessous (--blue/
+//              --orange/--pink), pas via "tags".
 //
 //   surfaces : fonds "presque noirs" des zones média, miniatures sans image et
 //              du panneau détail.
@@ -734,9 +731,10 @@ window.RESUME = {
 //              elle-même — carte, tag, panneau détail + panneau latéral.
 //              → pages/projet.html.
 //
-//   timeline : couleur de la ligne centrale de la frise chronologique, une par
-//              année dans l'ordre (year1 = 2022, year2 = 2023, ...).
-//              → pages/projet.html.
+//   timeline : non utilisé actuellement — les années/écoles de la frise
+//              chronologique utilisent désormais un dégradé entre les deux
+//              couleurs du groupe "accent" (voir yearColor(), pages/projet.html)
+//              plutôt qu'une teinte fixe par année.
 // Couleurs de base réutilisées dans plusieurs groupes ci-dessous (ex: le bleu de
 // "Gobelins" est le même que celui de project.color "blue"). Centralisées ici pour
 // n'avoir qu'un seul endroit à modifier si l'une de ces teintes doit changer —
@@ -756,11 +754,11 @@ const SWATCHES = {
 
 window.COLORS = {
   timeline: {
-    year1: { value: "#24408f", usage: "1ère année de la frise" },
-    year2: { value: "#6ec6ff", usage: "2e année de la frise" },
-    year3: { value: "#3b82f6", usage: "3e année de la frise" },
-    year4: { value: "#74d674", usage: "4e année de la frise" },
-    year5: { value: "#f97316", usage: "5e année de la frise" }
+    year1: { value: "#24408f", usage: "Non utilisé — voir le commentaire du groupe ci-dessus" },
+    year2: { value: "#6ec6ff", usage: "Non utilisé — voir le commentaire du groupe ci-dessus" },
+    year3: { value: "#3b82f6", usage: "Non utilisé — voir le commentaire du groupe ci-dessus" },
+    year4: { value: "#74d674", usage: "Non utilisé — voir le commentaire du groupe ci-dessus" },
+    year5: { value: "#f97316", usage: "Non utilisé — voir le commentaire du groupe ci-dessus" }
   },
   base: {
     bg: { value: "#0f0f0f", usage: "Fond principal du site" },

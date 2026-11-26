@@ -211,23 +211,24 @@
     .ap-cv-col .block-title {
       margin-bottom: 24px;
     }
-    .cv-meta-row {
+    /* Grille unique (plutôt que deux grilles empilées cv-meta-row/
+       cv-timelines) : nécessaire pour pouvoir réordonner librement les 4
+       blocs entre eux en mobile (voir media query 768px plus bas), ce
+       qu'"order" ne permet qu'entre enfants directs d'un même conteneur. */
+    .cv-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 40px;
+      column-gap: 40px;
       margin-top: 8px;
     }
-    .cv-meta-row > div { min-width: 0; }
+    .cv-grid > div { min-width: 0; }
 
-    .cv-timelines {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 48px;
+    .cv-block-langs,
+    .cv-block-education {
       margin-top: 36px;
       padding-top: 28px;
       border-top: 1px solid var(--border);
     }
-    .cv-timelines > div { min-width: 0; }
 
     .tag-group {
       display: flex;
@@ -359,8 +360,20 @@
       .ap-narrative-col { max-width: none; }
     }
     @media (max-width: 768px) {
-      .cv-meta-row { grid-template-columns: 1fr; gap: 24px; }
-      .cv-timelines { grid-template-columns: 1fr; gap: 24px; }
+      /* Sans la grille 2 colonnes, Compétences/Langues/Caractéristiques
+         passent au-dessus d'Expériences (desktop inchangé, qui garde
+         l'ordre du DOM ci-dessus) : plus utile à parcourir en premier sur
+         mobile, où on scrolle une seule colonne. */
+      .cv-grid { display: flex; flex-direction: column; gap: 24px; }
+      .cv-block-langs { order: 1; }
+      .cv-block-work { order: 2; }
+      .cv-block-education { order: 3; }
+      .cv-block-langs,
+      .cv-block-education {
+        margin-top: 0;
+        padding-top: 0;
+        border-top: none;
+      }
     }
   </style>
 </head>
@@ -388,7 +401,6 @@
     <a href="/pages/projet.html">Projets</a>
     <a href="/pages/memoir.html">Mémoire</a>
     <a href="/pages/a-propos.html">À propos</a>
-    <a href="/realisation/cvaxelmarion.pdf" target="_blank" style="color:var(--accent2)">CV ↓</a>
   </div>
   <div class="drawer-overlay" id="drawerOverlay"></div>
 
@@ -418,24 +430,21 @@
         <div class="ap-cv-col">
           <h2 class="block-title">Mon CV</h2>
 
-          <div class="cv-meta-row">
-            <div>
+          <div class="cv-grid">
+            <div class="cv-block-skills">
               <div id="cv-skills"></div>
             </div>
-            <div>
+            <div class="cv-block-work">
               <div class="cv-sub-label">Expériences</div>
               <div class="timeline" id="cv-work"></div>
             </div>
-          </div>
-
-          <div class="cv-timelines">
-            <div>
+            <div class="cv-block-langs">
               <div class="cv-sub-label">Langues</div>
               <div class="tag-group" id="cv-languages"></div>
               <div class="cv-sub-label spaced">Caractéristiques</div>
               <div class="tag-group" id="cv-interests"></div>
             </div>
-            <div>
+            <div class="cv-block-education">
               <div class="cv-sub-label">Diplômes</div>
               <div class="timeline" id="cv-education"></div>
             </div>
